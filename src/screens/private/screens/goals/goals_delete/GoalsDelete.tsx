@@ -7,7 +7,7 @@ interface IGoalsDeleteProps {}
  * Goals delete component.
  */
 function GoalsDelete(props: IGoalsDeleteProps) {
-    return <div>Goals Delete</div>;
+  return <div>Goals Delete</div>;
 }
 
 // Export the GoalsDelete component.

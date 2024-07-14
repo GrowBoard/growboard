@@ -9,7 +9,7 @@ interface IPlansDeleteProps {}
  * @returns The plans delete component.
  */
 function PlansDelete(props: IPlansDeleteProps) {
-    return <div>Plans Delete</div>;
+  return <div>Plans Delete</div>;
 }
 
 // Export the plans delete component.

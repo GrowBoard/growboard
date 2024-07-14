@@ -1,3 +1,3 @@
 export type LazyComponentProviderProps = {
-    children: React.ReactNode;
+  children: React.ReactNode;
 };

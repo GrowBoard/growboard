@@ -9,7 +9,7 @@ interface IPlansPreviewProps {}
  * @returns The plans preview component.
  */
 function PlansPreview(props: IPlansPreviewProps) {
-    return <div>Plans Preview</div>;
+  return <div>Plans Preview</div>;
 }
 
 // Export the plans preview component.

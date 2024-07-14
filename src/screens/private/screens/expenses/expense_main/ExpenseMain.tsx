@@ -7,7 +7,7 @@ interface IExpenseMainProps {}
  * Expense main component.
  */
 function ExpenseMain(props: IExpenseMainProps) {
-    return <div>Expense main</div>;
+  return <div>Expense main</div>;
 }
 
 // Export the ExpenseMain component.

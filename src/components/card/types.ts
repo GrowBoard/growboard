@@ -12,24 +12,24 @@
  * @param completed The project completed.
  */
 export type ProjectCardData = {
-    title: string;
-    description: string;
-    image: string;
-    icon: string;
-    path: string;
-    projectLiveLink: string;
-    githubLink: string;
-    isLive: boolean;
-    completed: number;
+  title: string;
+  description: string;
+  image: string;
+  icon: string;
+  path: string;
+  projectLiveLink: string;
+  githubLink: string;
+  isLive: boolean;
+  completed: number;
 };
 
 export type ProjectCardProps = {
-    data: ProjectCardData;
+  data: ProjectCardData;
 };
 
 export type TitleCardProps = {
-    title: string;
-    children: React.ReactNode;
-    topMargin?: string;
-    TopSideButtons?: React.ReactNode;
+  title: string;
+  children: React.ReactNode;
+  topMargin?: string;
+  TopSideButtons?: React.ReactNode;
 };

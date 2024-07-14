@@ -9,7 +9,7 @@ interface IPlansEditProps {}
  * @returns The plans edit component.
  */
 function PlansEdit(props: IPlansEditProps) {
-    return <div>Plans Edit</div>;
+  return <div>Plans Edit</div>;
 }
 
 // Export the plans edit component.

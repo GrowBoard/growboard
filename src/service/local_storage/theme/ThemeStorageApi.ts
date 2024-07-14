@@ -11,7 +11,7 @@ const themeCheck = getThemeData() === 'dark' ? true : false;
  * @returns theme data from local storage.
  */
 function getThemeData() {
-    return localStorage.getItem(themeKey);
+  return localStorage.getItem(themeKey);
 }
 
 /**
@@ -19,7 +19,7 @@ function getThemeData() {
  * @param theme theme data to set in local storage.
  */
 function setThemeData(theme: Theme) {
-    localStorage.setItem(themeKey, theme);
+  localStorage.setItem(themeKey, theme);
 }
 
 // Export the functions

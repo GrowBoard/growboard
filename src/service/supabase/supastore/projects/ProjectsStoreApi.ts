@@ -1,8 +1,8 @@
 import { ToastAlertData } from '@provider';
 import { ProjectData } from './ProjectsCollection';
 import {
-    getAllProjectForMainScreen,
-    getProjectUsingProjectId,
+  getAllProjectForMainScreen,
+  getProjectUsingProjectId,
 } from './actions/ProjectsDataRead';
 import { insertOrUpdateProject } from './actions/ProjectsDataWrite';
 
@@ -13,7 +13,7 @@ import { insertOrUpdateProject } from './actions/ProjectsDataWrite';
  * @returns The project data.
  */
 function getSingleProject(projectId: string) {
-    return getProjectUsingProjectId(projectId);
+  return getProjectUsingProjectId(projectId);
 }
 
 /**
@@ -24,10 +24,10 @@ function getSingleProject(projectId: string) {
  * @returns The project data.
  */
 function getAllProjects(
-    userId: string,
-    successCallback: (projects: ProjectData[]) => void
+  userId: string,
+  successCallback: (projects: ProjectData[]) => void,
 ) {
-    return getAllProjectForMainScreen(userId, successCallback);
+  return getAllProjectForMainScreen(userId, successCallback);
 }
 
 /**
@@ -37,10 +37,10 @@ function getAllProjects(
  * @param showAlertHandler - The notification function.
  */
 function addNewProject(
-    projectData: ProjectData,
-    showAlertHandler: (toastAlertData: ToastAlertData) => void
+  projectData: ProjectData,
+  showAlertHandler: (toastAlertData: ToastAlertData) => void,
 ) {
-    insertOrUpdateProject(projectData, showAlertHandler);
+  insertOrUpdateProject(projectData, showAlertHandler);
 }
 
 /**
@@ -50,16 +50,16 @@ function addNewProject(
  * @param showAlertHandler - The notification function.
  */
 function updateExistingProject(
-    projectData: ProjectData,
-    showAlertHandler: (toastAlertData: ToastAlertData) => void
+  projectData: ProjectData,
+  showAlertHandler: (toastAlertData: ToastAlertData) => void,
 ) {
-    insertOrUpdateProject(projectData, showAlertHandler);
+  insertOrUpdateProject(projectData, showAlertHandler);
 }
 
 // Export the functions.
 export {
-    getSingleProject,
-    getAllProjects,
-    addNewProject,
-    updateExistingProject,
+  getSingleProject,
+  getAllProjects,
+  addNewProject,
+  updateExistingProject,
 };

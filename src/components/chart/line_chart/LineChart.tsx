@@ -7,7 +7,7 @@ export type LineChartProps = {};
  * @returns The line chart component.
  */
 const LineChart = (props: LineChartProps) => {
-    return <div>Line chart</div>;
+  return <div>Line chart</div>;
 };
 
 export default LineChart;

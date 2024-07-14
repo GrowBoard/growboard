@@ -1,26 +1,26 @@
 {
-    "PrivateScreen": {},
+  "PrivateScreen": {},
 
-    "SignUpScreen": {
-        "title": "Register",
-        "registerButton": "Register",
-        "successfulAlert": "Sign up successful! Please verify the email to login."
-    },
+  "SignUpScreen": {
+    "title": "Register",
+    "registerButton": "Register",
+    "successfulAlert": "Sign up successful! Please verify the email to login."
+  },
 
-    "LoginScreen": {
-        "title": "Login",
-        "loginButton": "Login"
-    },
+  "LoginScreen": {
+    "title": "Login",
+    "loginButton": "Login"
+  },
 
-    "ForgotPasswordScreen": {
-        "title": "Forgot password",
-        "linkSent": "Link Sent",
-        "checkEmailText": "Check your email to reset password",
-        "passwordResetLinkText": "We will send password reset link on your email Id",
-        "sendResetLink": "Send Reset Link"
-    },
+  "ForgotPasswordScreen": {
+    "title": "Forgot password",
+    "linkSent": "Link Sent",
+    "checkEmailText": "Check your email to reset password",
+    "passwordResetLinkText": "We will send password reset link on your email Id",
+    "sendResetLink": "Send Reset Link"
+  },
 
-    "StaticScreen": {
-        "errorText": "Error404"
-    }
+  "StaticScreen": {
+    "errorText": "Error404"
+  }
 }

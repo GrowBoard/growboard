@@ -7,7 +7,7 @@ interface IExpenseEditProps {}
  * Expense edit component.
  */
 function ExpenseEdit(props: IExpenseEditProps) {
-    return <div>Expense Edit</div>;
+  return <div>Expense Edit</div>;
 }
 
 // Export the ExpenseEdit component.

@@ -5,18 +5,18 @@ import { appStore } from '@store';
 import { authSelector, useShallow } from '@selectors';
 
 const AlreadyLoginServiceProvider = (
-    props: AlreadyLoginServiceProviderProps
+  props: AlreadyLoginServiceProviderProps,
 ) => {
-    const { removeLoginData } = appStore(useShallow(authSelector));
+  const { removeLoginData } = appStore(useShallow(authSelector));
 
-    const signOutHandler = () => {
-        removeLoginData();
-    };
+  const signOutHandler = () => {
+    removeLoginData();
+  };
 
-    useEffect(() => {
-        alreadySignedIn(signOutHandler);
-    });
-    return <div>{props.children}</div>;
+  useEffect(() => {
+    alreadySignedIn(signOutHandler);
+  });
+  return <div>{props.children}</div>;
 };
 
 export default AlreadyLoginServiceProvider;

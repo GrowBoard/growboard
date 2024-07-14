@@ -1,8 +1,8 @@
 export type NavigationToggleButtonProps = {
-    openSidebarClickHandler: () => void;
+  openSidebarClickHandler: () => void;
 };
 
 export type NavigationComponentProps = {
-    logOutClickHandler: () => void;
-    openSidebarClickHandler: () => void;
+  logOutClickHandler: () => void;
+  openSidebarClickHandler: () => void;
 };

@@ -7,7 +7,7 @@ interface IExpenseAddProps {}
  * Expense add component.
  */
 function ExpenseAdd(props: IExpenseAddProps) {
-    return <div>Expense Add</div>;
+  return <div>Expense Add</div>;
 }
 
 // Export the ExpenseAdd component.

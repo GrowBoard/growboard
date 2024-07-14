@@ -6,10 +6,10 @@
  * @param isButtonOutline The button outline.
  */
 export type NotificationButtonProps = {
-    buttonText: string;
-    onClickHandler: () => void;
-    buttonType?: NotificationButtonType;
-    isButtonOutline?: boolean;
+  buttonText: string;
+  onClickHandler: () => void;
+  buttonType?: NotificationButtonType;
+  isButtonOutline?: boolean;
 };
 
 /**
@@ -21,20 +21,20 @@ export type NotificationButtonProps = {
  * @param onConfirm The on confirm callback.
  */
 export type NotificationData = {
-    title: string;
-    description: string;
-    children?: React.ReactNode;
-    onConfirm?: () => void;
+  title: string;
+  description: string;
+  children?: React.ReactNode;
+  onConfirm?: () => void;
 };
 
 export enum NotificationButtonType {
-    PRIMARY = 'btn-primary',
-    SECONDARY = 'btn-secondary',
-    SUCCESS = 'btn-success',
-    DANGER = 'btn-danger',
-    WARNING = 'btn-warning',
-    INFO = 'btn-info',
-    LIGHT = 'btn-light',
-    DARK = 'btn-dark',
-    LINK = 'btn-link',
+  PRIMARY = 'btn-primary',
+  SECONDARY = 'btn-secondary',
+  SUCCESS = 'btn-success',
+  DANGER = 'btn-danger',
+  WARNING = 'btn-warning',
+  INFO = 'btn-info',
+  LIGHT = 'btn-light',
+  DARK = 'btn-dark',
+  LINK = 'btn-link',
 }

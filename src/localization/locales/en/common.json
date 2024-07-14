@@ -1,14 +1,14 @@
 {
-    "Account": {
-        "login": "Login",
-        "noAccountText": "Don't have an account yet? ",
-        "register": "Register",
-        "forgotPassword": "Forgot Password",
-        "input": {
-            "email": "Email ID",
-            "password": "Password",
-            "firstName": "First name",
-            "lastName": "Last name"
-        }
+  "Account": {
+    "login": "Login",
+    "noAccountText": "Don't have an account yet? ",
+    "register": "Register",
+    "forgotPassword": "Forgot Password",
+    "input": {
+      "email": "Email ID",
+      "password": "Password",
+      "firstName": "First name",
+      "lastName": "Last name"
     }
+  }
 }

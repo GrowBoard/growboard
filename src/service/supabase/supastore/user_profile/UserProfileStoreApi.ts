@@ -12,11 +12,11 @@ import { UserData } from '@store';
  * @returns The user data.
  */
 function userProfileDataRead(
-    userAuthState: UserData,
-    callback: (user: UserProfileData) => void
+  userAuthState: UserData,
+  callback: (user: UserProfileData) => void,
 ) {
-    console.log('userProfileDataRead');
-    getUserUsingId(userAuthState, callback);
+  console.log('userProfileDataRead');
+  getUserUsingId(userAuthState, callback);
 }
 
 /**
@@ -28,12 +28,12 @@ function userProfileDataRead(
  * @returns The user data.
  */
 function userProfileDataUpdate(
-    userIdFromAuth: string,
-    data: UserProfileData,
-    callback: (profile: UserProfileData) => void,
-    showAlertHandler: (toastAlertData: ToastAlertData) => void
+  userIdFromAuth: string,
+  data: UserProfileData,
+  callback: (profile: UserProfileData) => void,
+  showAlertHandler: (toastAlertData: ToastAlertData) => void,
 ) {
-    return updateUserData(userIdFromAuth, data, callback, showAlertHandler);
+  return updateUserData(userIdFromAuth, data, callback, showAlertHandler);
 }
 
 // Export the functions

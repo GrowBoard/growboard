@@ -7,26 +7,26 @@ import main from './locales/en/main.json';
 import component from './locales/en/component.json';
 
 i18next
-    .use(LanguageDetector)
-    .use(initReactI18next)
-    .init({
-        lng: 'en',
-        fallbackLng: 'en',
-        ns: ['translation'],
-        resources: {
-            en: {
-                translation: {
-                    ...main,
-                    ...common,
-                    ...error,
-                    ...component,
-                },
-            },
+  .use(LanguageDetector)
+  .use(initReactI18next)
+  .init({
+    lng: 'en',
+    fallbackLng: 'en',
+    ns: ['translation'],
+    resources: {
+      en: {
+        translation: {
+          ...main,
+          ...common,
+          ...error,
+          ...component,
         },
-        interpolation: {
-            escapeValue: false,
-        },
-        compatibilityJSON: 'v3',
-    });
+      },
+    },
+    interpolation: {
+      escapeValue: false,
+    },
+    compatibilityJSON: 'v3',
+  });
 
 export default i18next;
