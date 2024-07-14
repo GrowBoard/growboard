@@ -1,13 +1,8 @@
 {
-    "cSpell.words": [
-        "Amit",
-        "craco",
-        "creds",
-        "dashwave",
-        "hostinger",
-        "immer",
-        "raikwar",
-        "Supabase",
-        "zustand"
-    ]
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true,
+    "source.organizeImports": true,
+    "source.sortMembers": true
+  }
 }

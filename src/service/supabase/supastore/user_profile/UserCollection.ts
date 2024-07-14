@@ -34,35 +34,35 @@
  * }
  */
 interface UserProfileData {
-    userId: string;
-    firstName: string;
-    lastName: string;
-    profile: string;
-    email: string;
-    place: string;
-    dateOfBirth: string;
-    designation: string;
-    yearOfExp: number;
-    socialLinks: Array<SocialLink>;
+  userId: string;
+  firstName: string;
+  lastName: string;
+  profile: string;
+  email: string;
+  place: string;
+  dateOfBirth: string;
+  designation: string;
+  yearOfExp: number;
+  socialLinks: Array<SocialLink>;
 }
 
 /**
  * Social type enum.
  */
 enum SocialType {
-    Facebook = 'facebook',
-    X = 'x',
-    Instagram = 'instagram',
-    Github = 'github',
-    Linkedin = 'linkedin',
-    Youtube = 'youtube',
-    Website = 'website',
+  Facebook = 'facebook',
+  X = 'x',
+  Instagram = 'instagram',
+  Github = 'github',
+  Linkedin = 'linkedin',
+  Youtube = 'youtube',
+  Website = 'website',
 }
 
 // Social link interface.
 interface SocialLink {
-    type: SocialType;
-    link: string;
+  type: SocialType;
+  link: string;
 }
 
 /**
@@ -70,22 +70,22 @@ interface SocialLink {
  * @description The user data table schema.
  */
 interface UserDataTableSchema {
-    id: string;
-    email: string;
-    first_name: string;
-    last_name: string;
-    profile_image: string;
-    place: string;
-    dob: string;
-    yoe: number;
-    designation: string;
-    social_fb: string;
-    social_insta: string;
-    social_x: string;
-    social_git: string;
-    social_li: string;
-    social_web: string;
-    social_yt: string;
+  id: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  profile_image: string;
+  place: string;
+  dob: string;
+  yoe: number;
+  designation: string;
+  social_fb: string;
+  social_insta: string;
+  social_x: string;
+  social_git: string;
+  social_li: string;
+  social_web: string;
+  social_yt: string;
 }
 
 // Export the type

@@ -8,8 +8,8 @@ To add a new language, create a new file in the `src/localization/locales` direc
 
 ```json
 {
-    "hello": "Hola",
-    "world": "Mundo"
+  "hello": "Hola",
+  "world": "Mundo"
 }
 ```
 
@@ -19,12 +19,12 @@ Then, import the new language file in the `src/localization/config.ts` file and 
 import es from './locales/es/es.json';
 
 const resources = {
-    en: {
-        translation: en,
-    },
-    es: {
-        translation: es,
-    },
+  en: {
+    translation: en,
+  },
+  es: {
+    translation: es,
+  },
 };
 ```
 

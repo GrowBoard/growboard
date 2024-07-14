@@ -1,0 +1,30 @@
+name: Build
+
+on:
+  push:
+    branches: ['development']
+  pull_request:
+    branches: ['development', 'production']
+
+jobs:
+  build_test_lint:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+      - name: Install Dependencies
+        run: yarn install
+      - name: Build
+        run: yarn build --if-present
+      - name: Linting
+        run: yarn lint
+      - name: Test
+        run: yarn test:cov
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4.0.1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}

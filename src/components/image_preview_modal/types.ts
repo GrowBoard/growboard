@@ -1,8 +1,8 @@
 export type ImagePreviewModalProps = {
-    image: string;
+  image: string;
 };
 
 export type ImagePreviewModalButtonProps = {
-    onClickHandler: () => void;
-    children: React.ReactNode;
+  onClickHandler: () => void;
+  children: React.ReactNode;
 };

@@ -9,7 +9,7 @@ interface IProfilePasswordResetScreenProps {}
  * @returns The profile password reset screen component.
  */
 function ProfilePasswordResetScreen(props: IProfilePasswordResetScreenProps) {
-    return <div>Profile password reset Screen</div>;
+  return <div>Profile password reset Screen</div>;
 }
 
 // Export the profile password reset screen component.

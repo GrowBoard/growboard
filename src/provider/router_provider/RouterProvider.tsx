@@ -7,11 +7,9 @@ import { authSelector, useShallow } from '@selectors';
  * Router declaration for the demo app.
  */
 export default function AppRouterProviderComponent() {
-    const { authToken } = appStore(useShallow(authSelector));
+  const { authToken } = appStore(useShallow(authSelector));
 
-    return (
-        <RouterProvider
-            router={authToken !== '' ? privateRouter : publicRouter}
-        />
-    );
+  return (
+    <RouterProvider router={authToken !== '' ? privateRouter : publicRouter} />
+  );
 }

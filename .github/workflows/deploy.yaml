@@ -1,28 +1,28 @@
-name: Deploy website on production
+name: Deploy job
 
 on:
-    push:
-        branches: ['production']
+  release:
+    types: [published]
 
 jobs:
-    setup_and_deploy:
-        runs-on: ubuntu-latest
-        strategy:
-            matrix:
-                node-version: [16.x]
-        steps:
-            - uses: actions/checkout@v3
-            - name: Use Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v3
-            - name: Install Dependencies
-              run: yarn install
-            - name: Build
-              run: yarn build --if-present
-            - name: 📂 Sync files
-              uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-              with:
-                  server: ftp.dashboard.amitraikwar.in
-                  username: u392139545.github_deploy_dashwave
-                  password: ${{ secrets.HOSTINGER_DASHWAVE_FTP_PASSWORD }}
-                  local-dir: ./build/
-                  server-dir: ./
+  setup_and_deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+      - name: Install Dependencies
+        run: yarn install
+      - name: Build
+        run: yarn build --if-present
+      - name: 📂 Sync files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.HOSTINGER_DASHWAVE_FTP_SERVER }}
+          username: ${{ secrets.HOSTINGER_DASHWAVE_FTP_ACCOUNT }}
+          password: ${{ secrets.HOSTINGER_DASHWAVE_FTP_PASSWORD }}
+          local-dir: ./build/
+          server-dir: ./

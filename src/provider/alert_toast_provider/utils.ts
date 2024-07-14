@@ -8,14 +8,14 @@ import { ToastAlertData } from './types';
  * @returns The alert data.
  */
 export function getSuccessAlertData(title: string): ToastAlertData {
-    return {
-        alertData: {
-            title: title,
-            type: AlertType.SUCCESS,
-        },
-        xPosition: ToastXPosition.END,
-        yPosition: ToastYPosition.BOTTOM,
-    };
+  return {
+    alertData: {
+      title: title,
+      type: AlertType.SUCCESS,
+    },
+    xPosition: ToastXPosition.END,
+    yPosition: ToastYPosition.BOTTOM,
+  };
 }
 
 /**
@@ -25,14 +25,14 @@ export function getSuccessAlertData(title: string): ToastAlertData {
  * @returns The alert data.
  */
 export function getErrorAlertData(title: string): ToastAlertData {
-    return {
-        alertData: {
-            title: title,
-            type: AlertType.ERROR,
-        },
-        xPosition: ToastXPosition.END,
-        yPosition: ToastYPosition.BOTTOM,
-    };
+  return {
+    alertData: {
+      title: title,
+      type: AlertType.ERROR,
+    },
+    xPosition: ToastXPosition.END,
+    yPosition: ToastYPosition.BOTTOM,
+  };
 }
 
 /**
@@ -42,14 +42,14 @@ export function getErrorAlertData(title: string): ToastAlertData {
  * @returns The alert data.
  */
 export function getInfoAlertData(title: string): ToastAlertData {
-    return {
-        alertData: {
-            title: title,
-            type: AlertType.INFO,
-        },
-        xPosition: ToastXPosition.END,
-        yPosition: ToastYPosition.BOTTOM,
-    };
+  return {
+    alertData: {
+      title: title,
+      type: AlertType.INFO,
+    },
+    xPosition: ToastXPosition.END,
+    yPosition: ToastYPosition.BOTTOM,
+  };
 }
 
 /**
@@ -59,12 +59,12 @@ export function getInfoAlertData(title: string): ToastAlertData {
  * @returns The alert data.
  */
 export function getWarningAlertData(title: string): ToastAlertData {
-    return {
-        alertData: {
-            title: title,
-            type: AlertType.WARNING,
-        },
-        xPosition: ToastXPosition.END,
-        yPosition: ToastYPosition.BOTTOM,
-    };
+  return {
+    alertData: {
+      title: title,
+      type: AlertType.WARNING,
+    },
+    xPosition: ToastXPosition.END,
+    yPosition: ToastYPosition.BOTTOM,
+  };
 }

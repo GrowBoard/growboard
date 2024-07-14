@@ -2,81 +2,81 @@ import { lazy } from 'react';
 import LazyComponentProvider from '../component/LazyComponent';
 
 const GoalsScreen = lazy(
-    () => import('@screens/private/screens/goals/GoalsScreen')
+  () => import('@screens/private/screens/goals/GoalsScreen'),
 );
 
 const LazyGoalsScreenComponent = () => {
-    return (
-        <LazyComponentProvider>
-            <GoalsScreen />
-        </LazyComponentProvider>
-    );
+  return (
+    <LazyComponentProvider>
+      <GoalsScreen />
+    </LazyComponentProvider>
+  );
 };
 
 const GoalsMainScreen = lazy(
-    () => import('@screens/private/screens/goals/goals_main/GoalsMain')
+  () => import('@screens/private/screens/goals/goals_main/GoalsMain'),
 );
 
 const LazyGoalsMainScreenComponent = () => {
-    return (
-        <LazyComponentProvider>
-            <GoalsMainScreen />
-        </LazyComponentProvider>
-    );
+  return (
+    <LazyComponentProvider>
+      <GoalsMainScreen />
+    </LazyComponentProvider>
+  );
 };
 
 const GoalsPreviewScreen = lazy(
-    () => import('@screens/private/screens/goals/goals_preview/GoalsPreview')
+  () => import('@screens/private/screens/goals/goals_preview/GoalsPreview'),
 );
 
 const LazyGoalsPreviewScreenComponent = () => {
-    return (
-        <LazyComponentProvider>
-            <GoalsPreviewScreen />
-        </LazyComponentProvider>
-    );
+  return (
+    <LazyComponentProvider>
+      <GoalsPreviewScreen />
+    </LazyComponentProvider>
+  );
 };
 
 const GoalsEditScreen = lazy(
-    () => import('@screens/private/screens/goals/goals_edit/GoalsEdit')
+  () => import('@screens/private/screens/goals/goals_edit/GoalsEdit'),
 );
 
 const LazyGoalsEditScreenComponent = () => {
-    return (
-        <LazyComponentProvider>
-            <GoalsEditScreen />
-        </LazyComponentProvider>
-    );
+  return (
+    <LazyComponentProvider>
+      <GoalsEditScreen />
+    </LazyComponentProvider>
+  );
 };
 
 const GoalsAddScreen = lazy(
-    () => import('@screens/private/screens/goals/goals_add/GoalsAdd')
+  () => import('@screens/private/screens/goals/goals_add/GoalsAdd'),
 );
 
 const LazyGoalsAddScreenComponent = () => {
-    return (
-        <LazyComponentProvider>
-            <GoalsAddScreen />
-        </LazyComponentProvider>
-    );
+  return (
+    <LazyComponentProvider>
+      <GoalsAddScreen />
+    </LazyComponentProvider>
+  );
 };
 
 const GoalsDeleteScreen = lazy(
-    () => import('@screens/private/screens/goals/goals_delete/GoalsDelete')
+  () => import('@screens/private/screens/goals/goals_delete/GoalsDelete'),
 );
 const LazyGoalsDeleteScreenComponent = () => {
-    return (
-        <LazyComponentProvider>
-            <GoalsDeleteScreen />
-        </LazyComponentProvider>
-    );
+  return (
+    <LazyComponentProvider>
+      <GoalsDeleteScreen />
+    </LazyComponentProvider>
+  );
 };
 
 export {
-    LazyGoalsScreenComponent,
-    LazyGoalsAddScreenComponent,
-    LazyGoalsDeleteScreenComponent,
-    LazyGoalsEditScreenComponent,
-    LazyGoalsMainScreenComponent,
-    LazyGoalsPreviewScreenComponent,
+  LazyGoalsScreenComponent,
+  LazyGoalsAddScreenComponent,
+  LazyGoalsDeleteScreenComponent,
+  LazyGoalsEditScreenComponent,
+  LazyGoalsMainScreenComponent,
+  LazyGoalsPreviewScreenComponent,
 };

@@ -1,33 +1,33 @@
 {
-    "ProjectCard": {
-        "projectLink": "Project link",
-        "projectPreview": "See preview",
-        "liveStatus": "Live"
-    },
-    "ImageModalCloseCross": "X",
-    "LandingIntro": {
-        "title": "A management system for your ideas, projects, and tasks."
-    },
-    "ProfileMenuOption": {
-        "hiText": "Hi, {{firstName}} {{lastName}}",
-        "profile": "Profile",
-        "passwordReset": "Password reset",
-        "settings": "Settings",
-        "logout": "Logout"
-    },
-    "Notification": {
-        "confirm": "Confirm",
-        "close": "Close"
-    },
-    "Sidebar": {
-        "home": "Home",
-        "projects": "Projects",
-        "expenses": "Expenses",
-        "plans": "Plans",
-        "goals": "Goals",
-        "learning": "Learning",
-        "resources": "Resource",
-        "creds": "Credentials",
-        "profile": "Profile"
-    }
+  "ProjectCard": {
+    "projectLink": "Project link",
+    "projectPreview": "See preview",
+    "liveStatus": "Live"
+  },
+  "ImageModalCloseCross": "X",
+  "LandingIntro": {
+    "title": "A management system for your ideas, projects, and tasks."
+  },
+  "ProfileMenuOption": {
+    "hiText": "Hi, {{firstName}} {{lastName}}",
+    "profile": "Profile",
+    "passwordReset": "Password reset",
+    "settings": "Settings",
+    "logout": "Logout"
+  },
+  "Notification": {
+    "confirm": "Confirm",
+    "close": "Close"
+  },
+  "Sidebar": {
+    "home": "Home",
+    "projects": "Projects",
+    "expenses": "Expenses",
+    "plans": "Plans",
+    "goals": "Goals",
+    "learning": "Learning",
+    "resources": "Resource",
+    "creds": "Credentials",
+    "profile": "Profile"
+  }
 }

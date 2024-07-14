@@ -1,20 +1,20 @@
 {
-    "compilerOptions": {
-        "baseUrl": "./",
-        "paths": {
-            "@assets": ["src/assets"],
-            "@dash-ui": ["src/components"],
-            "@localization": ["src/localization"],
-            "@provider": ["src/provider"],
-            "@router": ["src/router"],
-            "@router/*": ["src/router/*"],
-            "@screens": ["src/screens"],
-            "@screens/*": ["src/screens/*"],
-            "@service": ["src/service"],
-            "@service/*": ["src/service/*"],
-            "@store": ["src/store/index"],
-            "@store/slice": ["src/store/slice"],
-            "@selectors": ["src/store/selectors"]
-        }
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@assets": ["src/assets"],
+      "@dash-ui": ["src/components"],
+      "@localization": ["src/localization"],
+      "@provider": ["src/provider"],
+      "@router": ["src/router"],
+      "@router/*": ["src/router/*"],
+      "@screens": ["src/screens"],
+      "@screens/*": ["src/screens/*"],
+      "@service": ["src/service"],
+      "@service/*": ["src/service/*"],
+      "@store": ["src/store/index"],
+      "@store/slice": ["src/store/slice"],
+      "@selectors": ["src/store/selectors"]
     }
+  }
 }

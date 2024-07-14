@@ -10,13 +10,13 @@ import { getAlertType } from './utils';
  * @returns The alert component.
  */
 const AlertComponent = ({ title, type }: AlertComponentProps) => {
-    const { typeString, alertIconType } = getAlertType(type);
-    return (
-        <div role="alert" className={`alert ${typeString}`}>
-            <AlertIcon type={alertIconType} />
-            <span>{title}</span>
-        </div>
-    );
+  const { typeString, alertIconType } = getAlertType(type);
+  return (
+    <div role="alert" className={`alert ${typeString}`}>
+      <AlertIcon type={alertIconType} />
+      <span>{title}</span>
+    </div>
+  );
 };
 
 export default AlertComponent;

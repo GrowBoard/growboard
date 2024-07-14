@@ -9,21 +9,21 @@ import { ProjectData, ProjectDataSchema } from '../ProjectsCollection';
  * @returns The projects data.
  */
 async function getAllProjectForMainScreen(
-    userId: string,
-    successCallback: (projects: ProjectData[]) => void
+  userId: string,
+  successCallback: (projects: ProjectData[]) => void,
 ) {
-    try {
-        const { data, error } = await SupabaseProjectsDB.select('*')
-            .eq('user_id', userId)
-            .order('started_on', { ascending: false });
-        if (data !== null && data.length > 0 && data !== undefined && !error) {
-            const projects = getProjectsDateFromMultipleResponse(data);
-            successCallback(projects);
-        }
-    } catch (error) {
-        console.log(error);
+  try {
+    const { data, error } = await SupabaseProjectsDB.select('*')
+      .eq('user_id', userId)
+      .order('started_on', { ascending: false });
+    if (data !== null && data.length > 0 && data !== undefined && !error) {
+      const projects = getProjectsDateFromMultipleResponse(data);
+      successCallback(projects);
     }
-    return [];
+  } catch (error) {
+    console.log(error);
+  }
+  return [];
 }
 
 /**
@@ -33,13 +33,13 @@ async function getAllProjectForMainScreen(
  * @returns The project data.
  */
 function getProjectsDateFromMultipleResponse(
-    projects: ProjectDataSchema[]
+  projects: ProjectDataSchema[],
 ): ProjectData[] {
-    const projectData: ProjectData[] = [];
-    projects.forEach((project) => {
-        projectData.push(getProjectDataFromSingleResponse(project));
-    });
-    return projectData;
+  const projectData: ProjectData[] = [];
+  projects.forEach((project) => {
+    projectData.push(getProjectDataFromSingleResponse(project));
+  });
+  return projectData;
 }
 
 /**
@@ -49,17 +49,17 @@ function getProjectsDateFromMultipleResponse(
  * @returns The project data.
  */
 async function getProjectUsingProjectId(projectId: string) {
-    try {
-        const { data, error } = await SupabaseProjectsDB.select('*')
-            .eq('project_id', projectId)
-            .single();
-        if (data !== null && data.length > 0 && data !== undefined && !error) {
-            const project = getProjectDataFromSingleResponse(data);
-            return project;
-        }
-    } catch (error) {
-        console.log(error);
+  try {
+    const { data, error } = await SupabaseProjectsDB.select('*')
+      .eq('project_id', projectId)
+      .single();
+    if (data !== null && data.length > 0 && data !== undefined && !error) {
+      const project = getProjectDataFromSingleResponse(data);
+      return project;
     }
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 /**
@@ -69,29 +69,29 @@ async function getProjectUsingProjectId(projectId: string) {
  * @returns The project data.
  */
 function getProjectDataFromSingleResponse(
-    project: ProjectDataSchema
+  project: ProjectDataSchema,
 ): ProjectData {
-    const projectData: ProjectData = {
-        projectId: project.project_id,
-        userId: project.user_id,
-        projectName: project.project_name,
-        projectDesc: project.project_desc,
-        projectIcon: project.project_icon,
-        techUsed: project.tech_used?.data,
-        projectLink: project.project_link,
-        githubLink: project.github_link,
-        hostingerLink: project.hostinger_link,
-        images: project.images?.data,
-        isLive: project.is_live,
-        relatedIdeas: project.related_ideas?.data,
-        startedOn: project.started_on,
-        features: project.features?.data,
-        todos: project.todos?.data,
-        projectCompleted: project.project_completed,
-        backendLink: project.backend_link,
-    };
+  const projectData: ProjectData = {
+    projectId: project.project_id,
+    userId: project.user_id,
+    projectName: project.project_name,
+    projectDesc: project.project_desc,
+    projectIcon: project.project_icon,
+    techUsed: project.tech_used?.data,
+    projectLink: project.project_link,
+    githubLink: project.github_link,
+    hostingerLink: project.hostinger_link,
+    images: project.images?.data,
+    isLive: project.is_live,
+    relatedIdeas: project.related_ideas?.data,
+    startedOn: project.started_on,
+    features: project.features?.data,
+    todos: project.todos?.data,
+    projectCompleted: project.project_completed,
+    backendLink: project.backend_link,
+  };
 
-    return projectData;
+  return projectData;
 }
 
 // Export the functions

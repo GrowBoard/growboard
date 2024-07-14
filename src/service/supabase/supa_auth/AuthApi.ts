@@ -9,40 +9,40 @@ import supabaseSignUp, { SignUpCred } from './actions/AuthSignUp';
  * Method to make the Firebase signin
  */
 function signIn(
-    cred: LoginCred,
-    signInHandler: (authData: AuthDataState) => void,
-    errorCallback: (error: string) => void
+  cred: LoginCred,
+  signInHandler: (authData: AuthDataState) => void,
+  errorCallback: (error: string) => void,
 ) {
-    firebaseSingIn(cred, signInHandler, errorCallback);
+  firebaseSingIn(cred, signInHandler, errorCallback);
 }
 
 /**
  * Method to make the Firebase signup
  */
 function signUp(
-    cred: SignUpCred,
-    signUpHandler: () => void,
-    errorCallback: (error: string) => void
+  cred: SignUpCred,
+  signUpHandler: () => void,
+  errorCallback: (error: string) => void,
 ) {
-    supabaseSignUp(cred, signUpHandler, errorCallback);
+  supabaseSignUp(cred, signUpHandler, errorCallback);
 }
 
 /**
  * Method to make firebase signout
  */
 function signOut(signOutHandler: () => void) {
-    firebaseSignOut(signOutHandler);
+  firebaseSignOut(signOutHandler);
 }
 
 /**
  * Method to make the firebase forgot password.
  */
 function forgotPassword(
-    email: string,
-    forgotPasswordHandler: () => void,
-    errorCallback: (error: string) => void
+  email: string,
+  forgotPasswordHandler: () => void,
+  errorCallback: (error: string) => void,
 ) {
-    firebaseForgotPassword(email, forgotPasswordHandler, errorCallback);
+  firebaseForgotPassword(email, forgotPasswordHandler, errorCallback);
 }
 
 /**
@@ -50,11 +50,11 @@ function forgotPassword(
  *
  */
 function alreadySignedIn(signOutHandler: () => void) {
-    const authData = localStorage.getItem(AuthTokenKey);
-    if (!authData) {
-        signOutHandler();
-        return;
-    }
+  const authData = localStorage.getItem(AuthTokenKey);
+  if (!authData) {
+    signOutHandler();
+    return;
+  }
 }
 
 // Export the function

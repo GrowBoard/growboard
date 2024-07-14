@@ -9,7 +9,7 @@ interface IPlansAddProps {}
  * @returns The plans add component.
  */
 function PlansAdd(props: IPlansAddProps) {
-    return <div>Plans add</div>;
+  return <div>Plans add</div>;
 }
 
 // Export the plans add component.

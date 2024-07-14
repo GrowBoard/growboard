@@ -7,7 +7,7 @@ interface IExpenseDeleteProps {}
  * Expense delete component.
  */
 function ExpenseDelete(props: IExpenseDeleteProps) {
-    return <div>Expense Delete</div>;
+  return <div>Expense Delete</div>;
 }
 
 // Export the ExpenseDelete component.

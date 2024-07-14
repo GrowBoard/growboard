@@ -1,10 +1,10 @@
 // Import the functions you need from the SDKs you need
 import { createClient } from '@supabase/supabase-js';
 import {
-    USER_PROFILE_TABLE,
-    PROJECTS_TABLE,
-    SUPABASE_KEY,
-    SUPABASE_URL,
+  USER_PROFILE_TABLE,
+  PROJECTS_TABLE,
+  SUPABASE_KEY,
+  SUPABASE_URL,
 } from '../../env';
 
 // Supabase configuration

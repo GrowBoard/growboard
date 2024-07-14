@@ -7,7 +7,7 @@ export type BarChartProps = {};
  * @returns The bar chart component.
  */
 const BarChart = (props: BarChartProps) => {
-    return <div>Bar chart</div>;
+  return <div>Bar chart</div>;
 };
 
 export default BarChart;

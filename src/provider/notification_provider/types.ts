@@ -1,3 +1,3 @@
 export type NotificationProviderProps = {
-    children: React.ReactNode;
+  children: React.ReactNode;
 };

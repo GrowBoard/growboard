@@ -7,7 +7,7 @@ interface IGoalsAddProps {}
  * Goals add component.
  */
 function GoalsAdd(props: IGoalsAddProps) {
-    return <div>Goals add</div>;
+  return <div>Goals add</div>;
 }
 
 // Export the GoalsAdd component.

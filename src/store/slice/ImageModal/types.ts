@@ -1,9 +1,9 @@
 export type ImageModalState = {
-    imageString: string;
+  imageString: string;
 };
 
 export interface ImageModalStateActions {
-    setImageString: (imageString: string) => void;
+  setImageString: (imageString: string) => void;
 }
 
 export type ImageModalStateSlice = ImageModalState & ImageModalStateActions;

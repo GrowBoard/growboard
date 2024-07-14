@@ -12,8 +12,8 @@ interface IError404Props {}
  * @returns The Error404 component.
  */
 function Error404(props: IError404Props) {
-    const { t } = useTranslation();
-    return <div>{t('Static.errorText')}</div>;
+  const { t } = useTranslation();
+  return <div>{t('Static.errorText')}</div>;
 }
 
 // Export the Error404 component.

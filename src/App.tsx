@@ -6,7 +6,7 @@ import { Outlet } from 'react-router-dom';
  * @returns The app component.
  */
 function App() {
-    return <Outlet />;
+  return <Outlet />;
 }
 
 // Export the app component.

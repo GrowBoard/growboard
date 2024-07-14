@@ -1,14 +1,14 @@
 export enum Theme {
-    LIGHT = 'light',
-    DARK = 'dark',
+  LIGHT = 'light',
+  DARK = 'dark',
 }
 
 export type ThemeState = {
-    themeValue: Theme;
+  themeValue: Theme;
 };
 
 export interface ThemeStateActions {
-    setTheme: (theme: Theme) => void;
+  setTheme: (theme: Theme) => void;
 }
 
 export type ThemeStateSlice = ThemeState & ThemeStateActions;

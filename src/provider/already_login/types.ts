@@ -1,3 +1,3 @@
 export type AlreadyLoginServiceProviderProps = {
-    children: React.ReactNode;
+  children: React.ReactNode;
 };

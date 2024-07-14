@@ -7,11 +7,11 @@ import { PageLoadingComponentProps } from './types';
  * @returns The page loading component.
  */
 const PageLoadingComponent = (props: PageLoadingComponentProps) => {
-    return (
-        <div className=" h-full w-full justify-center items-center flex ">
-            <span className="loading loading-spinner loading-lg text-primary"></span>
-        </div>
-    );
+  return (
+    <div className=" h-full w-full justify-center items-center flex ">
+      <span className="loading loading-spinner loading-lg text-primary"></span>
+    </div>
+  );
 };
 
 export default PageLoadingComponent;

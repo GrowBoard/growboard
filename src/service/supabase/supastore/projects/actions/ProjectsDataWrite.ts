@@ -1,12 +1,12 @@
 import {
-    ToastAlertData,
-    getErrorAlertData,
-    getSuccessAlertData,
+  ToastAlertData,
+  getErrorAlertData,
+  getSuccessAlertData,
 } from '@provider';
 import { SupabaseProjectsDB } from '../../../supabase_main/Supabase';
 import {
-    ProjectData,
-    ProjectDataSchema as ProjectSchemaData,
+  ProjectData,
+  ProjectDataSchema as ProjectSchemaData,
 } from '../ProjectsCollection';
 
 /**
@@ -16,25 +16,25 @@ import {
  * @param alertCallback  - The alert callback function.
  */
 async function insertOrUpdateProject(
-    projectData: ProjectData,
-    showAlertHandler: (toastAlertData: ToastAlertData) => void
+  projectData: ProjectData,
+  showAlertHandler: (toastAlertData: ToastAlertData) => void,
 ) {
-    try {
-        const { data, error } = await SupabaseProjectsDB.upsert([
-            getProjectSchema(projectData),
-        ]);
-        if (error) {
-            showAlertHandler(
-                getErrorAlertData('Error while adding the project data')
-            );
-        } else {
-            showAlertHandler(
-                getSuccessAlertData('Successfully updated the project data')
-            );
-        }
-    } catch (error) {
-        console.log(error);
+  try {
+    const { error } = await SupabaseProjectsDB.upsert([
+      getProjectSchema(projectData),
+    ]);
+    if (error) {
+      showAlertHandler(
+        getErrorAlertData('Error while adding the project data'),
+      );
+    } else {
+      showAlertHandler(
+        getSuccessAlertData('Successfully updated the project data'),
+      );
     }
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 /**
@@ -44,36 +44,36 @@ async function insertOrUpdateProject(
  * @returns The project data.
  */
 function getProjectSchema(project: ProjectData): ProjectSchemaData {
-    const projectSchemaData: ProjectSchemaData = {
-        project_id: project.projectId,
-        user_id: project.userId,
-        project_name: project.projectName,
-        project_desc: project.projectDesc,
-        project_icon: project.projectIcon,
-        tech_used: {
-            data: project.techUsed,
-        },
-        project_link: project.projectLink,
-        github_link: project.githubLink,
-        hostinger_link: project.hostingerLink,
-        images: {
-            data: project.images,
-        },
-        is_live: project.isLive,
-        related_ideas: {
-            data: project.relatedIdeas,
-        },
-        started_on: project.startedOn,
-        features: {
-            data: project.features,
-        },
-        todos: {
-            data: project.todos,
-        },
-        project_completed: project.projectCompleted,
-        backend_link: project.backendLink,
-    };
-    return projectSchemaData;
+  const projectSchemaData: ProjectSchemaData = {
+    project_id: project.projectId,
+    user_id: project.userId,
+    project_name: project.projectName,
+    project_desc: project.projectDesc,
+    project_icon: project.projectIcon,
+    tech_used: {
+      data: project.techUsed,
+    },
+    project_link: project.projectLink,
+    github_link: project.githubLink,
+    hostinger_link: project.hostingerLink,
+    images: {
+      data: project.images,
+    },
+    is_live: project.isLive,
+    related_ideas: {
+      data: project.relatedIdeas,
+    },
+    started_on: project.startedOn,
+    features: {
+      data: project.features,
+    },
+    todos: {
+      data: project.todos,
+    },
+    project_completed: project.projectCompleted,
+    backend_link: project.backendLink,
+  };
+  return projectSchemaData;
 }
 
 // Export the functions

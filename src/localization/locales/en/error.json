@@ -1,17 +1,17 @@
 {
-    "LoginError": {
-        "emailRequired": "Email Id is required! Please enter a valid email id",
-        "passwordRequired": "Password is required! Please enter a valid password",
-        "passwordPolicy": "Password must contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character. The password must be eight characters or longer."
-    },
-    "ForgotPasswordError": {
-        "emailRequired": "Email Id is required! (use any value)",
-        "emailNotValid": "Email Id is not valid!"
-    },
-    "SignUpError": {
-        "firstNameRequired": "First name is required! (use any value)",
-        "lastNameRequired": "Last name is required! (use any value)",
-        "emailRequired": "Email Id is required! (use any value)",
-        "passwordRequired": "Password is required! (use any value)"
-    }
+  "LoginError": {
+    "emailRequired": "Email Id is required! Please enter a valid email id",
+    "passwordRequired": "Password is required! Please enter a valid password",
+    "passwordPolicy": "Password must contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character. The password must be eight characters or longer."
+  },
+  "ForgotPasswordError": {
+    "emailRequired": "Email Id is required! (use any value)",
+    "emailNotValid": "Email Id is not valid!"
+  },
+  "SignUpError": {
+    "firstNameRequired": "First name is required! (use any value)",
+    "lastNameRequired": "Last name is required! (use any value)",
+    "emailRequired": "Email Id is required! (use any value)",
+    "passwordRequired": "Password is required! (use any value)"
+  }
 }

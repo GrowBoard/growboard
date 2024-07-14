@@ -9,7 +9,7 @@ interface IPlansMainProps {}
  * @returns The plans main component.
  */
 function PlansMain(props: IPlansMainProps) {
-    return <div>Plans main</div>;
+  return <div>Plans main</div>;
 }
 
 // Export the plans main component.
