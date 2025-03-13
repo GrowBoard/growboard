@@ -1,8 +1,7 @@
 name: Releases
+
 on:
-  push:
-    branches:
-      - production
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -22,7 +21,7 @@ jobs:
         with:
           # you can also create separate token to trace action
           github-token: '${{ secrets.PA_TOKEN }}'
-          git-user-name: 'Hourcoding bot'
+          git-user-name: 'Growboard Bot'
           output-file: false
       - name: create release
         # https://github.com/actions/create-release

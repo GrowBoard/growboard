@@ -1,4 +1,8 @@
-import { AlertComponentData, ToastXPosition, ToastYPosition } from '@dash-ui';
+import {
+  AlertComponentData,
+  ToastXPosition,
+  ToastYPosition,
+} from '@components';
 
 export type ToastAlertProviderProps = {
   children: React.ReactNode;

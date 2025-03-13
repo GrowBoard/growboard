@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { forgotPassword } from '@service/supabase/supa_auth/AuthApi';
 import { validateEmail } from '../../../util/input/Input';
-import { ErrorText, InputText, InputType, LandingIntro } from '@dash-ui';
+import { ErrorText, InputText, InputType, LandingIntro } from '@components';
 import { useTranslation } from 'react-i18next';
 
 /**
@@ -32,13 +31,8 @@ function ForgotPassword() {
 
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [linkSent, setLinkSent] = useState(false);
+  const [linkSent] = useState(false);
   const [userObj, setUserObj] = useState(INITIAL_USER_OBJ);
-
-  const forgotPasswordHandler = () => {
-    setLoading(false);
-    setLinkSent(true);
-  };
 
   const submitForm = (e: any) => {
     e.preventDefault();
@@ -50,13 +44,6 @@ function ForgotPassword() {
       return setErrorMessage(t('ForgotPasswordError.emailNotValid'));
     } else {
       setLoading(true);
-      forgotPassword(
-        userObj.emailId,
-        forgotPasswordHandler,
-        (error: string) => {
-          setErrorMessage(error);
-        },
-      );
       // Call API to send password reset link
     }
   };

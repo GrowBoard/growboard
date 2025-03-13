@@ -1,18 +1,14 @@
-export type UserData = {
+export type UserAuthData = {
   userId: string;
-  firstName: string;
-  lastName: string;
-  email: string;
 };
 
 export type AuthDataState = {
   authToken: string;
-  userData: UserData;
 };
 
 export interface AuthStateAction {
-  setLoginData: (authData: AuthDataState) => void;
-  removeLoginData: () => void;
+  setAuthToken: (authToken: string) => void;
+  removeAuthToken: () => void;
 }
 
 export type AuthStateSlice = AuthDataState & AuthStateAction;

@@ -1,21 +1,13 @@
 import {
-  SocialLink,
-  SocialType,
-} from '@service/supabase/supastore/user_profile/UserCollection';
-import { getSocialMediaLink } from '../../../../../util/Utils';
-import {
   NameIcon,
-  EmailIcon,
-  PlaceIcon,
-  TitleIcon,
   DateIcon,
   ExperienceIcon,
   ProfilePlaceholder,
   SocialIcon,
 } from '@assets';
-import { TitleCard, TooltipComponent } from '@dash-ui';
+import { TitleCard, TooltipComponent } from '@components';
 import { profileSelector, useShallow } from '@selectors';
-import { appStore } from '@store';
+import { appStore, UserSocialData } from '@store';
 
 /**
  * The text style for the profile preview screen.
@@ -40,31 +32,22 @@ function ProfilePreviewScreen() {
                 <NameIcon /> {profileData.firstName} {profileData.lastName}
               </div>
               <div className={TextStyle}>
-                <EmailIcon /> {profileData.email}
+                <DateIcon /> {profileData.phoneNumber}
               </div>
               <div className={TextStyle}>
-                <PlaceIcon /> {profileData.place}
-              </div>
-              <div className={TextStyle}>
-                <TitleIcon /> {profileData.designation}
-              </div>
-              <div className={TextStyle}>
-                <DateIcon /> {profileData.dateOfBirth}
-              </div>
-              <div className={TextStyle}>
-                <ExperienceIcon /> {profileData.yearOfExp} Years
+                <ExperienceIcon /> {profileData.bio}
               </div>
             </div>
             <div className="divider divider-horizontal"></div>
             <div className="w-64 h-64 items-center mx-auto rounded-full bg-base-200 btn btn-square btn-outline">
-              {profileData.profile === '' ? (
+              {profileData.profilePicture === '' ? (
                 <div className=" scale-150">
                   <ProfilePlaceholder />
                 </div>
               ) : (
                 <img
                   alt="Tailwind CSS Navbar component"
-                  src={profileData.profile}
+                  src={profileData.profilePicture}
                 />
               )}
             </div>
@@ -72,7 +55,7 @@ function ProfilePreviewScreen() {
         </div>
         <div className="divider"></div>
         <div className=" flex flex-row justify-evenly w-full ">
-          <GetSocialLink socialLinksMap={profileData.socialLinks} />
+          <GetSocialLink socialLinksMap={profileData} />
         </div>
       </TitleCard>
     </div>
@@ -81,7 +64,7 @@ function ProfilePreviewScreen() {
 
 // Interface type definition for the social link props.
 interface SocialLinkProps {
-  socialLinksMap: Array<SocialLink>;
+  socialLinksMap: UserSocialData;
 }
 
 /**
@@ -89,41 +72,10 @@ interface SocialLinkProps {
  * @param props The social link props.
  * @returns The social media link.
  */
-function GetSocialLink(props: SocialLinkProps) {
-  const socialLinksMap: Array<SocialLink> = [
-    {
-      type: SocialType.Facebook,
-      link: getSocialMediaLink(props.socialLinksMap, SocialType.Facebook),
-    },
-    {
-      type: SocialType.Instagram,
-      link: getSocialMediaLink(props.socialLinksMap, SocialType.Instagram),
-    },
-    {
-      type: SocialType.Github,
-      link: getSocialMediaLink(props.socialLinksMap, SocialType.Github),
-    },
-    {
-      type: SocialType.X,
-      link: getSocialMediaLink(props.socialLinksMap, SocialType.X),
-    },
-    {
-      type: SocialType.Linkedin,
-      link: getSocialMediaLink(props.socialLinksMap, SocialType.Linkedin),
-    },
-    {
-      type: SocialType.Youtube,
-      link: getSocialMediaLink(props.socialLinksMap, SocialType.Youtube),
-    },
-    {
-      type: SocialType.Website,
-      link: getSocialMediaLink(props.socialLinksMap, SocialType.Website),
-    },
-  ];
-
+function GetSocialLink({ socialLinksMap }: SocialLinkProps) {
   return (
     <>
-      {socialLinksMap.map(({ type, link }) => {
+      {Object.entries(socialLinksMap).map(([type, link]) => {
         const disabled = link === '';
         return (
           <TooltipComponent title={type} disable={disabled} key={type}>
@@ -133,7 +85,7 @@ function GetSocialLink(props: SocialLinkProps) {
                 disabled ? ' btn-disabled bg-blend-overlay opacity-50' : ''
               }`}
             >
-              <SocialIcon socialType={type} />
+              <SocialIcon type={type} />
             </a>
           </TooltipComponent>
         );

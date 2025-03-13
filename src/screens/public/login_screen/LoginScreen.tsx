@@ -1,13 +1,12 @@
 import { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import { ErrorText, InputText, InputType, LandingIntro } from '@dash-ui';
+import { NavLink } from 'react-router-dom';
+import { InputText, InputType, LandingIntro } from '@components';
 
-import { LoginCred } from '@service/supabase/supa_auth/actions/AuthSignIn';
-import { signIn } from '@service/supabase/supa_auth/AuthApi';
 import { validatePassword } from '../../../util/input/Input';
 import { useTranslation } from 'react-i18next';
-import { AuthDataState, appStore } from '@store';
-import { authSelector, useShallow } from '@selectors';
+import { TitleBoxContainer } from '@components';
+import { Box, Button, HStack, Text, useToast, VStack } from '@chakra-ui/react';
+import { useLoginUser } from '@services/hooks';
 
 interface UpdateProps {
   updateType: string;
@@ -16,121 +15,149 @@ interface UpdateProps {
 
 /**
  * Component definition for the login screen.
- *
  * @returns The Login component.
  */
-function Login() {
+const LoginScreen = () => {
   const { t } = useTranslation();
-  const INITIAL_LOGIN_OBJ: LoginCred = {
+  const toast = useToast();
+  const INITIAL_LOGIN_OBJ = {
     password: '',
     email: '',
   };
-  const { setLoginData } = appStore(useShallow(authSelector));
-  const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [loginObj, setLoginObj] = useState<LoginCred>(INITIAL_LOGIN_OBJ);
 
-  const signInHandler = (authData: AuthDataState) => {
-    setLoginData(authData);
-  };
+  const [loginObj, setLoginObj] = useState(INITIAL_LOGIN_OBJ);
+  const { mutate } = useLoginUser();
 
   const submitForm = (e: any) => {
     e.preventDefault();
-    setErrorMessage('');
-    if (loginObj.email.trim() === '')
-      return setErrorMessage(t('LoginError.emailRequired'));
-    if (loginObj.password.trim() === '')
-      return setErrorMessage(t('LoginError.passwordRequired'));
-    else if (!validatePassword(loginObj.password)) {
-      return setErrorMessage(t('LoginError.passwordPolicy'));
-    } else {
-      setLoading(true);
-      signIn(loginObj, signInHandler, (error: string) => {
-        console.log('error', error);
-        setErrorMessage(error);
+    if (loginObj.email.trim() === '') {
+      toast({
+        title: t('LoginError.emailRequired'),
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
       });
-      setLoading(false);
+      return;
     }
+    if (loginObj.password.trim() === '') {
+      toast({
+        title: t('LoginError.passwordRequired'),
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    } else if (!validatePassword(loginObj.password)) {
+      toast({
+        title: t('LoginError.passwordPolicy'),
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    mutate(loginObj);
   };
 
   const updateFormValue = ({ updateType, value }: UpdateProps) => {
-    setErrorMessage('');
     setLoginObj({ ...loginObj, [updateType]: value });
   };
 
   return (
-    <div
-      className="h-screen bg-base-200 flex items-center"
+    <TitleBoxContainer
+      title="Login"
       style={{
-        backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
+        backgroundImage:
+          'url(https://images.unsplash.com/photo-1507090960745-b32f65d3113a)',
         backgroundSize: 'cover',
       }}
+      h={'100vh'}
+      w={'100%'}
+      alignItems={'center'}
+      justifyContent={'center'}
+      display={'flex'}
     >
-      <div className="card mx-auto w-full max-w-5xl shadow-xl ">
-        <div className="grid md:grid-cols-2 grid-cols-1">
-          <div className="glass rounded-l-2xl">
-            <LandingIntro />
-          </div>
-          <div className="py-24 px-10 bg-primary-content">
-            <h2 className="text-2xl font-semibold mb-2 text-center">
-              {t('LoginScreen.title')}
-            </h2>
-            <form onSubmit={(e) => submitForm(e)}>
-              <div className="mb-4">
-                <InputText
-                  type={InputType.EMAIL}
-                  defaultValue={loginObj.email}
-                  updateType="email"
-                  containerStyle="mt-4"
-                  labelTitle={t('Account.input.email')}
-                  updateFormValue={updateFormValue}
-                  errorState={errorMessage !== ''}
-                />
-
-                <InputText
-                  defaultValue={loginObj.password}
-                  type={InputType.PASSWORD}
-                  updateType="password"
-                  containerStyle="mt-4"
-                  labelTitle={t('Account.input.password')}
-                  updateFormValue={updateFormValue}
-                  errorState={errorMessage !== ''}
-                />
-              </div>
-
-              <div className="text-right text-primary">
-                <Link to="/forgot-password">
-                  <span className="text-sm  inline-block  hover:text-primary hover:underline hover:cursor-pointer transition duration-200">
-                    {t('Account.forgotPassword')}
-                  </span>
-                </Link>
-              </div>
-
-              <ErrorText styleClass="mt-8">{errorMessage}</ErrorText>
-              <button
-                type="submit"
-                className={`btn mt-2 w-full btn-primary + ${
-                  loading ? ' loading' : ''
-                }`}
+      <HStack spacing={0} height={'80vh'} width={'70%'}>
+        <Box
+          height={'100%'}
+          width={'50%'}
+          bgColor="#FFFFFF3f"
+          // glassmorphism
+          backdropFilter="blur(10px)"
+          borderLeftRadius={10}
+        >
+          <LandingIntro />
+        </Box>
+        <Box
+          width={'50%'}
+          height={'100%'}
+          py={24}
+          px={10}
+          borderRightRadius={10}
+          bg={'blue.100'}
+        >
+          <Text
+            textAlign={'center'}
+            fontSize={'2xl'}
+            fontWeight={'bold'}
+            color={'gray.900'}
+            mb={4}
+          >
+            {t('LoginScreen.title')}
+          </Text>
+          <form onSubmit={(e) => submitForm(e)}>
+            <VStack spacing="4">
+              <InputText
+                type={InputType.EMAIL}
+                defaultValue={loginObj.email}
+                updateType="email"
+                containerStyle="mt-4"
+                labelTitle={t('Account.input.email')}
+                updateFormValue={updateFormValue}
+                errorState={false}
+              />
+              <InputText
+                defaultValue={loginObj.password}
+                type={InputType.PASSWORD}
+                updateType="password"
+                containerStyle="mt-4"
+                labelTitle={t('Account.input.password')}
+                updateFormValue={updateFormValue}
+                errorState={false}
+              />
+            </VStack>
+            <Box textAlign={'right'} color={'gray.500'}>
+              <Button
+                as={NavLink}
+                size={'sm'}
+                to="/forgot-password"
+                variant="link"
+                colorScheme="blue"
               >
-                {t('LoginScreen.loginButton')}
-              </button>
-
-              <div className="text-center mt-4">
-                {t('Account.noAccountText')}
-                <NavLink to="/signup">
-                  <span className="  inline-block  hover:text-primary hover:underline hover:cursor-pointer transition duration-200">
-                    {t('Account.register')}
-                  </span>
-                </NavLink>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
+                {t('Account.forgotPassword')}
+              </Button>
+            </Box>
+            <Button type="submit" width={'100%'} colorScheme="blue">
+              {t('LoginScreen.loginButton')}
+            </Button>
+            <Box mt={4} textAlign={'center'}>
+              {t('Account.noAccountText')}
+              <Button
+                as={NavLink}
+                to="/signup"
+                variant="link"
+                colorScheme="blue"
+              >
+                {t('Account.register')}
+              </Button>
+            </Box>
+          </form>
+        </Box>
+      </HStack>
+    </TitleBoxContainer>
   );
-}
+};
 
 // Export the Login component.
-export default Login;
+export default LoginScreen;

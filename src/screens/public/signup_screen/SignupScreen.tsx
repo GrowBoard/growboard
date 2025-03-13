@@ -1,12 +1,8 @@
 import { useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { ErrorText, InputText, LandingIntro } from '@dash-ui';
-import { SignUpCred } from '@service/supabase/supa_auth/actions/AuthSignUp';
-import { signUp } from '@service/supabase/supa_auth/AuthApi';
-import { getSuccessAlertData } from '@provider';
+import { NavLink } from 'react-router-dom';
+import { ErrorText, InputText, LandingIntro } from '@components';
 import { useTranslation } from 'react-i18next';
-import { appStore } from '@store';
-import { alertSelector, useShallow } from '@selectors';
+import { SignUpCred } from './types';
 
 /**
  * Prop types for the update form value function.
@@ -29,20 +25,10 @@ function Register() {
     password: '',
     email: '',
   };
-  const { showAlertWithTimeout } = appStore(useShallow(alertSelector));
 
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [registerObj, setRegisterObj] = useState(INITIAL_REGISTER_OBJ);
-
-  const signUpHandler = () => {
-    showAlertWithTimeout(
-      getSuccessAlertData(t('SignUpScreen.successfulAlert')),
-      3000,
-    );
-    navigate('login');
-  };
 
   const submitForm = (e: any) => {
     e.preventDefault();
@@ -58,10 +44,6 @@ function Register() {
       return setErrorMessage(t('SignUpError.emailNotValid'));
     else {
       setLoading(true);
-      // Show alert
-      signUp(registerObj, signUpHandler, (error: string) => {
-        setErrorMessage(error);
-      });
       setLoading(false);
     }
   };

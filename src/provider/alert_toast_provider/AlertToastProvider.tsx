@@ -1,4 +1,4 @@
-import { ToastAlertComponent } from '@dash-ui';
+import { ToastAlertComponent } from '@components';
 import { ToastAlertProviderProps } from './types';
 import { appStore } from '@store';
 import { alertSelector, useShallow } from '@selectors';

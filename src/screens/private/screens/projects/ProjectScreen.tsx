@@ -1,18 +1,9 @@
-import { useEffect } from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 
-import { TooltipComponent } from '@dash-ui';
-import { getAllProjects } from '@service/supabase/supastore/projects/ProjectsStoreApi';
+import { TooltipComponent } from '@components';
 import { AddIcon, DeleteIcon, EditIcon, PreviewIcon } from '@assets';
-import { appStore } from '@store';
-import { authSelector, projectsSelector, useShallow } from '@selectors';
 
 import getSubNavTitle from '../../../../util/nav/NavTitle';
-
-/**
- * Props for the ProjectsScreen component.
- */
-interface IProjectsScreenProps {}
 
 /**
  * Project screen routes.
@@ -24,15 +15,8 @@ const ProjectRoutes = [
   { title: 'Delete project', icon: <DeleteIcon />, path: 'delete' },
 ];
 
-const ProjectsScreen = (props: IProjectsScreenProps) => {
+const ProjectsScreen = () => {
   const currentLocation = useLocation();
-  const { userId } = appStore(useShallow(authSelector));
-  const { addProjects } = appStore(useShallow(projectsSelector));
-
-  useEffect(() => {
-    getAllProjects(userId, (projectsData) => addProjects(projectsData));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userId]);
 
   return (
     <div className="h-full">
@@ -59,4 +43,3 @@ const ProjectsScreen = (props: IProjectsScreenProps) => {
 
 // Export the ProjectsScreen component.
 export default ProjectsScreen;
-export type { IProjectsScreenProps };

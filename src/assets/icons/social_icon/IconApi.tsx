@@ -1,4 +1,3 @@
-import { SocialType } from '@service/supabase/supastore/user_profile/UserCollection';
 import { FacebookIcon } from './FacebookIcon';
 import { GithubIcon } from './GithubIcon';
 import { InstagramIcon } from './InstagramIcon';
@@ -8,31 +7,24 @@ import { XIcon } from './XIcon';
 import { YoutubeIcon } from './YoutubeIcon';
 
 /**
- * Props for the Social Icon component.
- */
-interface SocialIconProps {
-  socialType: SocialType;
-}
-
-/**
  * Returns a social Icon using the social type.
  *
  * @param socialType
  * @returns
  */
-export function SocialIcon(props: SocialIconProps) {
-  switch (props.socialType) {
-    case SocialType.Facebook:
+export function SocialIcon({ type }: { type: string }) {
+  switch (type) {
+    case 'facebook':
       return <FacebookIcon />;
-    case SocialType.Instagram:
+    case 'instagram':
       return <InstagramIcon />;
-    case SocialType.Linkedin:
+    case 'linkedin':
       return <LinkedInIcon />;
-    case SocialType.X:
+    case 'twitter':
       return <XIcon />;
-    case SocialType.Youtube:
+    case 'youtube':
       return <YoutubeIcon />;
-    case SocialType.Github:
+    case 'github':
       return <GithubIcon />;
     default:
       return <WebsiteIcon />;

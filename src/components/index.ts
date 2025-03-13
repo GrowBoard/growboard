@@ -9,4 +9,6 @@ export * from './page_loading';
 export * from './sidebar';
 export * from './text';
 export * from './toast';
+export * from './TitleBox';
 export * from './tooltip';
+export * from './Theme';

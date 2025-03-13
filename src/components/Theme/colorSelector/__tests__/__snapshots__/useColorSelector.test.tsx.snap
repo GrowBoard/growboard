@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`useColorSelector should return correct color for dark mode 1`] = `
+{
+  "bg": {
+    "container": "green.700",
+  },
+  "gradient": {
+    "contentBG": "linear(to-r, green.800, blue.900)",
+    "sideBarBG": "linear(to-br, green.800, blue.900)",
+    "topAppBar": "linear(to-r, green.800, blue.900)",
+  },
+  "icon": {
+    "primary": {
+      "bg": "white",
+      "color": "green.700",
+    },
+    "secondary": "green.700",
+  },
+  "text": {
+    "Heading": "green.700",
+    "Hero": "linear(to-b, green.700, blue.700)",
+  },
+}
+`;
+
+exports[`useColorSelector should return correct color for light mode 1`] = `
+{
+  "bg": {
+    "container": "green.200",
+  },
+  "gradient": {
+    "contentBG": "linear(to-r, green.200, blue.400)",
+    "sideBarBG": "linear(to-br, green.300, blue.500)",
+    "topAppBar": "linear(to-r, green.300, blue.500)",
+  },
+  "icon": {
+    "primary": {
+      "bg": "white",
+      "color": "green.400",
+    },
+    "secondary": "green.500",
+  },
+  "text": {
+    "Heading": "green.500",
+    "Hero": "linear(to-b, green.500, blue.500)",
+  },
+}
+`;

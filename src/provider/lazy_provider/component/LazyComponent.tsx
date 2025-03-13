@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { PageLoadingComponent } from '@dash-ui';
+import { PageLoadingComponent } from '@components';
 import { LazyComponentProviderProps } from './types';
 
 const LazyComponentProvider = (props: LazyComponentProviderProps) => {

@@ -1,1 +1,5 @@
-export { authSelector } from './Auth.selector';
+export {
+  setAuthTokenSelector,
+  authTokenSelector,
+  removeAuthDataSelector,
+} from './Auth.selector';

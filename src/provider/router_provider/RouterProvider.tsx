@@ -1,13 +1,13 @@
-import { RouterProvider } from 'react-router-dom';
 import { privateRouter, publicRouter } from '@router';
+import { authTokenSelector, useShallow } from '@selectors';
 import { appStore } from '@store';
-import { authSelector, useShallow } from '@selectors';
+import { RouterProvider } from 'react-router-dom';
 
 /**
  * Router declaration for the demo app.
  */
 export default function AppRouterProviderComponent() {
-  const { authToken } = appStore(useShallow(authSelector));
+  const authToken = appStore(useShallow(authTokenSelector));
 
   return (
     <RouterProvider router={authToken !== '' ? privateRouter : publicRouter} />

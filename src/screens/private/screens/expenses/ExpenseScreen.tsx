@@ -1,5 +1,5 @@
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
-import { TooltipComponent } from '@dash-ui';
+import { TooltipComponent } from '@components';
 import getSubNavTitle from '../../../../util/nav/NavTitle';
 import { OverviewIcon, DeleteIcon, AddIcon, EditIcon } from '@assets';
 

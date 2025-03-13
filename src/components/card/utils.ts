@@ -1,4 +1,3 @@
-import { ProjectData } from '@service/supabase/supastore/projects/ProjectsCollection';
 import { ProjectCardData } from './types';
 
 /**
@@ -6,7 +5,7 @@ import { ProjectCardData } from './types';
  * @param project The project data.
  * @returns The project card data.
  */
-export function getProjectCardData(project: ProjectData): ProjectCardData {
+export function getProjectCardData(project: any): ProjectCardData {
   return {
     title: project.projectName,
     description: project.projectDesc,

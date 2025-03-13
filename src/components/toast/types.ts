@@ -1,4 +1,4 @@
-import { AlertComponentData } from '@dash-ui';
+import { AlertComponentData } from '@components';
 
 export enum ToastXPosition {
   START = 'toast-start',

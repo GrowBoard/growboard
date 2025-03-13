@@ -9,7 +9,6 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
     "react-app"
-    // "prettier" // prettier
   ],
   "parserOptions": {
     "ecmaVersion": "latest",
@@ -24,8 +23,10 @@
     "no-console": "off",
     "no-empty": "off",
     "no-useless-escape": "off",
-    "@typescript-eslint/no-empty-interface": "off",
-    "@typescript-eslint/no-empty-function": "off",
+    "react-hooks/rules-of-hooks": "warn",
+    "react-hooks/exhaustive-deps": "warn",
+    "@typescript-eslint/no-empty-interface": "warn",
+    "@typescript-eslint/no-empty-function": "warn",
     "no-nested-ternary": "off",
     "no-multiple-empty-lines": "off",
     "no-irregular-whitespace": "off",

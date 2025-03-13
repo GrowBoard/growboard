@@ -1,13 +1,13 @@
 /* eslint-disable jsx-a11y/iframe-has-title */
 
-import { ImagePreviewModalButton } from '@dash-ui';
-import { ProjectData } from '@service/supabase/supastore/projects/ProjectsCollection';
+import { ImagePreviewModalButton } from '@components';
 import { WebsiteIcon, GithubIcon, HostingerIcon } from '@assets';
 import { imageModalSelector, useShallow } from '@selectors';
 import { appStore } from '@store';
+import { Key } from 'react';
 
 export type IProjectPreviewComponentProps = {
-  project: ProjectData;
+  project: any;
 };
 
 const ProjectPreviewComponent = (props: IProjectPreviewComponentProps) => {
@@ -80,22 +80,24 @@ const ProjectPreviewComponent = (props: IProjectPreviewComponentProps) => {
             <p className="text-base">{props.project.projectDesc}</p>
           </div>
           <div className="flex flex-row items-start overflow-scroll gap-3 p-2 ">
-            {props.project.images.map((image, index) => (
-              <ImagePreviewModalButton
-                onClickHandler={() => {
-                  onImageClickHandler(image);
-                }}
-                key={index}
-              >
-                <img
+            {props.project.images.map(
+              (image: string | undefined, index: Key | null | undefined) => (
+                <ImagePreviewModalButton
+                  onClickHandler={() => {
+                    onImageClickHandler(image as string);
+                  }}
                   key={index}
-                  src={image}
-                  alt={props.project.title}
-                  loading="lazy"
-                  className="w-[150px] h-[100px] rounded-md outline p-1 mt-4 hover:scale-105 hover:cursor-pointer"
-                />
-              </ImagePreviewModalButton>
-            ))}
+                >
+                  <img
+                    key={index}
+                    src={image}
+                    alt={props.project.title}
+                    loading="lazy"
+                    className="w-[150px] h-[100px] rounded-md outline p-1 mt-4 hover:scale-105 hover:cursor-pointer"
+                  />
+                </ImagePreviewModalButton>
+              ),
+            )}
           </div>
         </div>
         {/** Mockup part */}

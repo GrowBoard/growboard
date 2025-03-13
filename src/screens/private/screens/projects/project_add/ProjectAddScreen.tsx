@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { ProjectCard, getProjectCardData } from '@dash-ui';
+import { ProjectCard, getProjectCardData } from '@components';
 import { appStore } from '@store';
 import { projectsSelector, useShallow } from '@selectors';
 

@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 import NavigationToggleButton from './NavigationToggleButton';
 import {
   ProfilePlaceholder,
@@ -11,8 +10,9 @@ import {
 } from '@assets';
 import { NavigationComponentProps } from './types';
 
-import { profileSelector, themeSelector, useShallow } from '@selectors';
-import { Theme, appStore } from '@store';
+import { profileSelector, useShallow } from '@selectors';
+import { appStore } from '@store';
+import { useColorMode } from '@chakra-ui/react';
 
 /**
  * Navigation component.
@@ -22,20 +22,8 @@ import { Theme, appStore } from '@store';
  */
 const NavigationComponent = (props: NavigationComponentProps) => {
   const { t } = useTranslation();
-  const { themeValue, setTheme } = appStore(useShallow(themeSelector));
+  const { colorMode, toggleColorMode } = useColorMode();
   const { profileData: profileState } = appStore(useShallow(profileSelector));
-  const [themeCheckState, setThemeCheckState] = useState(
-    themeValue === Theme.DARK ? true : false,
-  );
-
-  useEffect(() => {
-    if (themeCheckState) {
-      setTheme(Theme.DARK);
-    } else {
-      setTheme(Theme.LIGHT);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [themeCheckState]);
 
   return (
     <div className="navbar bg-base-300 h-[9%]">
@@ -61,12 +49,10 @@ const NavigationComponent = (props: NavigationComponentProps) => {
       <div className="flex-none">
         <div className="px-2">
           <input
-            checked={themeCheckState}
+            checked={colorMode === 'dark'}
             type="checkbox"
             value="night"
-            onChange={(e: any) => {
-              setThemeCheckState((prev) => !prev);
-            }}
+            onChange={toggleColorMode}
             className=" toggle theme-controller bg-amber-300 border-sky-400 [--tglbg:theme(colors.sky.500)] checked:bg-blue-300 checked:border-blue-800 checked:[--tglbg:theme(colors.blue.900)] row-start-1 col-start-1 col-span-2"
           />
         </div>
@@ -77,12 +63,12 @@ const NavigationComponent = (props: NavigationComponentProps) => {
             className="btn btn-ghost btn-circle avatar"
           >
             <div className="w-10 rounded-full">
-              {profileState.profile === '' ? (
+              {profileState.profilePicture === '' ? (
                 <ProfilePlaceholder />
               ) : (
                 <img
                   alt="Tailwind CSS Navbar component"
-                  src={profileState.profile}
+                  src={profileState.profilePicture}
                 />
               )}
             </div>

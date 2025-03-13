@@ -1,7 +1,7 @@
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import getSubNavTitle from '../../../../util/nav/NavTitle';
 import { OverviewIcon, DeleteIcon, AddIcon, EditIcon } from '@assets';
-import { TooltipComponent } from '@dash-ui';
+import { TooltipComponent } from '@components';
 import { CredsScreenProps } from './types';
 
 const CredsRoutes = [

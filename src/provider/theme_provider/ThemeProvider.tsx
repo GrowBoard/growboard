@@ -1,11 +1,14 @@
-import { appStore } from '@store';
-import { themeSelector, useShallow } from '@selectors';
+import { ChakraProvider, ColorModeScript } from '@chakra-ui/react';
+import { theme } from '@components';
 import { ThemeProviderProps } from './types';
 
-const ThemeProvider = (props: ThemeProviderProps) => {
-  const { themeValue } = appStore(useShallow(themeSelector));
-
-  return <div data-theme={themeValue}>{props.children}</div>;
+const ThemeProvider = ({ children }: ThemeProviderProps) => {
+  return (
+    <ChakraProvider theme={theme} cssVarsRoot="body">
+      <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+      {children}
+    </ChakraProvider>
+  );
 };
 
 export default ThemeProvider;

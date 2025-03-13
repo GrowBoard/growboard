@@ -1,12 +1,12 @@
 import {
   Navigate,
+  Outlet,
   Route,
   createBrowserRouter,
   createRoutesFromChildren,
 } from 'react-router-dom';
 import {
   LazyComponentProvider,
-  LazyAppComponent,
   LazyForgotPasswordScreenComponent,
   LazyLoginScreenComponent,
   LazySignupScreenComponent,
@@ -14,10 +14,7 @@ import {
 
 export const publicRouter = createBrowserRouter(
   createRoutesFromChildren(
-    <Route
-      path="/"
-      element={<LazyComponentProvider children={<LazyAppComponent />} />}
-    >
+    <Route path="/" element={<LazyComponentProvider children={<Outlet />} />}>
       <Route path="" element={<Navigate to="/login" replace />} />
       <Route path="login" element={<LazyLoginScreenComponent />} />
       <Route path="signup" element={<LazySignupScreenComponent />} />

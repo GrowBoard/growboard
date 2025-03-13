@@ -1,4 +1,4 @@
-import { ImagePreviewModal } from '@dash-ui';
+import { ImagePreviewModal } from '@components';
 import { ImagePreviewModalProviderProps } from './types';
 import { appStore } from '@store';
 import { imageModalSelector, useShallow } from '@selectors';

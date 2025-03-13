@@ -8,7 +8,7 @@ import {
   NotificationStateSlice,
   ProfileStateSlice,
 } from '@store/slice';
-import {} from '../slice/Profile/types';
+import {} from '../slice/User/types';
 
 export interface AppStoreState {
   Theme: ThemeStateSlice;

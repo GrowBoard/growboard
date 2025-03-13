@@ -1,34 +1,13 @@
 import { Outlet } from 'react-router-dom';
-import { signOut } from '@service/supabase/supa_auth/AuthApi';
-import { useEffect, useState } from 'react';
-import { NavigationComponent, SidebarComponent } from '@dash-ui';
-import { appStore, syncForTheFirstTime } from '@store';
-import { authSelector, profileSelector, useShallow } from '@selectors';
+import { useState } from 'react';
+import { NavigationComponent, SidebarComponent } from '@components';
+import { appStore } from '@store';
+import { removeAuthDataSelector, useShallow } from '@selectors';
 
 const MainRootScreen = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { userId, removeLoginData } = appStore(useShallow(authSelector));
-  const { removeProfile, updateProfile } = appStore(
-    useShallow(profileSelector),
-  );
-
-  const logOutClickHandler = () => {
-    signOut(() => {
-      removeLoginData();
-      removeProfile();
-    });
-  };
-
-  useEffect(() => {
-    if (userId === '') {
-      logOutClickHandler();
-    } else {
-      console.log('syncing for the first time');
-      const userData = syncForTheFirstTime((data) => updateProfile(data));
-      if (userData) updateProfile(userData);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userId]);
+  const removeAuthData = appStore(useShallow(removeAuthDataSelector));
+  const logOutClickHandler = removeAuthData;
 
   const openSidebarClickHandler = () => {
     setSidebarOpen((prev) => !prev);

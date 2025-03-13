@@ -1,12 +1,45 @@
-import './App.css';
-import { Outlet } from 'react-router-dom';
+import {
+  ThemeProvider,
+  ImagePreviewModalProvider,
+  NotificationProvider,
+  AlertToastProvider,
+  AppRouterProviderComponent,
+} from '@provider';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import React from 'react';
+import { HelmetProvider } from 'react-helmet-async';
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 5,
+      retryDelay: 1000,
+    },
+  },
+});
 
 /**
  * Component definition for the app component.
  * @returns The app component.
  */
 function App() {
-  return <Outlet />;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <React.StrictMode>
+        <HelmetProvider>
+          <ThemeProvider>
+            <ImagePreviewModalProvider>
+              <NotificationProvider>
+                <AlertToastProvider>
+                  <AppRouterProviderComponent />
+                </AlertToastProvider>
+              </NotificationProvider>
+            </ImagePreviewModalProvider>
+          </ThemeProvider>
+        </HelmetProvider>
+      </React.StrictMode>
+    </QueryClientProvider>
+  );
 }
 
 // Export the app component.
