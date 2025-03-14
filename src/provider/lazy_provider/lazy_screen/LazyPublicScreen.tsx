@@ -34,8 +34,19 @@ const LazyForgotPasswordScreenComponent = () => {
   );
 };
 
+const ResetPasswordScreen = lazy(
+  () => import('@screens/public/reset_password/ResetPasswordScreen'),
+);
+const LazyResetPasswordScreenComponent = () => {
+  return (
+    <LazyComponentProvider>
+      <ResetPasswordScreen />
+    </LazyComponentProvider>
+  );
+};
 export {
   LazyLoginScreenComponent,
   LazySignupScreenComponent,
   LazyForgotPasswordScreenComponent,
+  LazyResetPasswordScreenComponent,
 };

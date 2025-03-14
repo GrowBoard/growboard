@@ -2,7 +2,6 @@ import {
   ThemeProvider,
   ImagePreviewModalProvider,
   NotificationProvider,
-  AlertToastProvider,
   AppRouterProviderComponent,
 } from '@provider';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -30,9 +29,7 @@ function App() {
           <ThemeProvider>
             <ImagePreviewModalProvider>
               <NotificationProvider>
-                <AlertToastProvider>
-                  <AppRouterProviderComponent />
-                </AlertToastProvider>
+                <AppRouterProviderComponent />
               </NotificationProvider>
             </ImagePreviewModalProvider>
           </ThemeProvider>

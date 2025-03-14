@@ -1,12 +1,17 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { InputText, InputType, LandingIntro } from '@components';
+import {
+  InputText,
+  InputType,
+  LandingIntro,
+  TitleBoxContainer,
+  useErrorToast,
+} from '@components';
 
 import { validatePassword } from '../../../util/input/Input';
 import { useTranslation } from 'react-i18next';
-import { TitleBoxContainer } from '@components';
-import { Box, Button, HStack, Text, useToast, VStack } from '@chakra-ui/react';
-import { useLoginUser } from '@services/hooks';
+import { Box, Button, HStack, Text, VStack } from '@chakra-ui/react';
+import { useLoginUser, usePingTest } from '@services/hooks';
 
 interface UpdateProps {
   updateType: string;
@@ -19,41 +24,28 @@ interface UpdateProps {
  */
 const LoginScreen = () => {
   const { t } = useTranslation();
-  const toast = useToast();
+  const toast = useErrorToast();
   const INITIAL_LOGIN_OBJ = {
     password: '',
     email: '',
   };
 
   const [loginObj, setLoginObj] = useState(INITIAL_LOGIN_OBJ);
+  const { isLoading: isServerStarting, isError: isServerHasError } =
+    usePingTest();
   const { mutate } = useLoginUser();
 
   const submitForm = (e: any) => {
     e.preventDefault();
     if (loginObj.email.trim() === '') {
-      toast({
-        title: t('LoginError.emailRequired'),
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-      });
+      toast('LoginError.emailRequired');
       return;
     }
     if (loginObj.password.trim() === '') {
-      toast({
-        title: t('LoginError.passwordRequired'),
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-      });
+      toast('LoginError.passwordRequired');
       return;
     } else if (!validatePassword(loginObj.password)) {
-      toast({
-        title: t('LoginError.passwordPolicy'),
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-      });
+      toast('LoginError.passwordPolicy');
       return;
     }
 
@@ -83,31 +75,33 @@ const LoginScreen = () => {
           height={'100%'}
           width={'50%'}
           bgColor="#FFFFFF3f"
-          // glassmorphism
           backdropFilter="blur(10px)"
           borderLeftRadius={10}
         >
           <LandingIntro />
         </Box>
-        <Box
+        <VStack
           width={'50%'}
           height={'100%'}
-          py={24}
+          py={16}
           px={10}
           borderRightRadius={10}
           bg={'blue.100'}
         >
-          <Text
-            textAlign={'center'}
-            fontSize={'2xl'}
-            fontWeight={'bold'}
-            color={'gray.900'}
-            mb={4}
-          >
-            {t('LoginScreen.title')}
-          </Text>
-          <form onSubmit={(e) => submitForm(e)}>
-            <VStack spacing="4">
+          <VStack justifyContent={'space-between'} w={'100%'} h={'100%'}>
+            <VStack w={'100%'}>
+              <Text
+                textAlign={'center'}
+                fontSize={'2xl'}
+                fontWeight={'bold'}
+                color={'gray.900'}
+                mb={4}
+              >
+                {t('LoginScreen.title')}
+                <Box as="span" animation="pulse 1s infinite" fontSize={'md'}>
+                  {isServerHasError ? '🔴' : isServerStarting ? '🟡' : '🟢'}
+                </Box>
+              </Text>
               <InputText
                 type={InputType.EMAIL}
                 defaultValue={loginObj.email}
@@ -127,33 +121,33 @@ const LoginScreen = () => {
                 errorState={false}
               />
             </VStack>
-            <Box textAlign={'right'} color={'gray.500'}>
+            <Box textAlign={'right'} color={'gray.500'} w={'100%'}>
               <Button
                 as={NavLink}
                 size={'sm'}
-                to="/forgot-password"
+                to="/forgot_password"
                 variant="link"
                 colorScheme="blue"
               >
                 {t('Account.forgotPassword')}
               </Button>
-            </Box>
-            <Button type="submit" width={'100%'} colorScheme="blue">
-              {t('LoginScreen.loginButton')}
-            </Button>
-            <Box mt={4} textAlign={'center'}>
-              {t('Account.noAccountText')}
               <Button
-                as={NavLink}
-                to="/signup"
-                variant="link"
+                width={'100%'}
                 colorScheme="blue"
+                isDisabled={isServerStarting || isServerHasError}
+                onClick={submitForm}
               >
-                {t('Account.register')}
+                {t('LoginScreen.loginButton')}
               </Button>
             </Box>
-          </form>
-        </Box>
+          </VStack>
+          <Box mt={4} textAlign={'center'}>
+            {t('Account.noAccountText')}
+            <Button as={NavLink} to="/signup" variant="link" colorScheme="blue">
+              {t('Account.register')}
+            </Button>
+          </Box>
+        </VStack>
       </HStack>
     </TitleBoxContainer>
   );

@@ -9,6 +9,7 @@ import {
   LazyComponentProvider,
   LazyForgotPasswordScreenComponent,
   LazyLoginScreenComponent,
+  LazyResetPasswordScreenComponent,
   LazySignupScreenComponent,
 } from '@provider';
 
@@ -19,8 +20,12 @@ export const publicRouter = createBrowserRouter(
       <Route path="login" element={<LazyLoginScreenComponent />} />
       <Route path="signup" element={<LazySignupScreenComponent />} />
       <Route
-        path="forgot-password"
+        path="forgot_password"
         element={<LazyForgotPasswordScreenComponent />}
+      />
+      <Route
+        path="reset_password"
+        element={<LazyResetPasswordScreenComponent />}
       />
       <Route path="*" element={<Navigate to="/login" replace />} />
     </Route>,

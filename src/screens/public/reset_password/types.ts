@@ -1,9 +1,7 @@
 /**
  * Interface for the login credentials.
  */
-export type SignUpCred = {
-  name: string;
-  email: string;
+export type ResetPasswordCred = {
   password: string;
   confirmPassword: string;
 };

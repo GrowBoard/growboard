@@ -1,6 +1,7 @@
 import { PostRequest } from '../../client/client';
-import { LOGIN_URL } from './constants';
+import { RESET_PASSWORD_URL } from './constants';
 
-const loginUser = async (data: object) => PostRequest(LOGIN_URL, data);
+const resetPassword = async (data: object) =>
+  PostRequest(RESET_PASSWORD_URL, data);
 
-export default loginUser;
+export default resetPassword;

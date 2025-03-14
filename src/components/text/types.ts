@@ -22,6 +22,7 @@ export type InputTextProps = {
   containerStyle?: string;
   defaultValue?: string;
   placeholder?: string;
+  icon?: React.ReactNode;
   updateFormValue: (args: { updateType: string; value: string }) => void;
   updateType: string;
   errorState?: boolean;

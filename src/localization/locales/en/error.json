@@ -9,9 +9,9 @@
     "emailNotValid": "Email Id is not valid!"
   },
   "SignUpError": {
-    "firstNameRequired": "First name is required! (use any value)",
-    "lastNameRequired": "Last name is required! (use any value)",
-    "emailRequired": "Email Id is required! (use any value)",
-    "passwordRequired": "Password is required! (use any value)"
+    "nameRequired": "Name required!",
+    "emailRequired": "Email Id required!",
+    "passwordRequired": "Password required!",
+    "passwordMismatch": "Password and confirm password do not match!"
   }
 }

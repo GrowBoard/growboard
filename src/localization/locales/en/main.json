@@ -7,6 +7,12 @@
     "successfulAlert": "Sign up successful! Please verify the email to login."
   },
 
+  "ResetPassword": {
+    "title": "Reset Password",
+    "resetButton": "Reset Password",
+    "successfulAlert": "Password reset successful! Please login with new password."
+  },
+
   "LoginScreen": {
     "title": "Login",
     "loginButton": "Login"

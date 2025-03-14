@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useSearchParams } from 'react-router-dom';
 import {
   InputText,
   InputType,
@@ -8,11 +8,11 @@ import {
   useErrorToast,
 } from '@components';
 import { useTranslation } from 'react-i18next';
-import { SignUpCred } from './types';
+import { ResetPasswordCred } from './types';
 import { validatePassword } from '../../../util/input/Input';
 
 import { HStack, Box, VStack, Button, Text } from '@chakra-ui/react';
-import { usePingTest, useRegisterUser } from '@services';
+import { usePingTest, useResetPasswordFp } from '@services';
 
 /**
  * Prop types for the update form value function.
@@ -23,19 +23,20 @@ interface UpdateProps {
 }
 
 /**
- * Component definition for the register screen.
+ * Component definition for the reset password screen.
  *
- * @returns The Register component.
+ * @returns The Reset password screen.
  */
-const Register = () => {
+const ResetPassword = () => {
   const { t } = useTranslation();
   const toast = useErrorToast();
-  const { mutate, isPending } = useRegisterUser();
+  const { mutate, isPending } = useResetPasswordFp();
+  const [searchParams] = useSearchParams();
+  const user_id = searchParams.get('u'); // "testCode"
+
   const { isLoading: isServerStarting, isError: isServerHasError } =
     usePingTest();
-  const INITIAL_REGISTER_OBJ: SignUpCred = {
-    name: '',
-    email: '',
+  const INITIAL_REGISTER_OBJ: ResetPasswordCred = {
     password: '',
     confirmPassword: '',
   };
@@ -44,15 +45,10 @@ const Register = () => {
 
   const submitForm = (e: any) => {
     e.preventDefault();
+    if (user_id === null) {
+      return;
+    }
 
-    if (registerObj.name.trim() === '') {
-      toast('SignUpError.nameRequired');
-      return;
-    }
-    if (registerObj.email.trim() === '') {
-      toast('SignUpError.emailRequired');
-      return;
-    }
     if (
       registerObj.password.trim() === '' ||
       registerObj.confirmPassword.trim() === ''
@@ -64,7 +60,7 @@ const Register = () => {
       toast('SignUpError.passwordMismatch');
     }
 
-    mutate(registerObj);
+    mutate({ ...registerObj, user_id: user_id });
   };
 
   const updateFormValue = ({ updateType, value }: UpdateProps) => {
@@ -111,25 +107,11 @@ const Register = () => {
                 fontWeight={'bold'}
                 color={'gray.900'}
               >
-                {t('SignUpScreen.title')}{' '}
+                {t('ResetPassword.title')}{' '}
                 <Box as="span" animation="pulse 1s infinite">
                   {isServerHasError ? '🔴' : isServerStarting ? '🟡' : '🟢'}
                 </Box>
               </Text>
-              <InputText
-                defaultValue={registerObj.name}
-                updateType="name"
-                containerStyle="mt-4"
-                labelTitle={t('Account.input.name')}
-                updateFormValue={updateFormValue}
-              />
-              <InputText
-                defaultValue={registerObj.email}
-                updateType="email"
-                containerStyle="mt-2"
-                labelTitle={t('Account.input.email')}
-                updateFormValue={updateFormValue}
-              />
               <InputText
                 defaultValue={registerObj.password}
                 updateType="password"
@@ -151,7 +133,7 @@ const Register = () => {
               <Button
                 as={NavLink}
                 size={'sm'}
-                to="/forgot_password"
+                to="/forgot-password"
                 variant="link"
                 colorScheme="blue"
               >
@@ -164,7 +146,7 @@ const Register = () => {
                 isLoading={isPending}
                 isDisabled={isServerStarting || isServerHasError || isPending}
               >
-                {t('SignUpScreen.registerButton')}
+                {t('ResetPassword.resetButton')}
               </Button>
             </Box>
           </VStack>
@@ -181,4 +163,4 @@ const Register = () => {
 };
 
 // Export the Register component.
-export default Register;
+export default ResetPassword;
