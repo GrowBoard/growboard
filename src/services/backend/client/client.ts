@@ -1,8 +1,13 @@
 import axios from 'axios';
 import { GROWBOARD_BACKEND_URL } from '../requests/constants';
+import { appStore } from '@store';
 
 const instance = axios.create({
   baseURL: GROWBOARD_BACKEND_URL,
+  // withCredentials: true,
+  headers: {
+    Authorization: `Bearer ${appStore.getState().Auth.authToken}`,
+  },
 });
 
 export const GetRequest = async (url: string) => {

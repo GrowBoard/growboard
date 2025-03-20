@@ -1,8 +1,10 @@
-import { Outlet } from 'react-router-dom';
 import { useState } from 'react';
+import { Outlet } from 'react-router-dom';
+
 import { NavigationComponent, SidebarComponent } from '@components';
 import { appStore } from '@store';
 import { removeAuthDataSelector, useShallow } from '@selectors';
+import { Box } from '@chakra-ui/react';
 
 const MainRootScreen = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -13,30 +15,28 @@ const MainRootScreen = () => {
     setSidebarOpen((prev) => !prev);
   };
   return (
-    <div className="flex flex-col h-screen -z-10">
-      <div className="z-10">
+    <Box h={'100vh'} className="flex flex-col">
+      <Box zIndex={10}>
         <NavigationComponent
           logOutClickHandler={logOutClickHandler}
           openSidebarClickHandler={openSidebarClickHandler}
         />
-      </div>
-      <div className=" flex flex-wrap h-[92%] w-full">
-        <div
-          className={`${
-            sidebarOpen ? 'w-1/6' : 'w-[5%]'
-          } h-full border-r border-primary bg-base-200`}
+      </Box>
+      <Box h={'92%'} w={'100%'} display={'flex'} flexWrap={'wrap'}>
+        <Box
+          w={sidebarOpen ? '1/6' : '5%'}
+          h={'full'}
+          borderRight={'1px'}
+          borderRightColor={'blue-500'}
+          bg={'base-200'}
         >
           <SidebarComponent sideBarOpen={sidebarOpen} />
-        </div>
-        <div
-          className={`${
-            sidebarOpen ? 'w-5/6' : 'w-[95%]'
-          } h-full p-4 drop-shadow-lg`}
-        >
+        </Box>
+        <Box w={sidebarOpen ? '5/6' : '95%'} h={'full'} p={1}>
           <Outlet />
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 

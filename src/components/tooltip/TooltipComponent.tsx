@@ -1,20 +1,11 @@
+import { Tooltip } from '@chakra-ui/react';
 import { TooltipComponentProps } from './types';
 
-const TooltipComponent = ({
-  disable,
-  title,
-  children,
-  position,
-}: TooltipComponentProps) => {
-  const show = disable !== null && disable === true ? false : true;
-  const positionData = position || 'tooltip-top';
+const TooltipComponent = ({ title, children }: TooltipComponentProps) => {
   return (
-    <div
-      className={`${show ? ' tooltip' : ''} ${positionData}`}
-      data-tip={title}
-    >
+    <Tooltip label={title} hasArrow placement="top">
       {children}
-    </div>
+    </Tooltip>
   );
 };
 

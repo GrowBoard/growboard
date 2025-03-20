@@ -24,9 +24,9 @@ export const privateRouter = createBrowserRouter(
     <Route path="/" element={<LazyHomeScreenComponent />}>
       <Route path="" element={<Navigate to="dashboard" replace />} />
       <Route path="dashboard" element={<LazyDashboardScreenComponent />} />
+      {ExpensesRoutes}
       {ProjectRoutes}
       {PlanRoutes}
-      {ExpensesRoutes}
       {GoalsRoutes}
       {ResourceRoutes}
       {LearningRoutes}

@@ -21,6 +21,7 @@ import {
   SidebarIconType,
 } from './types';
 import { useTranslation } from 'react-i18next';
+import { Box } from '@chakra-ui/react';
 
 /**
  * Gets the icon for the sidebar.
@@ -61,9 +62,13 @@ const SidebarIcon = ({ icon }: SidebarIconProps) => {
 function SidebarComponent(props: SidebarComponentProps) {
   const { t } = useTranslation();
   return (
-    <div className=" flex-col text-base-content flex justify-between h-[95%]">
+    <Box
+      display={'flex'}
+      flexDirection={'column'}
+      justifyContent={'space-between'}
+      h={'95%'}
+    >
       <ul className="menu p-2 w-full ">
-        {/* Sidebar content here */}
         {SidebarRoutes.map((route, index) => {
           return (
             <TooltipComponent
@@ -107,7 +112,7 @@ function SidebarComponent(props: SidebarComponentProps) {
           </li>
         </TooltipComponent>
       </ul>
-    </div>
+    </Box>
   );
 }
 
