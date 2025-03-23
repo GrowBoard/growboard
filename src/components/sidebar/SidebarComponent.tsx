@@ -15,12 +15,9 @@ import TooltipComponent from '../tooltip/TooltipComponent';
 // ----------------------------------------------
 import { ProfileRoutes, SidebarRoutes } from '@router/sidebarRoutes';
 // ----------------------------------------------
-import {
-  SidebarComponentProps,
-  SidebarIconProps,
-  SidebarIconType,
-} from './types';
+import { SidebarIconProps, SidebarIconType } from './types';
 import { useTranslation } from 'react-i18next';
+import { Box } from '@chakra-ui/react';
 
 /**
  * Gets the icon for the sidebar.
@@ -58,19 +55,22 @@ const SidebarIcon = ({ icon }: SidebarIconProps) => {
  * @param props  The sidebar component props.
  * @returns The sidebar component.
  */
-function SidebarComponent(props: SidebarComponentProps) {
+function SidebarComponent() {
   const { t } = useTranslation();
   return (
-    <div className=" flex-col text-base-content flex justify-between h-[95%]">
+    <Box
+      display={'flex'}
+      flexDirection={'column'}
+      justifyContent={'space-between'}
+      h={'95%'}
+    >
       <ul className="menu p-2 w-full ">
-        {/* Sidebar content here */}
         {SidebarRoutes.map((route, index) => {
           return (
             <TooltipComponent
               key={index}
               title={t(route.nameKey)}
               position="tooltip-right"
-              disable={props.sideBarOpen}
             >
               <li className="mt-2" key={index}>
                 <NavLink
@@ -81,7 +81,6 @@ function SidebarComponent(props: SidebarComponentProps) {
                   }
                 >
                   <SidebarIcon icon={route.iconName as SidebarIconType} />
-                  {props.sideBarOpen ? t(route.nameKey) : ''}
                 </NavLink>
               </li>
             </TooltipComponent>
@@ -92,7 +91,6 @@ function SidebarComponent(props: SidebarComponentProps) {
         <TooltipComponent
           title={t(ProfileRoutes.nameKey)}
           position="tooltip-right"
-          disable={props.sideBarOpen}
         >
           <li className="mt-2">
             <NavLink
@@ -102,12 +100,11 @@ function SidebarComponent(props: SidebarComponentProps) {
               }
             >
               <SidebarIcon icon={ProfileRoutes.iconName as SidebarIconType} />
-              {props.sideBarOpen ? t(ProfileRoutes.nameKey) : ''}
             </NavLink>
           </li>
         </TooltipComponent>
       </ul>
-    </div>
+    </Box>
   );
 }
 

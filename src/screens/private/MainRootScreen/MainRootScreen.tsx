@@ -1,42 +1,57 @@
 import { Outlet } from 'react-router-dom';
-import { useState } from 'react';
-import { NavigationComponent, SidebarComponent } from '@components';
+
+import {
+  NavigationComponent,
+  PageLoadingComponent,
+  SidebarComponent,
+} from '@components';
 import { appStore } from '@store';
-import { removeAuthDataSelector, useShallow } from '@selectors';
+import {
+  authTokenSelector,
+  removeAuthDataSelector,
+  useShallow,
+} from '@selectors';
+import { Box } from '@chakra-ui/react';
+import { useAuthCheckTest } from '@services/hooks/private';
 
 const MainRootScreen = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { data, isPending, isError } = useAuthCheckTest();
   const removeAuthData = appStore(useShallow(removeAuthDataSelector));
-  const logOutClickHandler = removeAuthData;
+  const authToken = appStore(useShallow(authTokenSelector));
 
-  const openSidebarClickHandler = () => {
-    setSidebarOpen((prev) => !prev);
-  };
+  if (isPending || isError) {
+    return <PageLoadingComponent />;
+  }
+
+  if (data?.status === 'ERROR' || !authToken) {
+    removeAuthData();
+    return <PageLoadingComponent />;
+  }
+
+  const logOutClickHandler = removeAuthData;
   return (
-    <div className="flex flex-col h-screen -z-10">
-      <div className="z-10">
-        <NavigationComponent
-          logOutClickHandler={logOutClickHandler}
-          openSidebarClickHandler={openSidebarClickHandler}
-        />
-      </div>
-      <div className=" flex flex-wrap h-[92%] w-full">
-        <div
-          className={`${
-            sidebarOpen ? 'w-1/6' : 'w-[5%]'
-          } h-full border-r border-primary bg-base-200`}
+    <Box minH={'100vh'} w={'100%'}>
+      <NavigationComponent
+        logOutClickHandler={logOutClickHandler}
+        openSidebarClickHandler={() => {}}
+      />
+      <Box h={'92%'} w={'100%'} display={'flex'} flexWrap={'wrap'}>
+        <Box
+          w={'100'}
+          height={'93vh'}
+          borderRight={'1px'}
+          borderRightColor={'blue-500'}
+          bg={'base-200'}
+          pos={'sticky'}
+          top={'7%'}
         >
-          <SidebarComponent sideBarOpen={sidebarOpen} />
-        </div>
-        <div
-          className={`${
-            sidebarOpen ? 'w-5/6' : 'w-[95%]'
-          } h-full p-4 drop-shadow-lg`}
-        >
+          <SidebarComponent />
+        </Box>
+        <Box flex={1} h={'full'} p={1}>
           <Outlet />
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 

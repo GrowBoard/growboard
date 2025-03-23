@@ -1,2 +1,2 @@
 export { default as PieChart } from './PieChart';
-export type { PieChartProps } from './PieChart';
+export { PIE_CHART_DATA } from './constants';

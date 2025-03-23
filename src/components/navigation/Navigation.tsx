@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
-import NavigationToggleButton from './NavigationToggleButton';
 import {
   ProfilePlaceholder,
   ProfileIcon,
@@ -12,7 +11,7 @@ import { NavigationComponentProps } from './types';
 
 import { profileSelector, useShallow } from '@selectors';
 import { appStore } from '@store';
-import { useColorMode } from '@chakra-ui/react';
+import { Box, Button, HStack, useColorMode } from '@chakra-ui/react';
 
 /**
  * Navigation component.
@@ -26,8 +25,19 @@ const NavigationComponent = (props: NavigationComponentProps) => {
   const { profileData: profileState } = appStore(useShallow(profileSelector));
 
   return (
-    <div className="navbar bg-base-300 h-[9%]">
-      <div className="flex-none">
+    <Box
+      bgColor={'blue.100'}
+      display={'flex'}
+      justifyContent={'space-between'}
+      alignItems={'center'}
+      paddingX={2}
+      h={'7%'}
+      pos={'sticky'}
+      top={0}
+      zIndex={10}
+      px={4}
+    >
+      {/* <div className="flex-none">
         <button
           className="btn btn-square btn-ghost"
           onClick={props.openSidebarClickHandler}
@@ -36,17 +46,23 @@ const NavigationComponent = (props: NavigationComponentProps) => {
             openSidebarClickHandler={props.openSidebarClickHandler}
           />
         </button>
-      </div>
-      <div className="flex-1">
-        <NavLink className="btn btn-ghost text-xl" to={''}>
+      </div> */}
+      <Box className="flex-1">
+        <Button
+          as={NavLink}
+          to={''}
+          variant={'outline'}
+          colorScheme={'blue'}
+          borderColor={'blue.200'}
+        >
           <img
             src={require('../../assets/images/logo-no-bg.png')}
             className=" w-36 inline-block"
             alt="Dashwave-logo"
           />
-        </NavLink>
-      </div>
-      <div className="flex-none">
+        </Button>
+      </Box>
+      <HStack spacing={2} h={'100%'} alignItems={'center'}>
         <div className="px-2">
           <input
             checked={colorMode === 'dark'}
@@ -117,8 +133,8 @@ const NavigationComponent = (props: NavigationComponentProps) => {
             </li>
           </ul>
         </div>
-      </div>
-    </div>
+      </HStack>
+    </Box>
   );
 };
 
