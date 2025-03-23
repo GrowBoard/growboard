@@ -1,10 +1,4 @@
-import { useState } from 'react';
-import {
-  NotificationButton,
-  NotificationButtonType,
-  PageLoadingComponent,
-  TitleCard,
-} from '@components';
+import { PageLoadingComponent, TitleCard } from '@components';
 
 import {
   FacebookIcon,
@@ -16,7 +10,7 @@ import {
 } from '@assets';
 import { InputText, InputType } from '@components';
 import { appStore } from '@store';
-import { notificationSelector, profileSelector, useShallow } from '@selectors';
+import { profileSelector, useShallow } from '@selectors';
 
 /**
  * Type definition for the update form value.
@@ -31,42 +25,19 @@ interface UpdateFormValue {
  * @returns The ProfileSettingScreen component.
  */
 function ProfileSettingScreen() {
-  const { showNotification } = appStore(useShallow(notificationSelector));
   const { profileData, updateProfile } = appStore(useShallow(profileSelector));
-  const [loading, setLoading] = useState(false);
-
-  const updateProfileHandler = () => {
-    setLoading(true);
-    setLoading(false);
-  };
 
   const updateFormValue = ({ updateType, value }: UpdateFormValue) => {
     updateProfile({ ...profileData, [updateType]: value });
   };
 
-  const TopSideButton = () => {
-    return (
-      <NotificationButton
-        buttonText={'Update'}
-        buttonType={NotificationButtonType.INFO}
-        isButtonOutline={true}
-        onClickHandler={() => {
-          showNotification({
-            title: 'Profile Update',
-            description: 'Are you sure you want to update your profile?',
-            onConfirm: updateProfileHandler,
-          });
-        }}
-      />
-    );
-  };
   return (
     <div className="m-2 overflow-scroll">
-      {loading && <PageLoadingComponent />}
+      {false && <PageLoadingComponent />}
       <TitleCard
         title="Profile Settings"
         topMargin="mt-2"
-        TopSideButtons={<TopSideButton />}
+        TopSideButtons={<></>}
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <InputText
@@ -166,9 +137,6 @@ function ProfileSettingScreen() {
               updateFormValue={updateFormValue}
             />
           </div>
-        </div>
-        <div className="flex justify-end">
-          <TopSideButton />
         </div>
       </TitleCard>
     </div>

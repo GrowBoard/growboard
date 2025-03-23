@@ -3,12 +3,10 @@ import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
 import {
-  createThemeSlice,
   createAlertSlice,
   createAuthSlice,
   createProjectsSlice,
   createImageModalSlice,
-  createNotificationSlice,
   createExpenseSlice,
 } from '@store/slice';
 import { createJSONStorage, persist } from 'zustand/middleware';
@@ -19,13 +17,11 @@ import { createProfileSlice } from '../slice/User';
 export const appStore = create<AppStoreState>()(
   persist(
     immer((...api) => ({
-      Theme: createThemeSlice(...api),
       Alert: createAlertSlice(...api),
       Auth: createAuthSlice(...api),
       Expense: createExpenseSlice(...api),
       Projects: createProjectsSlice(...api),
       ImageModal: createImageModalSlice(...api),
-      Notification: createNotificationSlice(...api),
       Profile: createProfileSlice(...api),
     })),
     {
