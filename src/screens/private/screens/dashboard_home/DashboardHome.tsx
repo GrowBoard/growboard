@@ -1,23 +1,9 @@
-import { NotificationButton, NotificationButtonType } from '@components';
-import { NotificationData, appStore } from '@store';
-import { notificationSelector, useShallow } from '@selectors';
-
 /**
  * Component definition for the dashboard home component.
  * @param props The props for the dashboard home component.
  * @returns The dashboard home component.
  */
 function DashboardHome() {
-  const { showNotification } = appStore(useShallow(notificationSelector));
-  const notificationData: NotificationData = {
-    title: 'Notification',
-    description: 'This is a notification data',
-  };
-
-  const clickHandler = () => {
-    showNotification(notificationData);
-  };
-
   return (
     <div className="p-2">
       <div className="card shadow-lg compact side bg-base-100">
@@ -27,14 +13,7 @@ function DashboardHome() {
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
             necessitatibus incidunt ut officiis explicabo inventore.
           </p>
-          <div className="justify-end card-actions">
-            <NotificationButton
-              buttonText="Notification"
-              onClickHandler={clickHandler}
-              buttonType={NotificationButtonType.SUCCESS}
-              isButtonOutline={true}
-            />
-          </div>
+          <div className="justify-end card-actions"></div>
         </div>
       </div>
     </div>
