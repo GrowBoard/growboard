@@ -1,38 +1,53 @@
-import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
-import { NavigationComponent, SidebarComponent } from '@components';
+import {
+  NavigationComponent,
+  PageLoadingComponent,
+  SidebarComponent,
+} from '@components';
 import { appStore } from '@store';
-import { removeAuthDataSelector, useShallow } from '@selectors';
+import {
+  authTokenSelector,
+  removeAuthDataSelector,
+  useShallow,
+} from '@selectors';
 import { Box } from '@chakra-ui/react';
+import { useAuthCheckTest } from '@services/hooks/private';
 
 const MainRootScreen = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { data, isPending, isError } = useAuthCheckTest();
   const removeAuthData = appStore(useShallow(removeAuthDataSelector));
-  const logOutClickHandler = removeAuthData;
+  const authToken = appStore(useShallow(authTokenSelector));
 
-  const openSidebarClickHandler = () => {
-    setSidebarOpen((prev) => !prev);
-  };
+  if (isPending || isError) {
+    return <PageLoadingComponent />;
+  }
+
+  if (data?.status === 'ERROR' || !authToken) {
+    removeAuthData();
+    return <PageLoadingComponent />;
+  }
+
+  const logOutClickHandler = removeAuthData;
   return (
-    <Box h={'100vh'} className="flex flex-col">
-      <Box zIndex={10}>
-        <NavigationComponent
-          logOutClickHandler={logOutClickHandler}
-          openSidebarClickHandler={openSidebarClickHandler}
-        />
-      </Box>
+    <Box minH={'100vh'} w={'100%'}>
+      <NavigationComponent
+        logOutClickHandler={logOutClickHandler}
+        openSidebarClickHandler={() => {}}
+      />
       <Box h={'92%'} w={'100%'} display={'flex'} flexWrap={'wrap'}>
         <Box
-          w={sidebarOpen ? '1/6' : '5%'}
-          h={'full'}
+          w={'100'}
+          height={'93vh'}
           borderRight={'1px'}
           borderRightColor={'blue-500'}
           bg={'base-200'}
+          pos={'sticky'}
+          top={'7%'}
         >
-          <SidebarComponent sideBarOpen={sidebarOpen} />
+          <SidebarComponent />
         </Box>
-        <Box w={sidebarOpen ? '5/6' : '95%'} h={'full'} p={1}>
+        <Box flex={1} h={'full'} p={1}>
           <Outlet />
         </Box>
       </Box>

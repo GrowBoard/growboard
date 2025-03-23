@@ -15,10 +15,20 @@ const DateInput = ({
     <InputGroup w={'100%'}>
       <InputLeftElement
         width={'20%'}
-        borderRight={'1px'}
+        backgroundColor={'blue.200'}
+        borderLeftRadius={5}
+        border={'1px solid rgba(0, 0, 0, 0.3)'}
         pointerEvents="none"
+        borderRightColor={'transparent'}
+        pl={2}
         children={
-          <Text width={20} fontSize={'sm'} textAlign={'center'}>
+          <Text
+            w={'100%'}
+            fontSize={'md'}
+            fontWeight={'semibold'}
+            bg={'blue.200'}
+            textAlign={'start'}
+          >
             {text}
           </Text>
         }

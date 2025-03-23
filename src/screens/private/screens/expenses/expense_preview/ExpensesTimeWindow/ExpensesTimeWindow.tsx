@@ -1,11 +1,15 @@
-import { VStack, HStack, Button, Text } from '@chakra-ui/react';
+import { VStack, HStack, Button, Text, Divider } from '@chakra-ui/react';
 import { TimeWindowComponent, DateInput } from './sub_components';
-import { TimeWindow } from '../types';
-import { useState, useMemo, useEffect } from 'react';
-import { getPrevDate, getNextDate } from '../utils';
+import { useState, useMemo, useCallback } from 'react';
+import { getPrevDate, getNextDate, getStartAndEndDate } from './utils';
+import { getWindowString } from './utils';
+import { appStore, TimeWindow } from '@store';
+import { timeWindowSelector, useShallow } from '@selectors';
+
+const date = new Date();
 
 const ExpensesTimeWindow = () => {
-  const date = new Date();
+  const timeWindow = appStore(useShallow(timeWindowSelector));
   const [{ day, month, year }, setDate] = useState({
     day: date.getDate(),
     month: date.getMonth(),
@@ -13,40 +17,23 @@ const ExpensesTimeWindow = () => {
   });
   const today = date.toISOString().split('T')[0];
 
-  const [timeWindow, setTimeWindow] = useState<TimeWindow>(TimeWindow.MONTH);
-  const { startDate, endDate } = useMemo(
-    () => ({
-      startDate:
-        month <= 9 ? `${year}-0${month + 1}-01` : `${year}-${month}-01`,
-      endDate: today,
-    }),
-    [month, today, year],
-  );
-  console.log(startDate);
   const onLeftClick = () => setDate((prev) => getPrevDate(timeWindow, prev));
 
   const onRightClick = () => setDate((prev) => getNextDate(timeWindow, prev));
 
-  const getWindowString = (window: TimeWindow) => {
-    switch (window) {
-      case TimeWindow.DAY:
-        return (
-          day.toString() +
-          new Date(month).toLocaleString('default', { month: 'long' })
-        );
-      case TimeWindow.MONTH:
-        return date.toLocaleString('default', { month: 'long' });
-      case TimeWindow.YEAR:
-        return year.toString();
-    }
-  };
+  const { startDate, endDate } = useMemo(
+    () => getStartAndEndDate(timeWindow, { day, month, year }),
+    [timeWindow, day, month, year],
+  );
 
-  useEffect(() => {
+  const onTimeWindowChange = useCallback((timeWindow: TimeWindow) => {
     switch (timeWindow) {
       case TimeWindow.DAY:
         setDate((prev) => ({
           ...prev,
-          day: prev.day - 1,
+          day: date.getDate(),
+          month: date.getMonth(),
+          year: date.getFullYear(),
         }));
         break;
       case TimeWindow.MONTH:
@@ -64,39 +51,89 @@ const ExpensesTimeWindow = () => {
         });
         break;
     }
-  }, [date, timeWindow]);
+  }, []);
 
   return (
     <VStack
-      w={'40%'}
+      flex={1}
+      w={'100%'}
       alignItems={'start'}
       paddingX={2}
       borderRadius={10}
-      p={3}
+      p={2}
       shadow={'0px 0px 10px rgba(0, 0, 0, 0.25)'}
     >
       <Text fontSize={'md'} fontWeight={'semibold'} textAlign={'center'}>
         Expense Time Window
       </Text>
-      <HStack w={'100%'} justifyContent={'space-between'}>
-        <Button onClick={onLeftClick}>◀️</Button>
-        <Text>
-          {getWindowString(timeWindow)} {timeWindow}
-        </Text>
-        <Button onClick={onRightClick}>▶️</Button>
+      <HStack w={'100%'} alignItems={'start'}>
+        <HStack
+          w={'50%'}
+          justifyContent={'space-between'}
+          border={'1px solid rgba(0, 0, 0, 0.4)'}
+          borderRadius={5}
+          pr={1}
+        >
+          <Text
+            width={'20%'}
+            fontSize={'md'}
+            p={2}
+            fontWeight={'semibold'}
+            textAlign={'start'}
+            bg={'blue.200'}
+          >
+            Time window
+          </Text>
+          <HStack w={'80%'} justifyContent={'space-between'}>
+            <Button size={'sm'} onClick={onLeftClick}>
+              ◀️
+            </Button>
+            <Text
+              fontSize={'md'}
+              fontWeight={'semibold'}
+              textAlign={'center'}
+              width={'50%'}
+            >
+              {getWindowString(timeWindow, { day, month, year })}
+            </Text>
+            <Button
+              size={'sm'}
+              onClick={onRightClick}
+              isDisabled={
+                (timeWindow === TimeWindow.DAY && date.getDate() === day) ||
+                (timeWindow === TimeWindow.MONTH &&
+                  date.getMonth() === month) ||
+                (timeWindow === TimeWindow.YEAR && date.getFullYear() === year)
+              }
+            >
+              ▶️
+            </Button>
+          </HStack>
+        </HStack>
+        <HStack
+          w={'50%'}
+          pr={1}
+          justifyContent={'space-between'}
+          border={'1px solid rgba(0, 0, 0, 0.4)'}
+          borderRadius={5}
+        >
+          <Text
+            width={'20%'}
+            fontSize={'md'}
+            p={2}
+            fontWeight={'semibold'}
+            textAlign={'start'}
+            bg={'blue.200'}
+          >
+            Time window
+          </Text>
+          <TimeWindowComponent onTimeWindowChange={onTimeWindowChange} />
+        </HStack>
       </HStack>
-      <HStack w={'100%'} justifyContent={'space-between'}>
-        <Text fontSize={'md'} fontWeight={'semibold'} textAlign={'center'}>
-          Time Period
-        </Text>
-        <TimeWindowComponent
-          timeWindow={timeWindow}
-          setTimeWindow={setTimeWindow}
-        />
-      </HStack>
-      <HStack w={'100%'} justifyContent={'space-between'}>
+      <Divider />
+      <HStack width={'100%'}>
         <DateInput
-          text={'Start Date'}
+          text={'Start date'}
           value={startDate}
           maxValue={endDate}
           setValue={(value) =>
@@ -104,7 +141,7 @@ const ExpensesTimeWindow = () => {
           }
         />
         <DateInput
-          text={'End Date'}
+          text={'End date'}
           value={endDate}
           maxValue={today}
           setValue={(value) => setDate((prev) => ({ ...prev, endDate: value }))}

@@ -9,6 +9,7 @@ import {
   createProjectsSlice,
   createImageModalSlice,
   createNotificationSlice,
+  createExpenseSlice,
 } from '@store/slice';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
@@ -21,6 +22,7 @@ export const appStore = create<AppStoreState>()(
       Theme: createThemeSlice(...api),
       Alert: createAlertSlice(...api),
       Auth: createAuthSlice(...api),
+      Expense: createExpenseSlice(...api),
       Projects: createProjectsSlice(...api),
       ImageModal: createImageModalSlice(...api),
       Notification: createNotificationSlice(...api),

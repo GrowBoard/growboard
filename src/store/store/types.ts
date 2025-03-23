@@ -7,6 +7,7 @@ import {
   ImageModalStateSlice,
   NotificationStateSlice,
   ProfileStateSlice,
+  ExpenseStateSlice,
 } from '@store/slice';
 import {} from '../slice/User/types';
 
@@ -15,6 +16,7 @@ export interface AppStoreState {
   Alert: AlertStateSlice;
   Auth: AuthStateSlice;
   Projects: ProjectStateSlice;
+  Expense: ExpenseStateSlice;
   ImageModal: ImageModalStateSlice;
   Notification: NotificationStateSlice;
   Profile: ProfileStateSlice;

@@ -1,7 +1,3 @@
-export type SidebarComponentProps = {
-  sideBarOpen: boolean;
-};
-
 export type SidebarIconProps = {
   icon: SidebarIconType;
 };

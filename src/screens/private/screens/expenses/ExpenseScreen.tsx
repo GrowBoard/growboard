@@ -19,7 +19,7 @@ const ExpenseScreen = () => {
           {getSubNavTitle(currentLocation.pathname)}
         </Box>
       </Box>
-      <Box className="overflow-scroll h-[90%]">
+      <Box className="overflow-scroll">
         <Outlet />
       </Box>
     </Box>
