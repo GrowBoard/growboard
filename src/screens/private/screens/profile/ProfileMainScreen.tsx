@@ -4,11 +4,6 @@ import { ProfileIcon, PasswordResetIcon, SettingsIcon } from '@assets';
 import { TooltipComponent } from '@components';
 
 /**
- * Props for the ProfileMainScreen component.
- */
-interface IProfileMainScreenProps {}
-
-/**
  * Profile screen routes.
  */
 const ProfileRoutes = [
@@ -22,7 +17,7 @@ const ProfileRoutes = [
  * @param props The props for the profile screen component.
  * @returns The profile screen component.
  */
-function ProfileMainScreen(props: IProfileMainScreenProps) {
+function ProfileMainScreen() {
   const currentLocation = useLocation();
   return (
     <div className="h-full">
@@ -49,4 +44,3 @@ function ProfileMainScreen(props: IProfileMainScreenProps) {
 
 // Export the profile screen component.
 export default ProfileMainScreen;
-export type { IProfileMainScreenProps };

@@ -58,7 +58,7 @@ const ExpensesTimeWindow = () => {
           break;
       }
     },
-    [date],
+    [date, dateState, setOverviewInputWithDay],
   );
 
   return (

@@ -1,11 +1,6 @@
 /**
- * Goals edit props.
- */
-export interface IGoalsEditProps {}
-
-/**
  * Goals edit component.
  */
-export default function GoalsEdit(props: IGoalsEditProps) {
+export default function GoalsEdit() {
   return <div>Goals Edit</div>;
 }

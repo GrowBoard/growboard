@@ -6,16 +6,11 @@ import { appStore } from '@store';
 import { projectsSelector, useShallow } from '@selectors';
 
 /**
- * Interface definition for the project edit screen props.
- */
-interface IProjectEditScreenProps {}
-
-/**
  * Component definition for the project edit screen.
  * @param props The props for the project edit screen.
  * @returns The ProjectEditScreen component.
  */
-function ProjectAddScreen(props: IProjectEditScreenProps) {
+function ProjectAddScreen() {
   const { projectData } = appStore(useShallow(projectsSelector));
   const initialProjectId = projectData[0].projectId;
   const [selectedProjectId, setSelectedProjectId] =
@@ -72,4 +67,3 @@ function ProjectAddScreen(props: IProjectEditScreenProps) {
 
 // Exports for the ProjectEditScreen component.
 export default ProjectAddScreen;
-export type { IProjectEditScreenProps };

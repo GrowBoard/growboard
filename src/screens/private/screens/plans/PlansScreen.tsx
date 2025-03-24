@@ -4,11 +4,6 @@ import getSubNavTitle from '../../../../util/nav/NavTitle';
 import { OverviewIcon, DeleteIcon, AddIcon, EditIcon } from '@assets';
 
 /**
- * Props for the PlansScreen component.
- */
-interface IPlansScreenProps {}
-
-/**
  * Plans screen routes.
  */
 const PlansRoutes = [
@@ -23,7 +18,7 @@ const PlansRoutes = [
  * @param props The props for the plans screen component.
  * @returns The plans screen component.
  */
-function PlansScreen(props: IPlansScreenProps) {
+function PlansScreen() {
   const currentLocation = useLocation();
   return (
     <div className="h-full">
@@ -50,4 +45,3 @@ function PlansScreen(props: IPlansScreenProps) {
 
 // Export the PlansScreen component.
 export default PlansScreen;
-export type { IPlansScreenProps };

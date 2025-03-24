@@ -4,11 +4,6 @@ import getSubNavTitle from '../../../../util/nav/NavTitle';
 import { OverviewIcon, DeleteIcon, AddIcon, EditIcon } from '@assets';
 
 /**
- * Props for the GoalsScreen component.
- */
-interface IGoalsScreenProps {}
-
-/**
  * Goals screen routes.
  */
 const GoalsRoutes = [
@@ -23,7 +18,7 @@ const GoalsRoutes = [
  * @param props The props for the goals screen component.
  * @returns The goals screen component.
  */
-function GoalsScreen(props: IGoalsScreenProps) {
+function GoalsScreen() {
   const currentLocation = useLocation();
   return (
     <div className="h-full">
@@ -50,4 +45,3 @@ function GoalsScreen(props: IGoalsScreenProps) {
 
 // Export the GoalsScreen component.
 export default GoalsScreen;
-export type { IGoalsScreenProps };

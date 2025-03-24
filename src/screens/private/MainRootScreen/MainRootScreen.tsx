@@ -45,7 +45,7 @@ const MainRootScreen = () => {
     <Box minH={'100vh'} w={'100%'}>
       <NavigationComponent
         logOutClickHandler={logOutClickHandler}
-        openSidebarClickHandler={() => {}}
+        openSidebarClickHandler={() => 0}
       />
       <Box h={'92%'} w={'100%'} display={'flex'} flexWrap={'wrap'}>
         <Box
