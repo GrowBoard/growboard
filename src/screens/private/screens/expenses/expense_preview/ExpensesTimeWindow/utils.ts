@@ -1,7 +1,5 @@
-import { TimeWindow } from '@store';
+import { appStore, TimeWindow } from '@store';
 import { join } from 'lodash';
-
-const date = new Date();
 
 export const getWindowString = (
   window: TimeWindow,
@@ -161,6 +159,7 @@ export const getStartAndEndDate = (
 ) => {
   const { day, month: monthIndex, year } = dateData;
   const month = monthIndex + 1;
+  const date = appStore.getState().Expense.date;
   const currentYear = date.getFullYear();
   const currentMonth = date.getMonth() + 1;
   const currentDay = date.getDate();

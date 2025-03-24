@@ -7,24 +7,36 @@ import {
 } from '@components';
 import { appStore } from '@store';
 import {
-  authTokenSelector,
+  isUserLoggedInSelector,
   removeAuthDataSelector,
   useShallow,
 } from '@selectors';
 import { Box } from '@chakra-ui/react';
 import { useAuthCheckTest } from '@services/hooks/private';
+import { useEffect } from 'react';
 
 const MainRootScreen = () => {
-  const { data, isPending, isError } = useAuthCheckTest();
+  const isUserLoggedIn = appStore(useShallow(isUserLoggedInSelector));
   const removeAuthData = appStore(useShallow(removeAuthDataSelector));
-  const authToken = appStore(useShallow(authTokenSelector));
+  const { mutate, isPending } = useAuthCheckTest({
+    onSuccess: (data) => {
+      if (data.status === 'ERROR' && isUserLoggedIn) {
+        removeAuthData();
+      }
+    },
+    onError: (error) => {
+      console.error('error', error);
+      if (isUserLoggedIn) removeAuthData();
+    },
+  });
 
-  if (isPending || isError) {
-    return <PageLoadingComponent />;
-  }
+  useEffect(() => {
+    if (isUserLoggedIn) {
+      mutate({});
+    }
+  }, [isUserLoggedIn, mutate]);
 
-  if (data?.status === 'ERROR' || !authToken) {
-    removeAuthData();
+  if (isPending) {
     return <PageLoadingComponent />;
   }
 

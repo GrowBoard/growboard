@@ -1,5 +1,6 @@
 export {
-  setAuthTokenSelector,
-  authTokenSelector,
+  setAuthSelector,
+  isUserLoggedInSelector,
   removeAuthDataSelector,
+  authNameSelector,
 } from './Auth.selector';

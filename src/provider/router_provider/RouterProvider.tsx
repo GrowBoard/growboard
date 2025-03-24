@@ -1,5 +1,5 @@
 import { privateRouter, publicRouter } from '@router';
-import { authTokenSelector, useShallow } from '@selectors';
+import { isUserLoggedInSelector, useShallow } from '@selectors';
 import { appStore } from '@store';
 import { RouterProvider } from 'react-router-dom';
 
@@ -7,9 +7,9 @@ import { RouterProvider } from 'react-router-dom';
  * Router declaration for the demo app.
  */
 export default function AppRouterProviderComponent() {
-  const authToken = appStore(useShallow(authTokenSelector));
+  const isUserLoggedIn = appStore(useShallow(isUserLoggedInSelector));
 
   return (
-    <RouterProvider router={authToken !== '' ? privateRouter : publicRouter} />
+    <RouterProvider router={isUserLoggedIn ? privateRouter : publicRouter} />
   );
 }

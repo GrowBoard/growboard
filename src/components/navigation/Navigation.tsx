@@ -1,15 +1,15 @@
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 import {
-  ProfilePlaceholder,
   ProfileIcon,
   PasswordResetIcon,
   SettingsIcon,
   LogoutIcon,
+  ProfilePlaceholder,
 } from '@assets';
 import { NavigationComponentProps } from './types';
 
-import { profileSelector, useShallow } from '@selectors';
+import { authNameSelector, useShallow } from '@selectors';
 import { appStore } from '@store';
 import { Box, Button, HStack, useColorMode } from '@chakra-ui/react';
 
@@ -22,7 +22,7 @@ import { Box, Button, HStack, useColorMode } from '@chakra-ui/react';
 const NavigationComponent = (props: NavigationComponentProps) => {
   const { t } = useTranslation();
   const { colorMode, toggleColorMode } = useColorMode();
-  const { profileData: profileState } = appStore(useShallow(profileSelector));
+  const name = appStore(useShallow(authNameSelector));
 
   return (
     <Box
@@ -79,14 +79,14 @@ const NavigationComponent = (props: NavigationComponentProps) => {
             className="btn btn-ghost btn-circle avatar"
           >
             <div className="w-10 rounded-full">
-              {profileState.profilePicture === '' ? (
-                <ProfilePlaceholder />
+              <ProfilePlaceholder />
+              {/* {profileState.profilePicture === '' ? (
               ) : (
                 <img
                   alt="Tailwind CSS Navbar component"
                   src={profileState.profilePicture}
                 />
-              )}
+              )} */}
             </div>
           </div>
           <ul
@@ -96,8 +96,7 @@ const NavigationComponent = (props: NavigationComponentProps) => {
             <li className="menu-title">
               <span>
                 {t('ProfileMenuOption.hiText', {
-                  firstName: profileState.firstName,
-                  lastName: profileState.lastName,
+                  name: name,
                 })}
               </span>
             </li>

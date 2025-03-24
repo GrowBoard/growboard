@@ -2,11 +2,11 @@ import { useToast } from '@chakra-ui/react';
 import { loginUser } from '../../backend';
 import { useCallSBMutation } from '../common';
 import { appStore } from '@store';
-import { setAuthTokenSelector, useShallow } from '@selectors';
+import { setAuthSelector, useShallow } from '@selectors';
 
 const useLoginUser = () => {
   const toast = useToast();
-  const setAuthToken = appStore(useShallow(setAuthTokenSelector));
+  const setAuthData = appStore(useShallow(setAuthSelector));
   return useCallSBMutation({
     method: (data: { email: string; password: string }) => loginUser(data),
     mutationOptions: {
@@ -17,7 +17,9 @@ const useLoginUser = () => {
           duration: 3000,
           isClosable: true,
         });
-        setAuthToken(data.data.token);
+        console.warn('data', data);
+
+        setAuthData(data.data);
       },
       onError: () => {
         toast({
