@@ -1,13 +1,16 @@
 import { authCheckTest } from '@services/backend';
-import { useCallQuery } from '@services/hooks/common';
-import { UseQueryResult } from '@tanstack/react-query';
+import { useCallSBMutation } from '@services/hooks/common';
+import { MutationOptions } from '@tanstack/react-query';
 
-const useAuthCheckTest = (): UseQueryResult<{ status: string }, Error> => {
-  return useCallQuery({
+const useAuthCheckTest = (
+  options?: MutationOptions<{ status: string }, Error, any, any>,
+) => {
+  return useCallSBMutation({
     method: () => authCheckTest(),
-    queryOptions: {
-      queryKey: ['authCheckTest'],
-      staleTime: 1000 * 60 * 60 * 24,
+    mutationOptions: {
+      retry: 2,
+      retryDelay: 1000,
+      ...options,
     },
   });
 };

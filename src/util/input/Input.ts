@@ -21,5 +21,16 @@ function validatePassword(password: string): boolean {
   return passwordRegex.test(password);
 }
 
+const getISTDate = (args: { day: number; month: number; year: number }) => {
+  const [day, month, year] = new Date(args.year, args.month, args.day)
+    .toLocaleDateString('en-IN', {
+      timeZone: 'Asia/Kolkata',
+    })
+    // added to fix the date format issue with month intial 0
+    .split('/');
+
+  return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+};
+
 // Export the functions
-export { validateEmail, validatePassword };
+export { validateEmail, validatePassword, getISTDate as getIstDate };

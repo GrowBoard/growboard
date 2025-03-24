@@ -1,13 +1,13 @@
 import { forgotPassword } from '../../backend';
 import { useCallSBMutation } from '../common';
 import { appStore } from '@store';
-import { setAuthTokenSelector, useShallow } from '@selectors';
+import { setAuthSelector, useShallow } from '@selectors';
 import { useErrorToast, useSuccessToast } from '@components';
 
 const useForgotPassword = () => {
   const errorToast = useErrorToast();
   const successToast = useSuccessToast();
-  const setAuthToken = appStore(useShallow(setAuthTokenSelector));
+  const setAuthToken = appStore(useShallow(setAuthSelector));
   return useCallSBMutation({
     method: (data: { email: string }) => forgotPassword(data),
     mutationOptions: {

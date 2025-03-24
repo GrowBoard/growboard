@@ -21,7 +21,7 @@ const useGetExpensesData = ({
         end_date,
       }),
     queryOptions: {
-      queryKey: ['start_date' + start_date, 'end_date' + end_date],
+      queryKey: ['start_date_' + start_date, 'end_date_' + end_date],
     },
   });
 };

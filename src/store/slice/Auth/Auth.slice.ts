@@ -2,18 +2,24 @@ import { AppStoreSlice } from '@store';
 import { AuthDataState, AuthStateSlice } from './types';
 
 export const initialState: AuthDataState = {
-  authToken: '',
+  token: '',
+  name: '',
+  email: '',
 };
 
 const createAuthSlice: AppStoreSlice<AuthStateSlice> = (set) => ({
   ...initialState,
-  setAuthToken: (authToken: string) =>
+  setAuthData: ({ token, name, email }) =>
     set((appState) => {
-      appState.Auth.authToken = authToken;
+      appState.Auth.email = email;
+      appState.Auth.token = token;
+      appState.Auth.name = name;
     }),
   removeAuthToken: () =>
     set((appState) => {
-      appState.Auth.authToken = initialState.authToken;
+      appState.Auth.token = initialState.token;
+      appState.Auth.name = initialState.name;
+      appState.Auth.email = initialState.email;
     }),
 });
 

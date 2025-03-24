@@ -15,19 +15,29 @@ import {
 import { ExpenseType } from '../../types';
 import { EXPENSE_TYPE_COLOR } from '../constants';
 import AddExpenseButton from './AddExpenseButton';
-import EditDelete from './EditDelete';
+import AddEditDelete from './EditDelete';
 import { ExpenseDataPoint } from '@services/hooks/private';
+import { appStore } from '@store';
+import { todayDateSelector, useShallow } from '@selectors';
 
 const ExpenseRow = ({
   date,
   data,
+  sum,
 }: {
   date: string;
   data: ExpenseDataPoint[];
+  sum: number;
 }) => {
+  const today = appStore(useShallow(todayDateSelector));
   return (
     <Tr key={date} py={0}>
-      <Td py={0} textAlign={'center'}>
+      <Td
+        py={0}
+        textAlign={'center'}
+        border={'1px'}
+        bgColor={date === today ? 'green.400' : undefined}
+      >
         {date}
       </Td>
       {Object.values(ExpenseType).map((type) => {
@@ -42,7 +52,13 @@ const ExpenseRow = ({
             p={0}
             border={'1px'}
             textAlign={'center'}
-            bgColor={total !== 0 ? EXPENSE_TYPE_COLOR[type] : undefined}
+            bgColor={
+              total !== 0
+                ? EXPENSE_TYPE_COLOR[type]
+                : date === today
+                  ? 'green.100'
+                  : undefined
+            }
           >
             <Popover closeOnBlur>
               <PopoverTrigger>
@@ -60,7 +76,9 @@ const ExpenseRow = ({
                 <PopoverArrow />
                 <PopoverCloseButton />
                 <PopoverHeader>
-                  {allPoint.length > 0 ? 'Details of expense' : 'Add Expense '}
+                  {allPoint.length > 0
+                    ? `Details of expense for  ${type} (${date})`
+                    : `Add Expense for ${type} (${date})`}
                 </PopoverHeader>
                 <PopoverBody>
                   {allPoint.length > 0 ? (
@@ -85,12 +103,16 @@ const ExpenseRow = ({
                             <Text>Category: {point.category}</Text>
                             <Text>Comment: {point.comment}</Text>
                           </VStack>
-                          <EditDelete expenseId={point.id} />
+                          <AddEditDelete
+                            expenseId={point.id}
+                            type={type}
+                            date={date}
+                          />
                         </HStack>
                       );
                     })
                   ) : (
-                    <AddExpenseButton />
+                    <AddExpenseButton date={date} type={type} />
                   )}
                 </PopoverBody>
               </PopoverContent>
@@ -98,8 +120,8 @@ const ExpenseRow = ({
           </Td>
         );
       })}
-      <Td py={0} textAlign={'center'} bg={'blue.100'}>
-        {data.reduce((acc, point) => (acc += point.amount), 0 as number)}
+      <Td py={0} textAlign={'center'} bg={'blue.100'} border={'1px'}>
+        {sum}
       </Td>
     </Tr>
   );

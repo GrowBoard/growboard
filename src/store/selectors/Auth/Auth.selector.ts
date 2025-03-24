@@ -1,9 +1,11 @@
 import { AppStoreState } from '@store';
 
-export const authTokenSelector = (state: AppStoreState) => state.Auth.authToken;
+export const isUserLoggedInSelector = (state: AppStoreState) =>
+  state.Auth.token !== '' && state.Auth.token !== null;
 
-export const setAuthTokenSelector = (state: AppStoreState) =>
-  state.Auth.setAuthToken;
+export const setAuthSelector = (state: AppStoreState) => state.Auth.setAuthData;
 
 export const removeAuthDataSelector = (state: AppStoreState) =>
   state.Auth.removeAuthToken;
+
+export const authNameSelector = (state: AppStoreState) => state.Auth.name;

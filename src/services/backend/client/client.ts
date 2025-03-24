@@ -5,14 +5,15 @@ import { appStore } from '@store';
 const instance = axios.create({
   baseURL: GROWBOARD_BACKEND_URL,
   // withCredentials: true,
-  headers: {
-    Authorization: `Bearer ${appStore.getState().Auth.authToken}`,
-  },
 });
 
 export const GetRequest = async (url: string) => {
   try {
-    const response = await instance.get(url);
+    const response = await instance.get(url, {
+      headers: {
+        Authorization: `Bearer ${appStore.getState().Auth.token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     // eslint-disable-next-line no-console
@@ -25,6 +26,7 @@ export const PostRequest = async (url: string, data: unknown) => {
     headers: {
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*',
+      Authorization: `Bearer ${appStore.getState().Auth.token}`,
     },
   });
   return response.data;

@@ -1,73 +1,45 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import {
   Box,
   Button,
   Divider,
   HStack,
   Select,
+  Spinner,
   Table,
   TableContainer,
   Tbody,
+  Td,
   Th,
   Thead,
   Tr,
 } from '@chakra-ui/react';
-import { useGetExpensesData } from '@services/hooks/private';
 import { EXPENSE_TYPE_COLOR, MONTHS } from './constants';
 import { AddExpense } from '../AddExpense';
-import { groupBy } from 'lodash';
 import { ExpenseType } from '../types';
 import { ExpenseRow } from './sub_components';
+import { getExpenseDataForTable, getExpenseDataSumForCategory } from './utils';
+import { appStore } from '@store';
+import { overviewInputSelector, useShallow } from '@selectors';
+import { useGetExpensesDataForDate } from '@hooks';
 
 const ExpenseTable = () => {
-  const [month, setMonth] = useState<number>(new Date().getMonth());
-  const { monthStartDate, monthEndDate } = useMemo(() => {
-    const date = new Date();
-    const year = date.getFullYear();
-    const monthStartDate = new Date(year, month, 1).toISOString().split('T')[0];
-    const monthEndDate = new Date(year, month + 1, 1)
-      .toISOString()
-      .split('T')[0];
-    return { monthStartDate, monthEndDate };
-  }, [month]);
+  const {
+    dateState: { month },
+    setOverviewInput,
+  } = appStore(useShallow(overviewInputSelector));
 
-  const { data: queryResponse, isLoading } = useGetExpensesData({
-    start_date: monthStartDate,
-    end_date: monthEndDate,
-  });
+  const { data: queryResponse, isLoading } = useGetExpensesDataForDate();
 
-  const dataToShow = useMemo(() => {
-    if (
-      isLoading ||
-      !queryResponse ||
-      !queryResponse.data ||
-      queryResponse.data.length === 0
-    ) {
-      return [];
-    }
+  const dataToShow = useMemo(
+    () => (!isLoading ? getExpenseDataForTable(queryResponse, month) : []),
+    [isLoading, month, queryResponse],
+  );
 
-    const expenseData = queryResponse.data;
-
-    const daysInMonth = new Date(
-      new Date().getFullYear(),
-      month + 1,
-      0,
-    ).getDate();
-
-    const groupedData = groupBy(expenseData, 'date_time');
-
-    const a = Array.from({ length: daysInMonth }, (_, i) => {
-      const date = new Date(new Date().getFullYear(), month, i + 1)
-        .toISOString()
-        .split('T')[0];
-      return {
-        date,
-        data: groupedData[date] || [],
-      };
-    });
-
-    return a;
-  }, [isLoading, month, queryResponse]);
+  const { sumByCategory, totalSum } = useMemo(
+    () => (!isLoading ? getExpenseDataSumForCategory(queryResponse?.data) : {}),
+    [isLoading, queryResponse],
+  );
 
   return (
     <Box
@@ -91,7 +63,9 @@ const ExpenseTable = () => {
             size={'sm'}
             placeholder="Select Month"
             value={month}
-            onChange={(e) => setMonth(Number(e.target.value))}
+            onChange={(e) =>
+              setOverviewInput({ month: Number(e.target.value) })
+            }
           >
             {MONTHS.map((month, index) => (
               <option key={month} value={index}>
@@ -111,28 +85,69 @@ const ExpenseTable = () => {
         </HStack>
       </HStack>
       <Divider my={2} />
-      <TableContainer>
-        <Table fontSize={'xs'} variant={'simple'}>
-          <Thead>
-            <Tr columnGap={2}>
-              <Th>Date</Th>
-              {Object.values(ExpenseType).map((type) => {
-                return (
-                  <Th key={type} bgColor={EXPENSE_TYPE_COLOR[type]}>
-                    {type}
-                  </Th>
-                );
-              })}
-              <Th>Day total</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {dataToShow.map((rowData) => (
-              <ExpenseRow key={rowData.date} {...rowData} />
-            ))}
-          </Tbody>
-        </Table>
-      </TableContainer>
+      {isLoading ? (
+        <Box w={'100%'} h={'100%'} display={'flex'} justifyContent={'center'}>
+          <Spinner size={'md'} color="green" />
+        </Box>
+      ) : (
+        <TableContainer>
+          <Table fontSize={'xs'} variant={'simple'}>
+            <Thead>
+              <Tr columnGap={2}>
+                <Th border={'1px'} textAlign={'center'}>
+                  Date
+                </Th>
+                {Object.values(ExpenseType).map((type) => {
+                  return (
+                    <Th
+                      border={'1px'}
+                      textAlign={'center'}
+                      key={type}
+                      bgColor={EXPENSE_TYPE_COLOR[type]}
+                    >
+                      {type}
+                    </Th>
+                  );
+                })}
+                <Th textAlign={'center'} border={'1px'}>
+                  Day total
+                </Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {dataToShow.map((rowData) => (
+                <ExpenseRow key={rowData.date} {...rowData} />
+              ))}
+              <Tr>
+                <Td textAlign={'center'} border={'1px'}>
+                  Category total(₹)
+                </Td>
+                {Object.values(ExpenseType).map((type) => {
+                  return (
+                    <Td
+                      key={type}
+                      border={'1px'}
+                      bgColor={EXPENSE_TYPE_COLOR[type]}
+                      textAlign={'center'}
+                    >
+                      ₹{sumByCategory?.[type] ?? 0}
+                    </Td>
+                  );
+                })}
+                <Td
+                  border={'1px'}
+                  textAlign={'center'}
+                  bg={'green'}
+                  fontSize={'md'}
+                  fontWeight={'bold'}
+                >
+                  ₹{totalSum}
+                </Td>
+              </Tr>
+            </Tbody>
+          </Table>
+        </TableContainer>
+      )}
     </Box>
   );
 };
