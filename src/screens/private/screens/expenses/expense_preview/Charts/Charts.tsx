@@ -27,7 +27,7 @@ const Charts = () => {
     .split('-')[2];
 
   const date = useMemo(() => {
-    const newDate = new Date(year, month, day);
+    const newDate = new Date(year, month, day + 1);
     return getIstDate({
       day: newDate.getDate(),
       month: newDate.getMonth(),
@@ -53,7 +53,7 @@ const Charts = () => {
           { length: parseInt(monthEndDate) },
           (_, i) => i + 1,
         ).map((index) => {
-          const date = new Date(year, month, index + 2)
+          const date = new Date(year, month, index + 1)
             .toISOString()
             .split('T')[0];
 
@@ -81,6 +81,20 @@ const Charts = () => {
     labels: Object.values(ExpenseType),
   };
 
+  const EXPENSES_BY_CATEGORY = Object.values(ExpenseType).reduce(
+    (acc, category) => ({
+      ...acc,
+      [category]: (timeWindow === TimeWindow.DAY
+        ? groupedData[date]
+        : data
+      )?.reduce(
+        (acc, curr) => (curr.category === category ? acc + curr.amount : acc),
+        0,
+      ),
+    }),
+    {} as Record<ExpenseType, number>,
+  );
+
   return (
     <HStack
       w={'100%'}
@@ -97,7 +111,7 @@ const Charts = () => {
         timeWindow={timeWindow}
       />
       <PieChart data={PIE_CHART_DATA} width={'30%'} height={'100%'} />
-      <ExpenseSummary />
+      <ExpenseSummary expenseByCategory={EXPENSES_BY_CATEGORY} />
     </HStack>
   );
 };

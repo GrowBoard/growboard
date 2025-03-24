@@ -1,5 +1,6 @@
 import { ExpenseDataPoint } from '@services/hooks/private';
 import { groupBy } from 'lodash';
+import { ExpenseType } from '../types';
 
 export const getExpenseDataSumForCategory = (
   expenseData: ExpenseDataPoint[] | undefined,
@@ -10,22 +11,25 @@ export const getExpenseDataSumForCategory = (
 
   const groupedDataByCategory = groupBy(expenseData, 'category');
 
-  const sumByCategory = Object.keys(groupedDataByCategory).reduce(
+  const sumByCategory = Object.values(ExpenseType)?.reduce(
     (accumulator, category) => {
-      const sum = groupedDataByCategory[category].reduce(
-        (acc: number, curr: ExpenseDataPoint) => acc + curr.amount,
-        0,
-      );
+      const sum =
+        groupedDataByCategory[category]?.reduce(
+          (acc: number, curr: ExpenseDataPoint) => acc + curr.amount,
+          0,
+        ) ?? 0;
       accumulator[category] = sum;
       return accumulator;
     },
     {} as Record<string, number>,
   );
 
-  const totalSum = Object.values(sumByCategory).reduce(
-    (acc, curr) => acc + curr,
-    0,
-  );
+  console.log(sumByCategory);
+
+  const totalSum = Object.values(sumByCategory).reduce((acc, expense) => {
+    acc += expense;
+    return acc;
+  }, 0);
 
   return { sumByCategory, totalSum };
 };

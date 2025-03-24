@@ -37,7 +37,13 @@ const ExpenseTable = () => {
   );
 
   const { sumByCategory, totalSum } = useMemo(
-    () => (!isLoading ? getExpenseDataSumForCategory(queryResponse?.data) : {}),
+    () =>
+      !isLoading
+        ? getExpenseDataSumForCategory(queryResponse?.data)
+        : {
+            sumByCategory: {} as Record<ExpenseType, number>,
+            totalSum: 0,
+          },
     [isLoading, queryResponse],
   );
 
