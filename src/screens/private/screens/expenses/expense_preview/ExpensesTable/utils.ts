@@ -40,11 +40,7 @@ export const getExpenseDataForTable = (
     | undefined,
   month: number,
 ) => {
-  if (
-    !queryResponse ||
-    !queryResponse.data ||
-    queryResponse.data.length === 0
-  ) {
+  if (!queryResponse || !queryResponse.data) {
     return [];
   }
 
@@ -59,7 +55,7 @@ export const getExpenseDataForTable = (
   const groupedData = groupBy(expenseData, 'date_time');
 
   const dataToShow = Array.from({ length: daysInMonth }, (_, i) => {
-    const date = new Date(new Date().getFullYear(), month, i + 1)
+    const date = new Date(new Date().getFullYear(), month, i + 2)
       .toISOString()
       .split('T')[0];
     return {

@@ -8,7 +8,12 @@ export enum TimeWindow {
 }
 
 export type ExpenseDataState = {
-  timeWindow: TimeWindow;
+  overview: {
+    timeWindow: TimeWindow;
+    day: number;
+    month: number;
+    year: number;
+  };
   date: Date;
   addExpense: {
     isOpen: boolean;
@@ -19,6 +24,12 @@ export type ExpenseDataState = {
 
 export interface ExpenseStateActions {
   setTimeWindow: (timeWindow: TimeWindow) => void;
+  setOverviewInput: (args: { month: number; year?: number }) => void;
+  setOverviewInputWithDay: (args: {
+    day: number;
+    month: number;
+    year?: number;
+  }) => void;
   setAddExpense: (isOpen: boolean, type?: ExpenseType, date?: string) => void;
 }
 

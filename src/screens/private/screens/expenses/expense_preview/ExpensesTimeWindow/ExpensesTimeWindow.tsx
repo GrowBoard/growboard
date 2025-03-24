@@ -1,57 +1,65 @@
 import { VStack, HStack, Button, Text, Divider } from '@chakra-ui/react';
 import { TimeWindowComponent, DateInput } from './sub_components';
-import { useState, useMemo, useCallback } from 'react';
-import { getPrevDate, getNextDate, getStartAndEndDate } from './utils';
+import { useMemo, useCallback } from 'react';
+import { getPrevDate, getNextDate, getDateFromState } from './utils';
 import { getWindowString } from './utils';
 import { appStore, TimeWindow } from '@store';
-import { timeWindowSelector, useShallow } from '@selectors';
-
-const date = new Date();
+import {
+  dateSelector,
+  overviewInputSelector,
+  timeWindowSelector,
+  todayDateSelector,
+  useShallow,
+} from '@selectors';
 
 const ExpensesTimeWindow = () => {
   const timeWindow = appStore(useShallow(timeWindowSelector));
-  const [{ day, month, year }, setDate] = useState({
-    day: date.getDate(),
-    month: date.getMonth(),
-    year: date.getFullYear(),
-  });
-  const today = date.toISOString().split('T')[0];
+  const { dateState, setOverviewInputWithDay } = appStore(
+    useShallow(overviewInputSelector),
+  );
+  const today = appStore(useShallow(todayDateSelector));
+  const date = appStore(useShallow(dateSelector));
+  const { day, month, year } = dateState;
 
-  const onLeftClick = () => setDate((prev) => getPrevDate(timeWindow, prev));
+  const onLeftClick = () =>
+    setOverviewInputWithDay(getPrevDate(timeWindow, dateState));
+  const onRightClick = () =>
+    setOverviewInputWithDay(getNextDate(timeWindow, dateState));
 
-  const onRightClick = () => setDate((prev) => getNextDate(timeWindow, prev));
-
-  const { startDate, endDate } = useMemo(
-    () => getStartAndEndDate(timeWindow, { day, month, year }),
+  const { startDate } = useMemo(
+    () => getDateFromState(timeWindow, { day, month, year }),
     [timeWindow, day, month, year],
   );
 
-  const onTimeWindowChange = useCallback((timeWindow: TimeWindow) => {
-    switch (timeWindow) {
-      case TimeWindow.DAY:
-        setDate((prev) => ({
-          ...prev,
-          day: date.getDate(),
-          month: date.getMonth(),
-          year: date.getFullYear(),
-        }));
-        break;
-      case TimeWindow.MONTH:
-        setDate({
-          day: date.getDate(),
-          month: date.getMonth(),
-          year: date.getFullYear(),
-        });
-        break;
-      case TimeWindow.YEAR:
-        setDate({
-          day: date.getDate(),
-          month: date.getMonth(),
-          year: date.getFullYear(),
-        });
-        break;
-    }
-  }, []);
+  const onTimeWindowChange = useCallback(
+    (timeWindow: TimeWindow) => {
+      switch (timeWindow) {
+        case TimeWindow.DAY:
+          setOverviewInputWithDay({
+            ...dateState,
+            day: date.getDate(),
+            month: date.getMonth(),
+            year: date.getFullYear(),
+          });
+          break;
+        case TimeWindow.MONTH:
+          setOverviewInputWithDay({
+            day: date.getDate(),
+            month: date.getMonth(),
+            year: date.getFullYear(),
+          });
+          break;
+        case TimeWindow.YEAR:
+          setOverviewInputWithDay({
+            day: date.getDate(),
+            month: date.getMonth(),
+            year: date.getFullYear(),
+          });
+          break;
+      }
+    },
+    [date],
+  );
 
   return (
     <VStack
@@ -131,22 +139,18 @@ const ExpensesTimeWindow = () => {
         </HStack>
       </HStack>
       <Divider />
-      <HStack width={'100%'}>
-        <DateInput
-          text={'Start date'}
-          value={startDate}
-          maxValue={endDate}
-          setValue={(value) =>
-            setDate((prev) => ({ ...prev, startDate: value }))
-          }
-        />
-        <DateInput
-          text={'End date'}
-          value={endDate}
-          maxValue={today}
-          setValue={(value) => setDate((prev) => ({ ...prev, endDate: value }))}
-        />
-      </HStack>
+      {timeWindow === TimeWindow.DAY && (
+        <HStack width={'100%'}>
+          <DateInput
+            text={'Date'}
+            value={startDate}
+            maxValue={today}
+            setValue={(value) =>
+              setOverviewInputWithDay({ ...dateState, day: Number(value) })
+            }
+          />
+        </HStack>
+      )}
     </VStack>
   );
 };

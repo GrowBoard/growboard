@@ -30,8 +30,6 @@ const ExpenseRow = ({
   sum: number;
 }) => {
   const today = appStore(useShallow(todayDateSelector));
-  console.log('today', today);
-
   return (
     <Tr key={date} py={0}>
       <Td

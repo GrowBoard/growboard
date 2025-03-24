@@ -1,4 +1,4 @@
-import { appStore, TimeWindow } from '@store';
+import { TimeWindow } from '@store';
 import { join } from 'lodash';
 
 export const getWindowString = (
@@ -51,7 +51,7 @@ export const getPrevDate = (
         if (prev.month === 1) {
           return {
             day: 31,
-            month: 12,
+            month: 11,
             year: prev.year - 1,
           };
         } else {
@@ -69,10 +69,10 @@ export const getPrevDate = (
         };
       }
     case TimeWindow.MONTH:
-      return prev.month === 1
+      return prev.month === 0
         ? {
             day: prev.day,
-            month: 12,
+            month: 11,
             year: prev.year - 1,
           }
         : {
@@ -125,7 +125,7 @@ export const getNextDate = (
         };
       }
     case TimeWindow.MONTH:
-      return prev.month === 12
+      return prev.month === 11
         ? {
             day: prev.day,
             month: 1,
@@ -149,7 +149,7 @@ export const getNextDate = (
   }
 };
 
-export const getStartAndEndDate = (
+export const getDateFromState = (
   timeWindow: TimeWindow,
   dateData: {
     day: number;
@@ -157,37 +157,20 @@ export const getStartAndEndDate = (
     year: number;
   },
 ) => {
-  const { day, month: monthIndex, year } = dateData;
+  const { month: monthIndex, year, day } = dateData;
   const month = monthIndex + 1;
-  const date = appStore.getState().Expense.date;
-  const currentYear = date.getFullYear();
-  const currentMonth = date.getMonth() + 1;
-  const currentDay = date.getDate();
-  const dayInMonth = new Date(year, month + 1, 0).getDate();
   switch (timeWindow) {
     case TimeWindow.DAY:
       return {
-        startDate: `${year}-${month.toString().padStart(2, '0')}-01`,
-        endDate:
-          currentDay === day
-            ? `${year}-${month.toString().padStart(2, '0')}-${currentDay}`
-            : `${year}-${month.toString().padStart(2, '0')}-${currentDay}`,
+        startDate: `${year}-${month.toString().padStart(2, '0')}-${day}`,
       };
     case TimeWindow.MONTH:
       return {
         startDate: `${year}-${month.toString().padStart(2, '0')}-01`,
-        endDate:
-          currentMonth === month
-            ? `${year}-${month.toString().padStart(2, '0')}-${currentDay}`
-            : `${year}-${month.toString().padStart(2, '0')}-${dayInMonth}`,
       };
     case TimeWindow.YEAR:
       return {
         startDate: `${year}-01-01`,
-        endDate:
-          currentYear === year
-            ? `${year}-${month.toString().padStart(2, '0')}-${currentDay}`
-            : `${year}-12-31`,
       };
     default: {
       const exhaust: never = timeWindow;

@@ -1,22 +1,31 @@
 import { AppStoreState } from '@store';
+import { getIstDate } from '../../../util/input/Input';
 
 export const timeWindowSelector = (state: AppStoreState) =>
-  state.Expense.timeWindow;
+  state.Expense.overview.timeWindow;
 
 export const setTimeWindowSelector = (state: AppStoreState) =>
   state.Expense.setTimeWindow;
 
+export const overviewInputSelector = (state: AppStoreState) => ({
+  dateState: state.Expense.overview,
+  setOverviewInput: state.Expense.setOverviewInput,
+  setOverviewInputWithDay: state.Expense.setOverviewInputWithDay,
+});
+
 export const dateSelector = (state: AppStoreState) => state.Expense.date;
 
 export const todayDateSelector = (state: AppStoreState) => {
-  const [day, month, year] = state.Expense.date
-    .toLocaleDateString('en-IN', {
-      timeZone: 'Asia/Kolkata',
-    })
-    // added to fix the date format issue with month intial 0
-    .split('/');
+  const date = state.Expense.date;
+  const day = date.getDate();
+  const month = date.getMonth();
+  const year = date.getFullYear();
 
-  return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+  return getIstDate({
+    day,
+    month,
+    year,
+  });
 };
 
 export const addExpenseSelector = (state: AppStoreState) =>
