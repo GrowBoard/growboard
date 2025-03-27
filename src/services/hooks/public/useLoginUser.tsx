@@ -12,10 +12,13 @@ const useLoginUser = () => {
     method: (data: { email: string; password: string }) => loginUser(data),
     mutationOptions: {
       onSuccess: (data) => {
-        successToast('User login successful.');
-        console.warn('data', data);
+        if (data) {
+          successToast('User login successful.');
+          setAuthData(data.data);
+          return;
+        }
 
-        setAuthData(data.data);
+        errorToast('User login failed');
       },
       onError: (error) => {
         errorToast((error as any).response.data.errorMessage);

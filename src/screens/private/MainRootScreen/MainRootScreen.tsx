@@ -20,7 +20,7 @@ const MainRootScreen = () => {
   const removeAuthData = appStore(useShallow(removeAuthDataSelector));
   const { mutate, isPending } = useAuthCheckTest({
     onSuccess: (data) => {
-      if (data.status === 'ERROR' && isUserLoggedIn) {
+      if (!data || (data && data.status === 'ERROR' && isUserLoggedIn)) {
         removeAuthData();
       }
     },
