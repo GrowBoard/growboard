@@ -4,7 +4,7 @@ import LazyComponentProvider from '../component/LazyComponent';
 const LoginScreen = lazy(
   () => import('@screens/public/login_screen/LoginScreen'),
 );
-const LazyLoginScreenComponent = () => {
+export const LazyLoginScreenComponent = () => {
   return (
     <LazyComponentProvider>
       <LoginScreen />
@@ -15,7 +15,7 @@ const LazyLoginScreenComponent = () => {
 const SignupScreen = lazy(
   () => import('@screens/public/signup_screen/SignupScreen'),
 );
-const LazySignupScreenComponent = () => {
+export const LazySignupScreenComponent = () => {
   return (
     <LazyComponentProvider>
       <SignupScreen />
@@ -23,10 +23,19 @@ const LazySignupScreenComponent = () => {
   );
 };
 
+const VerifyUser = lazy(() => import('@screens/public/VerifyUser/VerifyUser'));
+export const LazyVerifyUserScreenComponent = () => {
+  return (
+    <LazyComponentProvider>
+      <VerifyUser />
+    </LazyComponentProvider>
+  );
+};
+
 const ForgotPasswordScreen = lazy(
   () => import('@screens/public/forgot_password/ForgotPassword'),
 );
-const LazyForgotPasswordScreenComponent = () => {
+export const LazyForgotPasswordScreenComponent = () => {
   return (
     <LazyComponentProvider>
       <ForgotPasswordScreen />
@@ -37,16 +46,10 @@ const LazyForgotPasswordScreenComponent = () => {
 const ResetPasswordScreen = lazy(
   () => import('@screens/public/reset_password/ResetPasswordScreen'),
 );
-const LazyResetPasswordScreenComponent = () => {
+export const LazyResetPasswordScreenComponent = () => {
   return (
     <LazyComponentProvider>
       <ResetPasswordScreen />
     </LazyComponentProvider>
   );
-};
-export {
-  LazyLoginScreenComponent,
-  LazySignupScreenComponent,
-  LazyForgotPasswordScreenComponent,
-  LazyResetPasswordScreenComponent,
 };

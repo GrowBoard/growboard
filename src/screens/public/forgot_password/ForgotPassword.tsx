@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { validateEmail } from '../../../util/input/Input';
 import {
@@ -23,7 +23,7 @@ interface UpdateProps {
 /**
  * Register object type.
  */
-interface RegisterObjType {
+interface ForgetPasswordObjType {
   email: string;
 }
 
@@ -35,22 +35,25 @@ function ForgotPassword() {
   const toast = useErrorToast();
   const { t } = useTranslation();
   const { mutate, isPending } = useForgotPassword();
-  const INITIAL_USER_OBJ: RegisterObjType = {
+  const INITIAL_OBJ: ForgetPasswordObjType = {
     email: '',
   };
 
-  const [userObj, setUserObj] = useState(INITIAL_USER_OBJ);
+  const [userObj, setUserObj] = useState(INITIAL_OBJ);
 
-  const submitForm = (e: any) => {
-    e.preventDefault();
-    if (userObj.email.trim() === '')
-      return toast('ForgotPasswordError.emailRequired');
-    else if (!validateEmail(userObj.email)) {
-      return toast('ForgotPasswordError.emailNotValid');
-    } else {
-      mutate(userObj);
-    }
-  };
+  const submitForm = useCallback(
+    (e: any) => {
+      e.preventDefault();
+      if (userObj.email.trim() === '')
+        return toast('ForgotPasswordError.emailRequired');
+      else if (!validateEmail(userObj.email)) {
+        return toast('ForgotPasswordError.emailNotValid');
+      } else {
+        mutate(userObj);
+      }
+    },
+    [mutate, toast, userObj],
+  );
 
   const updateFormValue = ({ updateType, value }: UpdateProps) => {
     setUserObj({ ...userObj, [updateType]: value });
@@ -111,7 +114,7 @@ function ForgotPassword() {
               <InputText
                 type={InputType.EMAIL}
                 defaultValue={userObj.email}
-                updateType="emailId"
+                updateType="email"
                 containerStyle="mt-4"
                 labelTitle={t('Account.input.email')}
                 updateFormValue={updateFormValue}
