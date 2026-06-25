@@ -95,7 +95,7 @@ GrowBoard is a productivity tool web application.
 ```text
 /
 ├── .claude/                # Agent skills and settings
-├── .github/                # CI/CD Workflows (Main, Deploy, Release)
+├── .github/                # CI/CD Workflows (Web CI, Build & Publish)
 ├── public/                 # Static assets and index.html
 ├── src/                    # Source code (React components, state, hooks, pages, etc.)
 ├── scripts/                # Task-specific helper scripts
