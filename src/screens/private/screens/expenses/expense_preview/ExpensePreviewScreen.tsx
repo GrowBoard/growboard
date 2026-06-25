@@ -11,7 +11,7 @@ const ExpensePreviewScreen = () => {
         justifyContent={'space-between'}
         alignItems={'center'}
         paddingX={2}
-        spacing={2}
+        gap={2}
       >
         <ExpensesTimeWindow />
         <Charts />

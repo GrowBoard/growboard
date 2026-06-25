@@ -1,14 +1,18 @@
 import { renderHook } from '@testing-library/react';
-import useColorSelector from '../useColorSelector';
-import { useColorMode } from '@chakra-ui/react';
+import useColorSelector from './useColorSelector';
+import { useColorMode } from '../colorMode';
 
-jest.mock('@chakra-ui/react', () => ({
+jest.mock('../colorMode', () => ({
   useColorMode: jest.fn(() => ({ colorMode: 'light' })),
 }));
 
 const mockUseColorMode = useColorMode as jest.Mock;
 
 describe('useColorSelector', () => {
+  beforeEach(() => {
+    mockUseColorMode.mockImplementation(() => ({ colorMode: 'light' }));
+  });
+
   it('should return correct color for light mode', () => {
     const { result } = renderHook(() => useColorSelector());
 

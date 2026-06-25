@@ -1,9 +1,0 @@
-/**
- * Interface for the login credentials.
- */
-export type SignUpCred = {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-};

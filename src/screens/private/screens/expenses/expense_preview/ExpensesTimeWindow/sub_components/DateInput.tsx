@@ -1,4 +1,4 @@
-import { InputGroup, InputLeftElement, Input, Text } from '@chakra-ui/react';
+import { Input, HStack, Box } from '@chakra-ui/react';
 
 const DateInput = ({
   text,
@@ -12,39 +12,38 @@ const DateInput = ({
   setValue: (value: string) => void;
 }) => {
   return (
-    <InputGroup w={'100%'}>
-      <InputLeftElement
-        width={'20%'}
-        backgroundColor={'blue.200'}
-        borderLeftRadius={5}
-        border={'1px solid rgba(0, 0, 0, 0.3)'}
-        pointerEvents="none"
-        borderRightColor={'transparent'}
-        pl={2}
-        children={
-          <Text
-            w={'100%'}
-            fontSize={'md'}
-            fontWeight={'semibold'}
-            bg={'blue.200'}
-            textAlign={'start'}
-          >
-            {text}
-          </Text>
-        }
-      />
+    <HStack w="100%" gap={0}>
+      <Box
+        w="25%"
+        bg="blue.200"
+        color="blue.900"
+        py="7px"
+        px={3}
+        borderLeftRadius="md"
+        border="1px solid"
+        borderColor="gray.600"
+        borderRight="none"
+        fontSize="sm"
+        fontWeight="semibold"
+        textAlign="center"
+      >
+        {text}
+      </Box>
       <Input
-        defaultChecked
-        value={value}
+        flex={1}
+        borderRightRadius="md"
+        borderLeftRadius="none"
+        border="1px solid"
+        borderColor="gray.600"
+        bg="gray.800"
+        color="white"
         type="date"
-        textAlign={'center'}
-        size="md"
-        w={'100%'}
-        variant="outline"
+        textAlign="center"
+        value={value}
         max={maxValue}
         onChange={(e) => setValue(e.target.value)}
       />
-    </InputGroup>
+    </HStack>
   );
 };
 

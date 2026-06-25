@@ -2,17 +2,10 @@ import { useMemo } from 'react';
 import {
   Box,
   Button,
-  Divider,
+  Separator,
   HStack,
-  Select,
   Spinner,
   Table,
-  TableContainer,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
 } from '@chakra-ui/react';
 import { EXPENSE_TYPE_COLOR, MONTHS } from './constants';
 import { AddExpense } from '../AddExpense';
@@ -51,108 +44,124 @@ const ExpenseTable = () => {
     <Box
       w={'100%'}
       h={'100%'}
-      bg={'base-100'}
+      bg={'gray.850'}
       p={4}
       my={4}
-      rounded={'lg'}
+      borderRadius={'lg'}
       overflow={'auto'}
-      border={'1px'}
+      border={'1px solid'}
+      borderColor={'gray.700'}
       shadow={'0px 0px 10px rgba(0, 0, 0, 0.25)'}
     >
       <HStack w={'100%'} justifyContent={'space-between'}>
-        <Box fontSize={'xl'} fontWeight={'semibold'}>
+        <Box fontSize={'xl'} fontWeight={'semibold'} color="white">
           Expenses table
         </Box>
-        <HStack spacing={2} width={'30%'}>
-          <Select
-            w={'200%'}
-            size={'sm'}
-            placeholder="Select Month"
+        <HStack gap={4} width={'35%'} justifyContent="flex-end">
+          <select
+            style={{
+              width: '120px',
+              padding: '6px 10px',
+              borderRadius: '6px',
+              background: '#1a202c',
+              border: '1px solid #4a5568',
+              color: 'white',
+              fontSize: '14px',
+              cursor: 'pointer'
+            }}
             value={month}
             onChange={(e) =>
               setOverviewInput({ month: Number(e.target.value) })
             }
           >
-            {MONTHS.map((month, index) => (
-              <option key={month} value={index}>
-                {month}
+            {MONTHS.map((m, index) => (
+              <option key={m} value={index}>
+                {m}
               </option>
             ))}
-          </Select>
+          </select>
           <AddExpense />
           <Button
-            w={'100%'}
             size={'sm'}
-            colorScheme={'green'}
+            bg={'green.600'}
+            color={'white'}
+            _hover={{ bg: 'green.500' }}
             variant={'solid'}
           >
             Export
           </Button>
         </HStack>
       </HStack>
-      <Divider my={2} />
+      <Separator my={4} borderColor="gray.700" />
       {isLoading ? (
-        <Box w={'100%'} h={'100%'} display={'flex'} justifyContent={'center'}>
+        <Box w={'100%'} h={'100%'} display={'flex'} justifyContent={'center'} py={10}>
           <Spinner size={'md'} color="green" />
         </Box>
       ) : (
-        <TableContainer>
-          <Table fontSize={'xs'} variant={'simple'}>
-            <Thead>
-              <Tr columnGap={2}>
-                <Th border={'1px'} textAlign={'center'}>
+        <Box overflowX="auto" w="100%">
+          <Table.Root fontSize={'xs'} variant={'line'} border="1px solid" borderColor="gray.700">
+            <Table.Header>
+              <Table.Row>
+                <Table.ColumnHeader border={'1px solid'} borderColor="gray.700" textAlign={'center'} color="gray.300">
                   Date
-                </Th>
+                </Table.ColumnHeader>
                 {Object.values(ExpenseType).map((type) => {
                   return (
-                    <Th
-                      border={'1px'}
+                    <Table.ColumnHeader
+                      border={'1px solid'}
+                      borderColor="gray.700"
                       textAlign={'center'}
                       key={type}
                       bgColor={EXPENSE_TYPE_COLOR[type]}
+                      color="white"
                     >
                       {type}
-                    </Th>
+                    </Table.ColumnHeader>
                   );
                 })}
-                <Th textAlign={'center'} border={'1px'}>
+                <Table.ColumnHeader textAlign={'center'} border={'1px solid'} borderColor="gray.700" color="gray.300">
                   Day total
-                </Th>
-              </Tr>
-            </Thead>
-            <Tbody>
+                </Table.ColumnHeader>
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>
               {dataToShow.map((rowData) => (
                 <ExpenseRow key={rowData.date} {...rowData} />
               ))}
-              <Tr>
-                <Td textAlign={'center'} border={'1px'}>
+              <Table.Row>
+                <Table.Cell textAlign={'center'} border={'1px solid'} borderColor="gray.700" fontWeight="semibold" color="gray.300">
                   Category total(₹)
-                </Td>
+                </Table.Cell>
                 {Object.values(ExpenseType).map((type) => {
                   return (
-                    <Td
+                    <Table.Cell
                       key={type}
-                      border={'1px'}
+                      border={'1px solid'}
+                      borderColor="gray.700"
                       bgColor={EXPENSE_TYPE_COLOR[type]}
                       textAlign={'center'}
+                      fontWeight="semibold"
+                      color="white"
                     >
                       ₹{sumByCategory?.[type] ?? 0}
-                    </Td>
+                    </Table.Cell>
                   );
                 })}
-                <Td
-                  border={'1px'}
+                <Table.Cell
+                  border={'1px solid'}
+                  borderColor="gray.700"
                   textAlign={'center'}
-                  bg={'green'}
+                  bg={'green.600'}
                   fontSize={'md'}
                   fontWeight={'bold'}
+                  color="white"
                 >
                   ₹{totalSum}
-                </Td>
-              </Tr>
-            </Tbody>
-          </Table>
-        </TableContainer>
+                </Table.Cell>
+              </Table.Row>
+            </Table.Body>
+          </Table.Root>
+        </Box>
       )}
     </Box>
   );

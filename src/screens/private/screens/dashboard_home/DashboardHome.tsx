@@ -1,22 +1,22 @@
+import { Card, Box, Text } from '@chakra-ui/react';
+
 /**
  * Component definition for the dashboard home component.
- * @param props The props for the dashboard home component.
  * @returns The dashboard home component.
  */
 function DashboardHome() {
   return (
-    <div className="p-2">
-      <div className="card shadow-lg compact side bg-base-100">
-        <div className="card-body">
-          <h2 className="card-title">Card Title</h2>
-          <p>
+    <Box p={4}>
+      <Card.Root bg="gray.850" borderColor="gray.700" border="1px solid" shadow="lg" p={5}>
+        <Card.Body gap={2} p={0}>
+          <Card.Title color="white" fontSize="xl" fontWeight="semibold">Card Title</Card.Title>
+          <Text color="gray.300">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
             necessitatibus incidunt ut officiis explicabo inventore.
-          </p>
-          <div className="justify-end card-actions"></div>
-        </div>
-      </div>
-    </div>
+          </Text>
+        </Card.Body>
+      </Card.Root>
+    </Box>
   );
 }
 

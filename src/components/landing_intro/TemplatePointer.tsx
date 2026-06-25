@@ -9,9 +9,10 @@ const TemplatePointers = () => {
       <LoginPageIllustration />
       <Text
         className=" text-center w-full"
-        color={'black'}
+        color={'gray.300'}
         fontSize="lg"
         fontWeight="semibold"
+        mt={4}
       >
         {t('LandingIntro.title')}
       </Text>

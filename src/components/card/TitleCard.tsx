@@ -1,4 +1,5 @@
 import { TitleCardProps } from './types';
+import { Card, Separator, Flex, Box } from '@chakra-ui/react';
 
 /**
  * Title card component.
@@ -8,29 +9,22 @@ import { TitleCardProps } from './types';
  */
 const TitleCard = (props: TitleCardProps) => {
   return (
-    <div
-      className={
-        'card w-full p-6 bg-base-100 shadow-xl ' + (props.topMargin || 'mt-6')
-      }
-    >
-      {/* Title for Card */}
-      <div
-        className={`text-xl font-semibold ${
-          props.TopSideButtons ? 'inline-block' : ''
-        }`}
-      >
-        {props.title}
-        {/* Top side button, show only if present */}
+    <Card.Root width="100%" p={6} variant="elevated" bg="gray.850" borderColor="gray.700" border="1px solid" mt={props.topMargin || 6}>
+      <Flex justify="space-between" align="center" width="100%">
+        <Card.Title fontSize="xl" fontWeight="semibold" color="white">
+          {props.title}
+        </Card.Title>
         {props.TopSideButtons && (
-          <div className="inline-block float-right">{props.TopSideButtons}</div>
+          <Box>{props.TopSideButtons}</Box>
         )}
-      </div>
+      </Flex>
 
-      <div className="divider mt-2"></div>
+      <Separator mt={2} mb={4} borderColor="gray.600" />
 
-      {/** Card Body */}
-      <div className="h-full w-full pb-6 bg-base-100">{props.children}</div>
-    </div>
+      <Card.Body p={0} height="100%" width="100%">
+        {props.children}
+      </Card.Body>
+    </Card.Root>
   );
 };
 

@@ -1,16 +1,13 @@
-import { useToast } from '@chakra-ui/react';
+import { toaster } from '../toaster';
 import { useTranslation } from 'react-i18next';
 
 const useSuccessToast = () => {
   const { t } = useTranslation();
-  const toast = useToast();
 
   return (titleKey: string) =>
-    toast({
+    toaster.create({
       title: t(titleKey),
-      status: 'success',
-      duration: 3000,
-      isClosable: true,
+      type: 'success',
     });
 };
 

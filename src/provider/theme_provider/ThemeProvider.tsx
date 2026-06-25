@@ -1,12 +1,14 @@
-import { ChakraProvider, ColorModeScript } from '@chakra-ui/react';
-import { theme } from '@components';
+import { ChakraProvider } from '@chakra-ui/react';
+import { theme, ColorModeProvider, Toaster } from '@components';
 import { ThemeProviderProps } from './types';
 
 const ThemeProvider = ({ children }: ThemeProviderProps) => {
   return (
-    <ChakraProvider theme={theme} cssVarsRoot="body">
-      <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-      {children}
+    <ChakraProvider value={theme}>
+      <ColorModeProvider>
+        {children}
+        <Toaster />
+      </ColorModeProvider>
     </ChakraProvider>
   );
 };

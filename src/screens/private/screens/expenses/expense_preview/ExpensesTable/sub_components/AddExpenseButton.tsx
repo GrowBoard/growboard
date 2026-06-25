@@ -14,14 +14,15 @@ const AddExpenseButton = ({
   const setAddExpense = appStore(useShallow(setAddExpenseSelector));
   return (
     <IconButton
-      aria-label=""
+      aria-label="Add expense"
       size={'xs'}
       variant={'outline'}
       colorScheme="cyan"
       mx={1}
-      icon={<AddIcon />}
       onClick={() => setAddExpense(true, type, date)}
-    />
+    >
+      <AddIcon />
+    </IconButton>
   );
 };
 

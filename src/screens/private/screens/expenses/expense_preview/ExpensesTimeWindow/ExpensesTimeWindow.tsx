@@ -1,4 +1,4 @@
-import { VStack, HStack, Button, Text, Divider } from '@chakra-ui/react';
+import { VStack, HStack, Button, Text, Separator } from '@chakra-ui/react';
 import { TimeWindowComponent, DateInput } from './sub_components';
 import { useMemo, useCallback } from 'react';
 import { getPrevDate, getNextDate, getDateFromState } from './utils';
@@ -107,7 +107,7 @@ const ExpensesTimeWindow = () => {
             <Button
               size={'sm'}
               onClick={onRightClick}
-              isDisabled={
+              disabled={
                 (timeWindow === TimeWindow.DAY && date.getDate() === day) ||
                 (timeWindow === TimeWindow.MONTH &&
                   date.getMonth() === month) ||
@@ -138,7 +138,7 @@ const ExpensesTimeWindow = () => {
           <TimeWindowComponent onTimeWindowChange={onTimeWindowChange} />
         </HStack>
       </HStack>
-      <Divider />
+      <Separator />
       {timeWindow === TimeWindow.DAY && (
         <HStack width={'100%'}>
           <DateInput

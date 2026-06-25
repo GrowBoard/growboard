@@ -1,4 +1,3 @@
-import { IMAGE_MODAL_ID } from './constants';
 import { ImagePreviewModalButtonProps } from './types';
 
 /**
@@ -12,9 +11,13 @@ const ImagePreviewModalButton = ({
   onClickHandler,
 }: ImagePreviewModalButtonProps) => {
   return (
-    <label htmlFor={IMAGE_MODAL_ID} onClick={onClickHandler}>
+    <button
+      type="button"
+      onClick={onClickHandler}
+      style={{ border: 'none', background: 'none', padding: 0, cursor: 'pointer' }}
+    >
       {children}
-    </label>
+    </button>
   );
 };
 

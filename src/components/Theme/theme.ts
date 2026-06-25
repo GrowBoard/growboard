@@ -1,26 +1,36 @@
-import { ThemeConfig, extendTheme } from '@chakra-ui/react';
+import { createSystem, defaultConfig, defineConfig } from '@chakra-ui/react';
 import colors from './colors';
 import { fontSize, fontWeight, lineHeight, zIndices } from './fonts';
 import '@fontsource/space-mono';
 
-const config: ThemeConfig = {
-  initialColorMode: 'light',
-  useSystemColorMode: false,
-  disableTransitionOnChange: false,
-};
+function toTokens<T>(obj: T): any {
+  const result: any = {};
+  for (const [key, val] of Object.entries(obj || {})) {
+    if (typeof val === 'object' && val !== null && !Array.isArray(val)) {
+      result[key] = toTokens(val);
+    } else {
+      result[key] = { value: val };
+    }
+  }
+  return result;
+}
 
-const themeData = {
-  config: { ...config },
-  colors: { ...colors },
-  fontSizes: { ...fontSize },
-  fonts: {
-    heading: `'Space Mono', monospace`,
+const themeData = defineConfig({
+  theme: {
+    tokens: {
+      colors: toTokens(colors),
+      fontSizes: toTokens(fontSize),
+      fonts: {
+        heading: { value: `'Space Mono', monospace` },
+      },
+      fontWeights: toTokens(fontWeight),
+      lineHeights: toTokens(lineHeight),
+      zIndex: toTokens(zIndices),
+    },
   },
-  fontWeights: { ...fontWeight },
-  lineHeights: { ...lineHeight },
-  zIndices: { ...zIndices },
-};
+});
 
-const theme = extendTheme(themeData);
+const theme = createSystem(defaultConfig, themeData);
 
 export default theme;
+

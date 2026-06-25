@@ -1,13 +1,6 @@
 import {
-  Tr,
-  Td,
+  Table,
   Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverArrow,
-  PopoverCloseButton,
-  PopoverHeader,
-  PopoverBody,
   HStack,
   VStack,
   Text,
@@ -31,15 +24,15 @@ const ExpenseRow = ({
 }) => {
   const today = appStore(useShallow(todayDateSelector));
   return (
-    <Tr key={date} py={0}>
-      <Td
+    <Table.Row key={date} py={0}>
+      <Table.Cell
         py={0}
         textAlign={'center'}
         border={'1px'}
         bgColor={date === today ? 'green.400' : undefined}
       >
         {date}
-      </Td>
+      </Table.Cell>
       {Object.values(ExpenseType).map((type) => {
         const allPoint = data.filter((typed) => typed.category === type);
         const total = allPoint.reduce(
@@ -47,7 +40,7 @@ const ExpenseRow = ({
           0 as number,
         );
         return (
-          <Td
+          <Table.Cell
             key={type}
             p={0}
             border={'1px'}
@@ -60,8 +53,8 @@ const ExpenseRow = ({
                   : undefined
             }
           >
-            <Popover closeOnBlur>
-              <PopoverTrigger>
+            <Popover.Root lazyMount unmountOnExit>
+              <Popover.Trigger asChild>
                 <Text
                   fontSize={'xs'}
                   _hover={{
@@ -71,16 +64,16 @@ const ExpenseRow = ({
                 >
                   {total}
                 </Text>
-              </PopoverTrigger>
-              <PopoverContent>
-                <PopoverArrow />
-                <PopoverCloseButton />
-                <PopoverHeader>
+              </Popover.Trigger>
+              <Popover.Content bg="gray.800" borderColor="gray.700" p={3} borderRadius="md" shadow="lg" zIndex={1200}>
+                <Popover.Arrow />
+                <Popover.CloseTrigger />
+                <Popover.Title fontWeight="semibold" mb={2} color="white">
                   {allPoint.length > 0
                     ? `Details of expense for  ${type} (${date})`
                     : `Add Expense for ${type} (${date})`}
-                </PopoverHeader>
-                <PopoverBody>
+                </Popover.Title>
+                <Popover.Body>
                   {allPoint.length > 0 ? (
                     allPoint?.map((point) => {
                       return (
@@ -92,11 +85,12 @@ const ExpenseRow = ({
                           borderRadius={'md'}
                           p={1}
                           my={1}
+                          borderColor="gray.600"
                         >
                           <VStack
                             w={'80%'}
                             alignItems={'start'}
-                            spacing={1}
+                            gap={1}
                             fontSize={'xs'}
                           >
                             <Text>Amount: {point.amount}</Text>
@@ -114,16 +108,16 @@ const ExpenseRow = ({
                   ) : (
                     <AddExpenseButton date={date} type={type} />
                   )}
-                </PopoverBody>
-              </PopoverContent>
-            </Popover>
-          </Td>
+                </Popover.Body>
+              </Popover.Content>
+            </Popover.Root>
+          </Table.Cell>
         );
       })}
-      <Td py={0} textAlign={'center'} bg={'blue.100'} border={'1px'}>
+      <Table.Cell py={0} textAlign={'center'} bg={'blue.100'} border={'1px'}>
         {sum}
-      </Td>
-    </Tr>
+      </Table.Cell>
+    </Table.Row>
   );
 };
 
