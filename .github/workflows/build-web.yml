@@ -1,0 +1,117 @@
+name: Build & Publish Web App
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  check-branch:
+    name: Validate Branch
+    runs-on: ubuntu-latest
+    steps:
+      - name: Assert development branch
+        run: |
+          echo "Triggered branch: ${{ github.ref_name }}"
+          if [ "${{ github.ref_name }}" != "development" ]; then
+            echo "Error: This workflow can only be manually run on the 'development' branch."
+            exit 1
+          fi
+
+  build-web:
+    name: Build Web App
+    needs: check-branch
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.PA_TOKEN }}
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 20
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install Dependencies
+        run: yarn install --immutable
+
+      - name: Build Web App
+        run: yarn build
+
+      - name: Upload Web Build Artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: web-build-frontend
+          path: build/
+          retention-days: 1
+
+  release-web:
+    name: Release Web App
+    needs: build-web
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.PA_TOKEN }}
+          fetch-depth: 0
+
+      - name: Conventional Changelog Action
+        id: changelog
+        uses: TriPSs/conventional-changelog-action@latest
+        with:
+          github-token: ${{ secrets.PA_TOKEN }}
+          git-user-name: 'GrowBoard Bot'
+          output-file: false
+          version-file: 'package.json'
+          git-path: '.'
+          tag-prefix: 'v'
+          skip-on-empty: 'false'
+
+      - name: Download Web Build Artifacts
+        if: ${{ steps.changelog.outputs.skipped == 'false' }}
+        uses: actions/download-artifact@v7
+        with:
+          name: web-build-frontend
+          path: build/
+
+      - name: Zip Build Artifacts
+        if: ${{ steps.changelog.outputs.skipped == 'false' }}
+        run: |
+          cd build
+          zip -r ../web-build.zip .
+          cd ..
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v3
+        if: ${{ steps.changelog.outputs.skipped == 'false' }}
+        with:
+          tag_name: ${{ steps.changelog.outputs.tag }}
+          name: ${{ steps.changelog.outputs.tag }}
+          body: ${{ steps.changelog.outputs.clean_changelog }}
+          files: web-build.zip
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.PA_TOKEN }}
+
+      - name: 📂 Sync files
+        if: ${{ steps.changelog.outputs.skipped == 'false' }}
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ftp.gb.amitraikwar.in
+          username: u392139545.githubgrowboard
+          password: ${{ secrets.HOSTINGER_FTP_PASSWORD }}
+          local-dir: build/
+          server-dir: ./

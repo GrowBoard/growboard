@@ -12,10 +12,11 @@ This ruleset defines the standard patterns for creating and managing Pull Reques
 
 - **Owner:** `GrowBoard`
 - **Repository:** `growboard`
-- **Default Base Branch:** `main`
+- **Default Base Branch:** `development` (since there is no `main` branch)
+- **Tooling:** All Pull Request creation and updates MUST use the `github-mcp-server` toolset.
 
 > [!IMPORTANT]
-> Every Pull Request created MUST use `owner: "GrowBoard"` and `repo: "growboard"`.
+> Every Pull Request created MUST use `owner: "GrowBoard"` and `repo: "growboard"`, and target the `development` branch.
 
 ## 2. Pull Request Types
 
@@ -91,7 +92,7 @@ When creating a PR using the `github-mcp-server` tool, ensure:
 2. The `title` strictly follows the format above.
 3. The `body` (description) strictly follows the corresponding template.
 4. The `head` branch strictly follows the naming convention: `{username}/{ticket-number}/{short-description}`.
-5. The `base` branch is `main`.
+5. The `base` branch is `development`.
 6. Always set the PR **Assignee** to `ar022` and add `ar1603` as a **Reviewer**.
 7. Apply functional **Labels** (`Web`, `Core`, `Design`, or `Packages`) to the PR.
 
