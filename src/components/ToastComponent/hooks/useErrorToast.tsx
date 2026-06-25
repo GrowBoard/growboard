@@ -1,16 +1,13 @@
-import { useToast } from '@chakra-ui/react';
+import { toaster } from '../toaster';
 import { useTranslation } from 'react-i18next';
 
 const useErrorToast = () => {
   const { t } = useTranslation();
-  const toast = useToast();
 
   return (titleKey: string) =>
-    toast({
+    toaster.create({
       title: t(titleKey),
-      status: 'error',
-      duration: 3000,
-      isClosable: true,
+      type: 'error',
     });
 };
 

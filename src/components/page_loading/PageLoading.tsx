@@ -1,3 +1,4 @@
+import { Center, Spinner } from '@chakra-ui/react';
 import { PageLoadingComponentProps } from './types';
 
 /**
@@ -8,9 +9,9 @@ import { PageLoadingComponentProps } from './types';
  */
 const PageLoadingComponent = (props: PageLoadingComponentProps) => {
   return (
-    <div className=" h-full w-full justify-center items-center flex ">
-      <span className="loading loading-spinner loading-lg text-primary"></span>
-    </div>
+    <Center h="100%" w="100%">
+      <Spinner size="xl" color="blue.500" />
+    </Center>
   );
 };
 

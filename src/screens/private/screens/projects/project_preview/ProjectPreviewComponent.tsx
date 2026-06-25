@@ -1,10 +1,21 @@
 /* eslint-disable jsx-a11y/iframe-has-title */
-
 import { ImagePreviewModalButton } from '@components';
 import { WebsiteIcon, GithubIcon, HostingerIcon } from '@assets';
 import { imageModalSelector, useShallow } from '@selectors';
 import { appStore } from '@store';
 import { Key } from 'react';
+import {
+  Box,
+  Flex,
+  Grid,
+  Heading,
+  HStack,
+  Image,
+  Text,
+  Button,
+  Badge,
+  Link,
+} from '@chakra-ui/react';
 
 export type IProjectPreviewComponentProps = {
   project: any;
@@ -17,69 +28,122 @@ const ProjectPreviewComponent = (props: IProjectPreviewComponentProps) => {
   };
 
   return (
-    <div className="bg-base-100 shadow-xl outline-double rounded-md w-full px-4  py-1 h-full">
-      <div className="w-full grid grid-cols-2">
-        <div className="flex flex-col justify-start gap-3">
-          <div className="flex flex-row items-start justify-between">
-            <div className="flex flex-row items-start justify-center">
-              <img
+    <Box
+      bg="gray.850"
+      shadow="xl"
+      border="1px solid"
+      borderColor="gray.700"
+      borderRadius="md"
+      w="100%"
+      px={4}
+      py={3}
+      h="full"
+    >
+      <Grid templateColumns={{ base: '1fr', lg: '1fr 1fr' }} gap={6} w="100%">
+        <Flex direction="column" gap={4}>
+          <Flex
+            direction="row"
+            align="center"
+            justify="space-between"
+            wrap="wrap"
+            gap={3}
+          >
+            <Flex direction="row" align="center" gap={4}>
+              <Image
                 src={props.project.projectIcon}
                 alt={props.project.title}
                 loading="lazy"
-                className="w-[100px] h-[100px] rounded-md outline p-1 mt-4 hover:scale-110 transition-all duration-300 ease-in-out"
+                boxSize="80px"
+                borderRadius="md"
+                border="1px solid"
+                borderColor="gray.600"
+                p={1}
+                _hover={{ transform: 'scale(1.1)' }}
+                transition="transform 0.3s ease-in-out"
               />
-              <div className="p-4">
-                <h1 className="text-4xl font-bold textarea-ghost">
-                  {props.project.projectName}
-                </h1>
-              </div>
-            </div>
-            <div className="flex flex-col items-center justify-center p-5">
+              <Heading size="2xl" fontWeight="bold" color="white">
+                {props.project.projectName}
+              </Heading>
+            </Flex>
+            <Box>
               {props.project.isLive ? (
-                <span className="badge badge-success animate-pulse duration-75 m-1">
+                <Badge colorPalette="green" variant="solid" size="lg">
                   Live
-                </span>
+                </Badge>
               ) : (
-                <span className="badge badge-error m-1">Not live</span>
+                <Badge colorPalette="red" variant="solid" size="lg">
+                  Not live
+                </Badge>
               )}
-            </div>
-          </div>
+            </Box>
+          </Flex>
+
           {/* Link buttons */}
-          <div className="flex flex-row justify-between p-2">
-            <a
+          <Flex direction="row" wrap="wrap" gap={3} py={2}>
+            <Link
               href={'http://' + props.project.projectLink}
               target="_blank"
               rel="noreferrer"
-              className="btn btn-success justify-between btn-outline w-[190px]"
+              style={{ flex: 1, textDecoration: 'none' }}
             >
-              <WebsiteIcon />
-              Project live link
-            </a>
-            <a
+              <Button
+                variant="outline"
+                colorPalette="green"
+                w="100%"
+                justifyContent="space-between"
+                px={4}
+              >
+                <WebsiteIcon />
+                Project live link
+              </Button>
+            </Link>
+            <Link
               href={props.project.githubLink}
               target="_blank"
               rel="noreferrer"
-              className="btn justify-between px-3 btn-outline w-[190px]"
+              style={{ flex: 1, textDecoration: 'none' }}
             >
-              <GithubIcon />
-              Github repo link
-            </a>
-            <a
+              <Button
+                variant="outline"
+                colorPalette="gray"
+                w="100%"
+                justifyContent="space-between"
+                px={4}
+              >
+                <GithubIcon />
+                Github repo link
+              </Button>
+            </Link>
+            <Link
               href={props.project.hostingerLink}
               target="_blank"
               rel="noreferrer"
-              className="btn btn-outline btn-info justify-between px-4 w-[190px]"
+              style={{ flex: 1, textDecoration: 'none' }}
             >
-              <HostingerIcon />
-              Hostinger link
-            </a>
-          </div>
+              <Button
+                variant="outline"
+                colorPalette="blue"
+                w="100%"
+                justifyContent="space-between"
+                px={4}
+              >
+                <HostingerIcon />
+                Hostinger link
+              </Button>
+            </Link>
+          </Flex>
+
           {/* Project description */}
-          <div className="flex flex-col items-start">
-            <h2 className="text-xl font-semibold">Project description</h2>
-            <p className="text-base">{props.project.projectDesc}</p>
-          </div>
-          <div className="flex flex-row items-start overflow-scroll gap-3 p-2 ">
+          <Box display="flex" flexDirection="column" gap={2}>
+            <Heading size="md" color="white" fontWeight="semibold">
+              Project description
+            </Heading>
+            <Text color="gray.300" fontSize="sm">
+              {props.project.projectDesc}
+            </Text>
+          </Box>
+
+          <HStack gap={3} p={2} overflowX="auto" w="100%">
             {props.project.images.map(
               (image: string | undefined, index: Key | null | undefined) => (
                 <ImagePreviewModalButton
@@ -88,40 +152,82 @@ const ProjectPreviewComponent = (props: IProjectPreviewComponentProps) => {
                   }}
                   key={index}
                 >
-                  <img
+                  <Image
                     key={index}
                     src={image}
                     alt={props.project.title}
                     loading="lazy"
-                    className="w-[150px] h-[100px] rounded-md outline p-1 mt-4 hover:scale-105 hover:cursor-pointer"
+                    w="150px"
+                    h="100px"
+                    borderRadius="md"
+                    border="1px solid"
+                    borderColor="gray.600"
+                    p={1}
+                    _hover={{ transform: 'scale(1.05)', cursor: 'pointer' }}
+                    transition="transform 0.2s"
                   />
                 </ImagePreviewModalButton>
               ),
             )}
-          </div>
-        </div>
+          </HStack>
+        </Flex>
+
         {/** Mockup part */}
-        <div className="flex flex-col items-center justify-center">
-          <div className="mockup-browser border border-base-300 w-[100%]">
-            <div className="mockup-browser-toolbar">
-              <div className="input border border-base-300">
+        <Flex direction="column" justify="center" align="center" w="100%">
+          <Box
+            border="1px solid"
+            borderColor="gray.700"
+            borderRadius="lg"
+            overflow="hidden"
+            w="100%"
+            bg="gray.900"
+            shadow="lg"
+          >
+            {/* Browser Toolbar */}
+            <HStack
+              bg="gray.800"
+              px={4}
+              py={2}
+              gap={3}
+              borderBottom="1px solid"
+              borderColor="gray.700"
+            >
+              {/* Dots */}
+              <HStack gap={1.5}>
+                <Box w={3} h={3} borderRadius="full" bg="red.500" />
+                <Box w={3} h={3} borderRadius="full" bg="yellow.500" />
+                <Box w={3} h={3} borderRadius="full" bg="green.500" />
+              </HStack>
+              {/* Address Bar */}
+              <Box
+                flex={1}
+                bg="gray.950"
+                px={3}
+                py={1}
+                borderRadius="md"
+                border="1px solid"
+                borderColor="gray.700"
+                color="gray.400"
+                fontSize="xs"
+                textAlign="center"
+              >
                 {props.project.projectLink}
-              </div>
-            </div>
-            <div className="flex justify-center bg-base-200">
+              </Box>
+            </HStack>
+            {/* Browser Body */}
+            <Box bg="gray.950" display="flex" justifyContent="center">
               <iframe
-                width={1500}
+                width="100%"
                 height={400}
                 style={{ border: 0 }}
                 loading="lazy"
-                className=""
                 src={'http://' + props.project.projectLink}
-              ></iframe>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+              />
+            </Box>
+          </Box>
+        </Flex>
+      </Grid>
+    </Box>
   );
 };
 

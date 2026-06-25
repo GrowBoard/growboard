@@ -4,3 +4,4 @@ export * from './profile_icon';
 export * from './project_icon';
 export * from './sidebar_icons';
 export * from './social_icon';
+export * from './GrowboardIcon';

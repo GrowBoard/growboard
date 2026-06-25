@@ -1,4 +1,4 @@
-import { Divider, Text, VStack } from '@chakra-ui/react';
+import { Separator, Text, VStack } from '@chakra-ui/react';
 import { ExpenseSummaryProps } from './types';
 import { appStore } from '@store';
 import { timeWindowSelector, useShallow } from '@selectors';
@@ -18,7 +18,7 @@ const ExpenseSummary = ({ expenseByCategory }: ExpenseSummaryProps) => {
       <Text fontSize={'md'} fontWeight={'semibold'} textAlign={'center'}>
         Summary({timeWindow})
       </Text>
-      <Divider />
+      <Separator />
       {Object.entries(expenseByCategory).map(([category, expense]) => (
         <Text
           w={'100%'}
@@ -33,7 +33,7 @@ const ExpenseSummary = ({ expenseByCategory }: ExpenseSummaryProps) => {
           {category}: {expense}
         </Text>
       ))}
-      <Divider variant={'dashed'} bgColor={'black'} />
+      <Separator variant={'dashed'} borderColor="gray.600" />
       <Text
         w={'100%'}
         fontSize={'sm'}

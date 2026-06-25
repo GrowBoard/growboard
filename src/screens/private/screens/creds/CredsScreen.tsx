@@ -3,6 +3,7 @@ import getSubNavTitle from '../../../../util/nav/NavTitle';
 import { OverviewIcon, DeleteIcon, AddIcon, EditIcon } from '@assets';
 import { TooltipComponent } from '@components';
 import { CredsScreenProps } from './types';
+import { Box, Flex, Button } from '@chakra-ui/react';
 
 const CredsRoutes = [
   { title: 'Credentials over', icon: <OverviewIcon />, path: 'preview' },
@@ -13,31 +14,51 @@ const CredsRoutes = [
 
 /**
  * Component definition for the creds screen component.
- * @param props The props for the creds screen component.
  * @returns The creds screen component.
  */
 const CredsScreen = (props: CredsScreenProps) => {
   const currentLocation = useLocation();
   return (
-    <div className="h-full">
-      <div className=" m-2 bg-primary-content p-1 drop-shadow-md rounded-lg flex flex-row justify-between items-center">
-        <div className="text-xl font-semibold mx-4">
+    <Box h="full" w="100%">
+      <Flex
+        m={2}
+        bg="gray.800"
+        border="1px solid"
+        borderColor="gray.700"
+        p={2}
+        borderRadius="lg"
+        justify="space-between"
+        align="center"
+        shadow="md"
+      >
+        <Box fontSize="xl" fontWeight="semibold" mx={4} color="white">
           {getSubNavTitle(currentLocation.pathname)}
-        </div>
-        <div className="flex flex-row space-x-2 gap-3">
+        </Box>
+        <Flex gap={2}>
           {CredsRoutes.map((item, index) => (
             <TooltipComponent key={index} title={item.title}>
-              <NavLink to={item.path} className="btn btn-square btn-outline ">
-                {item.icon}
-              </NavLink>
+              <Button
+                asChild
+                variant="outline"
+                borderColor="gray.600"
+                color="white"
+                _hover={{ bg: 'gray.700' }}
+                _currentPage={{ bg: 'blue.600', borderColor: 'blue.500' }}
+                p={2}
+                minW="40px"
+                h="40px"
+                borderRadius="md"
+              >
+                <NavLink to={item.path}>{item.icon}</NavLink>
+              </Button>
             </TooltipComponent>
           ))}
-        </div>
-      </div>
-      <div className="overflow-scroll h-[90%]">
+        </Flex>
+      </Flex>
+      <Box overflowY="auto" h="90%">
         <Outlet />
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

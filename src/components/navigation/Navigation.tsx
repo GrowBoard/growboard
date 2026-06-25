@@ -6,12 +6,13 @@ import {
   SettingsIcon,
   LogoutIcon,
   ProfilePlaceholder,
+  GrowboardIcon,
 } from '@assets';
 import { NavigationComponentProps } from './types';
-
 import { authNameSelector, useShallow } from '@selectors';
 import { appStore } from '@store';
-import { Box, Button, HStack, useColorMode } from '@chakra-ui/react';
+import { Box, Button, HStack, Menu, Switch, Text } from '@chakra-ui/react';
+import { useColorMode } from '../Theme';
 
 /**
  * Navigation component.
@@ -26,112 +27,151 @@ const NavigationComponent = (props: NavigationComponentProps) => {
 
   return (
     <Box
-      bgColor={'blue.100'}
+      bgColor={colorMode === 'dark' ? 'gray.900' : 'blue.50'}
+      borderBottom="1px solid"
+      borderColor={colorMode === 'dark' ? 'gray.800' : 'blue.100'}
       display={'flex'}
       justifyContent={'space-between'}
       alignItems={'center'}
-      paddingX={2}
+      paddingX={4}
       h={'7%'}
       pos={'sticky'}
       top={0}
       zIndex={10}
-      px={4}
     >
-      {/* <div className="flex-none">
-        <button
-          className="btn btn-square btn-ghost"
-          onClick={props.openSidebarClickHandler}
-        >
-          <NavigationToggleButton
-            openSidebarClickHandler={props.openSidebarClickHandler}
-          />
-        </button>
-      </div> */}
-      <Box className="flex-1">
-        <Button
-          as={NavLink}
-          to={''}
-          variant={'outline'}
-          colorScheme={'blue'}
-          borderColor={'blue.200'}
-        >
-          <img
-            src={require('../../assets/images/logo-no-bg.png')}
-            className=" w-36 inline-block"
-            alt="Dashwave-logo"
-          />
-        </Button>
+      <Box flex={1}>
+        <NavLink to="" style={{ display: 'inline-block' }}>
+          <Button variant={'ghost'} p={0} _hover={{ bg: 'transparent' }}>
+            <HStack gap={2} align="center">
+              <GrowboardIcon width="32px" height="32px" />
+              <Text
+                fontWeight="bold"
+                fontSize="lg"
+                color={colorMode === 'dark' ? 'white' : 'gray.800'}
+              >
+                Growboard
+              </Text>
+            </HStack>
+          </Button>
+        </NavLink>
       </Box>
-      <HStack spacing={2} h={'100%'} alignItems={'center'}>
-        <div className="px-2">
-          <input
+      <HStack gap={4} h={'100%'} alignItems={'center'}>
+        <Box display="flex" alignItems="center" gap={2}>
+          <Switch.Root
             checked={colorMode === 'dark'}
-            type="checkbox"
-            value="night"
-            onChange={toggleColorMode}
-            className=" toggle theme-controller bg-amber-300 border-sky-400 [--tglbg:theme(colors.sky.500)] checked:bg-blue-300 checked:border-blue-800 checked:[--tglbg:theme(colors.blue.900)] row-start-1 col-start-1 col-span-2"
-          />
-        </div>
-        <div className="dropdown dropdown-end">
-          <div
-            tabIndex={0}
-            role="button"
-            className="btn btn-ghost btn-circle avatar"
+            onCheckedChange={() => toggleColorMode()}
+            colorPalette="blue"
+            size="md"
           >
-            <div className="w-10 rounded-full">
-              <ProfilePlaceholder />
-              {/* {profileState.profilePicture === '' ? (
-              ) : (
-                <img
-                  alt="Tailwind CSS Navbar component"
-                  src={profileState.profilePicture}
-                />
-              )} */}
-            </div>
-          </div>
-          <ul
-            tabIndex={0}
-            className="mt-3 z-[1] p-2 shadow menu menu-md dropdown-content bg-base-300 rounded-box w-52 drop-shadow-2xl"
+            <Switch.HiddenInput />
+            <Switch.Control>
+              <Switch.Thumb />
+            </Switch.Control>
+          </Switch.Root>
+        </Box>
+        <Menu.Root>
+          <Menu.Trigger asChild>
+            <Button variant="ghost" borderRadius="full" p={0} w="40px" h="40px">
+              <Box w="40px" h="40px" borderRadius="full" overflow="hidden">
+                <ProfilePlaceholder />
+              </Box>
+            </Button>
+          </Menu.Trigger>
+          <Menu.Content
+            bg="gray.850"
+            borderColor="gray.700"
+            border="1px solid"
+            p={2}
+            borderRadius="md"
+            shadow="xl"
+            zIndex={1100}
+            minW="200px"
           >
-            <li className="menu-title">
-              <span>
-                {t('ProfileMenuOption.hiText', {
-                  name: name,
-                })}
-              </span>
-            </li>
-            <li className="m-1">
-              <NavLink className="justify-between" to={'/profile/preview'}>
-                <div className="flex flex-row gap-2 items-center">
-                  <ProfileIcon />
-                  {t('ProfileMenuOption.profile')}
-                </div>
-                <span className="badge">New</span>
+            <Menu.Item
+              value="hi"
+              disabled
+              color="gray.400"
+              px={3}
+              py={2}
+              fontSize="sm"
+            >
+              {t('ProfileMenuOption.hiText', {
+                name: name,
+              })}
+            </Menu.Item>
+            <Menu.Item value="profile" asChild>
+              <NavLink
+                to={'/profile/preview'}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '8px',
+                  borderRadius: '4px',
+                  textDecoration: 'none',
+                  color: 'white',
+                  width: '100%',
+                }}
+              >
+                <ProfileIcon />
+                {t('ProfileMenuOption.profile')}
               </NavLink>
-            </li>
-            <li className="m-1">
-              <NavLink to={'/profile/reset'}>
+            </Menu.Item>
+            <Menu.Item value="reset" asChild>
+              <NavLink
+                to={'/profile/reset'}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '8px',
+                  borderRadius: '4px',
+                  textDecoration: 'none',
+                  color: 'white',
+                  width: '100%',
+                }}
+              >
                 <PasswordResetIcon />
                 {t('ProfileMenuOption.passwordReset')}
               </NavLink>
-            </li>
-            <li className="m-1">
-              <NavLink to={'/profile/settings'}>
+            </Menu.Item>
+            <Menu.Item value="settings" asChild>
+              <NavLink
+                to={'/profile/settings'}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '8px',
+                  borderRadius: '4px',
+                  textDecoration: 'none',
+                  color: 'white',
+                  width: '100%',
+                }}
+              >
                 <SettingsIcon />
                 {t('ProfileMenuOption.settings')}
               </NavLink>
-            </li>
-            <li className="m-1">
-              <button
-                onClick={props.logOutClickHandler}
-                className=" bg-error text-error-content"
-              >
-                <LogoutIcon />
-                {t('ProfileMenuOption.logout')}
-              </button>
-            </li>
-          </ul>
-        </div>
+            </Menu.Item>
+            <Menu.Item
+              value="logout"
+              onClick={props.logOutClickHandler}
+              color="red.400"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '8px',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                width: '100%',
+              }}
+            >
+              <LogoutIcon />
+              {t('ProfileMenuOption.logout')}
+            </Menu.Item>
+          </Menu.Content>
+        </Menu.Root>
       </HStack>
     </Box>
   );

@@ -1,6 +1,17 @@
 import { NavLink } from 'react-router-dom';
 import { ProjectCardProps } from './types';
 import { useTranslation } from 'react-i18next';
+import {
+  Card,
+  Image,
+  Skeleton,
+  Progress,
+  Badge,
+  Button,
+  Flex,
+  Text,
+  Link,
+} from '@chakra-ui/react';
 
 /**
  * Project card component.
@@ -21,51 +32,94 @@ const ProjectCard = ({ data }: ProjectCardProps) => {
     path,
   } = data;
   return (
-    <div className="card w-[360px] bg-base-100 shadow-xl outline-double">
-      <figure>
-        {image ? (
-          <img src={image} alt={title} loading="lazy" />
-        ) : (
-          <div className="skeleton w-[360px] h-[200px] mx-2 mt-2"></div>
-        )}
-      </figure>
-      <div className="card-body">
-        <div className="flex flex-row justify-between items-center p-2 drop-shadow-lg border rounded-xl">
+    <Card.Root
+      maxW="360px"
+      overflow="hidden"
+      variant="elevated"
+      border="1px solid"
+      borderColor="gray.700"
+      bg="gray.850"
+      shadow="xl"
+    >
+      {image ? (
+        <Image
+          src={image}
+          alt={title}
+          loading="lazy"
+          h="200px"
+          w="100%"
+          objectFit="cover"
+        />
+      ) : (
+        <Skeleton h="200px" mx={2} mt={2} borderRadius="md" />
+      )}
+      <Card.Body gap={3} p={5}>
+        <Flex
+          direction="row"
+          justify="space-between"
+          align="center"
+          p={2}
+          borderRadius="xl"
+          border="1px solid"
+          borderColor="gray.600"
+          bg="gray.900"
+          w="100%"
+        >
           <TitleAndLiveBadge
             title={title}
             isLive={isLive}
             liveLink={projectLiveLink}
           />
           {icon ? (
-            <img src={icon} alt={title} className="w-10 h-10" />
+            <Image src={icon} alt={title} boxSize="40px" />
           ) : (
-            <div className="skeleton w-16 h-16 rounded-full"></div>
+            <Skeleton boxSize="40px" borderRadius="full" />
           )}
-        </div>
-        <p>{description}</p>
-        <div className="flex flex-row items-center justify-between">
-          <progress
-            className="progress progress-primary w-[80%] mt-2"
-            value={completed}
-            max="100"
-          ></progress>
-          <div className="text-primary text-lg font-semibold">{completed}%</div>
-        </div>
-        <div className="card-actions justify-between mt-2 ">
-          <a
+        </Flex>
+        <Text color="gray.300" fontSize="sm" mt={2}>
+          {description}
+        </Text>
+        <Flex align="center" justify="space-between" mt={2} gap={4} w="100%">
+          <Progress.Root value={completed} flex="1" size="sm">
+            <Progress.Track bg="gray.700">
+              <Progress.Range bg="blue.500" />
+            </Progress.Track>
+          </Progress.Root>
+          <Text fontSize="md" fontWeight="semibold" color="blue.300">
+            {completed}%
+          </Text>
+        </Flex>
+        <Flex justify="space-between" mt={4} gap={3} w="100%">
+          <Link
             href={githubLink}
             target="_blank"
-            className="btn btn-outline"
             rel="noreferrer"
+            style={{ flex: 1, textDecoration: 'none' }}
           >
-            {t('ProjectCard.projectLink')}
-          </a>
-          <NavLink to={path} className="btn btn-outline btn-primary">
-            {t('ProjectCard.projectPreview')}
+            <Button
+              variant="outline"
+              borderColor="gray.600"
+              color="white"
+              _hover={{ bg: 'gray.700' }}
+              w="100%"
+            >
+              {t('ProjectCard.projectLink')}
+            </Button>
+          </Link>
+          <NavLink to={path} style={{ flex: 1, textDecoration: 'none' }}>
+            <Button
+              variant="solid"
+              bg="blue.600"
+              color="white"
+              _hover={{ bg: 'blue.500' }}
+              w="100%"
+            >
+              {t('ProjectCard.projectPreview')}
+            </Button>
           </NavLink>
-        </div>
-      </div>
-    </div>
+        </Flex>
+      </Card.Body>
+    </Card.Root>
   );
 };
 
@@ -77,25 +131,25 @@ function TitleAndLiveBadge(props: {
 }) {
   const { t } = useTranslation();
   return (
-    <div className="flex flex-row justify-start items-center">
-      <h2 className="card-title">
-        <a
+    <Flex align="center" gap={2}>
+      <Card.Title>
+        <Link
           href={`http://${props.liveLink}`}
           target="_blank"
           rel="noreferrer"
-          className=" hover:text-primary hover: duration-75"
+          color="white"
+          fontWeight="bold"
+          _hover={{ color: 'blue.300' }}
         >
           {props.title}
-        </a>
-      </h2>
-      <div>
-        {props.isLive && (
-          <span className="badge badge-success animate-pulse duration-75 m-1">
-            {t('ProjectCard.liveStatus')}
-          </span>
-        )}
-      </div>
-    </div>
+        </Link>
+      </Card.Title>
+      {props.isLive && (
+        <Badge colorPalette="green" variant="solid" size="sm">
+          {t('ProjectCard.liveStatus')}
+        </Badge>
+      )}
+    </Flex>
   );
 }
 

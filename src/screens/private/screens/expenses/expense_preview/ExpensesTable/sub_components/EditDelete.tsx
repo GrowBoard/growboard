@@ -14,29 +14,31 @@ const AddEditDelete = ({
   date: string;
 }) => {
   return (
-    <VStack alignItems={'end'} justifyContent={'end'} spacing={1} h={'100%'}>
+    <VStack alignItems={'end'} justifyContent={'end'} gap={1} h={'100%'}>
       <TooltipComponent title={'Add Expense'}>
         <AddExpenseButton date={date} type={type} />
       </TooltipComponent>
       <TooltipComponent title={'Edit'}>
         <IconButton
-          aria-label=""
+          aria-label="Edit"
           size={'xs'}
           variant={'outline'}
           colorScheme="cyan"
           mx={1}
-          icon={<EditIcon />}
-        />
+        >
+          <EditIcon />
+        </IconButton>
       </TooltipComponent>
       <TooltipComponent title={'Delete'}>
         <IconButton
-          aria-label=""
+          aria-label="Delete"
           size={'xs'}
           variant={'outline'}
           colorScheme="red"
           mx={1}
-          icon={<DeleteIcon />}
-        />
+        >
+          <DeleteIcon />
+        </IconButton>
       </TooltipComponent>
     </VStack>
   );

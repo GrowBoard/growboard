@@ -1,4 +1,5 @@
-import { Img } from '@chakra-ui/react';
+import { Center, Box, VStack, Text } from '@chakra-ui/react';
+import { GrowboardIcon } from '@assets';
 import TemplatePointers from './TemplatePointer';
 
 /**
@@ -8,19 +9,24 @@ import TemplatePointers from './TemplatePointer';
  */
 const LandingIntro = () => {
   return (
-    <div className="hero min-h-full">
-      <div className="hero-content py-12">
-        <div className="max-w-md">
-          <Img
-            src={require('../../assets/images/logo-no-bg.png')}
-            className="inline-block mr-2 mask"
-            alt="dashwind-logo"
-          />
-          {/*  pointers component */}
-          <TemplatePointers />
-        </div>
-      </div>
-    </div>
+    <Center h="100%" py={6}>
+      <Box
+        maxW="md"
+        textAlign="center"
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+      >
+        <VStack gap={2} mb={6} align="center">
+          <GrowboardIcon width="80px" height="80px" />
+          <Text fontWeight="extrabold" fontSize="3xl" color="white">
+            Growboard
+          </Text>
+        </VStack>
+        {/*  pointers component */}
+        <TemplatePointers />
+      </Box>
+    </Center>
   );
 };
 
