@@ -1,58 +1,50 @@
-### Localization
+# Localization Module
 
-Localization is build using the `i18next` library. The localization files are located in the `src/localization` directory. The `i18next` library is used to load the localization files and provide the translations to the application. The `i18next` library is initialized in the `src/index.js` file.
+i18next translation configurations and locale JSON files for multi-language support in GrowBoard.
 
-### Adding a new language
+## Table of Contents
 
-To add a new language, create a new file in the `src/localization/locales` directory with the language code as the file name. For example, to add a new language with the language code `es`, create a new file named `es.json` under a folder`src/localization/locales/es` directory. The file should contain the translations for the new language. For example:
+- [Directory Structure](#directory-structure)
+- [Tech Stack & Dependencies](#tech-stack--dependencies)
+- [How It Works](#how-it-works)
 
-```json
-{
-  "hello": "Hola",
-  "world": "Mundo"
-}
+## Directory Structure
+
+```
+localization/
+├── locales/
+│   ├── en/             # English translations
+│   │   ├── common.json
+│   │   ├── web.json
+│   │   └── error.json
+│   ├── es/             # Spanish translations
+│   └── hi/             # Hindi translations
+├── i18n.ts             # i18next configuration setup
+└── README.md
 ```
 
-Then, import the new language file in the `src/localization/config.ts` file and add it to the `resources` object. For example:
+## Tech Stack & Dependencies
 
-```typescript
-import es from './locales/es/es.json';
+| Package                            | Version | Purpose                             |
+| :--------------------------------- | :------ | :---------------------------------- |
+| `react-i18next`                    | 14.1.0  | React bindings for i18next          |
+| `i18next`                          | 23.11.2 | Core internationalization framework |
+| `i18next-browser-languagedetector` | 7.2.1   | Automatic language detection        |
 
-const resources = {
-  en: {
-    translation: en,
-  },
-  es: {
-    translation: es,
-  },
+## How It Works
+
+The module initializes the `i18next` instance and loads translations from `locales/`.
+
+To utilize localization in components, import the `useTranslation` hook:
+
+```tsx
+import { useTranslation } from 'react-i18next';
+
+export const Greeting = () => {
+  const { t } = useTranslation('common');
+  return <h1>{t('greeting')}</h1>; // Renders the localized string
 };
 ```
 
-Finally, update the `src/localization/config.ts` file to include the new language in the `supportedLanguages` array. For example:
-
-```typescript
-export const supportedLanguages = ['en', 'es'];
-```
-
-### Using localization
-
-To use localization in the application, import the `useTranslation` hook from the `react-i18next` library. For example:
-
-```typescript
-import { useTranslation } from 'react-i18next';
-```
-
-Then, use the `t` function from the `useTranslation` hook to translate the text. For example:
-
-```typescript
-const { t } = useTranslation();
-
-return (
-    <div>
-        <h1>{t('hello')}</h1>
-        <p>{t('world')}</p>
-    </div>
-);
-```
-
-The `t` function takes a key as an argument and returns the translation for that key. If the translation is not found, the key is returned as the translation.
+> [!WARNING]
+> Ensure all added translation keys in `en/` are duplicated and localized in all supported language folders to guarantee a safe fallback.
