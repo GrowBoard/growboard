@@ -1,10 +1,4 @@
-import {
-  Table,
-  Popover,
-  HStack,
-  VStack,
-  Text,
-} from '@chakra-ui/react';
+import { Table, Popover, HStack, VStack, Text } from '@chakra-ui/react';
 import { ExpenseType } from '../../types';
 import { EXPENSE_TYPE_COLOR } from '../constants';
 import AddExpenseButton from './AddExpenseButton';
@@ -65,7 +59,14 @@ const ExpenseRow = ({
                   {total}
                 </Text>
               </Popover.Trigger>
-              <Popover.Content bg="gray.800" borderColor="gray.700" p={3} borderRadius="md" shadow="lg" zIndex={1200}>
+              <Popover.Content
+                bg="gray.800"
+                borderColor="gray.700"
+                p={3}
+                borderRadius="md"
+                shadow="lg"
+                zIndex={1200}
+              >
                 <Popover.Arrow />
                 <Popover.CloseTrigger />
                 <Popover.Title fontWeight="semibold" mb={2} color="white">

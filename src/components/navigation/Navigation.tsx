@@ -41,14 +41,14 @@ const NavigationComponent = (props: NavigationComponentProps) => {
     >
       <Box flex={1}>
         <NavLink to="" style={{ display: 'inline-block' }}>
-          <Button
-            variant={'ghost'}
-            p={0}
-            _hover={{ bg: 'transparent' }}
-          >
+          <Button variant={'ghost'} p={0} _hover={{ bg: 'transparent' }}>
             <HStack gap={2} align="center">
               <GrowboardIcon width="32px" height="32px" />
-              <Text fontWeight="bold" fontSize="lg" color={colorMode === 'dark' ? 'white' : 'gray.800'}>
+              <Text
+                fontWeight="bold"
+                fontSize="lg"
+                color={colorMode === 'dark' ? 'white' : 'gray.800'}
+              >
                 Growboard
               </Text>
             </HStack>
@@ -57,7 +57,12 @@ const NavigationComponent = (props: NavigationComponentProps) => {
       </Box>
       <HStack gap={4} h={'100%'} alignItems={'center'}>
         <Box display="flex" alignItems="center" gap={2}>
-          <Switch.Root checked={colorMode === 'dark'} onCheckedChange={() => toggleColorMode()} colorPalette="blue" size="md">
+          <Switch.Root
+            checked={colorMode === 'dark'}
+            onCheckedChange={() => toggleColorMode()}
+            colorPalette="blue"
+            size="md"
+          >
             <Switch.HiddenInput />
             <Switch.Control>
               <Switch.Thumb />
@@ -72,8 +77,24 @@ const NavigationComponent = (props: NavigationComponentProps) => {
               </Box>
             </Button>
           </Menu.Trigger>
-          <Menu.Content bg="gray.850" borderColor="gray.700" border="1px solid" p={2} borderRadius="md" shadow="xl" zIndex={1100} minW="200px">
-            <Menu.Item value="hi" disabled color="gray.400" px={3} py={2} fontSize="sm">
+          <Menu.Content
+            bg="gray.850"
+            borderColor="gray.700"
+            border="1px solid"
+            p={2}
+            borderRadius="md"
+            shadow="xl"
+            zIndex={1100}
+            minW="200px"
+          >
+            <Menu.Item
+              value="hi"
+              disabled
+              color="gray.400"
+              px={3}
+              py={2}
+              fontSize="sm"
+            >
               {t('ProfileMenuOption.hiText', {
                 name: name,
               })}
@@ -89,7 +110,7 @@ const NavigationComponent = (props: NavigationComponentProps) => {
                   borderRadius: '4px',
                   textDecoration: 'none',
                   color: 'white',
-                  width: '100%'
+                  width: '100%',
                 }}
               >
                 <ProfileIcon />
@@ -107,7 +128,7 @@ const NavigationComponent = (props: NavigationComponentProps) => {
                   borderRadius: '4px',
                   textDecoration: 'none',
                   color: 'white',
-                  width: '100%'
+                  width: '100%',
                 }}
               >
                 <PasswordResetIcon />
@@ -125,7 +146,7 @@ const NavigationComponent = (props: NavigationComponentProps) => {
                   borderRadius: '4px',
                   textDecoration: 'none',
                   color: 'white',
-                  width: '100%'
+                  width: '100%',
                 }}
               >
                 <SettingsIcon />
@@ -143,7 +164,7 @@ const NavigationComponent = (props: NavigationComponentProps) => {
                 padding: '8px',
                 borderRadius: '4px',
                 cursor: 'pointer',
-                width: '100%'
+                width: '100%',
               }}
             >
               <LogoutIcon />

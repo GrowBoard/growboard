@@ -67,7 +67,7 @@ const ExpenseTable = () => {
               border: '1px solid #4a5568',
               color: 'white',
               fontSize: '14px',
-              cursor: 'pointer'
+              cursor: 'pointer',
             }}
             value={month}
             onChange={(e) =>
@@ -94,15 +94,31 @@ const ExpenseTable = () => {
       </HStack>
       <Separator my={4} borderColor="gray.700" />
       {isLoading ? (
-        <Box w={'100%'} h={'100%'} display={'flex'} justifyContent={'center'} py={10}>
+        <Box
+          w={'100%'}
+          h={'100%'}
+          display={'flex'}
+          justifyContent={'center'}
+          py={10}
+        >
           <Spinner size={'md'} color="green" />
         </Box>
       ) : (
         <Box overflowX="auto" w="100%">
-          <Table.Root fontSize={'xs'} variant={'line'} border="1px solid" borderColor="gray.700">
+          <Table.Root
+            fontSize={'xs'}
+            variant={'line'}
+            border="1px solid"
+            borderColor="gray.700"
+          >
             <Table.Header>
               <Table.Row>
-                <Table.ColumnHeader border={'1px solid'} borderColor="gray.700" textAlign={'center'} color="gray.300">
+                <Table.ColumnHeader
+                  border={'1px solid'}
+                  borderColor="gray.700"
+                  textAlign={'center'}
+                  color="gray.300"
+                >
                   Date
                 </Table.ColumnHeader>
                 {Object.values(ExpenseType).map((type) => {
@@ -119,7 +135,12 @@ const ExpenseTable = () => {
                     </Table.ColumnHeader>
                   );
                 })}
-                <Table.ColumnHeader textAlign={'center'} border={'1px solid'} borderColor="gray.700" color="gray.300">
+                <Table.ColumnHeader
+                  textAlign={'center'}
+                  border={'1px solid'}
+                  borderColor="gray.700"
+                  color="gray.300"
+                >
                   Day total
                 </Table.ColumnHeader>
               </Table.Row>
@@ -129,7 +150,13 @@ const ExpenseTable = () => {
                 <ExpenseRow key={rowData.date} {...rowData} />
               ))}
               <Table.Row>
-                <Table.Cell textAlign={'center'} border={'1px solid'} borderColor="gray.700" fontWeight="semibold" color="gray.300">
+                <Table.Cell
+                  textAlign={'center'}
+                  border={'1px solid'}
+                  borderColor="gray.700"
+                  fontWeight="semibold"
+                  color="gray.300"
+                >
                   Category total(₹)
                 </Table.Cell>
                 {Object.values(ExpenseType).map((type) => {

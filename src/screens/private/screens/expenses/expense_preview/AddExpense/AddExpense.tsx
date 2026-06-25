@@ -101,16 +101,31 @@ const AddExpense = () => {
       <Drawer.Root
         open={isOpen}
         placement="end"
-        onOpenChange={(e: any) => { if (!e.open) clearData(); }}
+        onOpenChange={(e: any) => {
+          if (!e.open) clearData();
+        }}
         size={'md'}
       >
         <Drawer.Backdrop />
         <Drawer.Positioner>
-          <Drawer.Content bg="gray.850" borderLeft="1px solid" borderColor="gray.700">
-            <Drawer.CloseTrigger position="absolute" top={4} right={4} color="white" />
+          <Drawer.Content
+            bg="gray.850"
+            borderLeft="1px solid"
+            borderColor="gray.700"
+          >
+            <Drawer.CloseTrigger
+              position="absolute"
+              top={4}
+              right={4}
+              color="white"
+            />
             <Drawer.Header>
-              <Drawer.Title color="white" fontSize="xl" fontWeight="semibold">Add new expense</Drawer.Title>
-              <Text fontSize={'sm'} color="gray.400">Fill in the details</Text>
+              <Drawer.Title color="white" fontSize="xl" fontWeight="semibold">
+                Add new expense
+              </Drawer.Title>
+              <Text fontSize={'sm'} color="gray.400">
+                Fill in the details
+              </Text>
             </Drawer.Header>
             <Drawer.Body>
               <VStack gap={4} mt={4}>
@@ -168,7 +183,7 @@ const AddExpense = () => {
                     border: '1px solid #4a5568',
                     color: 'white',
                     fontSize: '14px',
-                    cursor: 'pointer'
+                    cursor: 'pointer',
                   }}
                   value={expenseInputData.category}
                   onChange={(e) =>
@@ -179,7 +194,11 @@ const AddExpense = () => {
                   }
                 >
                   {Object.keys(ExpenseType).map((category) => (
-                    <option key={category} value={category} style={{ background: '#1a202c', color: 'white' }}>
+                    <option
+                      key={category}
+                      value={category}
+                      style={{ background: '#1a202c', color: 'white' }}
+                    >
                       {category}
                     </option>
                   ))}
@@ -209,7 +228,12 @@ const AddExpense = () => {
               >
                 Cancel
               </Button>
-              <Button bg="green.600" color="white" _hover={{ bg: 'green.500' }} onClick={handleAddExpense}>
+              <Button
+                bg="green.600"
+                color="white"
+                _hover={{ bg: 'green.500' }}
+                onClick={handleAddExpense}
+              >
                 Add Expense
               </Button>
             </Drawer.Footer>

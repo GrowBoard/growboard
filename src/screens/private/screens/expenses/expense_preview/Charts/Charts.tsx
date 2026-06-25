@@ -57,7 +57,10 @@ const Charts = () => {
             .toISOString()
             .split('T')[0];
 
-          return groupedData[date]?.reduce((acc: number, curr: any) => acc + curr.amount, 0);
+          return groupedData[date]?.reduce(
+            (acc: number, curr: any) => acc + curr.amount,
+            0,
+          );
         }),
         backgroundColor: '#1AAFA0',
       },
@@ -71,7 +74,8 @@ const Charts = () => {
         data: Object.values(ExpenseType).map(
           (type) =>
             (timeWindow === TimeWindow.DAY ? groupedData[date] : data)?.reduce(
-              (acc: number, curr: any) => (curr.category === type ? acc + curr.amount : acc),
+              (acc: number, curr: any) =>
+                curr.category === type ? acc + curr.amount : acc,
               0,
             ) ?? 0,
         ),
@@ -88,7 +92,8 @@ const Charts = () => {
         ? groupedData[date]
         : data
       )?.reduce(
-        (acc: number, curr: any) => (curr.category === category ? acc + curr.amount : acc),
+        (acc: number, curr: any) =>
+          curr.category === category ? acc + curr.amount : acc,
         0,
       ),
     }),

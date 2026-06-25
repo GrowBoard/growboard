@@ -14,7 +14,12 @@ const ImagePreviewModalButton = ({
     <button
       type="button"
       onClick={onClickHandler}
-      style={{ border: 'none', background: 'none', padding: 0, cursor: 'pointer' }}
+      style={{
+        border: 'none',
+        background: 'none',
+        padding: 0,
+        cursor: 'pointer',
+      }}
     >
       {children}
     </button>

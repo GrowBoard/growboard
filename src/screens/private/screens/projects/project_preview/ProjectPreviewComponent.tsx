@@ -4,7 +4,18 @@ import { WebsiteIcon, GithubIcon, HostingerIcon } from '@assets';
 import { imageModalSelector, useShallow } from '@selectors';
 import { appStore } from '@store';
 import { Key } from 'react';
-import { Box, Flex, Grid, Heading, HStack, Image, Text, Button, Badge, Link } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  Grid,
+  Heading,
+  HStack,
+  Image,
+  Text,
+  Button,
+  Badge,
+  Link,
+} from '@chakra-ui/react';
 
 export type IProjectPreviewComponentProps = {
   project: any;
@@ -17,10 +28,26 @@ const ProjectPreviewComponent = (props: IProjectPreviewComponentProps) => {
   };
 
   return (
-    <Box bg="gray.850" shadow="xl" border="1px solid" borderColor="gray.700" borderRadius="md" w="100%" px={4} py={3} h="full">
+    <Box
+      bg="gray.850"
+      shadow="xl"
+      border="1px solid"
+      borderColor="gray.700"
+      borderRadius="md"
+      w="100%"
+      px={4}
+      py={3}
+      h="full"
+    >
       <Grid templateColumns={{ base: '1fr', lg: '1fr 1fr' }} gap={6} w="100%">
         <Flex direction="column" gap={4}>
-          <Flex direction="row" align="center" justify="space-between" wrap="wrap" gap={3}>
+          <Flex
+            direction="row"
+            align="center"
+            justify="space-between"
+            wrap="wrap"
+            gap={3}
+          >
             <Flex direction="row" align="center" gap={4}>
               <Image
                 src={props.project.projectIcon}
@@ -108,8 +135,12 @@ const ProjectPreviewComponent = (props: IProjectPreviewComponentProps) => {
 
           {/* Project description */}
           <Box display="flex" flexDirection="column" gap={2}>
-            <Heading size="md" color="white" fontWeight="semibold">Project description</Heading>
-            <Text color="gray.300" fontSize="sm">{props.project.projectDesc}</Text>
+            <Heading size="md" color="white" fontWeight="semibold">
+              Project description
+            </Heading>
+            <Text color="gray.300" fontSize="sm">
+              {props.project.projectDesc}
+            </Text>
           </Box>
 
           <HStack gap={3} p={2} overflowX="auto" w="100%">
@@ -143,9 +174,24 @@ const ProjectPreviewComponent = (props: IProjectPreviewComponentProps) => {
 
         {/** Mockup part */}
         <Flex direction="column" justify="center" align="center" w="100%">
-          <Box border="1px solid" borderColor="gray.700" borderRadius="lg" overflow="hidden" w="100%" bg="gray.900" shadow="lg">
+          <Box
+            border="1px solid"
+            borderColor="gray.700"
+            borderRadius="lg"
+            overflow="hidden"
+            w="100%"
+            bg="gray.900"
+            shadow="lg"
+          >
             {/* Browser Toolbar */}
-            <HStack bg="gray.800" px={4} py={2} gap={3} borderBottom="1px solid" borderColor="gray.700">
+            <HStack
+              bg="gray.800"
+              px={4}
+              py={2}
+              gap={3}
+              borderBottom="1px solid"
+              borderColor="gray.700"
+            >
               {/* Dots */}
               <HStack gap={1.5}>
                 <Box w={3} h={3} borderRadius="full" bg="red.500" />
@@ -153,7 +199,18 @@ const ProjectPreviewComponent = (props: IProjectPreviewComponentProps) => {
                 <Box w={3} h={3} borderRadius="full" bg="green.500" />
               </HStack>
               {/* Address Bar */}
-              <Box flex={1} bg="gray.950" px={3} py={1} borderRadius="md" border="1px solid" borderColor="gray.700" color="gray.400" fontSize="xs" textAlign="center">
+              <Box
+                flex={1}
+                bg="gray.950"
+                px={3}
+                py={1}
+                borderRadius="md"
+                border="1px solid"
+                borderColor="gray.700"
+                color="gray.400"
+                fontSize="xs"
+                textAlign="center"
+              >
                 {props.project.projectLink}
               </Box>
             </HStack>

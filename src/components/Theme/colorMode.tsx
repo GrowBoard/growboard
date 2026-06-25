@@ -8,12 +8,18 @@ interface ColorModeContextType {
   setColorMode: (mode: ColorMode) => void;
 }
 
-const ColorModeContext = createContext<ColorModeContextType | undefined>(undefined);
+const ColorModeContext = createContext<ColorModeContextType | undefined>(
+  undefined,
+);
 
-export const ColorModeProvider = ({ children }: { children: React.ReactNode }) => {
+export const ColorModeProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
   const [colorMode, setColorModeState] = useState<ColorMode>(() => {
     const saved = localStorage.getItem('chakra-color-mode');
-    return (saved === 'dark' || saved === 'light') ? saved : 'dark';
+    return saved === 'dark' || saved === 'light' ? saved : 'dark';
   });
 
   useEffect(() => {
@@ -39,8 +45,13 @@ export const ColorModeProvider = ({ children }: { children: React.ReactNode }) =
   };
 
   return (
-    <ColorModeContext.Provider value={{ colorMode, toggleColorMode, setColorMode }}>
-      <div className={colorMode} style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <ColorModeContext.Provider
+      value={{ colorMode, toggleColorMode, setColorMode }}
+    >
+      <div
+        className={colorMode}
+        style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}
+      >
         {children}
       </div>
     </ColorModeContext.Provider>

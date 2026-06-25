@@ -19,7 +19,17 @@ const ProjectsScreen = () => {
 
   return (
     <Box h="full" w="100%">
-      <Flex m={2} bg="gray.850" border="1px solid" borderColor="gray.700" p={2} borderRadius="lg" justify="space-between" align="center" shadow="md">
+      <Flex
+        m={2}
+        bg="gray.850"
+        border="1px solid"
+        borderColor="gray.700"
+        p={2}
+        borderRadius="lg"
+        justify="space-between"
+        align="center"
+        shadow="md"
+      >
         <Box fontSize="xl" fontWeight="semibold" mx={4} color="white">
           {getSubNavTitle(currentLocation.pathname)}
         </Box>
@@ -38,9 +48,7 @@ const ProjectsScreen = () => {
                 h="40px"
                 borderRadius="md"
               >
-                <NavLink to={item.path}>
-                  {item.icon}
-                </NavLink>
+                <NavLink to={item.path}>{item.icon}</NavLink>
               </Button>
             </TooltipComponent>
           ))}

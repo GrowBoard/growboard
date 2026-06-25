@@ -9,14 +9,20 @@ import { Card, Separator, Flex, Box } from '@chakra-ui/react';
  */
 const TitleCard = (props: TitleCardProps) => {
   return (
-    <Card.Root width="100%" p={6} variant="elevated" bg="gray.850" borderColor="gray.700" border="1px solid" mt={props.topMargin || 6}>
+    <Card.Root
+      width="100%"
+      p={6}
+      variant="elevated"
+      bg="gray.850"
+      borderColor="gray.700"
+      border="1px solid"
+      mt={props.topMargin || 6}
+    >
       <Flex justify="space-between" align="center" width="100%">
         <Card.Title fontSize="xl" fontWeight="semibold" color="white">
           {props.title}
         </Card.Title>
-        {props.TopSideButtons && (
-          <Box>{props.TopSideButtons}</Box>
-        )}
+        {props.TopSideButtons && <Box>{props.TopSideButtons}</Box>}
       </Flex>
 
       <Separator mt={2} mb={4} borderColor="gray.600" />

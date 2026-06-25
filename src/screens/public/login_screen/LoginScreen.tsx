@@ -1,10 +1,6 @@
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import {
-  LandingIntro,
-  TitleBoxContainer,
-  useSuccessToast,
-} from '@components';
+import { LandingIntro, TitleBoxContainer, useSuccessToast } from '@components';
 
 import { useTranslation } from 'react-i18next';
 import { Box, Button, Text, VStack } from '@chakra-ui/react';
@@ -63,7 +59,14 @@ const LoginScreen = () => {
       successToast('Google login successful.');
       setSearchParams({}, { replace: true });
     }
-  }, [tokenParam, nameParam, emailParam, setAuthData, setSearchParams, successToast]);
+  }, [
+    tokenParam,
+    nameParam,
+    emailParam,
+    setAuthData,
+    setSearchParams,
+    successToast,
+  ]);
 
   const loginWithGoogle = () => {
     window.location.href = `${GROWBOARD_BACKEND_URL}/auth/google`;

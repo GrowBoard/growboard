@@ -1,4 +1,8 @@
-import { createToaster, Toaster as ChakraToaster, Portal } from '@chakra-ui/react';
+import {
+  createToaster,
+  Toaster as ChakraToaster,
+  Portal,
+} from '@chakra-ui/react';
 
 export const toaster = createToaster({
   placement: 'top-end',

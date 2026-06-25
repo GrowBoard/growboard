@@ -5,10 +5,7 @@ import {
   createBrowserRouter,
   createRoutesFromChildren,
 } from 'react-router-dom';
-import {
-  LazyComponentProvider,
-  LazyLoginScreenComponent,
-} from '@provider';
+import { LazyComponentProvider, LazyLoginScreenComponent } from '@provider';
 
 export const publicRouter = createBrowserRouter(
   createRoutesFromChildren(

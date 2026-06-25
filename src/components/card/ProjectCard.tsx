@@ -1,7 +1,17 @@
 import { NavLink } from 'react-router-dom';
 import { ProjectCardProps } from './types';
 import { useTranslation } from 'react-i18next';
-import { Card, Image, Skeleton, Progress, Badge, Button, Flex, Text, Link } from '@chakra-ui/react';
+import {
+  Card,
+  Image,
+  Skeleton,
+  Progress,
+  Badge,
+  Button,
+  Flex,
+  Text,
+  Link,
+} from '@chakra-ui/react';
 
 /**
  * Project card component.
@@ -22,14 +32,39 @@ const ProjectCard = ({ data }: ProjectCardProps) => {
     path,
   } = data;
   return (
-    <Card.Root maxW="360px" overflow="hidden" variant="elevated" border="1px solid" borderColor="gray.700" bg="gray.850" shadow="xl">
+    <Card.Root
+      maxW="360px"
+      overflow="hidden"
+      variant="elevated"
+      border="1px solid"
+      borderColor="gray.700"
+      bg="gray.850"
+      shadow="xl"
+    >
       {image ? (
-        <Image src={image} alt={title} loading="lazy" h="200px" w="100%" objectFit="cover" />
+        <Image
+          src={image}
+          alt={title}
+          loading="lazy"
+          h="200px"
+          w="100%"
+          objectFit="cover"
+        />
       ) : (
         <Skeleton h="200px" mx={2} mt={2} borderRadius="md" />
       )}
       <Card.Body gap={3} p={5}>
-        <Flex direction="row" justify="space-between" align="center" p={2} borderRadius="xl" border="1px solid" borderColor="gray.600" bg="gray.900" w="100%">
+        <Flex
+          direction="row"
+          justify="space-between"
+          align="center"
+          p={2}
+          borderRadius="xl"
+          border="1px solid"
+          borderColor="gray.600"
+          bg="gray.900"
+          w="100%"
+        >
           <TitleAndLiveBadge
             title={title}
             isLive={isLive}
@@ -50,7 +85,9 @@ const ProjectCard = ({ data }: ProjectCardProps) => {
               <Progress.Range bg="blue.500" />
             </Progress.Track>
           </Progress.Root>
-          <Text fontSize="md" fontWeight="semibold" color="blue.300">{completed}%</Text>
+          <Text fontSize="md" fontWeight="semibold" color="blue.300">
+            {completed}%
+          </Text>
         </Flex>
         <Flex justify="space-between" mt={4} gap={3} w="100%">
           <Link

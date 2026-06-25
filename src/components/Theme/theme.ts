@@ -33,4 +33,3 @@ const themeData = defineConfig({
 const theme = createSystem(defaultConfig, themeData);
 
 export default theme;
-

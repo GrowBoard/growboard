@@ -10,7 +10,13 @@ import TemplatePointers from './TemplatePointer';
 const LandingIntro = () => {
   return (
     <Center h="100%" py={6}>
-      <Box maxW="md" textAlign="center" display="flex" flexDirection="column" alignItems="center">
+      <Box
+        maxW="md"
+        textAlign="center"
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+      >
         <VStack gap={2} mb={6} align="center">
           <GrowboardIcon width="80px" height="80px" />
           <Text fontWeight="extrabold" fontSize="3xl" color="white">

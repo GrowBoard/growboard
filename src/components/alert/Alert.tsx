@@ -12,7 +12,13 @@ import { getAlertType } from './utils';
 const AlertComponent = ({ title, type }: AlertComponentProps) => {
   const { alertIconType } = getAlertType(type);
   return (
-    <Alert.Root status={alertIconType as any} variant="subtle" borderRadius="md" p={3} my={2}>
+    <Alert.Root
+      status={alertIconType as any}
+      variant="subtle"
+      borderRadius="md"
+      p={3}
+      my={2}
+    >
       <Alert.Indicator>
         <AlertIcon type={alertIconType} />
       </Alert.Indicator>
