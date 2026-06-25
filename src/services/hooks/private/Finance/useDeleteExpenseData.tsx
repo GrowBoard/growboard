@@ -2,30 +2,30 @@ import { useCallSBMutation } from '../../common';
 import { useErrorToast, useSuccessToast } from '@components';
 import { googleSheetsExpenseService } from '../../../googleSheetsExpenseService';
 import { useQueryClient } from '@tanstack/react-query';
-import { ExpenseType } from '@screens/private/screens/expenses/expense_preview/types';
 
-const useAddExpenseData = () => {
+const useDeleteExpenseData = () => {
   const errorToast = useErrorToast();
   const successToast = useSuccessToast();
   const queryClient = useQueryClient();
 
   return useCallSBMutation({
-    method: (data: {
-      amount: number;
-      category: ExpenseType;
-      date_time: string;
-      comment: string;
-    }) => googleSheetsExpenseService.addExpense(data),
+    method: async (data: { expenseId: string; dateStr: string }) => {
+      await googleSheetsExpenseService.deleteExpense(
+        data.expenseId,
+        data.dateStr,
+      );
+      return { success: true };
+    },
     mutationOptions: {
       onSuccess: () => {
-        successToast('Added expense successfully.');
+        successToast('Deleted expense successfully.');
         queryClient.invalidateQueries();
       },
       onError: (error: any) => {
-        errorToast(error.message || 'Failed to add expense');
+        errorToast(error.message || 'Failed to delete expense');
       },
     },
   });
 };
 
-export default useAddExpenseData;
+export default useDeleteExpenseData;

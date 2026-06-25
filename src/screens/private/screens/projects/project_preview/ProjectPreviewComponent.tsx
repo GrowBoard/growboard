@@ -29,10 +29,10 @@ const ProjectPreviewComponent = (props: IProjectPreviewComponentProps) => {
 
   return (
     <Box
-      bg="gray.850"
+      bg="bg.card"
       shadow="xl"
       border="1px solid"
-      borderColor="gray.700"
+      borderColor="border.subtle"
       borderRadius="md"
       w="100%"
       px={4}

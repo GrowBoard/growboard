@@ -19,6 +19,7 @@ export type ExpenseDataState = {
     isOpen: boolean;
     type?: ExpenseType;
     date?: string;
+    expenseId?: string;
   };
 };
 
@@ -30,7 +31,12 @@ export interface ExpenseStateActions {
     month: number;
     year?: number;
   }) => void;
-  setAddExpense: (isOpen: boolean, type?: ExpenseType, date?: string) => void;
+  setAddExpense: (
+    isOpen: boolean,
+    type?: ExpenseType,
+    date?: string,
+    expenseId?: string,
+  ) => void;
 }
 
 export type ExpenseStateSlice = ExpenseDataState & ExpenseStateActions;

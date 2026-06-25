@@ -18,11 +18,19 @@ const PillButton = ({
   return (
     <Button
       value={timeWindow}
-      bgColor={isSelected ? 'blue.300' : 'white'}
-      variant={'outline'}
+      bg={isSelected ? 'indigo.600' : 'transparent'}
+      color={isSelected ? 'white' : 'text.muted'}
+      _hover={{
+        color: isSelected ? 'white' : 'text.primary',
+        bg: isSelected ? 'indigo.500' : 'bg.active',
+      }}
       onClick={() => setTimeWindow(timeWindow)}
-      size={'sm'}
-      borderRadius={100}
+      size={'xs'}
+      borderRadius="full"
+      transition="all 0.2s"
+      px={4}
+      h="24px"
+      fontWeight={isSelected ? 'bold' : 'normal'}
     >
       {timeWindow}
     </Button>
@@ -43,7 +51,14 @@ const TimeWindowComponent = ({
   };
 
   return (
-    <HStack justifyContent={'space-between'} w={'80%'}>
+    <HStack
+      gap={0.5}
+      bg="bg.panel"
+      p={0.5}
+      borderRadius="full"
+      border="1px solid"
+      borderColor="border.subtle"
+    >
       <PillButton
         timeWindow={TimeWindow.DAY}
         setTimeWindow={handleTimeWindowChange}

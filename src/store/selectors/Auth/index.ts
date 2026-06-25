@@ -3,4 +3,6 @@ export {
   isUserLoggedInSelector,
   removeAuthDataSelector,
   authNameSelector,
+  authPictureSelector,
+  authEmailSelector,
 } from './Auth.selector';

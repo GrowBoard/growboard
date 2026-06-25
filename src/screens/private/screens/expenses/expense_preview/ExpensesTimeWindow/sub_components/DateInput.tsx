@@ -15,13 +15,13 @@ const DateInput = ({
     <HStack w="100%" gap={0}>
       <Box
         w="25%"
-        bg="blue.200"
-        color="blue.900"
+        bg="bg.glass"
+        color="text.secondary"
         py="7px"
         px={3}
         borderLeftRadius="md"
         border="1px solid"
-        borderColor="gray.600"
+        borderColor="border.subtle"
         borderRight="none"
         fontSize="sm"
         fontWeight="semibold"
@@ -34,13 +34,17 @@ const DateInput = ({
         borderRightRadius="md"
         borderLeftRadius="none"
         border="1px solid"
-        borderColor="gray.600"
-        bg="gray.800"
-        color="white"
+        borderColor="border.subtle"
+        bg="bg.panel"
+        color="text.primary"
         type="date"
         textAlign="center"
         value={value}
         max={maxValue}
+        _focus={{
+          borderColor: 'border.focus',
+          boxShadow: '0 0 0 1px var(--chakra-colors-border-focus)',
+        }}
         onChange={(e) => setValue(e.target.value)}
       />
     </HStack>

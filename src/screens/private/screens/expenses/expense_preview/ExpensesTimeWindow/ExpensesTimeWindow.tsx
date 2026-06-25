@@ -1,157 +1,192 @@
-import { VStack, HStack, Button, Text, Separator } from '@chakra-ui/react';
-import { TimeWindowComponent, DateInput } from './sub_components';
-import { useMemo, useCallback } from 'react';
-import { getPrevDate, getNextDate, getDateFromState } from './utils';
-import { getWindowString } from './utils';
+import { HStack, Button, Text } from '@chakra-ui/react';
+import { getPrevDate, getNextDate } from './utils';
 import { appStore, TimeWindow } from '@store';
-import {
-  dateSelector,
-  overviewInputSelector,
-  timeWindowSelector,
-  todayDateSelector,
-  useShallow,
-} from '@selectors';
+import { overviewInputSelector, useShallow } from '@selectors';
+
+const MONTH_NAMES = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
 
 const ExpensesTimeWindow = () => {
-  const timeWindow = appStore(useShallow(timeWindowSelector));
   const { dateState, setOverviewInputWithDay } = appStore(
     useShallow(overviewInputSelector),
   );
-  const today = appStore(useShallow(todayDateSelector));
-  const date = appStore(useShallow(dateSelector));
-  const { day, month, year } = dateState;
+  const today = new Date();
+  const { month, year } = dateState;
+
+  // Enforce TimeWindow.MONTH for the backend/sheets integrations
+  const timeWindow = TimeWindow.MONTH;
 
   const onLeftClick = () =>
     setOverviewInputWithDay(getPrevDate(timeWindow, dateState));
   const onRightClick = () =>
     setOverviewInputWithDay(getNextDate(timeWindow, dateState));
 
-  const { startDate } = useMemo(
-    () => getDateFromState(timeWindow, { day, month, year }),
-    [timeWindow, day, month, year],
+  const handleMonthChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setOverviewInputWithDay({
+      ...dateState,
+      month: parseInt(e.target.value, 10),
+    });
+  };
+
+  const handleYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setOverviewInputWithDay({
+      ...dateState,
+      year: parseInt(e.target.value, 10),
+    });
+  };
+
+  const isRightDisabled =
+    year > today.getFullYear() ||
+    (year === today.getFullYear() && month >= today.getMonth());
+
+  // Generate year options from 2024 to current year + 2
+  const currentYear = today.getFullYear();
+  const yearOptions = Array.from(
+    { length: currentYear + 2 - 2024 + 1 },
+    (_, i) => 2024 + i,
   );
 
-  const onTimeWindowChange = useCallback(
-    (timeWindow: TimeWindow) => {
-      switch (timeWindow) {
-        case TimeWindow.DAY:
-          setOverviewInputWithDay({
-            ...dateState,
-            day: date.getDate(),
-            month: date.getMonth(),
-            year: date.getFullYear(),
-          });
-          break;
-        case TimeWindow.MONTH:
-          setOverviewInputWithDay({
-            day: date.getDate(),
-            month: date.getMonth(),
-            year: date.getFullYear(),
-          });
-          break;
-        case TimeWindow.YEAR:
-          setOverviewInputWithDay({
-            day: date.getDate(),
-            month: date.getMonth(),
-            year: date.getFullYear(),
-          });
-          break;
-      }
-    },
-    [date, dateState, setOverviewInputWithDay],
+  const LeftChevron = () => (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <polyline points="15 18 9 12 15 6"></polyline>
+    </svg>
   );
+
+  const RightChevron = () => (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  );
+
+  // Dropdown style token integration
+  const selectStyle: React.CSSProperties = {
+    background: 'var(--chakra-colors-bg-panel)',
+    border: '1px solid var(--chakra-colors-border-subtle)',
+    borderRadius: '8px',
+    color: 'var(--chakra-colors-text-primary)',
+    padding: '4px 10px',
+    fontSize: '14px',
+    fontWeight: 600,
+    outline: 'none',
+    cursor: 'pointer',
+    height: '34px',
+  };
 
   return (
-    <VStack
-      flex={1}
+    <HStack
       w={'100%'}
-      alignItems={'start'}
-      paddingX={2}
-      borderRadius={10}
-      p={2}
-      shadow={'0px 0px 10px rgba(0, 0, 0, 0.25)'}
+      justifyContent={'space-between'}
+      alignItems={'center'}
+      bg="bg.glass"
+      backdropFilter="blur(24px)"
+      borderRadius={'xl'}
+      border={'1px solid'}
+      borderColor="border.subtle"
+      py={3}
+      px={5}
+      shadow={'xl'}
+      flexDirection={{ base: 'column', sm: 'row' }}
+      gap={3}
     >
-      <Text fontSize={'md'} fontWeight={'semibold'} textAlign={'center'}>
-        Expense Time Window
+      <Text
+        fontSize={'sm'}
+        fontWeight={'bold'}
+        color="text.primary"
+        letterSpacing="tight"
+      >
+        Expenses Period
       </Text>
-      <HStack w={'100%'} alignItems={'start'}>
-        <HStack
-          w={'50%'}
-          justifyContent={'space-between'}
-          border={'1px solid rgba(0, 0, 0, 0.4)'}
-          borderRadius={5}
-          pr={1}
+
+      <HStack gap={2}>
+        {/* Navigation arrow left */}
+        <Button
+          size={'sm'}
+          variant="ghost"
+          color="text.secondary"
+          _hover={{ bg: 'bg.active', color: 'text.primary' }}
+          onClick={onLeftClick}
+          h="34px"
+          w="34px"
+          p={0}
+          borderRadius="full"
         >
-          <Text
-            width={'20%'}
-            fontSize={'md'}
-            p={2}
-            fontWeight={'semibold'}
-            textAlign={'start'}
-            bg={'blue.200'}
-          >
-            Time window
-          </Text>
-          <HStack w={'80%'} justifyContent={'space-between'}>
-            <Button size={'sm'} onClick={onLeftClick}>
-              ◀️
-            </Button>
-            <Text
-              fontSize={'md'}
-              fontWeight={'semibold'}
-              textAlign={'center'}
-              width={'50%'}
+          <LeftChevron />
+        </Button>
+
+        {/* Month selector dropdown */}
+        <select value={month} onChange={handleMonthChange} style={selectStyle}>
+          {MONTH_NAMES.map((name, index) => (
+            <option
+              key={name}
+              value={index}
+              style={{ background: '#0e1116', color: 'white' }}
             >
-              {getWindowString(timeWindow, { day, month, year })}
-            </Text>
-            <Button
-              size={'sm'}
-              onClick={onRightClick}
-              disabled={
-                (timeWindow === TimeWindow.DAY && date.getDate() === day) ||
-                (timeWindow === TimeWindow.MONTH &&
-                  date.getMonth() === month) ||
-                (timeWindow === TimeWindow.YEAR && date.getFullYear() === year)
-              }
+              {name}
+            </option>
+          ))}
+        </select>
+
+        {/* Year selector dropdown */}
+        <select value={year} onChange={handleYearChange} style={selectStyle}>
+          {yearOptions.map((yr) => (
+            <option
+              key={yr}
+              value={yr}
+              style={{ background: '#0e1116', color: 'white' }}
             >
-              ▶️
-            </Button>
-          </HStack>
-        </HStack>
-        <HStack
-          w={'50%'}
-          pr={1}
-          justifyContent={'space-between'}
-          border={'1px solid rgba(0, 0, 0, 0.4)'}
-          borderRadius={5}
+              {yr}
+            </option>
+          ))}
+        </select>
+
+        {/* Navigation arrow right */}
+        <Button
+          size={'sm'}
+          variant="ghost"
+          color="text.secondary"
+          _hover={{ bg: 'bg.active', color: 'text.primary' }}
+          onClick={onRightClick}
+          disabled={isRightDisabled}
+          opacity={isRightDisabled ? 0.3 : 1}
+          h="34px"
+          w="34px"
+          p={0}
+          borderRadius="full"
         >
-          <Text
-            width={'20%'}
-            fontSize={'md'}
-            p={2}
-            fontWeight={'semibold'}
-            textAlign={'start'}
-            bg={'blue.200'}
-          >
-            Time window
-          </Text>
-          <TimeWindowComponent onTimeWindowChange={onTimeWindowChange} />
-        </HStack>
+          <RightChevron />
+        </Button>
       </HStack>
-      <Separator />
-      {timeWindow === TimeWindow.DAY && (
-        <HStack width={'100%'}>
-          <DateInput
-            text={'Date'}
-            value={startDate}
-            maxValue={today}
-            setValue={(value) =>
-              setOverviewInputWithDay({ ...dateState, day: Number(value) })
-            }
-          />
-        </HStack>
-      )}
-    </VStack>
+    </HStack>
   );
 };
 

@@ -1,14 +1,5 @@
 import { useMemo } from 'react';
-import {
-  Box,
-  Button,
-  Separator,
-  HStack,
-  Spinner,
-  Table,
-} from '@chakra-ui/react';
-import { EXPENSE_TYPE_COLOR, MONTHS } from './constants';
-import { AddExpense } from '../AddExpense';
+import { Box, Separator, Spinner, Table } from '@chakra-ui/react';
 import { ExpenseType } from '../types';
 import { ExpenseRow } from './sub_components';
 import { getExpenseDataForTable, getExpenseDataSumForCategory } from './utils';
@@ -19,7 +10,6 @@ import { useGetExpensesDataForDate } from '@hooks';
 const ExpenseTable = () => {
   const {
     dateState: { month },
-    setOverviewInput,
   } = appStore(useShallow(overviewInputSelector));
 
   const { data: queryResponse, isLoading } = useGetExpensesDataForDate();
@@ -42,66 +32,40 @@ const ExpenseTable = () => {
 
   return (
     <Box
+      id="expenses-register-table"
       w={'100%'}
       h={'100%'}
-      bg={'gray.850'}
-      p={4}
+      bg="bg.glass"
+      backdropFilter="blur(24px)"
+      p={5}
       my={4}
-      borderRadius={'lg'}
-      overflow={'auto'}
+      borderRadius={'xl'}
       border={'1px solid'}
-      borderColor={'gray.700'}
-      shadow={'0px 0px 10px rgba(0, 0, 0, 0.25)'}
+      borderColor="border.subtle"
+      shadow={'2xl'}
+      overflow={'auto'}
     >
-      <HStack w={'100%'} justifyContent={'space-between'}>
-        <Box fontSize={'xl'} fontWeight={'semibold'} color="white">
-          Expenses table
-        </Box>
-        <HStack gap={4} width={'35%'} justifyContent="flex-end">
-          <select
-            style={{
-              width: '120px',
-              padding: '6px 10px',
-              borderRadius: '6px',
-              background: '#1a202c',
-              border: '1px solid #4a5568',
-              color: 'white',
-              fontSize: '14px',
-              cursor: 'pointer',
-            }}
-            value={month}
-            onChange={(e) =>
-              setOverviewInput({ month: Number(e.target.value) })
-            }
-          >
-            {MONTHS.map((m, index) => (
-              <option key={m} value={index}>
-                {m}
-              </option>
-            ))}
-          </select>
-          <AddExpense />
-          <Button
-            size={'sm'}
-            bg={'green.600'}
-            color={'white'}
-            _hover={{ bg: 'green.500' }}
-            variant={'solid'}
-          >
-            Export
-          </Button>
-        </HStack>
-      </HStack>
-      <Separator my={4} borderColor="gray.700" />
+      <Box
+        fontSize={'lg'}
+        fontWeight={'bold'}
+        color="text.primary"
+        letterSpacing="tight"
+      >
+        Expenses Register
+      </Box>
+
+      <Separator my={4} borderColor="border.subtle" />
+
       {isLoading ? (
         <Box
           w={'100%'}
           h={'100%'}
           display={'flex'}
           justifyContent={'center'}
-          py={10}
+          alignItems={'center'}
+          py={12}
         >
-          <Spinner size={'md'} color="green" />
+          <Spinner size={'md'} color="indigo.500" />
         </Box>
       ) : (
         <Box overflowX="auto" w="100%">
@@ -109,15 +73,17 @@ const ExpenseTable = () => {
             fontSize={'xs'}
             variant={'line'}
             border="1px solid"
-            borderColor="gray.700"
+            borderColor="border.subtle"
           >
             <Table.Header>
-              <Table.Row>
+              <Table.Row bg="bg.app">
                 <Table.ColumnHeader
                   border={'1px solid'}
-                  borderColor="gray.700"
+                  borderColor="border.subtle"
                   textAlign={'center'}
-                  color="gray.300"
+                  color="text.secondary"
+                  fontWeight="bold"
+                  py={0.5}
                 >
                   Date
                 </Table.ColumnHeader>
@@ -125,11 +91,12 @@ const ExpenseTable = () => {
                   return (
                     <Table.ColumnHeader
                       border={'1px solid'}
-                      borderColor="gray.700"
+                      borderColor="border.subtle"
                       textAlign={'center'}
                       key={type}
-                      bgColor={EXPENSE_TYPE_COLOR[type]}
-                      color="white"
+                      color="text.secondary"
+                      fontWeight="bold"
+                      py={0.5}
                     >
                       {type}
                     </Table.ColumnHeader>
@@ -138,10 +105,12 @@ const ExpenseTable = () => {
                 <Table.ColumnHeader
                   textAlign={'center'}
                   border={'1px solid'}
-                  borderColor="gray.700"
-                  color="gray.300"
+                  borderColor="border.subtle"
+                  color="text.secondary"
+                  fontWeight="bold"
+                  py={0.5}
                 >
-                  Day total
+                  Day Total
                 </Table.ColumnHeader>
               </Table.Row>
             </Table.Header>
@@ -149,26 +118,27 @@ const ExpenseTable = () => {
               {dataToShow.map((rowData) => (
                 <ExpenseRow key={rowData.date} {...rowData} />
               ))}
-              <Table.Row>
+              <Table.Row bg="bg.app">
                 <Table.Cell
                   textAlign={'center'}
                   border={'1px solid'}
-                  borderColor="gray.700"
-                  fontWeight="semibold"
-                  color="gray.300"
+                  borderColor="border.subtle"
+                  fontWeight="bold"
+                  color="text.secondary"
+                  py={0.5}
                 >
-                  Category total(₹)
+                  Category total
                 </Table.Cell>
                 {Object.values(ExpenseType).map((type) => {
                   return (
                     <Table.Cell
                       key={type}
                       border={'1px solid'}
-                      borderColor="gray.700"
-                      bgColor={EXPENSE_TYPE_COLOR[type]}
+                      borderColor="border.subtle"
                       textAlign={'center'}
-                      fontWeight="semibold"
-                      color="white"
+                      fontWeight="bold"
+                      color="text.primary"
+                      py={0.5}
                     >
                       ₹{sumByCategory?.[type] ?? 0}
                     </Table.Cell>
@@ -176,12 +146,13 @@ const ExpenseTable = () => {
                 })}
                 <Table.Cell
                   border={'1px solid'}
-                  borderColor="gray.700"
+                  borderColor="border.subtle"
                   textAlign={'center'}
-                  bg={'green.600'}
-                  fontSize={'md'}
+                  bg="bg.active"
+                  fontSize={'xs'}
                   fontWeight={'bold'}
-                  color="white"
+                  color="indigo.300"
+                  py={0.5}
                 >
                   ₹{totalSum}
                 </Table.Cell>

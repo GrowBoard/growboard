@@ -9,3 +9,7 @@ export const removeAuthDataSelector = (state: AppStoreState) =>
   state.Auth.removeAuthToken;
 
 export const authNameSelector = (state: AppStoreState) => state.Auth.name;
+
+export const authPictureSelector = (state: AppStoreState) => state.Auth.picture;
+
+export const authEmailSelector = (state: AppStoreState) => state.Auth.email;

@@ -128,7 +128,7 @@ export const getNextDate = (
       return prev.month === 11
         ? {
             day: prev.day,
-            month: 1,
+            month: 0,
             year: prev.year + 1,
           }
         : {

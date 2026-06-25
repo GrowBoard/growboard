@@ -61,6 +61,7 @@ growboard/
 | `zustand`               | 4.5.2   | Global state management             |
 | `@tanstack/react-query` | 5.66.0  | Server-state synchronization        |
 | `@craco/craco`          | 7.1.0   | Webpack configuration overrides     |
+| `@react-oauth/google`   | 0.13.5  | Google OAuth Integration            |
 
 ## How It Works
 
@@ -75,6 +76,15 @@ growboard/
 
 - Node.js (v18+ recommended)
 - Yarn package manager
+
+### Configuration
+
+Create a `.env` file in the project root directory. Use the table below for configuration settings:
+
+| Variable                     | Description                                                   | Example Value                       | Required      |
+| :--------------------------- | :------------------------------------------------------------ | :---------------------------------- | :------------ |
+| `REACT_APP_GOOGLE_CLIENT_ID` | Google OAuth Client ID for sign-in functionality              | `8570...apps.googleusercontent.com` | Yes           |
+| `HTTPS`                      | Enables HTTPS mode for secure local cookies/OAuth redirection | `true`                              | No (Optional) |
 
 ### Commands
 

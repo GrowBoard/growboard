@@ -37,8 +37,8 @@ const ProjectCard = ({ data }: ProjectCardProps) => {
       overflow="hidden"
       variant="elevated"
       border="1px solid"
-      borderColor="gray.700"
-      bg="gray.850"
+      borderColor="border.subtle"
+      bg="bg.card"
       shadow="xl"
     >
       {image ? (
@@ -61,8 +61,8 @@ const ProjectCard = ({ data }: ProjectCardProps) => {
           p={2}
           borderRadius="xl"
           border="1px solid"
-          borderColor="gray.600"
-          bg="gray.900"
+          borderColor="border.subtle"
+          bg="bg.panel"
           w="100%"
         >
           <TitleAndLiveBadge
@@ -76,12 +76,12 @@ const ProjectCard = ({ data }: ProjectCardProps) => {
             <Skeleton boxSize="40px" borderRadius="full" />
           )}
         </Flex>
-        <Text color="gray.300" fontSize="sm" mt={2}>
+        <Text color="text.secondary" fontSize="sm" mt={2}>
           {description}
         </Text>
         <Flex align="center" justify="space-between" mt={2} gap={4} w="100%">
           <Progress.Root value={completed} flex="1" size="sm">
-            <Progress.Track bg="gray.700">
+            <Progress.Track bg="bg.panel">
               <Progress.Range bg="blue.500" />
             </Progress.Track>
           </Progress.Root>
@@ -98,9 +98,9 @@ const ProjectCard = ({ data }: ProjectCardProps) => {
           >
             <Button
               variant="outline"
-              borderColor="gray.600"
-              color="white"
-              _hover={{ bg: 'gray.700' }}
+              borderColor="border.subtle"
+              color="text.primary"
+              _hover={{ bg: 'bg.active' }}
               w="100%"
             >
               {t('ProjectCard.projectLink')}
@@ -114,7 +114,7 @@ const ProjectCard = ({ data }: ProjectCardProps) => {
               _hover={{ bg: 'blue.500' }}
               w="100%"
             >
-              {t('ProjectCard.projectPreview')}
+              {t('ProjectCard.projectDetailsLink')}
             </Button>
           </NavLink>
         </Flex>

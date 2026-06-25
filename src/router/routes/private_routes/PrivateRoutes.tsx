@@ -22,8 +22,9 @@ import {
 export const privateRouter = createBrowserRouter(
   createRoutesFromChildren(
     <Route path="/" element={<LazyHomeScreenComponent />}>
-      <Route path="" element={<Navigate to="dashboard" replace />} />
+      <Route path="" element={<Navigate to="/dashboard" replace />} />
       <Route path="dashboard" element={<LazyDashboardScreenComponent />} />
+      <Route path="login" element={<Navigate to="/dashboard" replace />} />
       {ExpensesRoutes}
       {ProjectRoutes}
       {PlanRoutes}
@@ -32,7 +33,7 @@ export const privateRouter = createBrowserRouter(
       {LearningRoutes}
       {CredsRoutes}
       {ProfileRoutes}
-      <Route path="*" element={<Navigate to="dashboard" replace />} />
+      <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Route>,
   ),
 );

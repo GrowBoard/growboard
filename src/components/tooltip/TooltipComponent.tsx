@@ -8,15 +8,15 @@ const TooltipComponent = ({ title, children }: TooltipComponentProps) => {
       <Portal>
         <Tooltip.Positioner>
           <Tooltip.Content
-            bg="gray.850"
-            color="white"
+            bg="bg.card"
+            color="text.primary"
             px={3}
             py={1.5}
             borderRadius="md"
             fontSize="xs"
             shadow="md"
             border="1px solid"
-            borderColor="gray.700"
+            borderColor="border.subtle"
           >
             <Tooltip.Arrow />
             {title}

@@ -24,16 +24,16 @@ function GoalsScreen() {
     <Box h="full" w="100%">
       <Flex
         m={2}
-        bg="gray.850"
+        bg="bg.cardHeader"
         border="1px solid"
-        borderColor="gray.700"
+        borderColor="border.subtle"
         p={2}
         borderRadius="lg"
         justify="space-between"
         align="center"
         shadow="md"
       >
-        <Box fontSize="xl" fontWeight="semibold" mx={4} color="white">
+        <Box fontSize="xl" fontWeight="semibold" mx={4} color="text.primary">
           {getSubNavTitle(currentLocation.pathname)}
         </Box>
         <Flex gap={2}>
@@ -42,10 +42,14 @@ function GoalsScreen() {
               <Button
                 asChild
                 variant="outline"
-                borderColor="gray.600"
-                color="white"
-                _hover={{ bg: 'gray.700' }}
-                _currentPage={{ bg: 'blue.600', borderColor: 'blue.500' }}
+                borderColor="border.subtle"
+                color="text.primary"
+                _hover={{ bg: 'bg.active' }}
+                _currentPage={{
+                  bg: 'blue.600',
+                  borderColor: 'blue.500',
+                  color: 'white',
+                }}
                 p={2}
                 minW="40px"
                 h="40px"
@@ -57,7 +61,7 @@ function GoalsScreen() {
           ))}
         </Flex>
       </Flex>
-      <Box overflowY="auto" h="90%">
+      <Box>
         <Outlet />
       </Box>
     </Box>

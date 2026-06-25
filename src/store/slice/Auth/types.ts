@@ -2,6 +2,7 @@ export type AuthDataState = {
   token: string;
   name: string;
   email: string;
+  picture?: string;
 };
 
 export interface AuthStateAction {

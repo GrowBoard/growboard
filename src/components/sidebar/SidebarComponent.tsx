@@ -17,7 +17,9 @@ import { ProfileRoutes, SidebarRoutes } from '@router/sidebarRoutes';
 // ----------------------------------------------
 import { SidebarIconProps, SidebarIconType } from './types';
 import { useTranslation } from 'react-i18next';
-import { Box } from '@chakra-ui/react';
+import { Box, VStack } from '@chakra-ui/react';
+import { authNameSelector, authPictureSelector, useShallow } from '@selectors';
+import { appStore } from '@store';
 
 /**
  * Gets the icon for the sidebar.
@@ -57,14 +59,18 @@ const SidebarIcon = ({ icon }: SidebarIconProps) => {
  */
 function SidebarComponent() {
   const { t } = useTranslation();
+  const name = appStore(useShallow(authNameSelector));
+  const picture = appStore(useShallow(authPictureSelector));
   return (
     <Box
-      display={'flex'}
-      flexDirection={'column'}
-      justifyContent={'space-between'}
-      h={'95%'}
+      display="flex"
+      flexDirection="column"
+      justifyContent="space-between"
+      h="full"
+      py={4}
+      alignItems="center"
     >
-      <ul className="menu p-2 w-full ">
+      <VStack gap={3} w="full">
         {SidebarRoutes.map((route, index) => {
           return (
             <TooltipComponent
@@ -72,38 +78,68 @@ function SidebarComponent() {
               title={t(route.nameKey)}
               position="tooltip-right"
             >
-              <li className="mt-2" key={index}>
+              <Box w="full" px={2} display="flex" justifyContent="center">
                 <NavLink
-                  key={index}
                   to={route.path}
-                  className={
-                    ' hover:bg-primary-content hover:outline-dotted hover:outline-primary'
+                  className={({ isActive }) =>
+                    `flex items-center justify-center w-12 h-12 rounded-lg transition-all duration-200 ${
+                      isActive
+                        ? 'bg-[var(--chakra-colors-bg-active)] text-cyan-500 border border-cyan-500/30'
+                        : 'text-gray-400 hover:bg-[var(--chakra-colors-bg-active)] hover:text-[var(--chakra-colors-text-primary)] border border-transparent'
+                    }`
                   }
                 >
                   <SidebarIcon icon={route.iconName as SidebarIconType} />
                 </NavLink>
-              </li>
+              </Box>
             </TooltipComponent>
           );
         })}
-      </ul>
-      <ul className="menu p-2 w-full ">
+      </VStack>
+
+      <VStack gap={3} w="full">
         <TooltipComponent
           title={t(ProfileRoutes.nameKey)}
           position="tooltip-right"
         >
-          <li className="mt-2">
+          <Box w="full" px={2} display="flex" justifyContent="center">
             <NavLink
               to={ProfileRoutes.path}
-              className={
-                ' hover:bg-primary-content hover:outline-dotted hover:outline-primary'
+              className={({ isActive }) =>
+                `flex items-center justify-center w-12 h-12 rounded-lg transition-all duration-200 ${
+                  isActive
+                    ? 'bg-[var(--chakra-colors-bg-active)] text-cyan-500 border border-cyan-500/30'
+                    : 'text-gray-400 hover:bg-[var(--chakra-colors-bg-active)] hover:text-[var(--chakra-colors-text-primary)] border border-transparent'
+                }`
               }
             >
-              <SidebarIcon icon={ProfileRoutes.iconName as SidebarIconType} />
+              {picture ? (
+                <Box
+                  w="8"
+                  h="8"
+                  borderRadius="full"
+                  overflow="hidden"
+                  border="2px solid"
+                  borderColor="border.avatar"
+                >
+                  <img
+                    src={picture}
+                    alt={name || 'Profile Picture'}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                    }}
+                    referrerPolicy="no-referrer"
+                  />
+                </Box>
+              ) : (
+                <SidebarIcon icon={ProfileRoutes.iconName as SidebarIconType} />
+              )}
             </NavLink>
-          </li>
+          </Box>
         </TooltipComponent>
-      </ul>
+      </VStack>
     </Box>
   );
 }
