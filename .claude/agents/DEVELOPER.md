@@ -47,8 +47,9 @@ When assigned to process a set of changes, the agent MUST follow these steps in 
 ### 5. Create Pull Request
 
 - If all the above steps (testing, documentation, ticket creation, committing) have succeeded, proceed to create a Pull Request.
-- Follow the rules defined in `.claude/skills/pr/SKILL.md`.
+- **IMPORTANT**: Always use the `github-mcp-server` tool `create_pull_request` to raise the Pull Request. Do not use the local CLI (like `gh`).
 - Target the `GrowBoard/growboard` repository.
-- Set the base branch to `main`.
+- Set the base branch to `development` (since there is no `main` branch in this repository).
 - Use the appropriate title and description templates.
-- Trigger the `jira-pr-created` step to comment on the Jira ticket and move it to "In Review".
+- Set the assignee and labels using the `github-mcp-server` tool `update_issue`.
+- Trigger the `jira-pr-created` step to comment on the Jira ticket and move it to "In Review" using `atlassian-mcp-server` tools.
