@@ -1,68 +1,49 @@
 import { Outlet } from 'react-router-dom';
 
-import {
-  NavigationComponent,
-  PageLoadingComponent,
-  SidebarComponent,
-} from '@components';
+import { NavigationComponent, SidebarComponent } from '@components';
 import { appStore } from '@store';
-import {
-  isUserLoggedInSelector,
-  removeAuthDataSelector,
-  useShallow,
-} from '@selectors';
+import { removeAuthDataSelector, useShallow } from '@selectors';
 import { Box } from '@chakra-ui/react';
-import { useAuthCheckTest } from '@services/hooks/private';
-import { useEffect } from 'react';
+import { AddExpense } from '../screens/expenses/expense_preview/AddExpense';
+
+import { googleLogout } from '@react-oauth/google';
 
 const MainRootScreen = () => {
-  const isUserLoggedIn = appStore(useShallow(isUserLoggedInSelector));
   const removeAuthData = appStore(useShallow(removeAuthDataSelector));
-  const { mutate, isPending } = useAuthCheckTest({
-    onSuccess: (data) => {
-      if (!data || (data && data.status === 'ERROR' && isUserLoggedIn)) {
-        removeAuthData();
-      }
-    },
-    onError: (error) => {
-      console.error('error', error);
-      if (isUserLoggedIn) removeAuthData();
-    },
-  });
 
-  useEffect(() => {
-    if (isUserLoggedIn) {
-      mutate({});
-    }
-  }, [isUserLoggedIn, mutate]);
-
-  if (isPending) {
-    return <PageLoadingComponent />;
-  }
-
-  const logOutClickHandler = removeAuthData;
+  const logOutClickHandler = () => {
+    googleLogout();
+    removeAuthData();
+  };
   return (
-    <Box minH={'100vh'} w={'100%'}>
+    <Box
+      h={'100vh'}
+      w={'100%'}
+      display={'flex'}
+      flexDirection={'column'}
+      bg="bg.app"
+      color="text.primary"
+      overflow={'hidden'}
+    >
       <NavigationComponent
         logOutClickHandler={logOutClickHandler}
         openSidebarClickHandler={() => 0}
       />
-      <Box h={'92%'} w={'100%'} display={'flex'} flexWrap={'wrap'}>
+      <Box flex={1} w={'100%'} display={'flex'} overflow={'hidden'}>
         <Box
-          w={'100'}
-          height={'93vh'}
-          borderRight={'1px'}
-          borderRightColor={'blue-500'}
-          bg={'base-200'}
-          pos={'sticky'}
-          top={'7%'}
+          w={'24'}
+          h={'100%'}
+          borderRight={'1px solid'}
+          borderRightColor="border.subtle"
+          bg="bg.panel"
         >
           <SidebarComponent />
         </Box>
-        <Box flex={1} h={'full'} p={1}>
+        <Box flex={1} h={'100%'} overflowY={'auto'} p={1}>
           <Outlet />
         </Box>
       </Box>
+      <AddExpense />
     </Box>
   );
 };

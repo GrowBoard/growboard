@@ -1,44 +1,68 @@
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import getSubNavTitle from '../../../../util/nav/NavTitle';
-import { ProfileIcon, PasswordResetIcon, SettingsIcon } from '@assets';
+import { ProfileIcon, SettingsIcon } from '@assets';
 import { TooltipComponent } from '@components';
+import { Box, Flex, Button } from '@chakra-ui/react';
 
 /**
  * Profile screen routes.
  */
 const ProfileRoutes = [
   { title: 'Profile preview', icon: <ProfileIcon />, path: 'preview' },
-  { title: 'Reset password', icon: <PasswordResetIcon />, path: 'reset' },
   { title: 'Profile setting', icon: <SettingsIcon />, path: 'settings' },
 ];
 
 /**
  * Component definition for the profile screen component.
- * @param props The props for the profile screen component.
  * @returns The profile screen component.
  */
 function ProfileMainScreen() {
   const currentLocation = useLocation();
   return (
-    <div className="h-full">
-      <div className=" m-2 bg-primary-content p-1 drop-shadow-md rounded-lg flex flex-row justify-between items-center">
-        <div className="text-xl font-semibold mx-4">
+    <Box h="full" w="100%">
+      <Flex
+        m={2}
+        bg="bg.cardHeader"
+        border="1px solid"
+        borderColor="border.subtle"
+        p={2}
+        borderRadius="lg"
+        justify="space-between"
+        align="center"
+        shadow="md"
+      >
+        <Box fontSize="xl" fontWeight="semibold" mx={4} color="text.primary">
           {getSubNavTitle(currentLocation.pathname)}
-        </div>
-        <div className="flex flex-row space-x-2 gap-3">
+        </Box>
+        <Flex gap={2}>
           {ProfileRoutes.map((item, index) => (
             <TooltipComponent key={index} title={item.title}>
-              <NavLink to={item.path} className="btn btn-square btn-outline ">
-                {item.icon}
-              </NavLink>
+              <Button
+                asChild
+                variant="outline"
+                borderColor="border.subtle"
+                color="text.primary"
+                _hover={{ bg: 'bg.active' }}
+                _currentPage={{
+                  bg: 'blue.600',
+                  borderColor: 'blue.500',
+                  color: 'white',
+                }}
+                p={2}
+                minW="40px"
+                h="40px"
+                borderRadius="md"
+              >
+                <NavLink to={item.path}>{item.icon}</NavLink>
+              </Button>
             </TooltipComponent>
           ))}
-        </div>
-      </div>
-      <div className="overflow-scroll h-[90%]">
+        </Flex>
+      </Flex>
+      <Box>
         <Outlet />
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 }
 

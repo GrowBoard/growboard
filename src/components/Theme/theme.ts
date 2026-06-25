@@ -27,6 +27,92 @@ const themeData = defineConfig({
       lineHeights: toTokens(lineHeight),
       zIndex: toTokens(zIndices),
     },
+    semanticTokens: {
+      colors: {
+        bg: {
+          app: { value: { _light: '#F1F2F3', _dark: '#121416' } },
+          panel: { value: { _light: '#ffffff', _dark: '#17191C' } },
+          card: { value: { _light: '#ffffff', _dark: '#1E2023' } },
+          cardHeader: { value: { _light: '#f8fafc', _dark: '#1A1C1E' } },
+          glass: {
+            value: {
+              _light: 'rgba(255, 255, 255, 0.85)',
+              _dark: 'rgba(12, 14, 18, 0.5)',
+            },
+          },
+          active: {
+            value: { _light: '#E0F2FE', _dark: 'rgba(0, 216, 255, 0.15)' },
+          },
+          container: {
+            value: {
+              _light: '{colors.green.200}',
+              _dark: '{colors.green.700}',
+            },
+          },
+        },
+        border: {
+          subtle: {
+            value: { _light: '#E2E8F0', _dark: 'rgba(255, 255, 255, 0.07)' },
+          },
+          focus: { value: { _light: '#00D8FF', _dark: '#00D8FF' } },
+          avatar: {
+            value: { _light: '{colors.gray.400}', _dark: '{colors.gray.500}' },
+          },
+        },
+        text: {
+          primary: { value: { _light: '#17191C', _dark: '#F1F2F3' } },
+          secondary: { value: { _light: '#475569', _dark: '#A6ADB5' } },
+          muted: { value: { _light: '#64748B', _dark: '#737E8C' } },
+          heading: {
+            value: {
+              _light: '{colors.green.500}',
+              _dark: '{colors.green.700}',
+            },
+          },
+          hero: {
+            value: {
+              _light: 'linear(to-b, {colors.green.500}, {colors.blue.500})',
+              _dark: 'linear(to-b, {colors.green.700}, {colors.blue.700})',
+            },
+          },
+        },
+        icon: {
+          primaryColor: {
+            value: {
+              _light: '{colors.green.400}',
+              _dark: '{colors.green.700}',
+            },
+          },
+          primaryBg: { value: { _light: 'white', _dark: 'white' } },
+          secondary: {
+            value: {
+              _light: '{colors.green.500}',
+              _dark: '{colors.green.700}',
+            },
+          },
+        },
+        gradient: {
+          topAppBar: {
+            value: {
+              _light: 'linear(to-r, {colors.green.300}, {colors.blue.500})',
+              _dark: 'linear(to-r, {colors.green.800}, {colors.blue.900})',
+            },
+          },
+          sideBarBG: {
+            value: {
+              _light: 'linear(to-br, {colors.green.300}, {colors.blue.500})',
+              _dark: 'linear(to-br, {colors.green.800}, {colors.blue.900})',
+            },
+          },
+          contentBG: {
+            value: {
+              _light: 'linear(to-r, {colors.green.200}, {colors.blue.400})',
+              _dark: 'linear(to-r, {colors.green.800}, {colors.blue.900})',
+            },
+          },
+        },
+      },
+    },
   },
 });
 

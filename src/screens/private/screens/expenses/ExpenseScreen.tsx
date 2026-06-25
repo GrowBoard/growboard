@@ -1,25 +1,27 @@
 import { Outlet, useLocation } from 'react-router-dom';
 import getSubNavTitle from '../../../../util/nav/NavTitle';
-import { Box } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 
 const ExpenseScreen = () => {
   const currentLocation = useLocation();
   return (
-    <Box h={'100%'}>
-      <Box
-        bg={'blue.100'}
-        dropShadow={'md'}
-        rounded={'lg'}
-        display={'flex'}
-        flexDirection={'row'}
-        justifyContent={'space-between'}
-        alignItems={'center'}
+    <Box h="full" w="100%">
+      <Flex
+        m={2}
+        bg="bg.cardHeader"
+        border="1px solid"
+        borderColor="border.subtle"
+        p={2}
+        borderRadius="lg"
+        justify="space-between"
+        align="center"
+        shadow="md"
       >
-        <Box fontSize={'xl'} fontWeight={'semibold'} px={4}>
+        <Box fontSize="xl" fontWeight="semibold" mx={4} color="text.primary">
           {getSubNavTitle(currentLocation.pathname)}
         </Box>
-      </Box>
-      <Box className="overflow-scroll">
+      </Flex>
+      <Box>
         <Outlet />
       </Box>
     </Box>

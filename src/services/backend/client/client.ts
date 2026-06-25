@@ -8,17 +8,12 @@ const instance = axios.create({
 });
 
 export const GetRequest = async (url: string) => {
-  try {
-    const response = await instance.get(url, {
-      headers: {
-        Authorization: `Bearer ${appStore.getState().Auth.token}`,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error(error);
-  }
+  const response = await instance.get(url, {
+    headers: {
+      Authorization: `Bearer ${appStore.getState().Auth.token}`,
+    },
+  });
+  return response.data;
 };
 
 export const PostRequest = async (url: string, data: unknown) => {

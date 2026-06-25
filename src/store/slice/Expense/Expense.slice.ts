@@ -22,11 +22,17 @@ const createExpenseSlice: AppStoreSlice<ExpenseStateSlice> = (set) => ({
     set((state) => {
       state.Expense.overview.timeWindow = timeWindow;
     }),
-  setAddExpense: (isOpen: boolean, type?: ExpenseType, date?: string) =>
+  setAddExpense: (
+    isOpen: boolean,
+    type?: ExpenseType,
+    date?: string,
+    expenseId?: string,
+  ) =>
     set((state) => {
       state.Expense.addExpense.isOpen = isOpen;
       state.Expense.addExpense.type = type;
       state.Expense.addExpense.date = date;
+      state.Expense.addExpense.expenseId = expenseId;
     }),
   setOverviewInput: ({ month, year }) =>
     set((state) => {

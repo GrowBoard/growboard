@@ -7,7 +7,10 @@ const useGetExpensesDataForDate = () => {
   const {
     dateState: { month, year: yearState },
   } = appStore(useShallow(overviewInputSelector));
-  const date = appStore(useShallow(dateSelector));
+  const dateRaw = appStore(useShallow(dateSelector));
+  const date = useMemo(() => {
+    return dateRaw instanceof Date ? dateRaw : new Date(dateRaw || Date.now());
+  }, [dateRaw]);
 
   const { monthStartDate, monthEndDate } = useMemo(() => {
     const year = date.getFullYear();

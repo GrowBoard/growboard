@@ -1,2 +1,2 @@
-export { useErrorToast, useSuccessToast } from './hooks';
-export * from './toaster';
+export { useErrorToast, useSuccessToast, useToast } from './hooks';
+export { toaster, Toaster } from './toaster';

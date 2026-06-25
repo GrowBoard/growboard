@@ -1,11 +1,54 @@
-import { Table, Popover, HStack, VStack, Text } from '@chakra-ui/react';
+import { useState } from 'react';
+import {
+  Table,
+  Popover,
+  HStack,
+  VStack,
+  Text,
+  Portal,
+  Button,
+} from '@chakra-ui/react';
 import { ExpenseType } from '../../types';
 import { EXPENSE_TYPE_COLOR } from '../constants';
-import AddExpenseButton from './AddExpenseButton';
-import AddEditDelete from './EditDelete';
+import EditDelete from './EditDelete';
 import { ExpenseDataPoint } from '@services/hooks/private';
 import { appStore } from '@store';
-import { todayDateSelector, useShallow } from '@selectors';
+import {
+  todayDateSelector,
+  useShallow,
+  setAddExpenseSelector,
+} from '@selectors';
+
+const CellAddTrigger = ({
+  date,
+  type,
+}: {
+  date: string;
+  type: ExpenseType;
+}) => {
+  const setAddExpense = appStore(useShallow(setAddExpenseSelector));
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <Text
+      fontSize={'xs'}
+      color="text.muted"
+      py={0.5}
+      transition="all 0.15s ease-in-out"
+      cursor="pointer"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onClick={() => setAddExpense(true, type, date)}
+      _hover={{
+        bg: 'indigo.500/10',
+        color: 'indigo.400',
+        fontWeight: 'semibold',
+      }}
+    >
+      {isHovered ? '+ Add' : '—'}
+    </Text>
+  );
+};
 
 const ExpenseRow = ({
   date,
@@ -17,13 +60,18 @@ const ExpenseRow = ({
   sum: number;
 }) => {
   const today = appStore(useShallow(todayDateSelector));
+  const setAddExpense = appStore(useShallow(setAddExpenseSelector));
+
   return (
-    <Table.Row key={date} py={0}>
+    <Table.Row key={date} py={0} _hover={{ bg: 'bg.active' }}>
       <Table.Cell
-        py={0}
+        py={0.5}
         textAlign={'center'}
-        border={'1px'}
-        bgColor={date === today ? 'green.400' : undefined}
+        border={'1px solid'}
+        borderColor="border.subtle"
+        bg={date === today ? 'bg.active' : 'transparent'}
+        color={date === today ? 'indigo.300' : 'text.secondary'}
+        fontWeight={date === today ? 'bold' : 'normal'}
       >
         {date}
       </Table.Cell>
@@ -37,86 +85,144 @@ const ExpenseRow = ({
           <Table.Cell
             key={type}
             p={0}
-            border={'1px'}
+            border={'1px solid'}
+            borderColor="border.subtle"
             textAlign={'center'}
-            bgColor={
+            bg={
               total !== 0
-                ? EXPENSE_TYPE_COLOR[type]
+                ? 'bg.active'
                 : date === today
-                  ? 'green.100'
-                  : undefined
+                  ? 'bg.active'
+                  : 'transparent'
             }
           >
-            <Popover.Root lazyMount unmountOnExit>
-              <Popover.Trigger asChild>
-                <Text
-                  fontSize={'xs'}
-                  _hover={{
-                    cursor: 'pointer',
-                    bgColor: 'blue.100',
-                  }}
-                >
-                  {total}
-                </Text>
-              </Popover.Trigger>
-              <Popover.Content
-                bg="gray.800"
-                borderColor="gray.700"
-                p={3}
-                borderRadius="md"
-                shadow="lg"
-                zIndex={1200}
-              >
-                <Popover.Arrow />
-                <Popover.CloseTrigger />
-                <Popover.Title fontWeight="semibold" mb={2} color="white">
-                  {allPoint.length > 0
-                    ? `Details of expense for  ${type} (${date})`
-                    : `Add Expense for ${type} (${date})`}
-                </Popover.Title>
-                <Popover.Body>
-                  {allPoint.length > 0 ? (
-                    allPoint?.map((point) => {
-                      return (
-                        <HStack
-                          key={point.id}
-                          w={'100%'}
-                          border={'1px'}
-                          alignItems={'start'}
-                          borderRadius={'md'}
-                          p={1}
-                          my={1}
-                          borderColor="gray.600"
-                        >
+            {total !== 0 ? (
+              <Popover.Root lazyMount unmountOnExit>
+                <Popover.Trigger asChild>
+                  <Text
+                    fontSize={'xs'}
+                    fontWeight={'semibold'}
+                    color={EXPENSE_TYPE_COLOR[type]}
+                    py={0.5}
+                    transition="all 0.2s"
+                    _hover={{
+                      cursor: 'pointer',
+                      bg: 'bg.active',
+                      color: EXPENSE_TYPE_COLOR[type],
+                    }}
+                  >
+                    ₹{total}
+                  </Text>
+                </Popover.Trigger>
+                <Portal>
+                  <Popover.Positioner>
+                    <Popover.Content
+                      bg="bg.panel"
+                      borderColor="border.subtle"
+                      backdropFilter="blur(16px)"
+                      p={4}
+                      borderRadius="lg"
+                      shadow="2xl"
+                      zIndex={1200}
+                      w="320px"
+                    >
+                      <Popover.Arrow />
+                      <Popover.CloseTrigger
+                        color="text.secondary"
+                        _hover={{ color: 'text.primary' }}
+                      />
+                      <Popover.Title
+                        fontWeight="bold"
+                        mb={3}
+                        color="text.primary"
+                        fontSize="sm"
+                      >
+                        Expenses - {type} ({date})
+                      </Popover.Title>
+                      <Popover.Body p={0}>
+                        <VStack gap={3} align="stretch">
                           <VStack
-                            w={'80%'}
-                            alignItems={'start'}
-                            gap={1}
-                            fontSize={'xs'}
+                            gap={2}
+                            align="stretch"
+                            maxH="200px"
+                            overflowY="auto"
                           >
-                            <Text>Amount: {point.amount}</Text>
-                            <Text>Category: {point.category}</Text>
-                            <Text>Comment: {point.comment}</Text>
+                            {allPoint.map((point) => (
+                              <HStack
+                                key={point.id}
+                                w={'100%'}
+                                bg="bg.app"
+                                border="1px solid"
+                                borderColor="border.subtle"
+                                borderRadius={'md'}
+                                p={3}
+                                justifyContent="space-between"
+                                alignItems="center"
+                              >
+                                <VStack
+                                  alignItems={'start'}
+                                  gap={1}
+                                  fontSize={'xs'}
+                                  flex={1}
+                                  pr={2}
+                                >
+                                  <Text
+                                    fontWeight="bold"
+                                    color="text.primary"
+                                    fontSize="sm"
+                                  >
+                                    ₹{point.amount}
+                                  </Text>
+                                  <Text
+                                    color="text.secondary"
+                                    fontSize="2xs"
+                                    fontStyle={
+                                      point.comment ? 'normal' : 'italic'
+                                    }
+                                    lineClamp={2}
+                                  >
+                                    {point.comment || 'No description provided'}
+                                  </Text>
+                                </VStack>
+                                <EditDelete
+                                  expenseId={point.id}
+                                  type={type}
+                                  date={date}
+                                />
+                              </HStack>
+                            ))}
                           </VStack>
-                          <AddEditDelete
-                            expenseId={point.id}
-                            type={type}
-                            date={date}
-                          />
-                        </HStack>
-                      );
-                    })
-                  ) : (
-                    <AddExpenseButton date={date} type={type} />
-                  )}
-                </Popover.Body>
-              </Popover.Content>
-            </Popover.Root>
+                          <Button
+                            size="xs"
+                            variant="outline"
+                            colorPalette="indigo"
+                            w="100%"
+                            onClick={() => setAddExpense(true, type, date)}
+                          >
+                            + Add Another
+                          </Button>
+                        </VStack>
+                      </Popover.Body>
+                    </Popover.Content>
+                  </Popover.Positioner>
+                </Portal>
+              </Popover.Root>
+            ) : (
+              <CellAddTrigger date={date} type={type} />
+            )}
           </Table.Cell>
         );
       })}
-      <Table.Cell py={0} textAlign={'center'} bg={'blue.100'} border={'1px'}>
-        {sum}
+      <Table.Cell
+        py={0.5}
+        textAlign={'center'}
+        bg={sum !== 0 ? 'bg.active' : 'transparent'}
+        border={'1px solid'}
+        borderColor="border.subtle"
+        color={sum !== 0 ? 'text.primary' : 'text.muted'}
+        fontWeight={sum !== 0 ? 'bold' : 'normal'}
+      >
+        {sum !== 0 ? `₹${sum}` : '—'}
       </Table.Cell>
     </Table.Row>
   );

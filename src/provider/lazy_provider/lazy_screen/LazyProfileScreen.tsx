@@ -12,20 +12,6 @@ const LazyProfileMainScreenComponent = () => {
   );
 };
 
-const ProfilePasswordResetScreen = lazy(
-  () =>
-    import(
-      '@screens/private/screens/profile/profile_reset_password/ProfilePasswordResetScreen'
-    ),
-);
-const LazyProfilePasswordResetScreenComponent = () => {
-  return (
-    <LazyComponentProvider>
-      <ProfilePasswordResetScreen />
-    </LazyComponentProvider>
-  );
-};
-
 const ProfileSettingScreen = lazy(
   () =>
     import(
@@ -56,7 +42,6 @@ const LazyProfilePreviewScreenComponent = () => {
 
 export {
   LazyProfileMainScreenComponent,
-  LazyProfilePasswordResetScreenComponent,
   LazyProfileSettingScreenComponent,
   LazyProfilePreviewScreenComponent,
 };

@@ -8,17 +8,17 @@ function DashboardHome() {
   return (
     <Box p={4}>
       <Card.Root
-        bg="gray.850"
-        borderColor="gray.700"
+        bg="bg.card"
+        borderColor="border.subtle"
         border="1px solid"
         shadow="lg"
         p={5}
       >
         <Card.Body gap={2} p={0}>
-          <Card.Title color="white" fontSize="xl" fontWeight="semibold">
+          <Card.Title color="text.primary" fontSize="xl" fontWeight="semibold">
             Card Title
           </Card.Title>
-          <Text color="gray.300">
+          <Text color="text.secondary">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
             necessitatibus incidunt ut officiis explicabo inventore.
           </Text>
