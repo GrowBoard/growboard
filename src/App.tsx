@@ -17,7 +17,13 @@ const queryClient = new QueryClient({
   },
 });
 
-const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID ?? '';
+const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID!;
+if (!GOOGLE_CLIENT_ID) {
+  throw new Error(
+    '[App] REACT_APP_GOOGLE_CLIENT_ID is not set. ' +
+      'Add it to your .env file locally, or as a repository secret in the build-web workflow.',
+  );
+}
 
 /**
  * Component definition for the app component.
