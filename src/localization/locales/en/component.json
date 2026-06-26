@@ -29,5 +29,10 @@
     "resources": "Resource",
     "creds": "Credentials",
     "profile": "Profile"
+  },
+  "Expenses": {
+    "downloadReport": "Download Report",
+    "downloadCSV": "Download CSV",
+    "downloadPDF": "Download PDF"
   }
 }
