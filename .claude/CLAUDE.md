@@ -40,12 +40,22 @@ make commit                    # Conventional commit helper
 
 Advanced agent instructions are modularized in the `.claude/skills/` directory.
 
-- [Commit Workflow](file:///Users/mr.robot/z-stash/Growboard/growboard/.claude/skills/commit/SKILL.md)
-- [Jira Management](file:///Users/mr.robot/z-stash/Growboard/growboard/.claude/skills/jira/SKILL.md)
-- [Pull Request Skill](file:///Users/mr.robot/z-stash/Growboard/growboard/.claude/skills/pr/SKILL.md)
+### Modular Skills
+
+- [Commit Workflow](file:///Users/mr.robot/z-stash/Growboard/growboard/.claude/skills/commit/SKILL.md) (`/commit`)
+- [Jira Management](file:///Users/mr.robot/z-stash/Growboard/growboard/.claude/skills/jira/SKILL.md) (`/jira`)
+- [Pull Request Skill](file:///Users/mr.robot/z-stash/Growboard/growboard/.claude/skills/pr/SKILL.md) (`/pr`)
 - [Frontend Design](file:///Users/mr.robot/z-stash/Growboard/growboard/.claude/skills/frontend-design/SKILL.md)
-- [Web Development](file:///Users/mr.robot/z-stash/Growboard/growboard/.claude/skills/web/SKILL.md)
-- [README Guidelines](file:///Users/mr.robot/z-stash/Growboard/growboard/.claude/skills/readme/SKILL.md)
+- [Web Development](file:///Users/mr.robot/z-stash/Growboard/growboard/.claude/skills/web/SKILL.md) (`/web`)
+- [README Guidelines](file:///Users/mr.robot/z-stash/Growboard/growboard/.claude/skills/readme/SKILL.md) (`/readme`)
+
+### Custom Agents (Slash Commands)
+
+- `/dev`: [Developer Agent](file:///Users/mr.robot/z-stash/Growboard/growboard/.claude/agents/DEVELOPER.md) — handles build verification, Jira ticket creation, commit creation, and opening PRs.
+- `/review`: [PR Review & Merge Agent](file:///Users/mr.robot/z-stash/Growboard/growboard/.claude/agents/REVIEW.md) — reviews metadata, runs staged builds/tests, and merges PRs.
+- `/context`: [Project Context Agent](file:///Users/mr.robot/z-stash/Growboard/growboard/.claude/agents/CONTEXT.md) — retrieves and summarizes project context from README and configuration files.
+
+---
 
 ## 🌐 Localization Guidelines
 

@@ -14,7 +14,14 @@ This agent should be invoked when any Pull Request is opened or updated in the r
 
 ## 2. Review Checklist
 
-The agent MUST perform the following checks before approving a PR:
+Before starting the review or executing any verification scripts, the agent MUST always checkout to the `development` branch and pull the latest changes to ensure the local environment is fully up to date:
+
+```bash
+git checkout development
+git pull origin development
+```
+
+Once the base is updated, checkout the PR branch to perform the following checks before approving a PR:
 
 - **PR Metadata**: Verify that the PR title and description follow the templates defined in `.claude/skills/pr/SKILL.md`.
 - **Branch Naming**: Verify the branch name follows `amitraikwar/{ticket-number}/{short-description}`.

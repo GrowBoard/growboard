@@ -10,13 +10,16 @@ This agent ruleset defines the standard end-to-end workflow for an AI Agent hand
 
 ## Workflow Steps
 
-When assigned to process a set of changes, the agent MUST follow these steps in exact order:
+When assigned to process a set of changes, the agent MUST run the linting and testing checks before everything else (including Jira ticket creation, documentation updates, or commits). Follow these steps in exact order:
 
-### 1. Test Formatting and Functionality
+### 1. Run Linting and Tests (Before Everything)
 
-- Before committing anything, verify the code formatting and functionality.
-- Run appropriate linters (`yarn lint:fix`) and test commands (`yarn test`).
-- Ensure there are no outstanding errors or build failures.
+- Before any other step, verify the code formatting and functionality:
+  ```bash
+  yarn lint
+  yarn test --watchAll=false
+  ```
+- Ensure there are no outstanding formatting issues, lint warnings, test failures, or build errors.
 
 ### 2. Check and Update Documentation
 
