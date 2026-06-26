@@ -13,11 +13,10 @@ const LazyExpenseScreenComponent = () => {
   );
 };
 
-const ExpensePreviewScreen = lazy(
-  () =>
-    import(
-      '@screens/private/screens/expenses/expense_preview/ExpensePreviewScreen'
-    ),
+const ExpensePreviewScreen = lazy(() =>
+  import('@screens/private/screens/expenses/expense_preview').then(
+    (module) => ({ default: module.ExpensePreviewScreen }),
+  ),
 );
 
 const LazyExpensePreviewScreenComponent = () => {

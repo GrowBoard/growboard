@@ -1,8 +1,3 @@
-export type ErrorTextProps = {
-  styleClass?: string;
-  children: React.ReactNode;
-};
-
 export enum InputType {
   EMAIL = 'email',
   PASSWORD = 'password',

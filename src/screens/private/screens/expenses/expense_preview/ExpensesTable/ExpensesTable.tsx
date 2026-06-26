@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Box, Separator, Spinner, Table } from '@chakra-ui/react';
 import { ExpenseType } from '../types';
-import { ExpenseRow } from './sub_components';
+import { ExpenseRow } from './components';
 import { getExpenseDataForTable, getExpenseDataSumForCategory } from './utils';
 import { appStore } from '@store';
 import { overviewInputSelector, useShallow } from '@selectors';
