@@ -46,6 +46,8 @@ jobs:
 
       - name: Build Web App
         run: yarn build
+        env:
+          REACT_APP_GOOGLE_CLIENT_ID: ${{ secrets.REACT_APP_GOOGLE_CLIENT_ID }}
 
       - name: Upload Web Build Artifacts
         uses: actions/upload-artifact@v7
