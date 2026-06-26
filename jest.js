@@ -1,5 +1,17 @@
 import '@localization/config';
-// import './__mocks__/zustand';
+
+if (typeof global.structuredClone !== 'function') {
+  const clone = (val) => {
+    if (val === undefined) return undefined;
+    const str = JSON.stringify(val);
+    if (str === undefined) return undefined;
+    return JSON.parse(str);
+  };
+  global.structuredClone = clone;
+  if (typeof window !== 'undefined') {
+    window.structuredClone = clone;
+  }
+}
 
 jest.useFakeTimers();
 jest.mock('zustand');

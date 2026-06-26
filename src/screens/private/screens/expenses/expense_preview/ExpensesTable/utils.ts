@@ -6,7 +6,10 @@ export const getExpenseDataSumForCategory = (
   expenseData: ExpenseDataPoint[] | undefined,
 ) => {
   if (!expenseData || expenseData.length === 0) {
-    return {};
+    return {
+      sumByCategory: {} as Record<string, number>,
+      totalSum: 0,
+    };
   }
 
   const groupedDataByCategory = groupBy(expenseData, 'category');

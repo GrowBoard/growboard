@@ -10,7 +10,7 @@ import {
   Field,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { DateInput } from '../ExpensesTimeWindow/sub_components';
+import { DateInput } from './components';
 import {
   useShallow,
   dateSelector,
@@ -22,6 +22,9 @@ import { appStore } from '@store';
 import { ExpenseType } from '../types';
 import { useAddExpenseData, useEditExpenseData } from '@services/hooks/private';
 import { useGetExpensesDataForDate } from '@hooks';
+import { isValidAmount } from './utils';
+import { getInitialExpenseInput } from './const';
+import { ExpenseInputData } from './types';
 
 const AddExpense = () => {
   const expenseDataFromStore = appStore(useShallow(addExpenseSelector));
@@ -47,12 +50,13 @@ const AddExpense = () => {
   const onClose = () => {
     setAddExpense(false);
   };
-  const [expenseInputData, setExpenseInputData] = useState({
-    date: dateFromStore ?? today,
-    amount: '',
-    comment: '',
-    category: typeFromStore ?? ExpenseType.Food,
-  });
+  const [expenseInputData, setExpenseInputData] = useState<ExpenseInputData>(
+    () =>
+      getInitialExpenseInput(
+        dateFromStore ?? today,
+        typeFromStore ?? ExpenseType.Food,
+      ),
+  );
 
   // Prefill hook logic when opening drawer in edit or add mode
   useEffect(() => {
@@ -67,27 +71,24 @@ const AddExpense = () => {
         });
       }
     } else if (isOpen) {
-      setExpenseInputData({
-        date: dateFromStore ?? today,
-        amount: '',
-        comment: '',
-        category: typeFromStore ?? ExpenseType.Food,
-      });
+      setExpenseInputData(
+        getInitialExpenseInput(
+          dateFromStore ?? today,
+          typeFromStore ?? ExpenseType.Food,
+        ),
+      );
     }
   }, [isOpen, expenseId, queryResponse, dateFromStore, today, typeFromStore]);
 
   const clearData = () => {
-    setExpenseInputData({
-      date: date.toISOString().split('T')[0],
-      amount: '',
-      comment: '',
-      category: ExpenseType.Food,
-    });
+    setExpenseInputData(
+      getInitialExpenseInput(date.toISOString().split('T')[0]),
+    );
     onClose();
   };
 
   const handleSaveExpense = async () => {
-    if (!expenseInputData.amount || Number(expenseInputData.amount) <= 0) {
+    if (!isValidAmount(expenseInputData.amount)) {
       return;
     }
 

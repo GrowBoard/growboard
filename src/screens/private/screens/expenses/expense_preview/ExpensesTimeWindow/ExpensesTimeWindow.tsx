@@ -2,21 +2,8 @@ import { HStack, Button, Text } from '@chakra-ui/react';
 import { getPrevDate, getNextDate } from './utils';
 import { appStore, TimeWindow } from '@store';
 import { overviewInputSelector, useShallow } from '@selectors';
-
-const MONTH_NAMES = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-];
+import { MONTH_NAMES, SELECT_STYLE } from './const';
+import { LeftChevron, RightChevron } from './components';
 
 const ExpensesTimeWindow = () => {
   const { dateState, setOverviewInputWithDay } = appStore(
@@ -57,50 +44,6 @@ const ExpensesTimeWindow = () => {
     { length: currentYear + 2 - 2024 + 1 },
     (_, i) => 2024 + i,
   );
-
-  const LeftChevron = () => (
-    <svg
-      width="14"
-      height="14"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <polyline points="15 18 9 12 15 6"></polyline>
-    </svg>
-  );
-
-  const RightChevron = () => (
-    <svg
-      width="14"
-      height="14"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <polyline points="9 18 15 12 9 6"></polyline>
-    </svg>
-  );
-
-  // Dropdown style token integration
-  const selectStyle: React.CSSProperties = {
-    background: 'var(--chakra-colors-bg-panel)',
-    border: '1px solid var(--chakra-colors-border-subtle)',
-    borderRadius: '8px',
-    color: 'var(--chakra-colors-text-primary)',
-    padding: '4px 10px',
-    fontSize: '14px',
-    fontWeight: 600,
-    outline: 'none',
-    cursor: 'pointer',
-    height: '34px',
-  };
 
   return (
     <HStack
@@ -144,7 +87,7 @@ const ExpensesTimeWindow = () => {
         </Button>
 
         {/* Month selector dropdown */}
-        <select value={month} onChange={handleMonthChange} style={selectStyle}>
+        <select value={month} onChange={handleMonthChange} style={SELECT_STYLE}>
           {MONTH_NAMES.map((name, index) => (
             <option
               key={name}
@@ -157,7 +100,7 @@ const ExpensesTimeWindow = () => {
         </select>
 
         {/* Year selector dropdown */}
-        <select value={year} onChange={handleYearChange} style={selectStyle}>
+        <select value={year} onChange={handleYearChange} style={SELECT_STYLE}>
           {yearOptions.map((yr) => (
             <option
               key={yr}

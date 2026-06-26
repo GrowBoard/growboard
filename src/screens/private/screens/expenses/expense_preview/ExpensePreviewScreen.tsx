@@ -11,7 +11,7 @@ import {
 import { useMemo } from 'react';
 import { ExpensesTimeWindow } from './ExpensesTimeWindow';
 import { Charts } from './Charts';
-import ExpensesTable from './ExpensesTable/ExpensesTable';
+import { ExpensesTable } from './ExpensesTable';
 import { useGetExpensesDataForDate } from '@hooks';
 import {
   getExpenseDataSumForCategory,
@@ -25,10 +25,16 @@ import {
   useShallow,
   setAddExpenseSelector,
 } from '@selectors';
-import { ExpenseRow } from './ExpensesTable/sub_components';
+import { ExpenseRow } from './ExpensesTable/components';
 import { downloadCSV } from './utils/downloadCSV';
 import { downloadPDF } from './utils/downloadPDF';
 import { useTranslation } from 'react-i18next';
+import {
+  getIsCurrentMonth,
+  getSelectedMonthName,
+  getTodayRowData,
+  calculateStats,
+} from './utils';
 
 const ExpensePreviewScreen = () => {
   const {
@@ -39,17 +45,15 @@ const ExpensePreviewScreen = () => {
 
   const { data: queryResponse, isLoading } = useGetExpensesDataForDate();
 
-  const isCurrentMonth = useMemo(() => {
-    const todayObj = new Date();
-    return (
-      todayObj.getFullYear() === yearState && todayObj.getMonth() === month
-    );
-  }, [month, yearState]);
+  const isCurrentMonth = useMemo(
+    () => getIsCurrentMonth(month, yearState),
+    [month, yearState],
+  );
 
-  const selectedMonthName = useMemo(() => {
-    const d = new Date(yearState, month, 1);
-    return d.toLocaleString('default', { month: 'long' });
-  }, [month, yearState]);
+  const selectedMonthName = useMemo(
+    () => getSelectedMonthName(month, yearState),
+    [month, yearState],
+  );
 
   const dataToShow = useMemo(
     () => (!isLoading ? getExpenseDataForTable(queryResponse, month) : []),
@@ -67,48 +71,18 @@ const ExpensePreviewScreen = () => {
     [isLoading, queryResponse],
   );
 
-  const todayRowData = useMemo(() => {
-    const found = dataToShow.find((row) => row.date === today);
-    return (
-      found || {
-        date: today,
-        data: [],
-        sum: 0,
-      }
-    );
-  }, [dataToShow, today]);
+  const todayRowData = useMemo(
+    () => getTodayRowData(dataToShow, today),
+    [dataToShow, today],
+  );
 
   const { t } = useTranslation();
 
   // Statistics calculation for exports
-  const stats = useMemo(() => {
-    if (isLoading || !queryResponse?.data) {
-      return { totalTransactions: 0, highestCategory: null, dailyAverage: 0 };
-    }
-    const data = queryResponse.data;
-    const totalTransactions = data.length;
-
-    // Calculate highest category
-    const { sumByCategory: monthlySumByCategory } =
-      getExpenseDataSumForCategory(data);
-    let maxCat = '';
-    let maxAmt = 0;
-    Object.entries(monthlySumByCategory || {}).forEach(([cat, amt]) => {
-      if (amt > maxAmt) {
-        maxAmt = amt;
-        maxCat = cat;
-      }
-    });
-
-    const highestCategory =
-      maxAmt > 0 ? { name: maxCat, amount: maxAmt } : null;
-
-    // Daily average
-    const daysInMonth = new Date(yearState, month + 1, 0).getDate();
-    const dailyAverage = (totalSum ?? 0) / daysInMonth;
-
-    return { totalTransactions, highestCategory, dailyAverage };
-  }, [isLoading, queryResponse, month, yearState, totalSum]);
+  const stats = useMemo(
+    () => calculateStats(isLoading, queryResponse, month, yearState, totalSum),
+    [isLoading, queryResponse, month, yearState, totalSum],
+  );
 
   return (
     <Box h={'100%'} p={2} rowGap={10}>
