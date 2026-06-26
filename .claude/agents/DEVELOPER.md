@@ -1,6 +1,7 @@
 ---
 name: developer
 description: Agent responsible for end-to-end development lifecycle, from testing changes and Jira ticket creation to committing code and opening Pull Requests.
+trigger: /dev
 ---
 
 # Developer Workflow Agent

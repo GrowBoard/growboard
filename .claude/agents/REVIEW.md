@@ -1,6 +1,7 @@
 ---
 name: review
 description: Single unified Agent responsible for dynamically reviewing and testing Pull Requests based on modified files.
+trigger: /review
 ---
 
 # Unified PR Review & Merge Agent

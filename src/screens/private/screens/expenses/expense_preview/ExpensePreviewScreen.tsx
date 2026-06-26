@@ -6,6 +6,7 @@ import {
   Button,
   HStack,
   Text,
+  Menu,
 } from '@chakra-ui/react';
 import { useMemo } from 'react';
 import { ExpensesTimeWindow } from './ExpensesTimeWindow';
@@ -25,6 +26,9 @@ import {
   setAddExpenseSelector,
 } from '@selectors';
 import { ExpenseRow } from './ExpensesTable/sub_components';
+import { downloadCSV } from './utils/downloadCSV';
+import { downloadPDF } from './utils/downloadPDF';
+import { useTranslation } from 'react-i18next';
 
 const ExpensePreviewScreen = () => {
   const {
@@ -73,6 +77,38 @@ const ExpensePreviewScreen = () => {
       }
     );
   }, [dataToShow, today]);
+
+  const { t } = useTranslation();
+
+  // Statistics calculation for exports
+  const stats = useMemo(() => {
+    if (isLoading || !queryResponse?.data) {
+      return { totalTransactions: 0, highestCategory: null, dailyAverage: 0 };
+    }
+    const data = queryResponse.data;
+    const totalTransactions = data.length;
+
+    // Calculate highest category
+    const { sumByCategory: monthlySumByCategory } =
+      getExpenseDataSumForCategory(data);
+    let maxCat = '';
+    let maxAmt = 0;
+    Object.entries(monthlySumByCategory || {}).forEach(([cat, amt]) => {
+      if (amt > maxAmt) {
+        maxAmt = amt;
+        maxCat = cat;
+      }
+    });
+
+    const highestCategory =
+      maxAmt > 0 ? { name: maxCat, amount: maxAmt } : null;
+
+    // Daily average
+    const daysInMonth = new Date(yearState, month + 1, 0).getDate();
+    const dailyAverage = (totalSum ?? 0) / daysInMonth;
+
+    return { totalTransactions, highestCategory, dailyAverage };
+  }, [isLoading, queryResponse, month, yearState, totalSum]);
 
   return (
     <Box h={'100%'} p={2} rowGap={10}>
@@ -146,6 +182,110 @@ const ExpensePreviewScreen = () => {
               >
                 See all expenses
               </Button>
+
+              <Menu.Root>
+                <Menu.Trigger asChild>
+                  <Button
+                    size={'xs'}
+                    variant="outline"
+                    borderColor="rgba(255, 255, 255, 0.12)"
+                    color="gray.300"
+                    fontWeight="semibold"
+                    borderRadius="lg"
+                    px={3}
+                    transition="all 0.2s"
+                    _hover={{
+                      bg: 'rgba(255, 255, 255, 0.05)',
+                      borderColor: 'rgba(255, 255, 255, 0.24)',
+                      transform: 'translateY(-1px)',
+                    }}
+                    _active={{
+                      transform: 'translateY(0)',
+                    }}
+                  >
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      style={{ marginRight: '6px' }}
+                    >
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                      <polyline points="7 10 12 15 17 10"></polyline>
+                      <line x1="12" y1="5" x2="12" y2="19"></line>
+                    </svg>
+                    {t('Expenses.downloadReport')}
+                  </Button>
+                </Menu.Trigger>
+                <Menu.Positioner>
+                  <Menu.Content
+                    bg="rgba(12, 14, 18, 0.95)"
+                    borderColor="rgba(255, 255, 255, 0.08)"
+                    border="1px solid"
+                    p={1.5}
+                    borderRadius="md"
+                    shadow="xl"
+                    zIndex={1100}
+                    minW="160px"
+                  >
+                    <Menu.Item
+                      value="csv"
+                      onClick={() =>
+                        downloadCSV(
+                          dataToShow,
+                          sumByCategory ?? {},
+                          totalSum ?? 0,
+                          selectedMonthName,
+                          yearState,
+                          stats,
+                        )
+                      }
+                      fontSize="xs"
+                      color="gray.300"
+                      _hover={{
+                        bg: 'rgba(255, 255, 255, 0.05)',
+                        color: 'white',
+                      }}
+                      cursor="pointer"
+                      py={1.5}
+                      px={3}
+                      borderRadius="sm"
+                    >
+                      {t('Expenses.downloadCSV')}
+                    </Menu.Item>
+                    <Menu.Item
+                      value="pdf"
+                      onClick={() =>
+                        downloadPDF(
+                          dataToShow,
+                          sumByCategory ?? {},
+                          totalSum ?? 0,
+                          selectedMonthName,
+                          yearState,
+                          stats,
+                        )
+                      }
+                      fontSize="xs"
+                      color="gray.300"
+                      _hover={{
+                        bg: 'rgba(255, 255, 255, 0.05)',
+                        color: 'white',
+                      }}
+                      cursor="pointer"
+                      py={1.5}
+                      px={3}
+                      borderRadius="sm"
+                    >
+                      {t('Expenses.downloadPDF')}
+                    </Menu.Item>
+                  </Menu.Content>
+                </Menu.Positioner>
+              </Menu.Root>
+
               <Button
                 size={'xs'}
                 bg="linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)"

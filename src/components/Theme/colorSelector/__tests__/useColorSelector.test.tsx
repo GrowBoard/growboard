@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react';
-import useColorSelector from './useColorSelector';
+import useColorSelector from '../useColorSelector';
 
 describe('useColorSelector', () => {
   it('should return correct semantic token references', () => {

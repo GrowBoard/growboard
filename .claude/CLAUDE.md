@@ -57,6 +57,8 @@ Always ensure that any newly added or updated translation keys are copied and sy
 
 Always add or update the unit tests (and their snapshots) to align with the requested feature implementations or changes. Run the test suite using `yarn test` to verify that all changes are fully covered, correct, and pass successfully.
 
+- **Test Placement**: All unit and integration test files (`*.test.ts`, `*.test.tsx`) MUST be placed inside a `__tests__` directory within the folder of the code being tested (e.g., `utils/__tests__/myUtil.test.ts` instead of `utils/myUtil.test.ts`).
+
 ---
 
 # AGENT
@@ -132,6 +134,7 @@ GrowBoard is a productivity tool web application.
 - **Unit/Integration**: `yarn test`
   - Snapshots are located in `__snapshots__` directories adjacent to tests.
   - RTL `renderHook` is natively imported from `@testing-library/react`.
+  - All unit/integration test files (`*.test.ts`, `*.test.tsx`) MUST be placed inside a `__tests__` directory within the folder of the code being tested.
 - **E2E**: `yarn cy:open`
 - **Build**: `yarn build` (Always verify build compatibility after dependency updates).
 
