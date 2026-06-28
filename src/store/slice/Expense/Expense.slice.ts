@@ -2,6 +2,9 @@ import { AppStoreSlice } from 'src/store/store';
 import { ExpenseDataState, ExpenseStateSlice, TimeWindow } from './types';
 import { ExpenseType } from '@screens/private/screens/expenses/expense_preview/types';
 
+/**
+ * The initial state configuration for the expense slice.
+ */
 const date = new Date();
 const initialState: ExpenseDataState = {
   overview: {
@@ -13,15 +16,24 @@ const initialState: ExpenseDataState = {
   addExpense: {
     isOpen: false,
   },
-  date: date,
+  date,
 };
 
+/**
+ * createExpenseSlice.
+ * Initializes the state slice and mutation actions for expense management.
+ *
+ * @param set Central store setter callback.
+ * @returns The expense state and actions slice.
+ */
 const createExpenseSlice: AppStoreSlice<ExpenseStateSlice> = (set) => ({
   ...initialState,
+  /** Set the time window (day, month, year) for expense overview. */
   setTimeWindow: (timeWindow: TimeWindow) =>
     set((state) => {
       state.Expense.overview.timeWindow = timeWindow;
     }),
+  /** Configure the add‑expense modal visibility and optional parameters. */
   setAddExpense: (
     isOpen: boolean,
     type?: ExpenseType,
@@ -34,11 +46,13 @@ const createExpenseSlice: AppStoreSlice<ExpenseStateSlice> = (set) => ({
       state.Expense.addExpense.date = date;
       state.Expense.addExpense.expenseId = expenseId;
     }),
+  /** Update month and optionally year for the expense overview. */
   setOverviewInput: ({ month, year }) =>
     set((state) => {
       state.Expense.overview.month = month;
       state.Expense.overview.year = year ?? state.Expense.overview.year;
     }),
+  /** Update day, month and optionally year for the expense overview. */
   setOverviewInputWithDay: ({ day, month, year }) =>
     set((state) => {
       state.Expense.overview.day = day;

@@ -8,6 +8,9 @@ import {
   ToastYPosition,
 } from './types';
 
+/**
+ * The initial state configuration for the alert slice.
+ */
 const initialState: AlertState = {
   alertData: {
     alertData: {
@@ -20,6 +23,13 @@ const initialState: AlertState = {
   },
 };
 
+/**
+ * createAlertSlice.
+ * Initializes the state and action reducers for managing toast alerts.
+ * 
+ * @param set Central store setter callback.
+ * @returns The alert state and actions slice.
+ */
 const createAlertSlice: AppStoreSlice<AlertStateSlice> = (set) => ({
   ...initialState,
   showToastAlert: (alertData: ToastAlertData) =>

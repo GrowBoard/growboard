@@ -1,6 +1,6 @@
 import { useCallSBMutation } from '../../common';
 import { useErrorToast, useSuccessToast } from '@components';
-import { googleSheetsExpenseService } from '../../../googleSheetsExpenseService';
+import { googleSheetsExpenseService } from '@services/googleSheets';
 import { useQueryClient } from '@tanstack/react-query';
 import { ExpenseType } from '@screens/private/screens/expenses/expense_preview/types';
 

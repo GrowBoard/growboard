@@ -1,10 +1,20 @@
 import { AppStoreSlice } from '@store';
 import { ProjectDataState, ProjectStateSlice, ProjectData } from './types';
 
+/**
+ * The initial state configuration for the projects slice.
+ */
 const initialState: ProjectDataState = {
   projects: [],
 };
 
+/**
+ * createProjectsSlice.
+ * Initializes the state slice and mutation actions for projects data.
+ * 
+ * @param set Central store setter callback.
+ * @returns The projects state and actions slice.
+ */
 const createProjectsSlice: AppStoreSlice<ProjectStateSlice> = (set) => ({
   ...initialState,
   addProjects(projects: ProjectData[]) {
@@ -20,15 +30,17 @@ const createProjectsSlice: AppStoreSlice<ProjectStateSlice> = (set) => ({
   updateSingleProject(project: ProjectData) {
     set((state) => {
       const projectIndex = state.Projects.projects.findIndex(
-        (p) => p.id === project.projects,
+        (p) => p.projectId === project.projectId,
       );
-      state.Projects.projects[projectIndex] = project;
+      if (projectIndex !== -1) {
+        state.Projects.projects[projectIndex] = project;
+      }
     });
   },
   removeProjects(projectId: string) {
     set((state) => {
       state.Projects.projects = state.Projects.projects.filter(
-        (project: ProjectData) => project.id !== projectId,
+        (project: ProjectData) => project.projectId !== projectId,
       );
     });
   },

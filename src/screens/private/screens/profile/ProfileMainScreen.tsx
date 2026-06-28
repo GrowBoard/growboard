@@ -1,23 +1,20 @@
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import getSubNavTitle from '../../../../util/nav/NavTitle';
-import { ProfileIcon, SettingsIcon } from '@assets';
 import { TooltipComponent } from '@components';
 import { Box, Flex, Button } from '@chakra-ui/react';
+import { PROFILE_ROUTES } from './const';
 
 /**
- * Profile screen routes.
+ * ProfileMainScreen Component.
+ * The layout wrapper screen for all sub-routes inside the Profile section.
+ * Renders a header navigation bar to switch between the profile preview and settings
+ * and displays the active tab inside an Outlet.
+ * 
+ * @returns The ProfileMainScreen component.
  */
-const ProfileRoutes = [
-  { title: 'Profile preview', icon: <ProfileIcon />, path: 'preview' },
-  { title: 'Profile setting', icon: <SettingsIcon />, path: 'settings' },
-];
-
-/**
- * Component definition for the profile screen component.
- * @returns The profile screen component.
- */
-function ProfileMainScreen() {
+const ProfileMainScreen = () => {
   const currentLocation = useLocation();
+
   return (
     <Box h="full" w="100%">
       <Flex
@@ -35,7 +32,7 @@ function ProfileMainScreen() {
           {getSubNavTitle(currentLocation.pathname)}
         </Box>
         <Flex gap={2}>
-          {ProfileRoutes.map((item, index) => (
+          {PROFILE_ROUTES.map((item, index) => (
             <TooltipComponent key={index} title={item.title}>
               <Button
                 asChild
@@ -53,7 +50,9 @@ function ProfileMainScreen() {
                 h="40px"
                 borderRadius="md"
               >
-                <NavLink to={item.path}>{item.icon}</NavLink>
+                <NavLink to={item.path}>
+                  <item.icon />
+                </NavLink>
               </Button>
             </TooltipComponent>
           ))}
@@ -64,7 +63,7 @@ function ProfileMainScreen() {
       </Box>
     </Box>
   );
-}
+};
 
 // Export the profile screen component.
 export default ProfileMainScreen;

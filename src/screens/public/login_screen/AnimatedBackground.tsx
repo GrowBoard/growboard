@@ -31,10 +31,28 @@ const ANIMATION_CSS = `
     50%  { opacity: 1; }
     100% { opacity: 0; transform: translateX(100%); }
   }
+
+  .gb-mesh-a {
+    background: radial-gradient(circle at center, rgba(79,70,229,0.22) 0%, rgba(55,48,163,0.12) 40%, transparent 70%);
+    background: radial-gradient(circle at center, oklch(0.45 0.18 265 / 0.22) 0%, oklch(0.35 0.12 265 / 0.12) 40%, transparent 70%);
+  }
+  .gb-mesh-b {
+    background: radial-gradient(circle at center, rgba(14,165,233,0.18) 0%, rgba(2,132,199,0.08) 40%, transparent 70%);
+    background: radial-gradient(circle at center, oklch(0.5 0.15 195 / 0.18) 0%, oklch(0.38 0.1 195 / 0.08) 40%, transparent 70%);
+  }
+  .gb-mesh-c {
+    background: radial-gradient(circle at center, rgba(139,92,246,0.15) 0%, transparent 65%);
+    background: radial-gradient(circle at center, oklch(0.45 0.16 295 / 0.15) 0%, transparent 65%);
+  }
+  .gb-spotlight {
+    background: radial-gradient(circle 600px at var(--mouse-x, 50vw) var(--mouse-y, 50vh), rgba(99, 102, 241, 0.15), transparent 80%);
+    background: radial-gradient(circle 600px at var(--mouse-x, 50vw) var(--mouse-y, 50vh), oklch(0.45 0.18 265 / 0.15), transparent 80%);
+  }
 `;
 
 // ─── Tiny star-field canvas ───────────────────────────────────────────────────
 // Very slow, very sparse — barely perceptible depth layer.
+// Ergonomically pauses calculations when the document/tab is hidden.
 
 interface Star {
   x: number;
@@ -60,6 +78,7 @@ const StarField = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const stars = useRef<Star[]>([]);
   const raf = useRef(0);
+  const isVisible = useRef(true);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -77,15 +96,23 @@ const StarField = () => {
     resize();
     window.addEventListener('resize', resize);
 
+    // Ergonomic visibility checks to conserve battery when tab is inactive
+    const handleVisibility = () => {
+      isVisible.current = !document.hidden;
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+
     const tick = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (const s of stars.current) {
-        s.opacity += s.speed * s.dir;
-        if (s.opacity > 0.55 || s.opacity < 0.04) s.dir *= -1;
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(200,220,255,${s.opacity.toFixed(3)})`;
-        ctx.fill();
+      if (isVisible.current) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (const s of stars.current) {
+          s.opacity += s.speed * s.dir;
+          if (s.opacity > 0.55 || s.opacity < 0.04) s.dir *= -1;
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(200,220,255,${s.opacity.toFixed(3)})`;
+          ctx.fill();
+        }
       }
       raf.current = requestAnimationFrame(tick);
     };
@@ -93,6 +120,7 @@ const StarField = () => {
 
     return () => {
       window.removeEventListener('resize', resize);
+      document.removeEventListener('visibilitychange', handleVisibility);
       cancelAnimationFrame(raf.current);
     };
   }, []);
@@ -114,6 +142,8 @@ const StarField = () => {
 // ─── Main component ───────────────────────────────────────────────────────────
 
 const AnimatedBackground = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const id = 'gb-bg-css';
     if (!document.getElementById(id)) {
@@ -125,10 +155,26 @@ const AnimatedBackground = () => {
     return () => document.getElementById('gb-bg-css')?.remove();
   }, []);
 
+  // Set up mouse-following spotlight glow using CSS custom variables
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!containerRef.current) return;
+      const x = e.clientX;
+      const y = e.clientY;
+      containerRef.current.style.setProperty('--mouse-x', `${x}px`);
+      containerRef.current.style.setProperty('--mouse-y', `${y}px`);
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+
   return (
-    <Box position="absolute" inset={0} overflow="hidden" pointerEvents="none">
+    <Box ref={containerRef} position="absolute" inset={0} overflow="hidden" pointerEvents="none">
       {/* 1 ── Deep navy base */}
-      <Box position="absolute" inset={0} bg="#07090e" />
+      <Box position="absolute" inset={0} bg="#0b0e14" />
 
       {/* 2 ── Primary glow — indigo, top-right */}
       <Box
@@ -138,9 +184,8 @@ const AnimatedBackground = () => {
         w="65vw"
         h="65vw"
         borderRadius="full"
+        className="gb-mesh-a"
         style={{
-          background:
-            'radial-gradient(circle at center, rgba(79,70,229,0.13) 0%, rgba(55,48,163,0.07) 40%, transparent 70%)',
           filter: 'blur(80px)',
           animation: 'gb-mesh-drift-a 45s ease-in-out infinite',
           willChange: 'transform',
@@ -155,9 +200,8 @@ const AnimatedBackground = () => {
         w="70vw"
         h="70vw"
         borderRadius="full"
+        className="gb-mesh-b"
         style={{
-          background:
-            'radial-gradient(circle at center, rgba(14,165,233,0.09) 0%, rgba(2,132,199,0.05) 40%, transparent 70%)',
           filter: 'blur(90px)',
           animation: 'gb-mesh-drift-b 55s ease-in-out infinite',
           willChange: 'transform',
@@ -172,33 +216,42 @@ const AnimatedBackground = () => {
         w="45vw"
         h="45vw"
         borderRadius="full"
+        className="gb-mesh-c"
         style={{
-          background:
-            'radial-gradient(circle at center, rgba(139,92,246,0.08) 0%, transparent 65%)',
           filter: 'blur(70px)',
           animation: 'gb-mesh-drift-c 38s ease-in-out infinite',
           willChange: 'transform',
         }}
       />
 
-      {/* 5 ── Subtle dot matrix (very faint) */}
+      {/* 5 ── Interactive mouse spotlight glow */}
+      <Box
+        position="absolute"
+        inset={0}
+        className="gb-spotlight"
+        style={{
+          willChange: 'background',
+        }}
+      />
+
+      {/* 6 ── Subtle dot matrix (very faint) */}
       <Box
         position="absolute"
         inset={0}
         style={{
           backgroundImage:
-            'radial-gradient(circle, rgba(148,163,184,0.08) 1px, transparent 1px)',
+            'radial-gradient(circle, rgba(148,163,184,0.06) 1px, transparent 1px)',
           backgroundSize: '52px 52px',
           animation: 'gb-noise-slow 8s ease-in-out infinite',
         }}
       />
 
-      {/* 6 ── Star field (depth layer) */}
+      {/* 7 ── Star field (depth layer) */}
       <Box position="absolute" inset={0}>
         <StarField />
       </Box>
 
-      {/* 7 ── Horizontal shimmer line — very subtle, slow */}
+      {/* 8 ── Horizontal shimmer line — very subtle, slow */}
       <Box
         position="absolute"
         left="0"
@@ -223,7 +276,7 @@ const AnimatedBackground = () => {
         />
       </Box>
 
-      {/* 8 ── Bottom shimmer line */}
+      {/* 9 ── Bottom shimmer line */}
       <Box
         position="absolute"
         left="0"
@@ -248,17 +301,17 @@ const AnimatedBackground = () => {
         />
       </Box>
 
-      {/* 9 ── Radial vignette — darkens edges, focuses center */}
+      {/* 10 ── Radial vignette — darkens edges, focuses center */}
       <Box
         position="absolute"
         inset={0}
         style={{
           background:
-            'radial-gradient(ellipse 80% 80% at center, transparent 30%, rgba(4,5,9,0.75) 100%)',
+            'radial-gradient(ellipse 80% 80% at center, transparent 40%, rgba(4,5,9,0.45) 100%)',
         }}
       />
 
-      {/* 10 ── Top gradient fade (navbar feel) */}
+      {/* 11 ── Top gradient fade (navbar feel) */}
       <Box
         position="absolute"
         top={0}

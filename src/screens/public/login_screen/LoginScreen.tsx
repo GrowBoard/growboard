@@ -1,4 +1,4 @@
-import { useEffect, useState, lazy, Suspense } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import {
   LandingIntro,
@@ -11,6 +11,7 @@ import { Box, Button, Spinner, Text, VStack } from '@chakra-ui/react';
 import { appStore } from '@store';
 import { setAuthSelector, useShallow } from '@selectors';
 import { useGoogleLogin } from '@react-oauth/google';
+import AnimatedBackground from './AnimatedBackground';
 
 // ── Card & panel entry keyframes ──────────────────────────────────────────────
 const CARD_ANIMATIONS = `
@@ -42,13 +43,7 @@ const GOOGLE_SCOPES = [
   'https://www.googleapis.com/auth/drive.file',
 ].join(' ');
 
-// Lazy-load the heavy animated background to avoid blocking main render
-const LazyAnimatedBg = lazy(() => import('./AnimatedBackground'));
-const AnimatedBackgroundLazy = () => (
-  <Suspense fallback={null}>
-    <LazyAnimatedBg />
-  </Suspense>
-);
+
 
 const GoogleIcon = ({ spinning }: { spinning?: boolean }) =>
   spinning ? (
@@ -174,11 +169,14 @@ const LoginScreen = () => {
 
         const profile = await res.json();
 
+        // Calculate token expiry timestamp (Google returns expires_in in seconds)
+        const expiresAt = tokenResponse.expires_in ? Date.now() + tokenResponse.expires_in * 1000 : undefined;
         setAuthData({
           token: tokenResponse.access_token,
           name: profile.name ?? '',
           email: profile.email ?? '',
           picture: profile.picture ?? '',
+          expiresAt,
         });
 
         successToast(`Welcome, ${profile.name ?? 'there'}! 👋`);
@@ -222,7 +220,7 @@ const LoginScreen = () => {
     >
       {/* ── Animated background ─────────────────────────────── */}
       <Box position="absolute" inset={0} zIndex={0}>
-        <AnimatedBackgroundLazy />
+        <AnimatedBackground />
       </Box>
 
       {/* ── Glassmorphic card ───────────────────────────────── */}
@@ -233,17 +231,22 @@ const LoginScreen = () => {
         maxH={{ base: 'none', md: '650px' }}
         width={{ base: '90%', sm: '80%', md: '80%', lg: '70%', xl: '65%' }}
         maxWidth="1100px"
-        bg="rgba(12, 14, 18, 0.6)"
+        bg="rgba(12, 14, 18, 0.55)"
         backdropFilter="blur(32px) saturate(1.4)"
         border="1px solid"
-        borderColor="rgba(255, 255, 255, 0.07)"
+        borderColor="rgba(255, 255, 255, 0.06)"
         borderRadius="2xl"
-        boxShadow="0 24px 64px rgba(0,0,0,0.55), 0 0 0 1px rgba(79,70,229,0.08) inset, 0 1px 0 rgba(255,255,255,0.06) inset"
+        boxShadow="0 24px 64px rgba(0,0,0,0.55), 0 0 0 1px rgba(79,70,229,0.06) inset, 0 1px 0 rgba(255,255,255,0.04) inset"
         overflow="hidden"
         mx="auto"
         my={{ base: 8, md: 0 }}
         position="relative"
         zIndex={10}
+        _hover={{
+          borderColor: 'rgba(99, 102, 241, 0.25)',
+          boxShadow: '0 32px 80px rgba(0,0,0,0.65), 0 0 0 1px rgba(99,102,241,0.15) inset, 0 1px 0 rgba(255,255,255,0.08) inset',
+        }}
+        transition="all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1)"
         style={{
           animation: 'gb-card-enter 0.8s cubic-bezier(0.22, 1, 0.36, 1) both',
         }}
@@ -347,22 +350,22 @@ const LoginScreen = () => {
             <VStack w="100%" gap={4}>
               <Button
                 width="100%"
-                bg="rgba(255, 255, 255, 0.04)"
+                bg="rgba(255, 255, 255, 0.03)"
                 color="white"
                 border="1px solid"
-                borderColor="rgba(255, 255, 255, 0.1)"
+                borderColor="rgba(255, 255, 255, 0.08)"
                 fontWeight="semibold"
                 size="lg"
                 borderRadius="lg"
-                transition="all 0.25s ease"
+                transition="all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)"
                 _hover={{
-                  bg: 'rgba(79,70,229,0.08)',
-                  borderColor: 'rgba(148,163,184,0.25)',
-                  boxShadow: '0 4px 24px rgba(79,70,229,0.15)',
-                  transform: 'translateY(-1px)',
+                  bg: 'rgba(255, 255, 255, 0.07)',
+                  borderColor: 'rgba(99, 102, 241, 0.45)',
+                  boxShadow: '0 8px 32px rgba(99, 102, 241, 0.18), 0 0 0 1px rgba(99, 102, 241, 0.2) inset',
+                  transform: 'translateY(-2px)',
                 }}
                 _active={{
-                  bg: 'rgba(79,70,229,0.12)',
+                  bg: 'rgba(255, 255, 255, 0.04)',
                   transform: 'translateY(0)',
                 }}
                 disabled={loading}

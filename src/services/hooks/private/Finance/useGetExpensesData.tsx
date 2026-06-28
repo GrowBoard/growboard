@@ -1,4 +1,4 @@
-import { googleSheetsExpenseService } from '../../../googleSheetsExpenseService';
+import { googleSheetsExpenseService } from '@services/googleSheets';
 import { useCallQuery } from '../../common';
 import { UseQueryResult } from '@tanstack/react-query';
 import { ExpenseDataPoint } from './types';
