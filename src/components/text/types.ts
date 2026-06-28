@@ -21,4 +21,5 @@ export type InputTextProps = {
   updateFormValue: (args: { updateType: string; value: string }) => void;
   updateType: string;
   errorState?: boolean;
+  disabled?: boolean;
 };

@@ -1,3 +1,6 @@
+/**
+ * Export all authentication state selectors.
+ */
 export {
   setAuthSelector,
   isUserLoggedInSelector,

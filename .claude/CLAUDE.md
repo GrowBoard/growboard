@@ -16,9 +16,7 @@ For comprehensive technical documentation, architectural decisions, file convent
 
 👉 **[Agent Guide](#AGENT)**
 
-## 💻 Code Style Guidelines
-
-- **React Components**: Avoid using `React.FC` or `React.FunctionComponent` to define functional components. Instead, type props directly in the function arguments: `const MyComponent = ({ prop1 }: Props) => { ... }`.
+- Refer to [.claude/rules/typescript/rules.md](file:///Users/mr.robot/z-stash/GrowBoard/growboard/.claude/rules/typescript/rules.md) for code style guidelines.
 
 ## Essential Commands
 
@@ -106,7 +104,7 @@ GrowBoard is a productivity tool web application.
 
 ```text
 /
-├── .claude/                # Agent skills and settings
+├── .claude/                # Agent skills, rules, and settings
 ├── .github/                # CI/CD Workflows (Web CI, Build & Publish)
 ├── public/                 # Static assets and index.html
 ├── src/                    # Source code (React components, state, hooks, pages, etc.)
@@ -128,6 +126,7 @@ GrowBoard is a productivity tool web application.
 - **Compound Components**: Use the standard v3 pattern (e.g., `<Dialog.Root>`, `<Menu.Content>`).
 - **Icons**: Use inline SVGs or define local custom SVG components directly within the files where they are needed.
 - **Theme**: Tokens are managed in `src/components/Theme/theme.ts`. Avoid hardcoded colors.
+- **Chakra UI Only**: Do not use any UI component library other than Chakra UI. Refer to [.claude/rules/typescript/rules.md](file:///Users/mr.robot/z-stash/GrowBoard/growboard/.claude/rules/typescript/rules.md) for full details.
 
 ### Routing (React Router v7)
 
@@ -136,8 +135,7 @@ GrowBoard is a productivity tool web application.
 
 ### TypeScript
 
-- All files use `.ts` or `.tsx`.
-- Strictly adhere to path aliases defined in `tsconfig.path.json` (e.g., `@screens`, `@components`, `@store`).
+- Refer to [.claude/rules/typescript/rules.md](file:///Users/mr.robot/z-stash/GrowBoard/growboard/.claude/rules/typescript/rules.md) for detailed TypeScript standards and rules.
 
 ## 5. Testing & Verification
 

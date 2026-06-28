@@ -13,57 +13,13 @@ import { appStore } from '@store';
 import { useColorMode } from '../Theme';
 import { Box, Button, HStack, Menu, Text } from '@chakra-ui/react';
 
-const SunIconAnimated = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-    strokeWidth={2}
-    stroke="currentColor"
-    style={{
-      width: '20px',
-      height: '20px',
-      transform: 'rotate(0deg) scale(1)',
-      transition: 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-      animation: 'spin 10s linear infinite',
-    }}
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"
-    />
-  </svg>
-);
-
-const MoonIconAnimated = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-    strokeWidth={2}
-    stroke="currentColor"
-    style={{
-      width: '20px',
-      height: '20px',
-      transform: 'rotate(0deg) scale(1)',
-      transition: 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-      animation: 'pulse 2s ease-in-out infinite',
-    }}
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"
-    />
-  </svg>
-);
-
 /**
- * Navigation component.
- *
- * @param props  The navigation component props.
- * @returns The navigation component.
+ * NavigationComponent.
+ * Renders the top navigation header bar for the GrowBoard application.
+ * Contains the logo, page branding, theme toggles, and user profile action menu dropdowns.
+ * 
+ * @param props Component properties containing the logout click handler.
+ * @returns The NavigationComponent.
  */
 const NavigationComponent = (props: NavigationComponentProps) => {
   const { t } = useTranslation();
@@ -79,7 +35,7 @@ const NavigationComponent = (props: NavigationComponentProps) => {
       display={'flex'}
       justifyContent={'space-between'}
       alignItems={'center'}
-      paddingX={4}
+      paddingX={6}
       h={'7%'}
       pos={'sticky'}
       top={0}
@@ -88,10 +44,12 @@ const NavigationComponent = (props: NavigationComponentProps) => {
       <Box flex={1}>
         <NavLink to="" style={{ display: 'inline-block' }}>
           <Button variant={'ghost'} p={0} _hover={{ bg: 'transparent' }}>
-            <HStack gap={2} align="center">
-              <GrowboardIcon width="32px" height="32px" />
-              <Text fontWeight="bold" fontSize="lg" color="text.primary">
-                Growboard
+            <HStack gap={2.5} align="center">
+              <GrowboardIcon
+                style={{ width: '40px', height: '40px', flexShrink: 0 }}
+              />
+              <Text fontWeight="bold" fontSize="xl" color="text.primary">
+                GrowBoard
               </Text>
             </HStack>
           </Button>
@@ -205,9 +163,47 @@ const NavigationComponent = (props: NavigationComponentProps) => {
                   style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
                 >
                   {colorMode === 'dark' ? (
-                    <SunIconAnimated />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={2}
+                      stroke="currentColor"
+                      style={{
+                        width: '20px',
+                        height: '20px',
+                        transform: 'rotate(0deg) scale(1)',
+                        transition: 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+                        animation: 'spin 10s linear infinite',
+                      }}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"
+                      />
+                    </svg>
                   ) : (
-                    <MoonIconAnimated />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={2}
+                      stroke="currentColor"
+                      style={{
+                        width: '20px',
+                        height: '20px',
+                        transform: 'rotate(0deg) scale(1)',
+                        transition: 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+                        animation: 'pulse 2s ease-in-out infinite',
+                      }}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"
+                      />
+                    </svg>
                   )}
                   <span>
                     {colorMode === 'dark' ? 'Light Mode' : 'Dark Mode'}

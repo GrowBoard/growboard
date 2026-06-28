@@ -1,11 +1,15 @@
+import { useState } from 'react';
 import {
   NameIcon,
-  DateIcon,
-  ExperienceIcon,
   ProfilePlaceholder,
   EmailIcon,
+  FacebookIcon,
+  InstagramIcon,
+  GithubIcon,
+  XIcon,
+  WebsiteIcon,
 } from '@assets';
-import { TitleCard } from '@components';
+import { TitleCard, PageLoadingComponent, useSuccessToast } from '@components';
 import {
   profileSelector,
   authNameSelector,
@@ -14,105 +18,371 @@ import {
   useShallow,
 } from '@selectors';
 import { appStore } from '@store';
+import { useGetProfileData } from '@services/hooks/private';
+import {
+  Box,
+  Flex,
+  Text,
+  Image,
+  Badge,
+  Stack,
+  Link,
+  SimpleGrid,
+  HStack,
+  IconButton,
+} from '@chakra-ui/react';
+import { CopyIcon, CheckIcon } from './components';
 
 /**
- * The text style for the profile preview screen.
+ * ProfilePreviewScreen Component.
+ * Renders a visual card preview of the user's profile information, including their avatar,
+ * name, email, bio, phone numbers (with click-to-copy utility), hobbies, and social links.
+ * 
+ * @returns The ProfilePreviewScreen component.
  */
-const TextStyle =
-  'text-md font-semibold mt-2 border border-gray-800 rounded-md p-3 flex flex-row items-center gap-3 bg-gray-850 text-white shadow-sm';
-
-/**
- * Component definition for the profile preview screen.
- * @returns The profile preview screen component.
- */
-function ProfilePreviewScreen() {
+const ProfilePreviewScreen = () => {
   const { profileData } = appStore(useShallow(profileSelector));
   const googleName = appStore(useShallow(authNameSelector));
   const googleEmail = appStore(useShallow(authEmailSelector));
   const googlePicture = appStore(useShallow(authPictureSelector));
 
-  const displayName =
-    googleName || `${profileData.firstName} ${profileData.lastName}` || 'User';
+  const { isLoading } = useGetProfileData();
+  const successToast = useSuccessToast();
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+
+  /**
+   * Copies the selected phone number to the user's clipboard and triggers
+   * a success toast message along with a temporary visual icon checkmark.
+   * 
+   * @param phone The phone number string to be copied.
+   * @param idx The index of the phone number item in the array.
+   */
+  const handleCopy = (phone: string, idx: number) => {
+    navigator.clipboard.writeText(phone);
+    setCopiedIndex(idx);
+    successToast('Phone number copied to clipboard! 📋');
+    setTimeout(() => setCopiedIndex(null), 2000);
+  };
+
+  const displayName = googleName || 'User';
   const displayEmail = googleEmail || 'No email connected';
-  const rawPicture = googlePicture || profileData.profilePicture;
-  const displayPicture = rawPicture
-    ? rawPicture.replace('s96-c', 's1028-c')
+  const displayPicture = googlePicture
+    ? googlePicture.replace('s96-c', 's1028-c')
     : null;
 
   return (
-    <div className="m-4 h-full">
+    <Box m={4} h="full">
+      {isLoading && <PageLoadingComponent />}
       <TitleCard title="Profile Preview" topMargin="mt-2">
-        <div className="grid grid-cols-1 gap-6 max-w-4xl mx-auto p-4">
-          <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-8">
-            {/* Left side: Profile Info */}
-            <div className="grid grid-cols-1 gap-3 w-full md:w-2/3">
-              <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">
-                Account Information
-              </div>
-              <div className={TextStyle}>
-                <NameIcon />{' '}
-                <span className="text-xs text-gray-400 mr-1 uppercase">
-                  Name:
-                </span>{' '}
-                {displayName}
-              </div>
-              <div className={TextStyle}>
-                <EmailIcon />{' '}
-                <span className="text-xs text-gray-400 mr-1 uppercase">
-                  Email:
-                </span>{' '}
-                {displayEmail}
-              </div>
-              {profileData.phoneNumber && (
-                <div className={TextStyle}>
-                  <DateIcon />{' '}
-                  <span className="text-xs text-gray-400 mr-1 uppercase">
-                    Phone:
-                  </span>{' '}
-                  {profileData.phoneNumber}
-                </div>
+        <SimpleGrid columns={{ base: 1, md: 3 }} gap={8} maxW="4xl" mx="auto" p={4}>
+          {/* Left panel: Avatar & Basic Details */}
+          <Box gridColumn={{ base: 'span 1', md: 'span 1' }} display="flex" flexDirection="column" alignItems="center" gap={4}>
+            <Text fontSize="xs" fontWeight="bold" color="gray.500" letterSpacing="wider" textTransform="uppercase">
+              Profile Photo
+            </Text>
+            <Box
+              w="56"
+              h="56"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              borderRadius="full"
+              overflow="hidden"
+              border="1px solid"
+              borderColor="gray.800"
+              bg="gray.850"
+              shadow="md"
+            >
+              {displayPicture ? (
+                <Image
+                  alt="Profile Avatar"
+                  src={displayPicture}
+                  w="100%"
+                  h="100%"
+                  objectFit="cover"
+                  referrerPolicy="no-referrer"
+                />
+              ) : (
+                <Box transform="scale(1.5)" color="gray.600">
+                  <ProfilePlaceholder />
+                </Box>
               )}
+            </Box>
+          </Box>
+
+          {/* Right panel: Account Details, Bio, Hobbies, Social Links */}
+          <Box gridColumn={{ base: 'span 1', md: 'span 2' }}>
+            <Stack gap={6}>
+              <Box>
+                <Text fontSize="xs" fontWeight="bold" color="gray.500" letterSpacing="wider" textTransform="uppercase" mb={3}>
+                  Account Information
+                </Text>
+                <Stack gap={3}>
+                  <Flex
+                    fontSize="md"
+                    fontWeight="semibold"
+                    border="1px solid"
+                    borderColor="gray.800"
+                    borderRadius="md"
+                    p={3}
+                    align="center"
+                    gap={3}
+                    bg="gray.850"
+                    color="white"
+                    shadow="sm"
+                  >
+                    <NameIcon />
+                    <Text fontSize="xs" color="gray.400" textTransform="uppercase" mr={1}>
+                      Name:
+                    </Text>
+                    <Text>{displayName}</Text>
+                  </Flex>
+                  <Flex
+                    fontSize="md"
+                    fontWeight="semibold"
+                    border="1px solid"
+                    borderColor="gray.800"
+                    borderRadius="md"
+                    p={3}
+                    align="center"
+                    gap={3}
+                    bg="gray.850"
+                    color="white"
+                    shadow="sm"
+                  >
+                    <EmailIcon />
+                    <Text fontSize="xs" color="gray.400" textTransform="uppercase" mr={1}>
+                      Email:
+                    </Text>
+                    <Text>{displayEmail}</Text>
+                  </Flex>
+                </Stack>
+              </Box>
+
               {profileData.bio && (
-                <div className={TextStyle}>
-                  <ExperienceIcon />{' '}
-                  <span className="text-xs text-gray-400 mr-1 uppercase">
-                    Bio:
-                  </span>{' '}
-                  {profileData.bio}
-                </div>
+                <Box>
+                  <Text fontSize="xs" fontWeight="bold" color="gray.500" letterSpacing="wider" textTransform="uppercase" mb={2}>
+                    Bio
+                  </Text>
+                  <Box
+                    border="1px solid"
+                    borderColor="gray.800"
+                    borderRadius="md"
+                    p={4}
+                    bg="gray.850"
+                    color="white"
+                    fontStyle="italic"
+                    shadow="sm"
+                  >
+                    &ldquo;{profileData.bio}&rdquo;
+                  </Box>
+                </Box>
               )}
-            </div>
 
-            {/* Right side: Avatar */}
-            <div className="flex flex-col items-center gap-3 w-full md:w-1/3">
-              <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">
-                Profile Photo
-              </div>
-              <div className="w-56 h-56 flex items-center justify-center rounded-full overflow-hidden border border-gray-800 bg-gray-850 shadow-md">
-                {displayPicture ? (
-                  <img
-                    alt="Profile Avatar"
-                    src={displayPicture}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                    }}
-                    referrerPolicy="no-referrer"
-                  />
-                ) : (
-                  <div className="scale-150 text-gray-600">
-                    <ProfilePlaceholder />
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
+              {profileData.phone_number && profileData.phone_number.length > 0 && (
+                <Box>
+                  <Text fontSize="xs" fontWeight="bold" color="gray.500" letterSpacing="wider" textTransform="uppercase" mb={2}>
+                    Phone Numbers
+                  </Text>
+                  <Stack gap={2}>
+                    {profileData.phone_number.map((phone: string, idx: number) => (
+                      <Flex
+                        key={idx}
+                        border="1px solid"
+                        borderColor="gray.800"
+                        borderRadius="md"
+                        p={3}
+                        bg="gray.850"
+                        color="white"
+                        fontSize="sm"
+                        shadow="sm"
+                        align="center"
+                        justify="space-between"
+                      >
+                        <Flex align="center" gap={3}>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            style={{ width: '20px', height: '20px' }}
+                            className="text-gray-400"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M2.25 6.622c0-1.272.937-2.327 2.155-2.511a12.023 12.023 0 0 0 11.218 0c1.218.184 2.155 1.239 2.155 2.511v9.606c0 1.272-.937 2.327-2.155 2.51a12.023 12.023 0 0 1-11.218 0c-1.218-.183-2.155-1.238-2.155-2.511V6.622Z"
+                            />
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="m2.25 15.75 3.395-3.395c.39-.39 1.025-.39 1.415 0l2.39 2.39c.39.39 1.025.39 1.415 0L19.5 6"
+                            />
+                          </svg>
+                          <Text>{phone}</Text>
+                        </Flex>
+                        <IconButton
+                          aria-label="Copy phone number"
+                          onClick={() => handleCopy(phone, idx)}
+                          variant="ghost"
+                          size="xs"
+                          color="gray.400"
+                          _hover={{ color: 'blue.400', bg: 'transparent' }}
+                        >
+                          {copiedIndex === idx ? <CheckIcon /> : <CopyIcon />}
+                        </IconButton>
+                      </Flex>
+                    ))}
+                  </Stack>
+                </Box>
+              )}
+
+              {profileData.hobbies && profileData.hobbies.length > 0 && (
+                <Box>
+                  <Text fontSize="xs" fontWeight="bold" color="gray.500" letterSpacing="wider" textTransform="uppercase" mb={2}>
+                    Hobbies
+                  </Text>
+                  <Flex flexWrap="wrap" gap={2}>
+                    {profileData.hobbies.map((hobby: string, idx: number) => (
+                      <Badge
+                        key={idx}
+                        variant="subtle"
+                        colorPalette="blue"
+                        py={1.5}
+                        px={4}
+                        borderRadius="full"
+                        fontSize="xs"
+                        fontWeight="semibold"
+                        shadow="sm"
+                      >
+                        {hobby}
+                      </Badge>
+                    ))}
+                  </Flex>
+                </Box>
+              )}
+
+              {profileData.socialLink && (
+                <Box>
+                  <Text fontSize="xs" fontWeight="bold" color="gray.500" letterSpacing="wider" textTransform="uppercase" mb={3}>
+                    Social Connections
+                  </Text>
+                  <HStack gap={3}>
+                    {profileData.socialLink.facebook && (
+                      <Link
+                        href={profileData.socialLink.facebook.startsWith('http') ? profileData.socialLink.facebook : `https://${profileData.socialLink.facebook}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        display="flex"
+                        bg="gray.800"
+                        border="1px solid"
+                        borderColor="gray.700"
+                        _hover={{ bg: 'gray.700' }}
+                        color="white"
+                        h="10"
+                        w="10"
+                        alignItems="center"
+                        justifyContent="center"
+                        borderRadius="full"
+                        title="Facebook"
+                      >
+                        <FacebookIcon />
+                      </Link>
+                    )}
+                    {profileData.socialLink.instagram && (
+                      <Link
+                        href={profileData.socialLink.instagram.startsWith('http') ? profileData.socialLink.instagram : `https://${profileData.socialLink.instagram}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        display="flex"
+                        bg="gray.800"
+                        border="1px solid"
+                        borderColor="gray.700"
+                        _hover={{ bg: 'gray.700' }}
+                        color="white"
+                        h="10"
+                        w="10"
+                        alignItems="center"
+                        justifyContent="center"
+                        borderRadius="full"
+                        title="Instagram"
+                      >
+                        <InstagramIcon />
+                      </Link>
+                    )}
+                    {profileData.socialLink.github && (
+                      <Link
+                        href={profileData.socialLink.github.startsWith('http') ? profileData.socialLink.github : `https://${profileData.socialLink.github}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        display="flex"
+                        bg="gray.800"
+                        border="1px solid"
+                        borderColor="gray.700"
+                        _hover={{ bg: 'gray.700' }}
+                        color="white"
+                        h="10"
+                        w="10"
+                        alignItems="center"
+                        justifyContent="center"
+                        borderRadius="full"
+                        title="Github"
+                      >
+                        <GithubIcon />
+                      </Link>
+                    )}
+                    {profileData.socialLink.x && (
+                      <Link
+                        href={profileData.socialLink.x.startsWith('http') ? profileData.socialLink.x : `https://${profileData.socialLink.x}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        display="flex"
+                        bg="gray.800"
+                        border="1px solid"
+                        borderColor="gray.700"
+                        _hover={{ bg: 'gray.700' }}
+                        color="white"
+                        h="10"
+                        w="10"
+                        alignItems="center"
+                        justifyContent="center"
+                        borderRadius="full"
+                        title="X (Twitter)"
+                      >
+                        <XIcon />
+                      </Link>
+                    )}
+                    {profileData.socialLink.website && (
+                      <Link
+                        href={profileData.socialLink.website.startsWith('http') ? profileData.socialLink.website : `https://${profileData.socialLink.website}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        display="flex"
+                        bg="gray.800"
+                        border="1px solid"
+                        borderColor="gray.700"
+                        _hover={{ bg: 'gray.700' }}
+                        color="white"
+                        h="10"
+                        w="10"
+                        alignItems="center"
+                        justifyContent="center"
+                        borderRadius="full"
+                        title="Website"
+                      >
+                        <WebsiteIcon />
+                      </Link>
+                    )}
+                  </HStack>
+                </Box>
+              )}
+            </Stack>
+          </Box>
+        </SimpleGrid>
       </TitleCard>
-    </div>
+    </Box>
   );
-}
+};
 
-// Export the ProfilePreviewScreen component.
 export default ProfilePreviewScreen;

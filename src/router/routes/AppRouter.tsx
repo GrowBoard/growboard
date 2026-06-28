@@ -13,6 +13,7 @@ import {
   LazyComponentProvider,
 } from '@provider';
 import { appStore } from '@store';
+import { useSilentRefresh } from '@services/hooks/private';
 import {
   ProjectRoutes,
   PlanRoutes,
@@ -25,13 +26,15 @@ import {
 } from './private_routes/sub_routes';
 
 // Route Guards
-const PrivateRouteGuard = () => {
+export const PrivateRouteGuard = () => {
   const token = appStore((state) => state.Auth.token);
   const isUserLoggedIn = token !== '' && token !== null;
+  // Register the silent token refresh handler for authenticated sessions
+  useSilentRefresh();
   return isUserLoggedIn ? <Outlet /> : <Navigate to="/login" replace />;
 };
 
-const PublicRouteGuard = () => {
+export const PublicRouteGuard = () => {
   const token = appStore((state) => state.Auth.token);
   const isUserLoggedIn = token !== '' && token !== null;
   return !isUserLoggedIn ? <Outlet /> : <Navigate to="/dashboard" replace />;
