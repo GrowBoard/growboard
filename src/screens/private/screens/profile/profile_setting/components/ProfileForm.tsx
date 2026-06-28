@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import {
-  FacebookIcon,
-  InstagramIcon,
-  GithubIcon,
-  XIcon,
-  WebsiteIcon,
-} from '@assets';
+  FaFacebook,
+  FaInstagram,
+  FaGithub,
+  FaXTwitter,
+  FaGlobe,
+} from 'react-icons/fa6';
 import { InputText, InputType } from '@components';
 import {
   Box,
@@ -23,8 +23,6 @@ import {
 import { useForm } from '@tanstack/react-form';
 import { ProfileFormProps, ProfileFormValues } from '../types';
 import { cleanProfileFormValues } from '../util';
-
-
 
 /**
  * ProfileForm Component.
@@ -94,18 +92,24 @@ export const ProfileForm = ({
         <Field name="bio">
           {(field) => (
             <Box w="100%" mb={2}>
-              <Text fontSize="sm" px={1} mb={1} color="gray.300" fontWeight="semibold">
+              <Text
+                fontSize="sm"
+                px={1}
+                mb={1}
+                color="text.secondary"
+                fontWeight="semibold"
+              >
                 Bio
               </Text>
               <Input
-                bg="gray.800"
-                borderColor="gray.600"
-                color="white"
+                bg="bg.card"
+                borderColor="border.subtle"
+                color="text.primary"
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
                 placeholder="Tell us about yourself..."
                 pl={4}
-                _focus={{ borderColor: 'blue.500', boxShadow: 'none' }}
+                _focus={{ borderColor: 'border.focus', boxShadow: 'none' }}
               />
             </Box>
           )}
@@ -126,7 +130,13 @@ export const ProfileForm = ({
 
             return (
               <Box display="flex" flexDirection="column" gap={2}>
-                <Text fontSize="sm" px={1} mb={1} color="gray.300" fontWeight="semibold">
+                <Text
+                  fontSize="sm"
+                  px={1}
+                  mb={1}
+                  color="text.secondary"
+                  fontWeight="semibold"
+                >
                   Phone Numbers
                 </Text>
                 <Stack gap={2}>
@@ -140,13 +150,13 @@ export const ProfileForm = ({
                           updated[idx] = e.target.value;
                           field.handleChange(updated);
                         }}
-                        bg="gray.800"
-                        borderColor="gray.600"
-                        color="white"
+                        bg="bg.card"
+                        borderColor="border.subtle"
+                        color="text.primary"
                         placeholder="Enter phone number"
                         pl={4}
                         h="10"
-                        _focus={{ borderColor: 'blue.500', boxShadow: 'none' }}
+                        _focus={{ borderColor: 'border.focus', boxShadow: 'none' }}
                       />
                       {(phone !== '' || idx < displayList.length - 1) && (
                         <IconButton
@@ -197,7 +207,13 @@ export const ProfileForm = ({
 
             return (
               <Box display="flex" flexDirection="column" gap={2}>
-                <Text fontSize="sm" px={1} mb={1} color="gray.300" fontWeight="semibold">
+                <Text
+                  fontSize="sm"
+                  px={1}
+                  mb={1}
+                  color="text.secondary"
+                  fontWeight="semibold"
+                >
                   Hobbies
                 </Text>
                 <Flex
@@ -206,15 +222,21 @@ export const ProfileForm = ({
                   mb={1}
                   p={2}
                   border="1px solid"
-                  borderColor="gray.800"
+                  borderColor="border.subtle"
                   borderRadius="md"
-                  bg="rgba(26, 32, 44, 0.4)"
+                  bg="bg.cardHeader"
                   minH="40px"
                   align="center"
                 >
                   {list.length === 0 ? (
-                    <Text fontSize="xs" color="gray.500" fontStyle="italic" px={1}>
-                      No hobbies added yet. Press Enter in the input below to add.
+                    <Text
+                      fontSize="xs"
+                      color="text.muted"
+                      fontStyle="italic"
+                      px={1}
+                    >
+                      No hobbies added yet. Press Enter in the input below to
+                      add.
                     </Text>
                   ) : (
                     list.map((hobby: string, idx: number) => (
@@ -233,9 +255,7 @@ export const ProfileForm = ({
                         <IconButton
                           aria-label="Remove hobby"
                           onClick={() =>
-                            field.handleChange(
-                              list.filter((_, i) => i !== idx),
-                            )
+                            field.handleChange(list.filter((_, i) => i !== idx))
                           }
                           variant="ghost"
                           size="xs"
@@ -243,7 +263,7 @@ export const ProfileForm = ({
                           minH="0"
                           h="auto"
                           w="auto"
-                          color="gray.400"
+                          color="text.secondary"
                           _hover={{ color: 'red.400' }}
                         >
                           ✕
@@ -257,13 +277,13 @@ export const ProfileForm = ({
                   value={hobbyInput}
                   onChange={(e) => setHobbyInput(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  bg="gray.800"
-                  borderColor="gray.600"
-                  color="white"
+                  bg="bg.card"
+                  borderColor="border.subtle"
+                  color="text.primary"
                   placeholder="Type a hobby and press Enter to add"
                   pl={4}
                   h="10"
-                  _focus={{ borderColor: 'blue.500', boxShadow: 'none' }}
+                  _focus={{ borderColor: 'border.focus', boxShadow: 'none' }}
                 />
               </Box>
             );
@@ -289,25 +309,73 @@ export const ProfileForm = ({
             };
 
             const socialFields = [
-              { key: 'facebook', label: 'Facebook', icon: <FacebookIcon />, placeholder: 'Facebook Profile URL' },
-              { key: 'instagram', label: 'Instagram', icon: <InstagramIcon />, placeholder: 'Instagram Profile URL' },
-              { key: 'github', label: 'Github', icon: <GithubIcon />, placeholder: 'Github Profile URL' },
-              { key: 'x', label: 'X (Twitter)', icon: <XIcon />, placeholder: 'X Profile URL' },
-              { key: 'website', label: 'Website', icon: <WebsiteIcon />, placeholder: 'Website URL' },
+              {
+                key: 'facebook',
+                label: 'Facebook',
+                icon: <FaFacebook size={18} />,
+                color: '#1877F2',
+                borderColor: '#1877F2',
+                placeholder: 'Facebook Profile URL',
+              },
+              {
+                key: 'instagram',
+                label: 'Instagram',
+                icon: <FaInstagram size={18} />,
+                color: '#cc2366',
+                background:
+                  'linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)',
+                borderColor: '#cc2366',
+                placeholder: 'Instagram Profile URL',
+              },
+              {
+                key: 'github',
+                label: 'Github',
+                icon: <FaGithub size={18} />,
+                color: '#24292e',
+                borderColor: '#444d56',
+                placeholder: 'Github Profile URL',
+              },
+              {
+                key: 'x',
+                label: 'X (Twitter)',
+                icon: <FaXTwitter size={18} />,
+                color: '#000000',
+                borderColor: '#333333',
+                placeholder: 'X Profile URL',
+              },
+              {
+                key: 'website',
+                label: 'Website',
+                icon: <FaGlobe size={18} />,
+                color: '#0891b2',
+                borderColor: '#06b6d4',
+                placeholder: 'Website URL',
+              },
             ];
 
             return (
               <>
                 {socialFields.map((sf) => (
-                  <Box key={sf.key} display="flex" flexDirection="column" w="full">
-                    <Text fontSize="sm" px={1} mb={1} color="gray.300" fontWeight="semibold">
+                  <Box
+                    key={sf.key}
+                    display="flex"
+                    flexDirection="column"
+                    w="full"
+                  >
+                    <Text
+                      fontSize="sm"
+                      px={1}
+                      mb={1}
+                      color="text.secondary"
+                      fontWeight="semibold"
+                    >
                       {sf.label}
                     </Text>
                     <Flex gap={2} align="center">
                       <Flex
-                        bg="gray.800"
+                        background={sf.background ?? sf.color}
                         border="1px solid"
-                        borderColor="gray.700"
+                        borderColor={sf.borderColor}
                         color="white"
                         h="10"
                         w="10"
@@ -316,6 +384,7 @@ export const ProfileForm = ({
                         borderRadius="md"
                         flexShrink={0}
                         shadow="md"
+                        fontSize="md"
                       >
                         {sf.icon}
                       </Flex>
@@ -328,13 +397,13 @@ export const ProfileForm = ({
                             [sf.key]: e.target.value,
                           })
                         }
-                        bg="gray.800"
-                        borderColor="gray.600"
-                        color="white"
+                        bg="bg.card"
+                        borderColor="border.subtle"
+                        color="text.primary"
                         placeholder={sf.placeholder}
                         pl={4}
                         h="10"
-                        _focus={{ borderColor: 'blue.500', boxShadow: 'none' }}
+                        _focus={{ borderColor: 'border.focus', boxShadow: 'none' }}
                       />
                     </Flex>
                   </Box>
@@ -348,9 +417,16 @@ export const ProfileForm = ({
       <Subscribe
         selector={(state) => [state.isDirty, state.isSubmitting]}
         children={([isDirty, isSubmitting]) => {
-          const isLoading = isDirty === false ? false : (isSubmitting || isSaving);
+          const isLoading =
+            isDirty === false ? false : isSubmitting || isSaving;
           return (
-            <Flex justify="end" mt={8} borderTop="1px solid" borderColor="border.subtle" pt={6}>
+            <Flex
+              justify="end"
+              mt={8}
+              borderTop="1px solid"
+              borderColor="border.subtle"
+              pt={6}
+            >
               <Button
                 type="submit"
                 disabled={!isDirty || isLoading}

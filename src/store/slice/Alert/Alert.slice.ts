@@ -26,7 +26,7 @@ const initialState: AlertState = {
 /**
  * createAlertSlice.
  * Initializes the state and action reducers for managing toast alerts.
- * 
+ *
  * @param set Central store setter callback.
  * @returns The alert state and actions slice.
  */

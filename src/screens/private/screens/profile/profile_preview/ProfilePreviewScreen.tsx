@@ -1,14 +1,12 @@
 import { useState } from 'react';
 import {
-  NameIcon,
-  ProfilePlaceholder,
-  EmailIcon,
-  FacebookIcon,
-  InstagramIcon,
-  GithubIcon,
-  XIcon,
-  WebsiteIcon,
-} from '@assets';
+  FaFacebook,
+  FaInstagram,
+  FaGithub,
+  FaXTwitter,
+  FaGlobe,
+} from 'react-icons/fa6';
+import { LuUser, LuMail, LuUserRound, LuPhone } from 'react-icons/lu';
 import { TitleCard, PageLoadingComponent, useSuccessToast } from '@components';
 import {
   profileSelector,
@@ -37,7 +35,7 @@ import { CopyIcon, CheckIcon } from './components';
  * ProfilePreviewScreen Component.
  * Renders a visual card preview of the user's profile information, including their avatar,
  * name, email, bio, phone numbers (with click-to-copy utility), hobbies, and social links.
- * 
+ *
  * @returns The ProfilePreviewScreen component.
  */
 const ProfilePreviewScreen = () => {
@@ -53,7 +51,7 @@ const ProfilePreviewScreen = () => {
   /**
    * Copies the selected phone number to the user's clipboard and triggers
    * a success toast message along with a temporary visual icon checkmark.
-   * 
+   *
    * @param phone The phone number string to be copied.
    * @param idx The index of the phone number item in the array.
    */
@@ -74,10 +72,28 @@ const ProfilePreviewScreen = () => {
     <Box m={4} h="full">
       {isLoading && <PageLoadingComponent />}
       <TitleCard title="Profile Preview" topMargin="mt-2">
-        <SimpleGrid columns={{ base: 1, md: 3 }} gap={8} maxW="4xl" mx="auto" p={4}>
+        <SimpleGrid
+          columns={{ base: 1, md: 3 }}
+          gap={8}
+          maxW="4xl"
+          mx="auto"
+          p={4}
+        >
           {/* Left panel: Avatar & Basic Details */}
-          <Box gridColumn={{ base: 'span 1', md: 'span 1' }} display="flex" flexDirection="column" alignItems="center" gap={4}>
-            <Text fontSize="xs" fontWeight="bold" color="gray.500" letterSpacing="wider" textTransform="uppercase">
+          <Box
+            gridColumn={{ base: 'span 1', md: 'span 1' }}
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            gap={4}
+          >
+            <Text
+              fontSize="xs"
+              fontWeight="bold"
+              color="text.muted"
+              letterSpacing="wider"
+              textTransform="uppercase"
+            >
               Profile Photo
             </Text>
             <Box
@@ -89,8 +105,8 @@ const ProfilePreviewScreen = () => {
               borderRadius="full"
               overflow="hidden"
               border="1px solid"
-              borderColor="gray.800"
-              bg="gray.850"
+              borderColor="border.subtle"
+              bg="bg.card"
               shadow="md"
             >
               {displayPicture ? (
@@ -103,8 +119,8 @@ const ProfilePreviewScreen = () => {
                   referrerPolicy="no-referrer"
                 />
               ) : (
-                <Box transform="scale(1.5)" color="gray.600">
-                  <ProfilePlaceholder />
+                <Box transform="scale(1.5)" color="text.muted">
+                  <LuUserRound size={48} />
                 </Box>
               )}
             </Box>
@@ -114,7 +130,14 @@ const ProfilePreviewScreen = () => {
           <Box gridColumn={{ base: 'span 1', md: 'span 2' }}>
             <Stack gap={6}>
               <Box>
-                <Text fontSize="xs" fontWeight="bold" color="gray.500" letterSpacing="wider" textTransform="uppercase" mb={3}>
+                <Text
+                  fontSize="xs"
+                  fontWeight="bold"
+                  color="text.muted"
+                  letterSpacing="wider"
+                  textTransform="uppercase"
+                  mb={3}
+                >
                   Account Information
                 </Text>
                 <Stack gap={3}>
@@ -122,17 +145,22 @@ const ProfilePreviewScreen = () => {
                     fontSize="md"
                     fontWeight="semibold"
                     border="1px solid"
-                    borderColor="gray.800"
+                    borderColor="border.subtle"
                     borderRadius="md"
                     p={3}
                     align="center"
                     gap={3}
-                    bg="gray.850"
-                    color="white"
+                    bg="bg.card"
+                    color="text.primary"
                     shadow="sm"
                   >
-                    <NameIcon />
-                    <Text fontSize="xs" color="gray.400" textTransform="uppercase" mr={1}>
+                    <LuUser />
+                    <Text
+                      fontSize="xs"
+                      color="text.muted"
+                      textTransform="uppercase"
+                      mr={1}
+                    >
                       Name:
                     </Text>
                     <Text>{displayName}</Text>
@@ -141,17 +169,22 @@ const ProfilePreviewScreen = () => {
                     fontSize="md"
                     fontWeight="semibold"
                     border="1px solid"
-                    borderColor="gray.800"
+                    borderColor="border.subtle"
                     borderRadius="md"
                     p={3}
                     align="center"
                     gap={3}
-                    bg="gray.850"
-                    color="white"
+                    bg="bg.card"
+                    color="text.primary"
                     shadow="sm"
                   >
-                    <EmailIcon />
-                    <Text fontSize="xs" color="gray.400" textTransform="uppercase" mr={1}>
+                    <LuMail />
+                    <Text
+                      fontSize="xs"
+                      color="text.muted"
+                      textTransform="uppercase"
+                      mr={1}
+                    >
                       Email:
                     </Text>
                     <Text>{displayEmail}</Text>
@@ -161,16 +194,23 @@ const ProfilePreviewScreen = () => {
 
               {profileData.bio && (
                 <Box>
-                  <Text fontSize="xs" fontWeight="bold" color="gray.500" letterSpacing="wider" textTransform="uppercase" mb={2}>
+                  <Text
+                    fontSize="xs"
+                    fontWeight="bold"
+                    color="text.muted"
+                    letterSpacing="wider"
+                    textTransform="uppercase"
+                    mb={2}
+                  >
                     Bio
                   </Text>
                   <Box
                     border="1px solid"
-                    borderColor="gray.800"
+                    borderColor="border.subtle"
                     borderRadius="md"
                     p={4}
-                    bg="gray.850"
-                    color="white"
+                    bg="bg.card"
+                    color="text.primary"
                     fontStyle="italic"
                     shadow="sm"
                   >
@@ -179,68 +219,79 @@ const ProfilePreviewScreen = () => {
                 </Box>
               )}
 
-              {profileData.phone_number && profileData.phone_number.length > 0 && (
-                <Box>
-                  <Text fontSize="xs" fontWeight="bold" color="gray.500" letterSpacing="wider" textTransform="uppercase" mb={2}>
-                    Phone Numbers
-                  </Text>
-                  <Stack gap={2}>
-                    {profileData.phone_number.map((phone: string, idx: number) => (
-                      <Flex
-                        key={idx}
-                        border="1px solid"
-                        borderColor="gray.800"
-                        borderRadius="md"
-                        p={3}
-                        bg="gray.850"
-                        color="white"
-                        fontSize="sm"
-                        shadow="sm"
-                        align="center"
-                        justify="space-between"
-                      >
-                        <Flex align="center" gap={3}>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth={1.5}
-                            stroke="currentColor"
-                            style={{ width: '20px', height: '20px' }}
-                            className="text-gray-400"
+              {profileData.phone_number &&
+                profileData.phone_number.length > 0 && (
+                  <Box>
+                    <Text
+                      fontSize="xs"
+                      fontWeight="bold"
+                      color="text.muted"
+                      letterSpacing="wider"
+                      textTransform="uppercase"
+                      mb={2}
+                    >
+                      Phone Numbers
+                    </Text>
+                    <Stack gap={2}>
+                      {profileData.phone_number.map(
+                        (phone: string, idx: number) => (
+                          <Flex
+                            key={idx}
+                            border="1px solid"
+                            borderColor="border.subtle"
+                            borderRadius="md"
+                            p={3}
+                            bg="bg.card"
+                            color="text.primary"
+                            fontSize="sm"
+                            shadow="sm"
+                            align="center"
+                            justify="space-between"
                           >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M2.25 6.622c0-1.272.937-2.327 2.155-2.511a12.023 12.023 0 0 0 11.218 0c1.218.184 2.155 1.239 2.155 2.511v9.606c0 1.272-.937 2.327-2.155 2.51a12.023 12.023 0 0 1-11.218 0c-1.218-.183-2.155-1.238-2.155-2.511V6.622Z"
-                            />
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="m2.25 15.75 3.395-3.395c.39-.39 1.025-.39 1.415 0l2.39 2.39c.39.39 1.025.39 1.415 0L19.5 6"
-                            />
-                          </svg>
-                          <Text>{phone}</Text>
-                        </Flex>
-                        <IconButton
-                          aria-label="Copy phone number"
-                          onClick={() => handleCopy(phone, idx)}
-                          variant="ghost"
-                          size="xs"
-                          color="gray.400"
-                          _hover={{ color: 'blue.400', bg: 'transparent' }}
-                        >
-                          {copiedIndex === idx ? <CheckIcon /> : <CopyIcon />}
-                        </IconButton>
-                      </Flex>
-                    ))}
-                  </Stack>
-                </Box>
-              )}
+                            <Flex align="center" gap={3}>
+                              <LuPhone
+                                style={{
+                                  width: '20px',
+                                  height: '20px',
+                                  color: 'var(--chakra-colors-text-muted)',
+                                }}
+                              />
+                              <Text>{phone}</Text>
+                            </Flex>
+                            <IconButton
+                              aria-label="Copy phone number"
+                              onClick={() => handleCopy(phone, idx)}
+                              variant="ghost"
+                              size="xs"
+                              color="text.secondary"
+                              _hover={{
+                                color: 'border.focus',
+                                bg: 'transparent',
+                              }}
+                            >
+                              {copiedIndex === idx ? (
+                                <CheckIcon />
+                              ) : (
+                                <CopyIcon />
+                              )}
+                            </IconButton>
+                          </Flex>
+                        ),
+                      )}
+                    </Stack>
+                  </Box>
+                )}
 
               {profileData.hobbies && profileData.hobbies.length > 0 && (
                 <Box>
-                  <Text fontSize="xs" fontWeight="bold" color="gray.500" letterSpacing="wider" textTransform="uppercase" mb={2}>
+                  <Text
+                    fontSize="xs"
+                    fontWeight="bold"
+                    color="text.muted"
+                    letterSpacing="wider"
+                    textTransform="uppercase"
+                    mb={2}
+                  >
                     Hobbies
                   </Text>
                   <Flex flexWrap="wrap" gap={2}>
@@ -265,20 +316,35 @@ const ProfilePreviewScreen = () => {
 
               {profileData.socialLink && (
                 <Box>
-                  <Text fontSize="xs" fontWeight="bold" color="gray.500" letterSpacing="wider" textTransform="uppercase" mb={3}>
+                  <Text
+                    fontSize="xs"
+                    fontWeight="bold"
+                    color="text.muted"
+                    letterSpacing="wider"
+                    textTransform="uppercase"
+                    mb={3}
+                  >
                     Social Connections
                   </Text>
                   <HStack gap={3}>
                     {profileData.socialLink.facebook && (
                       <Link
-                        href={profileData.socialLink.facebook.startsWith('http') ? profileData.socialLink.facebook : `https://${profileData.socialLink.facebook}`}
+                        href={
+                          profileData.socialLink.facebook.startsWith('http')
+                            ? profileData.socialLink.facebook
+                            : `https://${profileData.socialLink.facebook}`
+                        }
                         target="_blank"
                         rel="noopener noreferrer"
                         display="flex"
-                        bg="gray.800"
-                        border="1px solid"
-                        borderColor="gray.700"
-                        _hover={{ bg: 'gray.700' }}
+                        bg="#1877F2"
+                        border="1px solid #1877F2"
+                        _hover={{
+                          bg: '#0e65d9',
+                          transform: 'scale(1.12)',
+                          boxShadow: '0 0 14px rgba(24,119,242,0.65)',
+                        }}
+                        transition="all 0.2s ease"
                         color="white"
                         h="10"
                         w="10"
@@ -287,19 +353,27 @@ const ProfilePreviewScreen = () => {
                         borderRadius="full"
                         title="Facebook"
                       >
-                        <FacebookIcon />
+                        <FaFacebook size={20} />
                       </Link>
                     )}
                     {profileData.socialLink.instagram && (
                       <Link
-                        href={profileData.socialLink.instagram.startsWith('http') ? profileData.socialLink.instagram : `https://${profileData.socialLink.instagram}`}
+                        href={
+                          profileData.socialLink.instagram.startsWith('http')
+                            ? profileData.socialLink.instagram
+                            : `https://${profileData.socialLink.instagram}`
+                        }
                         target="_blank"
                         rel="noopener noreferrer"
                         display="flex"
-                        bg="gray.800"
-                        border="1px solid"
-                        borderColor="gray.700"
-                        _hover={{ bg: 'gray.700' }}
+                        background="linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)"
+                        border="1px solid #cc2366"
+                        _hover={{
+                          opacity: 0.82,
+                          transform: 'scale(1.12)',
+                          boxShadow: '0 0 14px rgba(220,39,67,0.65)',
+                        }}
+                        transition="all 0.2s ease"
                         color="white"
                         h="10"
                         w="10"
@@ -308,19 +382,27 @@ const ProfilePreviewScreen = () => {
                         borderRadius="full"
                         title="Instagram"
                       >
-                        <InstagramIcon />
+                        <FaInstagram size={20} />
                       </Link>
                     )}
                     {profileData.socialLink.github && (
                       <Link
-                        href={profileData.socialLink.github.startsWith('http') ? profileData.socialLink.github : `https://${profileData.socialLink.github}`}
+                        href={
+                          profileData.socialLink.github.startsWith('http')
+                            ? profileData.socialLink.github
+                            : `https://${profileData.socialLink.github}`
+                        }
                         target="_blank"
                         rel="noopener noreferrer"
                         display="flex"
-                        bg="gray.800"
-                        border="1px solid"
-                        borderColor="gray.700"
-                        _hover={{ bg: 'gray.700' }}
+                        bg="#24292e"
+                        border="1px solid #444d56"
+                        _hover={{
+                          bg: '#1a1e22',
+                          transform: 'scale(1.12)',
+                          boxShadow: '0 0 14px rgba(255,255,255,0.18)',
+                        }}
+                        transition="all 0.2s ease"
                         color="white"
                         h="10"
                         w="10"
@@ -329,19 +411,27 @@ const ProfilePreviewScreen = () => {
                         borderRadius="full"
                         title="Github"
                       >
-                        <GithubIcon />
+                        <FaGithub size={20} />
                       </Link>
                     )}
                     {profileData.socialLink.x && (
                       <Link
-                        href={profileData.socialLink.x.startsWith('http') ? profileData.socialLink.x : `https://${profileData.socialLink.x}`}
+                        href={
+                          profileData.socialLink.x.startsWith('http')
+                            ? profileData.socialLink.x
+                            : `https://${profileData.socialLink.x}`
+                        }
                         target="_blank"
                         rel="noopener noreferrer"
                         display="flex"
-                        bg="gray.800"
-                        border="1px solid"
-                        borderColor="gray.700"
-                        _hover={{ bg: 'gray.700' }}
+                        bg="#000000"
+                        border="1px solid #333"
+                        _hover={{
+                          bg: '#111111',
+                          transform: 'scale(1.12)',
+                          boxShadow: '0 0 14px rgba(255,255,255,0.2)',
+                        }}
+                        transition="all 0.2s ease"
                         color="white"
                         h="10"
                         w="10"
@@ -350,19 +440,27 @@ const ProfilePreviewScreen = () => {
                         borderRadius="full"
                         title="X (Twitter)"
                       >
-                        <XIcon />
+                        <FaXTwitter size={20} />
                       </Link>
                     )}
                     {profileData.socialLink.website && (
                       <Link
-                        href={profileData.socialLink.website.startsWith('http') ? profileData.socialLink.website : `https://${profileData.socialLink.website}`}
+                        href={
+                          profileData.socialLink.website.startsWith('http')
+                            ? profileData.socialLink.website
+                            : `https://${profileData.socialLink.website}`
+                        }
                         target="_blank"
                         rel="noopener noreferrer"
                         display="flex"
-                        bg="gray.800"
-                        border="1px solid"
-                        borderColor="gray.700"
-                        _hover={{ bg: 'gray.700' }}
+                        bg="#0891b2"
+                        border="1px solid #06b6d4"
+                        _hover={{
+                          bg: '#0e7490',
+                          transform: 'scale(1.12)',
+                          boxShadow: '0 0 14px rgba(6,182,212,0.65)',
+                        }}
+                        transition="all 0.2s ease"
                         color="white"
                         h="10"
                         w="10"
@@ -371,7 +469,7 @@ const ProfilePreviewScreen = () => {
                         borderRadius="full"
                         title="Website"
                       >
-                        <WebsiteIcon />
+                        <FaGlobe height={20} />
                       </Link>
                     )}
                   </HStack>

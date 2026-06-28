@@ -1,4 +1,8 @@
 /**
  * Exports auth utility helpers for services.
  */
-export { getValidAccessToken, registerSilentRefresh, triggerSilentRefresh } from './tokenHelper';
+export {
+  getValidAccessToken,
+  registerSilentRefresh,
+  triggerSilentRefresh,
+} from './tokenHelper';

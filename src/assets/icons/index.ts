@@ -5,3 +5,8 @@ export * from './project_icon';
 export * from './sidebar_icons';
 export * from './social_icon';
 export * from './GrowboardIcon';
+export * from './SearchIcon';
+export * from './EyeIcon';
+export * from './EyeSlashIcon';
+export * from './CopyIcon';
+export * from './CheckIcon';

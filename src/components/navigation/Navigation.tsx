@@ -1,12 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
-import {
-  ProfileIcon,
-  SettingsIcon,
-  LogoutIcon,
-  ProfilePlaceholder,
-  GrowboardIcon,
-} from '@assets';
+import { GrowboardIcon } from '@assets';
+import { LuUser, LuSettings, LuLogOut, LuUserRound } from 'react-icons/lu';
 import { NavigationComponentProps } from './types';
 import { authNameSelector, authPictureSelector, useShallow } from '@selectors';
 import { appStore } from '@store';
@@ -17,7 +12,7 @@ import { Box, Button, HStack, Menu, Text } from '@chakra-ui/react';
  * NavigationComponent.
  * Renders the top navigation header bar for the GrowBoard application.
  * Contains the logo, page branding, theme toggles, and user profile action menu dropdowns.
- * 
+ *
  * @param props Component properties containing the logout click handler.
  * @returns The NavigationComponent.
  */
@@ -79,7 +74,7 @@ const NavigationComponent = (props: NavigationComponentProps) => {
                     referrerPolicy="no-referrer"
                   />
                 ) : (
-                  <ProfilePlaceholder />
+                  <LuUserRound size="100%" />
                 )}
               </Box>
             </Button>
@@ -121,7 +116,7 @@ const NavigationComponent = (props: NavigationComponentProps) => {
                     width: '100%',
                   }}
                 >
-                  <ProfileIcon />
+                  <LuUser />
                   {t('ProfileMenuOption.profile')}
                 </NavLink>
               </Menu.Item>
@@ -140,7 +135,7 @@ const NavigationComponent = (props: NavigationComponentProps) => {
                     width: '100%',
                   }}
                 >
-                  <SettingsIcon />
+                  <LuSettings />
                   {t('ProfileMenuOption.settings')}
                 </NavLink>
               </Menu.Item>
@@ -173,7 +168,8 @@ const NavigationComponent = (props: NavigationComponentProps) => {
                         width: '20px',
                         height: '20px',
                         transform: 'rotate(0deg) scale(1)',
-                        transition: 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+                        transition:
+                          'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
                         animation: 'spin 10s linear infinite',
                       }}
                     >
@@ -194,7 +190,8 @@ const NavigationComponent = (props: NavigationComponentProps) => {
                         width: '20px',
                         height: '20px',
                         transform: 'rotate(0deg) scale(1)',
-                        transition: 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+                        transition:
+                          'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
                         animation: 'pulse 2s ease-in-out infinite',
                       }}
                     >
@@ -251,7 +248,7 @@ const NavigationComponent = (props: NavigationComponentProps) => {
                   width: '100%',
                 }}
               >
-                <LogoutIcon />
+                <LuLogOut />
                 {t('ProfileMenuOption.logout')}
               </Menu.Item>
             </Menu.Content>

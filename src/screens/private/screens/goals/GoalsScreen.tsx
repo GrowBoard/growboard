@@ -1,17 +1,17 @@
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { TooltipComponent } from '@components';
 import getSubNavTitle from '../../../../util/nav/NavTitle';
-import { OverviewIcon, DeleteIcon, AddIcon, EditIcon } from '@assets';
+import { LuBookOpen, LuPlus, LuPencil, LuTrash2 } from 'react-icons/lu';
 import { Box, Flex, Button } from '@chakra-ui/react';
 
 /**
  * Goals screen routes.
  */
 const GoalsRoutes = [
-  { title: 'Goals overview', icon: <OverviewIcon />, path: 'preview' },
-  { title: 'Add goal', icon: <AddIcon />, path: 'add' },
-  { title: 'Edit goal', icon: <EditIcon />, path: 'edit' },
-  { title: 'Delete goal', icon: <DeleteIcon />, path: 'delete' },
+  { title: 'Goals overview', icon: <LuBookOpen />, path: 'preview' },
+  { title: 'Add goal', icon: <LuPlus />, path: 'add' },
+  { title: 'Edit goal', icon: <LuPencil />, path: 'edit' },
+  { title: 'Delete goal', icon: <LuTrash2 />, path: 'delete' },
 ];
 
 /**

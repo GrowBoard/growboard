@@ -3,7 +3,7 @@ import { AppStoreState } from '@store';
 /**
  * imageModalSelector.
  * Selects the image viewer modal state properties and handlers.
- * 
+ *
  * @param state The AppStoreState.
  * @returns Object holding the imageString and setter trigger callback.
  */

@@ -29,7 +29,11 @@ class GoogleSheetsExpenseService {
    * @param isRetry - Internal flag to prevent infinite retry loops.
    * @returns Parsed JSON response body typed as T, or null for 204 responses.
    */
-  private async fetchAPI<T>(url: string, init?: RequestInit, isRetry = false): Promise<T> {
+  private async fetchAPI<T>(
+    url: string,
+    init?: RequestInit,
+    isRetry = false,
+  ): Promise<T> {
     const token = getValidAccessToken();
     const headers = {
       Authorization: `Bearer ${token}`,
@@ -247,7 +251,9 @@ class GoogleSheetsExpenseService {
     const isGenericDefaultSheet =
       spreadsheet.sheets &&
       spreadsheet.sheets.length === 1 &&
-      !MONTH_NAMES.includes(spreadsheet.sheets[0].properties.title as typeof MONTH_NAMES[number]);
+      !MONTH_NAMES.includes(
+        spreadsheet.sheets[0].properties.title as (typeof MONTH_NAMES)[number],
+      );
 
     if (isGenericDefaultSheet) {
       const firstSheet = spreadsheet.sheets![0];

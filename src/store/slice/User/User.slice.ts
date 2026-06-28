@@ -27,7 +27,7 @@ const initialState: UserProfileState = {
 /**
  * createProfileSlice.
  * Initializes the state and action reducers for the user profile data slice.
- * 
+ *
  * @param set Central store setter callback.
  * @returns The initialized slice object.
  */

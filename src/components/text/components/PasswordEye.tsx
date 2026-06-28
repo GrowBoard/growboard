@@ -12,7 +12,7 @@ export interface PasswordEyeProps {
 /**
  * PasswordEye Component.
  * Renders an SVG icon corresponding to the visibility state of a password input.
- * 
+ *
  * @param props Component properties containing the inputType.
  * @returns The PasswordEye component.
  */

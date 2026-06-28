@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { EditIcon, DeleteIcon } from '@assets';
-import { IconButton, HStack, Dialog, Button, Portal } from '@chakra-ui/react';
-import { TooltipComponent } from '@components';
+import { LuPencil, LuTrash2 } from 'react-icons/lu';
+import { IconButton, HStack, Button } from '@chakra-ui/react';
+import { TooltipComponent, DialogContainer } from '@components';
 import { ExpenseType } from '../../types';
 import { useShallow, setAddExpenseSelector } from '@selectors';
 import { appStore } from '@store';
@@ -56,7 +56,7 @@ const EditDelete = ({
             transition="all 0.2s ease"
             onClick={handleEditClick}
           >
-            <EditIcon />
+            <LuPencil />
           </IconButton>
         </TooltipComponent>
         <TooltipComponent title={'Delete'}>
@@ -75,83 +75,54 @@ const EditDelete = ({
             loading={isDeleting}
             onClick={handleDeleteClick}
           >
-            <DeleteIcon />
+            <LuTrash2 />
           </IconButton>
         </TooltipComponent>
       </HStack>
 
-      <Dialog.Root
-        open={open}
-        onOpenChange={(e: any) => setOpen(e.open)}
+      <DialogContainer
+        isOpen={open}
+        onOpenChange={(e: { open: boolean }) => setOpen(e.open)}
         role="alertdialog"
-        placement="center"
-      >
-        <Portal>
-          <Dialog.Backdrop bg="rgba(0, 0, 0, 0.7)" backdropFilter="blur(6px)" />
-          <Dialog.Positioner>
-            <Dialog.Content
-              bg="rgba(12, 14, 18, 0.95)"
-              backdropFilter="blur(32px) saturate(1.2)"
-              border="1px solid"
-              borderColor="rgba(255, 255, 255, 0.08)"
-              borderRadius="xl"
-              boxShadow="0 25px 50px -12px rgba(0, 0, 0, 0.5)"
-              p={5}
-              maxW="md"
+        maxW="md"
+        title="Delete Expense"
+        footer={
+          <>
+            <Button
+              variant="outline"
+              size="sm"
+              borderColor="rgba(255, 255, 255, 0.12)"
+              color="gray.300"
+              _hover={{
+                bg: 'rgba(255, 255, 255, 0.05)',
+                borderColor: 'rgba(255, 255, 255, 0.24)',
+              }}
+              onClick={() => setOpen(false)}
             >
-              <Dialog.Header
-                pb={3}
-                borderBottom="1px solid"
-                borderColor="rgba(255, 255, 255, 0.06)"
-              >
-                <Dialog.Title fontSize="lg" fontWeight="bold" color="white">
-                  Delete Expense
-                </Dialog.Title>
-              </Dialog.Header>
-              <Dialog.Body py={5} color="gray.300" fontSize="sm">
-                Are you sure you want to delete this expense? This action cannot
-                be undone.
-              </Dialog.Body>
-              <Dialog.Footer
-                pt={4}
-                borderTop="1px solid"
-                borderColor="rgba(255, 255, 255, 0.06)"
-                gap={3}
-              >
-                <Button
-                  variant="outline"
-                  size="sm"
-                  borderColor="rgba(255, 255, 255, 0.12)"
-                  color="gray.300"
-                  _hover={{
-                    bg: 'rgba(255, 255, 255, 0.05)',
-                    borderColor: 'rgba(255, 255, 255, 0.24)',
-                  }}
-                  onClick={() => setOpen(false)}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  bg="red.600"
-                  color="white"
-                  size="sm"
-                  px={5}
-                  fontWeight="semibold"
-                  _hover={{
-                    bg: 'red.500',
-                    boxShadow: '0 0 12px rgba(239, 68, 68, 0.4)',
-                  }}
-                  _active={{ bg: 'red.700' }}
-                  loading={isDeleting}
-                  onClick={handleConfirmDelete}
-                >
-                  Delete
-                </Button>
-              </Dialog.Footer>
-            </Dialog.Content>
-          </Dialog.Positioner>
-        </Portal>
-      </Dialog.Root>
+              Cancel
+            </Button>
+            <Button
+              bg="red.600"
+              color="white"
+              size="sm"
+              px={5}
+              fontWeight="semibold"
+              _hover={{
+                bg: 'red.500',
+                boxShadow: '0 0 12px rgba(239, 68, 68, 0.4)',
+              }}
+              _active={{ bg: 'red.700' }}
+              loading={isDeleting}
+              onClick={handleConfirmDelete}
+            >
+              Delete
+            </Button>
+          </>
+        }
+      >
+        Are you sure you want to delete this expense? This action cannot be
+        undone.
+      </DialogContainer>
     </>
   );
 };

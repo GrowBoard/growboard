@@ -15,7 +15,7 @@ export const initialState: AuthDataState = {
 /**
  * createAuthSlice.
  * Initializes the state slice and action reducers for managing authentication metadata.
- * 
+ *
  * @param set Central store setter callback.
  * @returns The authentication state and actions slice.
  */

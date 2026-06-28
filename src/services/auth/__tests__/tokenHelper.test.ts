@@ -1,4 +1,8 @@
-import { getValidAccessToken, registerSilentRefresh, triggerSilentRefresh } from '../tokenHelper';
+import {
+  getValidAccessToken,
+  registerSilentRefresh,
+  triggerSilentRefresh,
+} from '../tokenHelper';
 
 import { appStore } from '@store';
 
@@ -72,7 +76,9 @@ describe('tokenHelper', () => {
 
   describe('triggerSilentRefresh', () => {
     it('propagates errors thrown by the refresh handler', async () => {
-      const refreshFn = jest.fn().mockRejectedValue(new Error('Refresh failed'));
+      const refreshFn = jest
+        .fn()
+        .mockRejectedValue(new Error('Refresh failed'));
       registerSilentRefresh(refreshFn);
       await expect(triggerSilentRefresh()).rejects.toThrow('Refresh failed');
     });

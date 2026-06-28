@@ -12,7 +12,7 @@ const CACHE_KEY = 'growboard_google_sheets_cache';
 
 /**
  * Loads the Google cache configuration from local storage.
- * 
+ *
  * @returns The cached configuration or a default empty layout.
  */
 const loadCache = (): GoogleCache => {
@@ -29,7 +29,7 @@ const loadCache = (): GoogleCache => {
 
 /**
  * Saves the Google cache configuration to local storage.
- * 
+ *
  * @param cache The GoogleCache object to persist.
  */
 const saveCache = (cache: GoogleCache) => {
@@ -69,7 +69,7 @@ class GoogleDriveProfileService {
 
   /**
    * Retrieves the current Google authentication access token from the store.
-   * 
+   *
    * @returns The access token string.
    */
   private getAccessToken(): string {
@@ -83,7 +83,7 @@ class GoogleDriveProfileService {
 
   /**
    * General-purpose generic helper to invoke Google Drive and Sheets REST API endpoints.
-   * 
+   *
    * @param url The endpoint URL target.
    * @param init Optional RequestInit configuration overrides.
    * @returns A promise resolving to the typed API response payload.
@@ -132,7 +132,7 @@ class GoogleDriveProfileService {
 
   /**
    * Searches for or creates the base 'Growboard' folder inside the user's Google Drive.
-   * 
+   *
    * @returns The unique folder ID string.
    */
   private async getOrCreateGrowboardFolder(): Promise<string> {
@@ -143,7 +143,9 @@ class GoogleDriveProfileService {
 
     console.log('Searching for Growboard folder in Drive...');
     const searchUrl = `https://www.googleapis.com/drive/v3/files?q=name='Growboard' and mimeType='application/vnd.google-apps.folder' and 'root' in parents and trashed=false&fields=files(id)`;
-    const result = await this.fetchAPI<{ files: Array<{ id: string }> }>(searchUrl);
+    const result = await this.fetchAPI<{ files: Array<{ id: string }> }>(
+      searchUrl,
+    );
 
     if (result.files && result.files.length > 0) {
       this.cache.growboardFolderId = result.files[0].id;
@@ -168,11 +170,13 @@ class GoogleDriveProfileService {
 
   /**
    * Searches for or initializes the profile.json document inside the Growboard folder.
-   * 
+   *
    * @param growboardFolderId The ID of the parent Growboard folder.
    * @returns The unique profile file ID string.
    */
-  private async getOrCreateProfileFile(growboardFolderId: string): Promise<string> {
+  private async getOrCreateProfileFile(
+    growboardFolderId: string,
+  ): Promise<string> {
     this.cache = loadCache();
     if (this.cache.profileFileId) {
       return this.cache.profileFileId;
@@ -180,7 +184,9 @@ class GoogleDriveProfileService {
 
     console.log('Searching for profile.json in Growboard folder...');
     const searchUrl = `https://www.googleapis.com/drive/v3/files?q=name='profile.json' and '${growboardFolderId}' in parents and trashed=false&fields=files(id)`;
-    const result = await this.fetchAPI<{ files: Array<{ id: string }> }>(searchUrl);
+    const result = await this.fetchAPI<{ files: Array<{ id: string }> }>(
+      searchUrl,
+    );
 
     if (result.files && result.files.length > 0) {
       this.cache.profileFileId = result.files[0].id;
@@ -210,18 +216,21 @@ class GoogleDriveProfileService {
     };
 
     const body = `--${boundary}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${JSON.stringify(
-      metadata
+      metadata,
     )}\r\n--${boundary}\r\nContent-Type: application/json\r\n\r\n${JSON.stringify(
-      initialContent
+      initialContent,
     )}\r\n--${boundary}--`;
 
-    const file = await this.fetchAPI<{ id: string }>('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
-      method: 'POST',
-      headers: {
-        'Content-Type': `multipart/related; boundary=${boundary}`,
+    const file = await this.fetchAPI<{ id: string }>(
+      'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': `multipart/related; boundary=${boundary}`,
+        },
+        body,
       },
-      body,
-    });
+    );
 
     this.cache.profileFileId = file.id;
     saveCache(this.cache);
@@ -230,7 +239,7 @@ class GoogleDriveProfileService {
 
   /**
    * Reads and parses the user profile configuration details from Google Drive.
-   * 
+   *
    * @returns A promise resolving to the user profile data.
    */
   public async readProfile(): Promise<ProfileJSONData> {
@@ -256,7 +265,7 @@ class GoogleDriveProfileService {
 
   /**
    * Overwrites the user profile configuration details in Google Drive.
-   * 
+   *
    * @param profileData The updated profile JSON configuration.
    */
   public async saveProfile(profileData: ProfileJSONData): Promise<void> {

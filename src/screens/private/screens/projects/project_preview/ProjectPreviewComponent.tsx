@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/iframe-has-title */
 import { ImagePreviewModalButton } from '@components';
-import { WebsiteIcon, GithubIcon, HostingerIcon } from '@assets';
+import { FaGlobe, FaGithub } from 'react-icons/fa6';
+import { LuServer } from 'react-icons/lu';
 import { imageModalSelector, useShallow } from '@selectors';
 import { appStore } from '@store';
 import { Key } from 'react';
@@ -93,7 +94,7 @@ const ProjectPreviewComponent = (props: IProjectPreviewComponentProps) => {
                 justifyContent="space-between"
                 px={4}
               >
-                <WebsiteIcon />
+                <FaGlobe />
                 Project live link
               </Button>
             </Link>
@@ -110,7 +111,7 @@ const ProjectPreviewComponent = (props: IProjectPreviewComponentProps) => {
                 justifyContent="space-between"
                 px={4}
               >
-                <GithubIcon />
+                <FaGithub />
                 Github repo link
               </Button>
             </Link>
@@ -127,7 +128,7 @@ const ProjectPreviewComponent = (props: IProjectPreviewComponentProps) => {
                 justifyContent="space-between"
                 px={4}
               >
-                <HostingerIcon />
+                <LuServer />
                 Hostinger link
               </Button>
             </Link>

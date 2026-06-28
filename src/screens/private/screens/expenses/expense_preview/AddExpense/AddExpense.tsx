@@ -2,14 +2,18 @@ import {
   Button,
   Drawer,
   Input,
+  NativeSelectField,
+  NativeSelectRoot,
   Text,
   Textarea,
   VStack,
   Box,
   HStack,
   Field,
+  IconButton,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
+import { LuX } from 'react-icons/lu';
 import { DateInput } from './components';
 import {
   useShallow,
@@ -20,6 +24,7 @@ import {
 } from '@selectors';
 import { appStore } from '@store';
 import { ExpenseType } from '../types';
+import { EXPENSE_TYPE_COLOR } from '../const';
 import { useAddExpenseData, useEditExpenseData } from '@services/hooks/private';
 import { useGetExpensesDataForDate } from '@hooks';
 import { isValidAmount } from './utils';
@@ -128,37 +133,43 @@ const AddExpense = () => {
       }}
       size={'md'}
     >
-      <Drawer.Backdrop bg="rgba(0,0,0,0.6)" backdropFilter="blur(8px)" />
+      <Drawer.Backdrop backdropFilter="blur(2px)" />
       <Drawer.Positioner>
         <Drawer.Content
-          bg="rgba(12, 14, 18, 0.85)"
+          bg="bg.panel"
           backdropFilter="blur(32px) saturate(1.2)"
           borderLeft="1px solid"
-          borderColor="rgba(255, 255, 255, 0.08)"
+          borderColor="border.subtle"
           boxShadow="0 25px 50px -12px rgba(0, 0, 0, 0.5)"
         >
-          <Drawer.CloseTrigger
-            position="absolute"
-            top={4}
-            right={4}
-            color="gray.400"
-            _hover={{ color: 'white' }}
-          />
-
+          <Drawer.CloseTrigger asChild>
+            <IconButton
+              aria-label="Close"
+              variant="ghost"
+              size="sm"
+              position="absolute"
+              top={2}
+              right={4}
+              color="text.secondary"
+              _hover={{ bg: 'bg.active', color: 'text.primary' }}
+            >
+              <LuX />
+            </IconButton>
+          </Drawer.CloseTrigger>
           <Drawer.Header
             borderBottom="1px solid"
-            borderColor="rgba(255, 255, 255, 0.06)"
-            py={5}
+            borderColor="border.subtle"
+            py={2}
           >
             <Drawer.Title
-              color="white"
+              color="text.primary"
               fontSize="lg"
               fontWeight="bold"
               letterSpacing="tight"
             >
               {expenseId ? 'Edit Expense' : 'Add New Expense'}
             </Drawer.Title>
-            <Text fontSize={'xs'} color="gray.400" mt={1}>
+            <Text fontSize={'xs'} color="text.muted" mt={10}>
               {expenseId
                 ? 'Modify the details of your expense record.'
                 : 'Fill in the details to record a new expense.'}
@@ -169,10 +180,10 @@ const AddExpense = () => {
             <VStack gap={5} align="stretch">
               {/* Date Input Card */}
               <Box
-                p={4}
-                bg="rgba(255, 255, 255, 0.01)"
+                p={3}
+                bg="bg.card"
                 border="1px solid"
-                borderColor="rgba(255, 255, 255, 0.04)"
+                borderColor="border.subtle"
                 borderRadius="lg"
               >
                 <DateInput
@@ -184,11 +195,10 @@ const AddExpense = () => {
                   }
                 />
               </Box>
-
               {/* Amount Input */}
               <Field.Root>
                 <Field.Label
-                  color="gray.300"
+                  color="text.secondary"
                   fontSize="xs"
                   fontWeight="semibold"
                   mb={2}
@@ -198,13 +208,13 @@ const AddExpense = () => {
                 <HStack w="100%" gap={0}>
                   <Box
                     w="25%"
-                    bg="rgba(255, 255, 255, 0.03)"
-                    color="gray.400"
+                    bg="bg.input"
+                    color="text.muted"
                     py="9px"
                     px={3}
                     borderLeftRadius="md"
                     border="1px solid"
-                    borderColor="rgba(255, 255, 255, 0.08)"
+                    borderColor="border.input"
                     borderRight="none"
                     fontSize="sm"
                     fontWeight="semibold"
@@ -217,16 +227,17 @@ const AddExpense = () => {
                     borderRightRadius="md"
                     borderLeftRadius="none"
                     border="1px solid"
-                    borderColor="rgba(255, 255, 255, 0.08)"
-                    bg="rgba(255, 255, 255, 0.01)"
-                    color="white"
+                    borderColor="border.input"
+                    bg="bg.input"
+                    color="text.primary"
                     fontSize="sm"
                     textAlign={'left'}
+                    px={2}
                     placeholder="Enter amount"
                     type="number"
                     value={expenseInputData.amount}
                     _focus={{
-                      borderColor: 'indigo.500',
+                      borderColor: 'border.focus',
                       boxShadow: '0 0 0 1px rgba(99, 102, 241, 0.3)',
                     }}
                     onChange={(e) =>
@@ -242,49 +253,58 @@ const AddExpense = () => {
               {/* Category Selection */}
               <Field.Root>
                 <Field.Label
-                  color="gray.300"
+                  color="text.secondary"
                   fontSize="xs"
                   fontWeight="semibold"
                   mb={2}
                 >
                   Category
                 </Field.Label>
-                <select
-                  style={{
-                    width: '100%',
-                    padding: '10px 14px',
-                    borderRadius: '6px',
-                    background: 'rgba(20, 24, 30, 0.8)',
-                    border: '1px solid rgba(255, 255, 255, 0.08)',
-                    color: 'white',
-                    fontSize: '14px',
-                    outline: 'none',
-                    cursor: 'pointer',
-                  }}
-                  value={expenseInputData.category}
-                  onChange={(e) =>
-                    setExpenseInputData((prev) => ({
-                      ...prev,
-                      category: e.target.value as ExpenseType,
-                    }))
-                  }
-                >
-                  {Object.values(ExpenseType).map((category) => (
-                    <option
-                      key={category}
-                      value={category}
-                      style={{ background: '#0e1116', color: 'white' }}
-                    >
-                      {category}
-                    </option>
-                  ))}
-                </select>
+                <NativeSelectRoot w="100%">
+                  <NativeSelectField
+                    color="black"
+                    fontWeight="semibold"
+                    fontSize="sm"
+                    value={expenseInputData.category}
+                    onChange={(e) =>
+                      setExpenseInputData((prev) => ({
+                        ...prev,
+                        category: e.target.value as ExpenseType,
+                      }))
+                    }
+                    px={2}
+                    border="1px solid"
+                    borderColor="border.input"
+                    _focus={{
+                      borderColor: 'border.focus',
+                    }}
+                    style={{
+                      backgroundColor:
+                        EXPENSE_TYPE_COLOR[expenseInputData.category] ||
+                        'var(--chakra-colors-bg-input)',
+                    }}
+                  >
+                    {Object.values(ExpenseType).map((category) => (
+                      <option
+                        key={category}
+                        value={category}
+                        style={{
+                          background: 'var(--chakra-colors-bg-input)',
+                          color: 'var(--chakra-colors-text-primary)',
+                          fontWeight: 'normal',
+                        }}
+                      >
+                        {category}
+                      </option>
+                    ))}
+                  </NativeSelectField>
+                </NativeSelectRoot>
               </Field.Root>
 
               {/* Comment Textarea */}
               <Field.Root>
                 <Field.Label
-                  color="gray.300"
+                  color="text.secondary"
                   fontSize="xs"
                   fontWeight="semibold"
                   mb={2}
@@ -300,12 +320,14 @@ const AddExpense = () => {
                       comment: e.target.value,
                     }))
                   }
-                  bg="rgba(255, 255, 255, 0.01)"
-                  color="white"
+                  p={2}
+                  bg="bg.input"
+                  color="text.primary"
                   fontSize="sm"
-                  borderColor="rgba(255, 255, 255, 0.08)"
+                  border="1px solid"
+                  borderColor="border.input"
                   _focus={{
-                    borderColor: 'indigo.500',
+                    borderColor: 'border.focus',
                     boxShadow: '0 0 0 1px rgba(99, 102, 241, 0.3)',
                   }}
                   rows={4}
@@ -316,32 +338,45 @@ const AddExpense = () => {
 
           <Drawer.Footer
             borderTop="1px solid"
-            borderColor="rgba(255, 255, 255, 0.06)"
+            borderColor="border.subtle"
             py={4}
             gap={3}
           >
             <Button
-              variant="outline"
+              variant="ghost"
               onClick={clearData}
-              borderColor="red.500/40"
-              color="red.400"
+              color="text.secondary"
               _hover={{
-                bg: 'rgba(239, 68, 68, 0.08)',
-                borderColor: 'red.500',
+                bg: 'bg.active',
+                color: 'text.primary',
               }}
               disabled={isSaving}
-              size="sm"
+              size="md"
+              borderRadius="xl"
+              px={5}
             >
               Cancel
             </Button>
             <Button
-              bg="indigo.600"
-              color="white"
-              _hover={{ bg: 'indigo.500' }}
-              disabled={isSaving}
               onClick={handleSaveExpense}
-              size="sm"
+              disabled={isSaving}
+              size="md"
+              flex={1}
+              bg="linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)"
+              color="white"
+              fontWeight="bold"
+              borderRadius="xl"
               px={6}
+              transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+              _hover={{
+                bg: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
+                transform: 'translateY(-2px)',
+                boxShadow: '0 4px 15px rgba(99, 102, 241, 0.4)',
+              }}
+              _active={{
+                transform: 'translateY(0)',
+                boxShadow: '0 2px 8px rgba(99, 102, 241, 0.2)',
+              }}
             >
               {isSaving
                 ? 'Saving...'

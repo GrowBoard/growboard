@@ -11,7 +11,7 @@ const initialState: ProjectDataState = {
 /**
  * createProjectsSlice.
  * Initializes the state slice and mutation actions for projects data.
- * 
+ *
  * @param set Central store setter callback.
  * @returns The projects state and actions slice.
  */

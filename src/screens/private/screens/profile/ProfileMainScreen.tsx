@@ -9,7 +9,7 @@ import { PROFILE_ROUTES } from './const';
  * The layout wrapper screen for all sub-routes inside the Profile section.
  * Renders a header navigation bar to switch between the profile preview and settings
  * and displays the active tab inside an Outlet.
- * 
+ *
  * @returns The ProfileMainScreen component.
  */
 const ProfileMainScreen = () => {

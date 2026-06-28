@@ -43,8 +43,6 @@ const GOOGLE_SCOPES = [
   'https://www.googleapis.com/auth/drive.file',
 ].join(' ');
 
-
-
 const GoogleIcon = ({ spinning }: { spinning?: boolean }) =>
   spinning ? (
     <Spinner size="sm" color="white" mr={2} />
@@ -170,7 +168,9 @@ const LoginScreen = () => {
         const profile = await res.json();
 
         // Calculate token expiry timestamp (Google returns expires_in in seconds)
-        const expiresAt = tokenResponse.expires_in ? Date.now() + tokenResponse.expires_in * 1000 : undefined;
+        const expiresAt = tokenResponse.expires_in
+          ? Date.now() + tokenResponse.expires_in * 1000
+          : undefined;
         setAuthData({
           token: tokenResponse.access_token,
           name: profile.name ?? '',
@@ -244,7 +244,8 @@ const LoginScreen = () => {
         zIndex={10}
         _hover={{
           borderColor: 'rgba(99, 102, 241, 0.25)',
-          boxShadow: '0 32px 80px rgba(0,0,0,0.65), 0 0 0 1px rgba(99,102,241,0.15) inset, 0 1px 0 rgba(255,255,255,0.08) inset',
+          boxShadow:
+            '0 32px 80px rgba(0,0,0,0.65), 0 0 0 1px rgba(99,102,241,0.15) inset, 0 1px 0 rgba(255,255,255,0.08) inset',
         }}
         transition="all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1)"
         style={{
@@ -361,7 +362,8 @@ const LoginScreen = () => {
                 _hover={{
                   bg: 'rgba(255, 255, 255, 0.07)',
                   borderColor: 'rgba(99, 102, 241, 0.45)',
-                  boxShadow: '0 8px 32px rgba(99, 102, 241, 0.18), 0 0 0 1px rgba(99, 102, 241, 0.2) inset',
+                  boxShadow:
+                    '0 8px 32px rgba(99, 102, 241, 0.18), 0 0 0 1px rgba(99, 102, 241, 0.2) inset',
                   transform: 'translateY(-2px)',
                 }}
                 _active={{

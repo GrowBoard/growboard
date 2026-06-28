@@ -34,6 +34,7 @@ const themeData = defineConfig({
           panel: { value: { _light: '#ffffff', _dark: '#17191C' } },
           card: { value: { _light: '#ffffff', _dark: '#1E2023' } },
           cardHeader: { value: { _light: '#f8fafc', _dark: '#1A1C1E' } },
+          input: { value: { _light: '#f8fafc', _dark: '#1E2023' } },
           glass: {
             value: {
               _light: 'rgba(255, 255, 255, 0.85)',
@@ -53,6 +54,9 @@ const themeData = defineConfig({
         border: {
           subtle: {
             value: { _light: '#E2E8F0', _dark: 'rgba(255, 255, 255, 0.07)' },
+          },
+          input: {
+            value: { _light: '#CBD5E0', _dark: 'rgba(255, 255, 255, 0.15)' },
           },
           focus: { value: { _light: '#00D8FF', _dark: '#00D8FF' } },
           avatar: {

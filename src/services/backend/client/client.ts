@@ -37,4 +37,3 @@ export const PostRequest = async (url: string, data: unknown) => {
   });
   return response.data;
 };
-

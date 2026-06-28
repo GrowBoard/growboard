@@ -34,5 +34,29 @@
     "downloadReport": "Download Report",
     "downloadCSV": "Download CSV",
     "downloadPDF": "Download PDF"
+  },
+  "Credentials": {
+    "title": "Credentials",
+    "addCredential": "Add Credential",
+    "editCredential": "Edit Credential",
+    "deleteCredential": "Delete Credential",
+    "deleteConfirmTitle": "Confirm Deletion",
+    "deleteConfirmDesc": "Are you sure you want to delete the credential \"{{title}}\"? This action cannot be undone.",
+    "deleteConfirmInstruction": "Type \"{{title}}\" below to confirm deletion:",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "save": "Save",
+    "credTitleLabel": "Credential Title",
+    "credTitlePlaceholder": "e.g., AWS Production Account",
+    "nameLabel": "Name",
+    "valueLabel": "Value",
+    "addPair": "Add Row",
+    "deletePair": "Delete Row",
+    "noCredentials": "No credentials found. Click \"Add Credential\" to create one.",
+    "deleteConfirmInputPlaceholder": "Type title here",
+    "successAdd": "Credential added successfully!",
+    "successEdit": "Credential updated successfully!",
+    "successDelete": "Credential deleted successfully!",
+    "errorSave": "Failed to save credentials. Please try again."
   }
 }

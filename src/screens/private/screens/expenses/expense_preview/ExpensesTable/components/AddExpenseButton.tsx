@@ -1,4 +1,4 @@
-import { AddIcon } from '@assets';
+import { LuPlus } from 'react-icons/lu';
 import { IconButton } from '@chakra-ui/react';
 import { useShallow, setAddExpenseSelector } from '@selectors';
 import { appStore } from '@store';
@@ -17,11 +17,18 @@ const AddExpenseButton = ({
       aria-label="Add expense"
       size={'xs'}
       variant={'outline'}
-      colorScheme="cyan"
       mx={1}
       onClick={() => setAddExpense(true, type, date)}
+      border="1px solid"
+      borderColor="border.input"
+      color="text.secondary"
+      _hover={{
+        bg: 'bg.active',
+        borderColor: 'border.focus',
+        color: 'text.primary',
+      }}
     >
-      <AddIcon />
+      <LuPlus />
     </IconButton>
   );
 };
