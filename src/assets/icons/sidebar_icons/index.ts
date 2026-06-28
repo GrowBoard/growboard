@@ -1,9 +1,0 @@
-export { CredsIcon } from './CredsIcon';
-export { ExpenseIcon } from './ExpenseIcon';
-export { GoalsIcon } from './GoalsIcon';
-export { HomeIcon } from './HomeIcon';
-export { LearningIcon } from './LearningIcon';
-export { LogoutIcon } from './LogoutIcon';
-export { PlanIcon } from './PlanIcon';
-export { ProjectIcon } from './ProjectIcon';
-export { ResourceIcon } from './ResourceIcon';
