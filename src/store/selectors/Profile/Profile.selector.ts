@@ -3,7 +3,7 @@ import { AppStoreState } from 'src/store/store';
 /**
  * profileSelector.
  * Selects the user profile configuration details and actions from the store.
- * 
+ *
  * @param state The AppStoreState.
  * @returns Object holding profileData, removeProfile action, and updateProfile action.
  */

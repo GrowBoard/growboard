@@ -172,7 +172,13 @@ const AnimatedBackground = () => {
   }, []);
 
   return (
-    <Box ref={containerRef} position="absolute" inset={0} overflow="hidden" pointerEvents="none">
+    <Box
+      ref={containerRef}
+      position="absolute"
+      inset={0}
+      overflow="hidden"
+      pointerEvents="none"
+    >
       {/* 1 ── Deep navy base */}
       <Box position="absolute" inset={0} bg="#0b0e14" />
 

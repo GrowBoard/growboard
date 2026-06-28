@@ -15,13 +15,12 @@ const DateInput = ({
     <HStack w="100%" gap={0}>
       <Box
         w="25%"
-        bg="bg.glass"
+        bg="bg.input"
         color="text.secondary"
-        py="7px"
-        px={3}
+        p={'9px'}
         borderLeftRadius="md"
         border="1px solid"
-        borderColor="border.subtle"
+        borderColor="border.input"
         borderRight="none"
         fontSize="sm"
         fontWeight="semibold"
@@ -31,11 +30,12 @@ const DateInput = ({
       </Box>
       <Input
         flex={1}
+        px={2}
         borderRightRadius="md"
         borderLeftRadius="none"
         border="1px solid"
-        borderColor="border.subtle"
-        bg="bg.panel"
+        borderColor="border.input"
+        bg="bg.input"
         color="text.primary"
         type="date"
         textAlign="center"

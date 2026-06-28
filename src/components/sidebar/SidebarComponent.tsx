@@ -1,15 +1,14 @@
 import { NavLink } from 'react-router-dom';
-import {
-  CredsIcon,
-  ExpenseIcon,
-  GoalsIcon,
-  HomeIcon,
-  LearningIcon,
-  PlanIcon,
-  ProfileIcon,
-  ProjectIcon,
-  ResourceIcon,
-} from '@assets';
+import { LuUser } from 'react-icons/lu';
+import { IoFolderOpenOutline } from 'react-icons/io5';
+import { IoCalendarOutline } from 'react-icons/io5';
+import { IoHomeOutline } from 'react-icons/io5';
+import { HiOutlineCurrencyRupee } from 'react-icons/hi2';
+import { TfiViewListAlt } from 'react-icons/tfi';
+import { IoKeyOutline } from 'react-icons/io5';
+import { SlGraduation } from 'react-icons/sl';
+import { PiTarget } from 'react-icons/pi';
+
 import TooltipComponent from '../tooltip/TooltipComponent';
 // Do not resolve the below imports
 // ----------------------------------------------
@@ -29,23 +28,23 @@ import { appStore } from '@store';
 const SidebarIcon = ({ icon }: SidebarIconProps) => {
   switch (icon) {
     case SidebarIconType.Home:
-      return <HomeIcon />;
+      return <IoHomeOutline size={22} />;
     case SidebarIconType.Projects:
-      return <ProjectIcon />;
+      return <IoFolderOpenOutline size={22} />;
     case SidebarIconType.Plans:
-      return <PlanIcon />;
+      return <IoCalendarOutline size={22} />;
     case SidebarIconType.Expenses:
-      return <ExpenseIcon />;
+      return <HiOutlineCurrencyRupee size={24} />;
     case SidebarIconType.Goals:
-      return <GoalsIcon />;
+      return <PiTarget size={22} />;
     case SidebarIconType.Credentials:
-      return <CredsIcon />;
+      return <IoKeyOutline size={22} />;
     case SidebarIconType.Profile:
-      return <ProfileIcon />;
+      return <LuUser size={22} />;
     case SidebarIconType.Learning:
-      return <LearningIcon />;
+      return <SlGraduation size={22} />;
     case SidebarIconType.Resources:
-      return <ResourceIcon />;
+      return <TfiViewListAlt size={22} />;
     default:
       return null;
   }
@@ -84,8 +83,8 @@ function SidebarComponent() {
                   className={({ isActive }) =>
                     `flex items-center justify-center w-12 h-12 rounded-lg transition-all duration-200 ${
                       isActive
-                        ? 'bg-[var(--chakra-colors-bg-active)] text-cyan-500 border border-cyan-500/30'
-                        : 'text-gray-400 hover:bg-[var(--chakra-colors-bg-active)] hover:text-[var(--chakra-colors-text-primary)] border border-transparent'
+                        ? 'bg-[var(--chakra-colors-bg-active)] text-[var(--chakra-colors-text-primary)] border border-[var(--chakra-colors-border-focus)]'
+                        : 'text-[var(--chakra-colors-text-secondary)] hover:bg-[var(--chakra-colors-bg-active)] hover:text-[var(--chakra-colors-text-primary)] border border-transparent'
                     }`
                   }
                 >
@@ -108,8 +107,8 @@ function SidebarComponent() {
               className={({ isActive }) =>
                 `flex items-center justify-center w-12 h-12 rounded-lg transition-all duration-200 ${
                   isActive
-                    ? 'bg-[var(--chakra-colors-bg-active)] text-cyan-500 border border-cyan-500/30'
-                    : 'text-gray-400 hover:bg-[var(--chakra-colors-bg-active)] hover:text-[var(--chakra-colors-text-primary)] border border-transparent'
+                    ? 'bg-[var(--chakra-colors-bg-active)] text-[var(--chakra-colors-text-primary)] border border-[var(--chakra-colors-border-focus)]'
+                    : 'text-[var(--chakra-colors-text-secondary)] hover:bg-[var(--chakra-colors-bg-active)] hover:text-[var(--chakra-colors-text-primary)] border border-transparent'
                 }`
               }
             >

@@ -1,6 +1,6 @@
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { TooltipComponent } from '@components';
-import { AddIcon, DeleteIcon, EditIcon, PreviewIcon } from '@assets';
+import { LuPlus, LuTrash2, LuPencil, LuEye } from 'react-icons/lu';
 import getSubNavTitle from '../../../../util/nav/NavTitle';
 import { Box, Flex, Button } from '@chakra-ui/react';
 
@@ -8,10 +8,10 @@ import { Box, Flex, Button } from '@chakra-ui/react';
  * Project screen routes.
  */
 const ProjectRoutes = [
-  { title: 'Project preview', icon: <PreviewIcon />, path: 'preview' },
-  { title: 'Add project', icon: <AddIcon />, path: 'add' },
-  { title: 'Edit project', icon: <EditIcon />, path: 'edit' },
-  { title: 'Delete project', icon: <DeleteIcon />, path: 'delete' },
+  { title: 'Project preview', icon: <LuEye />, path: 'preview' },
+  { title: 'Add project', icon: <LuPlus />, path: 'add' },
+  { title: 'Edit project', icon: <LuPencil />, path: 'edit' },
+  { title: 'Delete project', icon: <LuTrash2 />, path: 'delete' },
 ];
 
 const ProjectsScreen = () => {

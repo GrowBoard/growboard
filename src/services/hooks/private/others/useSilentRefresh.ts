@@ -84,7 +84,7 @@ const useSilentRefresh = (): void => {
       });
 
     registerSilentRefresh(silentRefreshFn);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 };
 

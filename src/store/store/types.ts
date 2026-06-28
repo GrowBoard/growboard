@@ -6,6 +6,7 @@ import {
   ImageModalStateSlice,
   ProfileStateSlice,
   ExpenseStateSlice,
+  CredsStateSlice,
 } from '@store/slice';
 import {} from '../slice/User/types';
 
@@ -16,6 +17,7 @@ export interface AppStoreState {
   Expense: ExpenseStateSlice;
   ImageModal: ImageModalStateSlice;
   Profile: ProfileStateSlice;
+  Creds: CredsStateSlice;
 }
 
 export type AppStoreSlice<T> = StateCreator<

@@ -21,7 +21,7 @@ describe('GoogleSheetsExpenseService', () => {
     global.fetch = mockFetch;
 
     (getValidAccessToken as jest.Mock).mockReturnValue('mock-token');
-    
+
     // Direct assignment to override the singleton's internal cache
     (googleSheetsExpenseService as any).cache = {
       growboardFolderId: 'growboard-id',
@@ -40,7 +40,10 @@ describe('GoogleSheetsExpenseService', () => {
       });
 
       // trigger getOrCreateGrowboardFolder (will load cached first, so let's clear cache to force API call)
-      (loadCache as jest.Mock).mockReturnValueOnce({ spreadsheetIds: {}, sheetIds: {} });
+      (loadCache as jest.Mock).mockReturnValueOnce({
+        spreadsheetIds: {},
+        sheetIds: {},
+      });
       // Re-init or reset cache in service instance if it is cached in instance variable.
       // Since it is a singleton, let's reset its internal cache by modifying the mock return before access or calling a method that clears it.
       // Actually we can trigger a 401 to clear cache, or check if we can inspect the singleton state.
@@ -56,13 +59,14 @@ describe('GoogleSheetsExpenseService', () => {
         ok: true,
         status: 200,
         json: async () => ({
-          values: [
-            ['id-1', '10.5', '2026-06-28', 'Lunch', 'Food'],
-          ],
+          values: [['id-1', '10.5', '2026-06-28', 'Lunch', 'Food']],
         }),
       });
 
-      const response = await googleSheetsExpenseService.getExpensesForMonth(2026, 5); // June is 5
+      const response = await googleSheetsExpenseService.getExpensesForMonth(
+        2026,
+        5,
+      ); // June is 5
       expect(response.status).toBe('SUCCESS');
       expect(response.data).toHaveLength(1);
       expect(response.data[0]).toEqual({
@@ -83,7 +87,10 @@ describe('GoogleSheetsExpenseService', () => {
         }),
       });
 
-      const response = await googleSheetsExpenseService.getExpensesForMonth(2026, 5);
+      const response = await googleSheetsExpenseService.getExpensesForMonth(
+        2026,
+        5,
+      );
       expect(response.status).toBe('ERROR');
       expect(response.data).toEqual([]);
       expect(response.successMessage).toContain('Google API Error (500)');
@@ -110,7 +117,10 @@ describe('GoogleSheetsExpenseService', () => {
 
       (triggerSilentRefresh as jest.Mock).mockResolvedValueOnce(undefined);
 
-      const response = await googleSheetsExpenseService.getExpensesForMonth(2026, 5);
+      const response = await googleSheetsExpenseService.getExpensesForMonth(
+        2026,
+        5,
+      );
 
       expect(triggerSilentRefresh).toHaveBeenCalledTimes(1);
       expect(response.status).toBe('SUCCESS');
@@ -127,13 +137,20 @@ describe('GoogleSheetsExpenseService', () => {
         }),
       });
 
-      (triggerSilentRefresh as jest.Mock).mockRejectedValueOnce(new Error('Refresh failed'));
+      (triggerSilentRefresh as jest.Mock).mockRejectedValueOnce(
+        new Error('Refresh failed'),
+      );
 
-      const response = await googleSheetsExpenseService.getExpensesForMonth(2026, 5);
+      const response = await googleSheetsExpenseService.getExpensesForMonth(
+        2026,
+        5,
+      );
 
       expect(triggerSilentRefresh).toHaveBeenCalledTimes(1);
       expect(response.status).toBe('ERROR');
-      expect(response.successMessage).toContain('Session expired. Please re-login');
+      expect(response.successMessage).toContain(
+        'Session expired. Please re-login',
+      );
     });
   });
 
@@ -171,9 +188,7 @@ describe('GoogleSheetsExpenseService', () => {
         ok: true,
         status: 200,
         json: async () => ({
-          values: [
-            ['id-1', '10.0', '2026-06-28', 'Old Comment', 'Food'],
-          ],
+          values: [['id-1', '10.0', '2026-06-28', 'Old Comment', 'Food']],
         }),
       });
       // 2. Put values
@@ -216,9 +231,9 @@ describe('GoogleSheetsExpenseService', () => {
         category: 'Food' as any,
       };
 
-      await expect(googleSheetsExpenseService.updateExpense(updated)).rejects.toThrow(
-        'not found in sheet June',
-      );
+      await expect(
+        googleSheetsExpenseService.updateExpense(updated),
+      ).rejects.toThrow('not found in sheet June');
     });
   });
 
@@ -228,9 +243,7 @@ describe('GoogleSheetsExpenseService', () => {
         ok: true,
         status: 200,
         json: async () => ({
-          values: [
-            ['id-to-delete', '10.0', '2026-06-28', 'Comment', 'Food'],
-          ],
+          values: [['id-to-delete', '10.0', '2026-06-28', 'Comment', 'Food']],
         }),
       });
       mockFetch.mockResolvedValueOnce({
@@ -239,7 +252,10 @@ describe('GoogleSheetsExpenseService', () => {
         json: async () => ({}),
       });
 
-      const result = await googleSheetsExpenseService.deleteExpense('id-to-delete', '2026-06-28');
+      const result = await googleSheetsExpenseService.deleteExpense(
+        'id-to-delete',
+        '2026-06-28',
+      );
       expect(result).toBe(true);
       expect(mockFetch).toHaveBeenLastCalledWith(
         expect.stringContaining('spreadsheet-id:batchUpdate'),

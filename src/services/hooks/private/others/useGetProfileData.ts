@@ -8,7 +8,7 @@ import { profileSelector, useShallow } from '@selectors';
  * useGetProfileData Custom Hook.
  * Automatically queries Google Drive for user profile configuration data
  * and updates the central store profile state slice upon a successful query response.
- * 
+ *
  * @returns React Query result handle containing loading state, data, and errors.
  */
 export const useGetProfileData = () => {

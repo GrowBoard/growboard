@@ -6,7 +6,7 @@ import { PasswordEye } from './components';
 /**
  * InputText Component.
  * Renders a standardized text/password/date input box using Chakra UI elements.
- * 
+ *
  * @param props Component properties containing labels, defaults, update callbacks, and state.
  * @returns The InputText component.
  */
@@ -20,7 +20,7 @@ export const InputText = (props: InputTextProps) => {
   /**
    * Handler invoked when the input value changes.
    * Updates local state and propagates change back to parent form.
-   * 
+   *
    * @param val The new input string value.
    */
   const updateInputValue = (val: string) => {

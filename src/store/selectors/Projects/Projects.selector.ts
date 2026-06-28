@@ -3,7 +3,7 @@ import { AppStoreState } from '@store';
 /**
  * projectsSelector.
  * Selects the project data and mutation actions from the central store.
- * 
+ *
  * @param state The AppStoreState.
  * @returns Object holding projectData array and project slice action triggers.
  */

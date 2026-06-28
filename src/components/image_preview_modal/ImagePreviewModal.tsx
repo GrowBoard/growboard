@@ -16,7 +16,7 @@ const ImagePreviewModal = ({ image }: ImagePreviewModalProps) => {
   return (
     <Dialog.Root
       open={isOpen}
-      onOpenChange={(e: any) => {
+      onOpenChange={(e: { open: boolean }) => {
         if (!e.open) setImageString('');
       }}
       size="lg"

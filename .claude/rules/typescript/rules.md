@@ -5,17 +5,21 @@ glob: src/**/*.{ts,tsx}
 # TypeScript & React Component Rules
 
 ## Context
+
 These rules govern all TypeScript and React component code within the repository to ensure strict type safety, clean folder structures, uniform naming conventions, and compliance with the project's UI standards.
 
 ## Rules
 
 ### 1. Type Safety
+
 - **No `any`**: The use of `any` (both as a type annotation and as a type assertion like `as any`) is **totally prohibited**. All code must be strictly and explicitly typed or rely on correct TypeScript type inference.
 
 ### 2. Imports Management
+
 - **No Unused Imports**: Always remove all unused imports immediately after adding or modifying any code. Keep imports clean and sorted.
 
 ### 3. Component Design & Extensions
+
 - **Single Component per File**: Each `.tsx` file MUST contain exactly a single React component.
 - **Component Syntax**: Write all components as arrow functions using the following syntax:
   ```tsx
@@ -27,6 +31,7 @@ These rules govern all TypeScript and React component code within the repository
 - **Component Naming**: Component names must be in `PascalCase`.
 
 ### 4. Folder Layout & Components Separation
+
 - **Component Sub-folders**: If a component has complex layout or sub-sections, break it down into smaller sub-components. Place these sub-components in a `components/` subfolder inside the component's folder.
 - **No Nested Components Folders**: The `components/` subfolder **cannot be nested** (i.e. you cannot have a `components/` folder inside another `components/` folder).
 - **Scope of Sub-components**: The `components/` subfolder must only contain sub-components specific to the parent component.
@@ -34,22 +39,27 @@ These rules govern all TypeScript and React component code within the repository
 - **Index Exports**: Every directory (including `components/` subfolders) MUST contain an `index.ts` file that manages and routes all exports. Exports must always be done through this `index.ts` file.
 
 ### 5. UI Library Compliance (Chakra UI)
+
 - **Chakra UI Only**: We **cannot use UI components other than what is offered by Chakra UI** for visual controls, inputs, layout grids, or structure. Do not import UI controls from other component libraries.
 
 ### 6. Separation of Logic & Utils
+
 - **Business/Non-TSX Logic**: Move all helper functions, calculations, or non-TSX business logic into a `util.ts` file in the corresponding component/screen folder.
 - **Common Utilities**: Reusable utility functions must be placed in `src/util/`.
 - **Redundancy Checks**: Always inspect `src/components/` and `src/util/` before adding any new component or helper function to prevent redundant code.
 
 ### 7. Variables & Constants Naming
+
 - **Constants**: Always name constants in `SCREAMING_SNAKE_CASE` (e.g., `MAX_RETRY_COUNT`, `DEFAULT_STATUS`). Move constants to a `const.ts` file in the corresponding folder.
 - **Variables**: Always name variables (local variables, function arguments, state keys) in `camelCase`.
 
 ### 8. Documentation Standards
+
 - **JSDoc Requirement**: Always document all components, interfaces/types, utility functions, and constants with clear JSDoc comments.
 - **Inline Comments**: Provide inline comments for any complex blocks, math formulas, or non-obvious logic to explain the intent and behavior.
 
 ### 9. Testing Requirements
+
 - **Mandatory Tests**: Every component, utility function, and service/business logic module **MUST** have accompanying tests.
 - **Test Location**: Tests must be placed in a `__tests__/` folder inside the corresponding component or module folder. Do **not** place test files alongside source files.
 - **Test File Naming**: Name test files after the source file they test, with a `.test.ts` or `.test.tsx` suffix (e.g., `ProfileForm.test.tsx`, `util.test.ts`).
@@ -59,11 +69,41 @@ These rules govern all TypeScript and React component code within the repository
   - **Business logic / Services**: Test all public methods with mocked dependencies.
 - **No Empty Test Files**: Every test file must contain at least one meaningful test assertion. Placeholder or skipped-only test files are not allowed.
 
+### 10. Icon Library Usage
+
+- **Always use react-icons**: Always use the `react-icons` library for all icons across the codebase.
+- **Custom SVG Restriction**: Do not define custom SVG icon components locally or add custom SVG icons under `src/assets/icons/`. The only exception is brand or system specific icons (like [GrowboardIcon](file:///Users/mr.robot/z-stash/GrowBoard/growboard/src/assets/icons/GrowboardIcon.tsx)).
+- **Icon Packages**:
+  - Use **Lucide Icons** (`react-icons/lu`) for standard layout, navigation, actions, and status icons.
+  - Use **FontAwesome 6** (`react-icons/fa6`) for social media and brand icons.
+
+### 11. Theming Compatibility
+
+All components **must** be fully compatible with the project's light/dark theming system powered by Chakra UI v3 semantic tokens.
+
+- **Semantic Tokens Only**: Never use raw hex values, `rgba(...)`, or hardcoded color strings as Chakra UI prop values (e.g., `color`, `bg`, `borderColor`, `fill`). Always use a semantic token defined in [`theme.ts`](file:///Users/mr.robot/z-stash/GrowBoard/growboard/src/components/Theme/theme.ts) (e.g., `"bg.panel"`, `"text.primary"`, `"border.subtle"`).
+- **No Inline Style Colors**: Never use `style={{ color: '#fff' }}` or any CSS-in-JS color overrides. Route all color values through Chakra UI props using semantic tokens.
+- **No `useColorModeValue` for Colors**: Do **not** use `useColorModeValue` to branch between raw color literals. The semantic token system already handles light/dark variants declaratively — use tokens instead.
+- **Allowed `useColorMode` Usage**: You **may** import `useColorMode` from `../Theme` (or `@components/Theme`) only to read or toggle the current mode (e.g., to conditionally swap an icon or a non-color asset). Never use it to construct color values.
+- **Gradients via Tokens**: Always reference gradient semantic tokens (e.g., `"gradient.topAppBar"`) rather than writing `linear-gradient(...)` inline.
+- **Extending the Theme**: If a design requires a color or gradient not covered by the existing semantic tokens, add it to the `semanticTokens` block in `theme.ts` with **both** `_light` and `_dark` variants before using it in a component.
+
+**Available semantic token namespaces** (defined in [`theme.ts`](file:///Users/mr.robot/z-stash/GrowBoard/growboard/src/components/Theme/theme.ts)):
+
+| Namespace | Tokens |
+|---|---|
+| `bg.*` | `app`, `panel`, `card`, `cardHeader`, `glass`, `active`, `container` |
+| `text.*` | `primary`, `secondary`, `muted`, `heading`, `hero` |
+| `border.*` | `subtle`, `focus`, `avatar` |
+| `icon.*` | `primaryColor`, `primaryBg`, `secondary` |
+| `gradient.*` | `topAppBar`, `sideBarBG`, `contentBG` |
+
 ---
 
 ## Examples
 
 ### Correct Component Folder Structure
+
 ```text
 profile_setting/
 ├── index.ts
@@ -82,6 +122,7 @@ profile_setting/
 ```
 
 #### profile_setting/index.ts:
+
 ```typescript
 /**
  * Export default component from the folder.
@@ -90,6 +131,7 @@ export { default } from './ProfileSettingScreen';
 ```
 
 #### profile_setting/components/index.ts:
+
 ```typescript
 /**
  * Export the ProfileForm component.
@@ -98,6 +140,7 @@ export { ProfileForm } from './ProfileForm';
 ```
 
 #### profile_setting/types.ts:
+
 ```typescript
 /**
  * Props for the ProfileForm component.
@@ -109,6 +152,7 @@ export interface ProfileFormProps {
 ```
 
 #### profile_setting/const.ts:
+
 ```typescript
 /**
  * Maximum character limit for user bio.
@@ -117,6 +161,7 @@ export const MAX_BIO_CHAR_LIMIT = 150;
 ```
 
 #### profile_setting/util.ts:
+
 ```typescript
 /**
  * Filters empty or whitespace-only phone numbers from a list.
@@ -129,6 +174,7 @@ export const filterValidPhoneNumbers = (phoneNumbers: string[]): string[] => {
 ```
 
 #### profile_setting/ProfileSettingScreen.tsx:
+
 ```tsx
 import { Box } from '@chakra-ui/react';
 import { ProfileForm } from './components';
@@ -150,6 +196,7 @@ export default ProfileSettingScreen;
 ```
 
 #### profile_setting/components/ProfileForm.tsx:
+
 ```tsx
 import { Box, Input } from '@chakra-ui/react';
 import { ProfileFormProps } from '../types';
@@ -170,6 +217,7 @@ export const ProfileForm = ({ initialData, name }: ProfileFormProps) => {
 ```
 
 #### profile_setting/\_\_tests\_\_/util.test.ts:
+
 ```typescript
 import { filterValidPhoneNumbers } from '../util';
 
@@ -190,6 +238,7 @@ describe('filterValidPhoneNumbers', () => {
 ```
 
 #### profile_setting/components/\_\_tests\_\_/ProfileForm.test.tsx:
+
 ```tsx
 import { render, screen } from '@testing-library/react';
 import { ProfileForm } from '../ProfileForm';
@@ -200,4 +249,54 @@ describe('ProfileForm', () => {
     expect(screen.getByPlaceholderText('John')).toBeInTheDocument();
   });
 });
+```
+
+### Theming Compatibility (Rule 11)
+
+#### ❌ Incorrect — hardcoded colors break light/dark theming:
+
+```tsx
+import { Box, Text } from '@chakra-ui/react';
+
+export const StatusCard = () => {
+  return (
+    // ❌ Raw hex and rgba — will not respond to color mode changes
+    <Box bg="#ffffff" borderColor="rgba(0,0,0,0.1)" style={{ color: '#17191C' }}>
+      <Text color="#475569">Active</Text>
+    </Box>
+  );
+};
+```
+
+#### ✅ Correct — semantic tokens adapt automatically to light and dark mode:
+
+```tsx
+import { Box, Text } from '@chakra-ui/react';
+
+export const StatusCard = () => {
+  return (
+    // ✅ Semantic tokens resolve to the correct color for each color mode
+    <Box bg="bg.card" borderColor="border.subtle">
+      <Text color="text.secondary">Active</Text>
+    </Box>
+  );
+};
+```
+
+#### ✅ Correct — extending the theme when a new token is needed:
+
+```ts
+// theme.ts — add BOTH _light and _dark variants
+semanticTokens: {
+  colors: {
+    status: {
+      success: { value: { _light: '#16A34A', _dark: '#4ADE80' } },
+    },
+  },
+},
+```
+
+```tsx
+// Then consume the new token in the component
+<Text color="status.success">Completed</Text>
 ```
