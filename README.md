@@ -2,22 +2,6 @@
 
 A premium Stream Deck-style productivity tool management dashboard. GrowBoard lets users configure and manage automated tasks, tracking the progress of projects with dynamic, highly-responsive interfaces.
 
-## Architectural Diagram
-
-```mermaid
-graph TD
-    classDef component fill:#eef2ff,stroke:#6366f1,stroke-width:2px,color:#1e1b4b;
-    classDef context fill:#fdf2f8,stroke:#ec4899,stroke-width:2px,color:#500724;
-
-    Client[Web Client Browser] --> Router[React Router v7]:::component
-    Router --> Screens[Screens & Pages]:::component
-    Screens --> Components[UI Components]:::component
-    Screens --> Hooks[Custom Hooks]:::component
-    Hooks --> Store[Zustand Global Store]:::context
-    Hooks --> Services[API Services]:::context
-    Services -.-> Network[External Backend / Supabase]
-```
-
 ## Table of Contents
 
 - [Directory Structure](#directory-structure)
@@ -69,6 +53,12 @@ growboard/
 2. **Routing**: `react-router-dom` orchestrates URL-to-Component mapping through `src/router/`, securely wrapping authenticated paths.
 3. **State Management**: Complex UI states and configuration bindings are managed synchronously via Zustand, while asynchronous data interactions (fetching/mutating) pass through React Query.
 4. **Services Layer**: Network operations are encapsulated in `src/services/` utilizing `axios` or Supabase SDK to communicate with backend APIs.
+5. **Offline State Persistence & Caching**: Core private state slices (Credentials, Goals, Learnings, Resources, Plans, and Projects) are persisted to the browser's `localStorage` via Zustand middleware and merged during app load. TanStack Query is configured with `staleTime: Infinity` and reads the restored Zustand state as `initialData`. This completely eliminates redundant Google API network fetches on browser refreshes, while mutations still invalidate queries to trigger immediate background synchronization.
+6. **Google Sheets Integration**: The Resources, Plans, and Projects screens interface directly with the Google Sheets API, writing and reading data from single spreadsheets inside the user's Google Drive:
+   - **Resources**: `GrowBoard/Resources/`
+   - **Plans**: `GrowBoard/Plans/` (with ergonomic schedule view details)
+   - **Projects**: `Growboard/Projects/` (supporting Pending, IdeaPhase, Started, and Done status workflows)
+   All folders and schemas are automatically generated on first use.
 
 ## Getting Started & Installation
 

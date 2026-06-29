@@ -13,9 +13,10 @@ Global state management implementations utilizing Zustand for the GrowBoard appl
 
 ```
 store/
-├── useAppStore.ts        # Primary application state slice
-├── useSettingsStore.ts   # User settings and preferences
-└── index.ts              # Exports and potential aggregations
+├── slice/            # Domain slices (Alert, Auth, Creds, Expenses, Goals, Learnings, Projects, Resources)
+├── selectors/        # Selector functions for state subscription optimization
+├── store/            # Zentral store configuration (appStore.tsx) and type definitions
+└── index.ts          # Consolidated store hooks and types exports
 ```
 
 ## Tech Stack & Dependencies

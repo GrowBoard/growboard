@@ -10,7 +10,11 @@ import {
   LazyHomeScreenComponent,
   LazyDashboardScreenComponent,
   LazyLoginScreenComponent,
+  LazyLandingScreenComponent,
   LazyComponentProvider,
+  LazyPrivacyPolicyScreenComponent,
+  LazyDataPolicyScreenComponent,
+  LazyTermsScreenComponent,
 } from '@provider';
 import { appStore } from '@store';
 import { useSilentRefresh } from '@services/hooks/private';
@@ -43,10 +47,17 @@ export const PublicRouteGuard = () => {
 export const appRouter = createBrowserRouter(
   createRoutesFromChildren(
     <Route path="/">
-      {/* Public Routes Guard */}
+      {/* Public Pages (Accessible to all) */}
+      <Route element={<LazyComponentProvider children={<Outlet />} />}>
+        <Route path="" element={<LazyLandingScreenComponent />} />
+        <Route path="privacy" element={<LazyPrivacyPolicyScreenComponent />} />
+        <Route path="data-policy" element={<LazyDataPolicyScreenComponent />} />
+        <Route path="terms" element={<LazyTermsScreenComponent />} />
+      </Route>
+
+      {/* Public Routes Guard (Guests only) */}
       <Route element={<PublicRouteGuard />}>
         <Route element={<LazyComponentProvider children={<Outlet />} />}>
-          <Route path="" element={<Navigate to="/login" replace />} />
           <Route path="login" element={<LazyLoginScreenComponent />} />
         </Route>
       </Route>

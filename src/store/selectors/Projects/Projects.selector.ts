@@ -5,7 +5,7 @@ import { AppStoreState } from '@store';
  * Selects the project data and mutation actions from the central store.
  *
  * @param state The AppStoreState.
- * @returns Object holding projectData array and project slice action triggers.
+ * @returns Object holding projectData array and project slice actions.
  */
 export const projectsSelector = (state: AppStoreState) => ({
   /**
@@ -17,16 +17,9 @@ export const projectsSelector = (state: AppStoreState) => ({
    */
   addProjects: state.Projects.addProjects,
   /**
-   * Action trigger to add a single new project.
+   * Action trigger to clear projects.
    */
-  addSingleProject: state.Projects.addSingleProject,
-  /**
-   * Action trigger to update values of a specific project.
-   */
-  updateSingleProject: state.Projects.updateSingleProject,
-  /**
-   * Action trigger to delete/remove a project by identifier.
-   */
-  removeProjects: state.Projects.removeProjects,
+  removeProjectsState: state.Projects.removeProjectsState,
 });
+
 export default projectsSelector;

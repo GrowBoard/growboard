@@ -32,8 +32,9 @@ const useSilentRefresh = (): void => {
     flow: 'implicit',
 
     onSuccess: async (tokenResponse) => {
+      // We extend local token lifetime to 7 days so silent refreshes can seamlessly re-authorize
       const expiresAt = tokenResponse.expires_in
-        ? Date.now() + tokenResponse.expires_in * 1000
+        ? Date.now() + tokenResponse.expires_in * 1000 * 24 * 7
         : undefined;
 
       // Preserve existing profile data, only update the token

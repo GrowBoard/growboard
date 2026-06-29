@@ -1,69 +1,361 @@
-import { NavLink, Outlet, useLocation } from 'react-router-dom';
-import { TooltipComponent } from '@components';
-import { LuPlus, LuTrash2, LuPencil, LuEye } from 'react-icons/lu';
-import getSubNavTitle from '../../../../util/nav/NavTitle';
-import { Box, Flex, Button } from '@chakra-ui/react';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import {
+  Box,
+  Flex,
+  Button,
+  Grid,
+  Input,
+  Spinner,
+  Text,
+  HStack,
+  VStack,
+  IconButton,
+} from '@chakra-ui/react';
+import { useShallow, projectsSelector } from '@selectors';
+import { appStore, ProjectItem } from '@store';
+import {
+  useGetProjectsData,
+  useSaveProjectData,
+  useDeleteProjectData,
+} from '@services/hooks/private';
+import { useSuccessToast, useErrorToast, EmptyState } from '@components';
+import { LuPlus, LuSearch, LuLayoutGrid, LuList } from 'react-icons/lu';
+import {
+  ProjectCard,
+  ProjectFormDrawer,
+  ProjectAboutDrawer,
+  DeleteConfirmDialog,
+} from './components';
+import { filterProjects } from './util';
 
 /**
- * Project screen routes.
+ * ProjectScreen component coordinates projects data fetching from Google Sheets
+ * and coordinates adding/editing/deleting/viewing flows.
  */
-const ProjectRoutes = [
-  { title: 'Project preview', icon: <LuEye />, path: 'preview' },
-  { title: 'Add project', icon: <LuPlus />, path: 'add' },
-  { title: 'Edit project', icon: <LuPencil />, path: 'edit' },
-  { title: 'Delete project', icon: <LuTrash2 />, path: 'delete' },
-];
+const ProjectScreen = () => {
+  const { t } = useTranslation();
+  const successToast = useSuccessToast();
+  const errorToast = useErrorToast();
 
-const ProjectsScreen = () => {
-  const currentLocation = useLocation();
+  const { projectData } = appStore(useShallow(projectsSelector));
+  const { isLoading } = useGetProjectsData();
+  const { mutateAsync: saveProject, isPending: isSaving } = useSaveProjectData();
+  const { mutateAsync: deleteProject } = useDeleteProjectData();
+
+  // Local UI State
+  const [formOpen, setFormOpen] = useState(false);
+  const [editItem, setEditItem] = useState<ProjectItem | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<'card' | 'list'>('card');
+
+  // Detail viewing Drawer state
+  const [viewAboutOpen, setViewAboutOpen] = useState(false);
+  const [viewAboutItem, setViewAboutItem] = useState<ProjectItem | null>(null);
+
+  // Filter projects list based on search query
+  const filteredProjects = filterProjects(projectData, searchQuery);
+
+  const handleOpenAdd = () => {
+    setEditItem(null);
+    setFormOpen(true);
+  };
+
+  const handleOpenEdit = (item: ProjectItem) => {
+    setEditItem(item);
+    setFormOpen(true);
+  };
+
+  const handleOpenDelete = (id: string) => {
+    setDeleteId(id);
+    setDeleteOpen(true);
+  };
+
+  const handleOpenViewAbout = (item: ProjectItem) => {
+    setViewAboutItem(item);
+    setViewAboutOpen(true);
+  };
+
+  const handleSave = async (newProject: Omit<ProjectItem, 'Id'> & { Id?: string }) => {
+    try {
+      await saveProject(newProject);
+      successToast(
+        newProject.Id
+          ? t('Projects.successEdit', 'Project updated successfully!')
+          : t('Projects.successAdd', 'Project added successfully!'),
+      );
+      setFormOpen(false);
+      setEditItem(null);
+    } catch (e) {
+      console.error(e);
+      errorToast(t('Projects.errorSave', 'Failed to save project.'));
+    }
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!deleteId) return;
+    try {
+      await deleteProject(deleteId);
+      successToast(t('Projects.successDelete', 'Project deleted successfully!'));
+      setDeleteOpen(false);
+      setDeleteId(null);
+    } catch (e) {
+      console.error(e);
+      errorToast(t('Projects.errorSave', 'Failed to save project.'));
+    }
+  };
+
+  const currentDeleteTitle =
+    deleteId !== null
+      ? projectData.find((r) => r.Id === deleteId)?.title || ''
+      : '';
 
   return (
-    <Box h="full" w="100%">
-      <Flex
-        m={2}
-        bg="bg.cardHeader"
+    <Box h="full" w="100%" p={4}>
+      {/* Top Header Section */}
+      <Box
+        top={0}
+        zIndex={10}
+        bg="bg.glass"
+        backdropFilter="blur(12px)"
         border="1px solid"
         borderColor="border.subtle"
-        p={2}
-        borderRadius="lg"
-        justify="space-between"
-        align="center"
+        p={4}
+        borderRadius="xl"
         shadow="md"
+        mb={6}
+        gap={4}
+        display="flex"
+        flexDirection={{ base: 'column', md: 'row' }}
+        justifyContent="space-between"
+        alignItems="center"
       >
-        <Box fontSize="xl" fontWeight="semibold" mx={4} color="text.primary">
-          {getSubNavTitle(currentLocation.pathname)}
+        <Box fontSize="2xl" fontWeight="bold" color="text.primary">
+          {t('Projects.title', 'Projects')}
         </Box>
-        <Flex gap={2}>
-          {ProjectRoutes.map((item, index) => (
-            <TooltipComponent key={index} title={item.title}>
-              <Button
-                asChild
-                variant="outline"
-                borderColor="border.subtle"
-                color="text.primary"
-                _hover={{ bg: 'bg.active' }}
-                _currentPage={{
-                  bg: 'bg.active',
-                  borderColor: 'border.subtle',
-                  color: 'text.primary',
-                }}
-                p={2}
-                minW="40px"
-                h="40px"
-                borderRadius="md"
-              >
-                <NavLink to={item.path}>{item.icon}</NavLink>
-              </Button>
-            </TooltipComponent>
-          ))}
+
+        <Flex
+          gap={3}
+          w={{ base: '100%', md: 'auto' }}
+          flexGrow={{ md: 1 }}
+          maxW={{ md: '620px' }}
+          justify="flex-end"
+          align="center"
+        >
+          {/* Search Box */}
+          <Box position="relative" w="100%">
+            <Input
+              placeholder={t(
+                'Projects.searchPlaceholder',
+                'Search projects by title, status, owner...',
+              )}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              bg="bg.card"
+              border="1px solid"
+              borderColor="border.subtle"
+              _focus={{
+                borderColor: 'border.focus',
+                boxShadow: 'none',
+              }}
+              borderRadius="lg"
+              color="text.primary"
+              pl="10"
+              size="md"
+            />
+            <Box
+              position="absolute"
+              left="3"
+              top="50%"
+              transform="translateY(-50%)"
+              color="text.muted"
+              display="flex"
+              alignItems="center"
+              pointerEvents="none"
+            >
+              <LuSearch size={18} />
+            </Box>
+          </Box>
+
+          {/* View Mode Toggle Slider */}
+          <HStack
+            position="relative"
+            bg="bg.active"
+            p="1"
+            borderRadius="lg"
+            w="100px"
+            h="40px"
+            gap={0}
+            border="1px solid"
+            borderColor="border.subtle"
+            flexShrink={0}
+          >
+            {/* Sliding Highlight */}
+            <Box
+              position="absolute"
+              top="3px"
+              bottom="3px"
+              left={viewMode === 'card' ? '3px' : 'calc(50% + 1px)'}
+              w="calc(50% - 4px)"
+              bg="blue.600"
+              borderRadius="md"
+              transition="all 0.25s cubic-bezier(0.4, 0, 0.2, 1)"
+              shadow="sm"
+              zIndex={0}
+            />
+
+            {/* Card View Tab */}
+            <IconButton
+              aria-label="Card View"
+              title="Card View"
+              onClick={() => setViewMode('card')}
+              variant="ghost"
+              size="sm"
+              w="50%"
+              h="full"
+              zIndex={1}
+              color={viewMode === 'card' ? 'white' : 'text.secondary'}
+              _hover={{ bg: 'transparent' }}
+              transition="color 0.2s"
+            >
+              <LuLayoutGrid />
+            </IconButton>
+
+            {/* List View Tab */}
+            <IconButton
+              aria-label="List View"
+              title="List View"
+              onClick={() => setViewMode('list')}
+              variant="ghost"
+              size="sm"
+              w="50%"
+              h="full"
+              zIndex={1}
+              color={viewMode === 'list' ? 'white' : 'text.secondary'}
+              _hover={{ bg: 'transparent' }}
+              transition="color 0.2s"
+            >
+              <LuList />
+            </IconButton>
+          </HStack>
+
+          {/* Add Project Button */}
+          <Button
+            onClick={handleOpenAdd}
+            aria-label="Add Project"
+            bg="blue.600"
+            color="white"
+            borderRadius="lg"
+            fontWeight="semibold"
+            h="40px"
+            px={4}
+            shadow="md"
+            transition="all 0.2s"
+            _hover={{
+              bg: 'blue.500',
+              transform: 'translateY(-1px)',
+            }}
+            _active={{
+              bg: 'blue.700',
+              transform: 'translateY(0)',
+            }}
+            display="flex"
+            alignItems="center"
+            gap={2}
+            flexShrink={0}
+          >
+            <LuPlus size={16} />
+            <Text display={{ base: 'none', sm: 'inline' }}>
+              {t('Projects.addProject', 'Add Project')}
+            </Text>
+          </Button>
         </Flex>
-      </Flex>
-      <Box>
-        <Outlet />
       </Box>
+
+      {/* Main Content Area */}
+      {isLoading ? (
+        <Flex justify="center" align="center" h="50vh" w="100%">
+          <Spinner size="xl" color="blue.500" />
+        </Flex>
+      ) : filteredProjects.length === 0 ? (
+        <EmptyState
+          title={
+            searchQuery
+              ? t('Projects.noResults', 'No matching projects')
+              : t('Projects.noProjects', 'No projects found')
+          }
+          description={
+            searchQuery
+              ? t('Projects.noResultsDesc', 'Try adjusting your search terms.')
+              : t('Projects.noProjectsDesc', 'Add your first project using the button above.')
+          }
+        />
+      ) : viewMode === 'list' ? (
+        <VStack gap={4} align="stretch" pb={8}>
+          {filteredProjects.map((item, idx) => (
+            <ProjectCard
+              key={item.Id}
+              item={item}
+              projectIdx={idx}
+              onEdit={handleOpenEdit}
+              onDelete={handleOpenDelete}
+              onViewAbout={handleOpenViewAbout}
+              viewMode="list"
+            />
+          ))}
+        </VStack>
+      ) : (
+        <Grid
+          templateColumns={{
+            base: '1fr',
+            md: 'repeat(2, 1fr)',
+            xl: 'repeat(3, 1fr)',
+          }}
+          gap={6}
+          pb={8}
+        >
+          {filteredProjects.map((item, idx) => (
+            <ProjectCard
+              key={item.Id}
+              item={item}
+              projectIdx={idx}
+              onEdit={handleOpenEdit}
+              onDelete={handleOpenDelete}
+              onViewAbout={handleOpenViewAbout}
+              viewMode="card"
+            />
+          ))}
+        </Grid>
+      )}
+
+      {/* Add / Edit Form Drawer */}
+      <ProjectFormDrawer
+        isOpen={formOpen}
+        onOpenChange={(details: { open: boolean }) => setFormOpen(details.open)}
+        editItem={editItem}
+        onSave={handleSave}
+        isSaving={isSaving}
+      />
+
+      {/* Delete Confirmation Modal */}
+      <DeleteConfirmDialog
+        isOpen={deleteOpen}
+        onOpenChange={(details: { open: boolean }) => setDeleteOpen(details.open)}
+        title={currentDeleteTitle}
+        onConfirm={handleConfirmDelete}
+      />
+
+      {/* Details Preview Drawer */}
+      <ProjectAboutDrawer
+        isOpen={viewAboutOpen}
+        onOpenChange={(details: { open: boolean }) => setViewAboutOpen(details.open)}
+        item={viewAboutItem}
+      />
     </Box>
   );
 };
 
-// Export the ProjectsScreen component.
-export default ProjectsScreen;
+export default ProjectScreen;
+export { ProjectScreen };

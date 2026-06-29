@@ -9,6 +9,10 @@ import {
   createImageModalSlice,
   createExpenseSlice,
   createCredsSlice,
+  createGoalsSlice,
+  createLearningsSlice,
+  createResourcesSlice,
+  createPlansSlice,
 } from '@store/slice';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
@@ -25,6 +29,10 @@ export const appStore = create<AppStoreState>()(
       ImageModal: createImageModalSlice(...api),
       Profile: createProfileSlice(...api),
       Creds: createCredsSlice(...api),
+      Goals: createGoalsSlice(...api),
+      Learnings: createLearningsSlice(...api),
+      Resources: createResourcesSlice(...api),
+      Plans: createPlansSlice(...api),
     })),
 
     {
@@ -52,6 +60,30 @@ function deepMerge(
     Auth: {
       ...currentState.Auth,
       ...persistedState.Auth,
+    },
+    Creds: {
+      ...currentState.Creds,
+      ...persistedState.Creds,
+    },
+    Goals: {
+      ...currentState.Goals,
+      ...persistedState.Goals,
+    },
+    Learnings: {
+      ...currentState.Learnings,
+      ...persistedState.Learnings,
+    },
+    Resources: {
+      ...currentState.Resources,
+      ...persistedState.Resources,
+    },
+    Plans: {
+      ...currentState.Plans,
+      ...persistedState.Plans,
+    },
+    Projects: {
+      ...currentState.Projects,
+      ...persistedState.Projects,
     },
   };
 }

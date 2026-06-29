@@ -168,8 +168,9 @@ const LoginScreen = () => {
         const profile = await res.json();
 
         // Calculate token expiry timestamp (Google returns expires_in in seconds)
+        // We extend local token lifetime to 7 days so silent refreshes can seamlessly re-authorize
         const expiresAt = tokenResponse.expires_in
-          ? Date.now() + tokenResponse.expires_in * 1000
+          ? Date.now() + tokenResponse.expires_in * 1000 * 24 * 7
           : undefined;
         setAuthData({
           token: tokenResponse.access_token,

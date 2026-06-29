@@ -11,3 +11,14 @@ export const LazyLoginScreenComponent = () => {
     </LazyComponentProvider>
   );
 };
+
+const LandingScreen = lazy(
+  () => import('@screens/public/landing_screen/LandingScreen'),
+);
+export const LazyLandingScreenComponent = () => {
+  return (
+    <LazyComponentProvider>
+      <LandingScreen />
+    </LazyComponentProvider>
+  );
+};

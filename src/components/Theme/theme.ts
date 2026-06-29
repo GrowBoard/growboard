@@ -75,10 +75,12 @@ const themeData = defineConfig({
           },
           hero: {
             value: {
-              _light: 'linear(to-b, {colors.green.500}, {colors.blue.500})',
-              _dark: 'linear(to-b, {colors.green.700}, {colors.blue.700})',
+              _light: 'linear-gradient(to bottom, {colors.green.500}, {colors.blue.500})',
+              _dark: 'linear-gradient(to bottom, {colors.green.700}, {colors.blue.700})',
             },
           },
+          /** Text color for content layered on top of gradient backgrounds. */
+          onGradient: { value: { _light: '#ffffff', _dark: '#ffffff' } },
         },
         icon: {
           primaryColor: {
@@ -98,20 +100,20 @@ const themeData = defineConfig({
         gradient: {
           topAppBar: {
             value: {
-              _light: 'linear(to-r, {colors.green.300}, {colors.blue.500})',
-              _dark: 'linear(to-r, {colors.green.800}, {colors.blue.900})',
+              _light: 'linear-gradient(to right, {colors.green.300}, {colors.blue.500})',
+              _dark: 'linear-gradient(to right, {colors.green.800}, {colors.blue.900})',
             },
           },
           sideBarBG: {
             value: {
-              _light: 'linear(to-br, {colors.green.300}, {colors.blue.500})',
-              _dark: 'linear(to-br, {colors.green.800}, {colors.blue.900})',
+              _light: 'linear-gradient(to bottom right, {colors.green.300}, {colors.blue.500})',
+              _dark: 'linear-gradient(to bottom right, {colors.green.800}, {colors.blue.900})',
             },
           },
           contentBG: {
             value: {
-              _light: 'linear(to-r, {colors.green.200}, {colors.blue.400})',
-              _dark: 'linear(to-r, {colors.green.800}, {colors.blue.900})',
+              _light: 'linear-gradient(to right, {colors.green.200}, {colors.blue.400})',
+              _dark: 'linear-gradient(to right, {colors.green.800}, {colors.blue.900})',
             },
           },
         },

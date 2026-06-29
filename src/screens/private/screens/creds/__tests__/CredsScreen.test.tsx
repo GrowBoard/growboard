@@ -51,6 +51,25 @@ describe('CredsScreen component', () => {
   beforeEach(() => {
     jest.clearAllMocks();
 
+    const { appStore } = require('@store');
+    (appStore as jest.Mock).mockImplementation((selector: any) => {
+      return selector({
+        Creds: {
+          credsData: [
+            {
+              credTitle: 'AWS Production',
+              credData: [
+                { name: 'Username', value: 'admin' },
+                { name: 'Password', value: 'secret123' },
+              ],
+            },
+          ],
+          updateCreds: mockUpdateCreds,
+          removeCreds: mockRemoveCreds,
+        },
+      });
+    });
+
     (useGetCredsData as jest.Mock).mockReturnValue({
       isLoading: false,
       data: [
@@ -98,7 +117,7 @@ describe('CredsScreen component', () => {
 
     // Wait for form inputs to mount
     const titleInput = await screen.findByPlaceholderText(
-      /AWS Production Account/i,
+      /Account Title/i,
     );
     const nameInput = screen.getByPlaceholderText('Name');
     const valueInput = screen.getByPlaceholderText('Value');
@@ -148,5 +167,72 @@ describe('CredsScreen component', () => {
     await waitFor(() => {
       expect(mockMutateSave).toHaveBeenCalledWith([]);
     });
+  });
+
+  it('shows no matching results empty state when search query does not match', async () => {
+    renderWithProviders(<CredsScreen />);
+
+    // Type a non-matching query in the search input
+    const searchInput = screen.getByPlaceholderText(
+      /Search by title or field/i,
+    );
+    fireEvent.change(searchInput, { target: { value: 'Non-existent service' } });
+
+    // Verify empty state for search results
+    expect(screen.getByText('No matching results')).toBeInTheDocument();
+    expect(
+      screen.getByText(/Try adjusting your search query or clearing the filter/i),
+    ).toBeInTheDocument();
+    // Add button should NOT be inside the empty state
+    expect(screen.queryByRole('button', { name: 'Add' })).not.toBeInTheDocument();
+  });
+
+  it('shows no credentials empty state when user has no credentials', () => {
+    const { appStore } = require('@store');
+    (appStore as jest.Mock).mockImplementation((selector: any) => {
+      return selector({
+        Creds: {
+          credsData: [],
+          updateCreds: mockUpdateCreds,
+          removeCreds: mockRemoveCreds,
+        },
+      });
+    });
+
+    renderWithProviders(<CredsScreen />);
+
+    expect(
+      screen.getByText(
+        'No credentials found. Click "Add Credential" to create one.',
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/Click "Add" to create a new credential/i),
+    ).toBeInTheDocument();
+    // Should show add button in the empty state
+    expect(screen.getByRole('button', { name: 'Add' })).toBeInTheDocument();
+  });
+
+  it('can toggle between card and list view modes', async () => {
+    renderWithProviders(<CredsScreen />);
+
+    // By default, cards are rendered in Grid (card view)
+    expect(screen.getByText('AWS Production')).toBeInTheDocument();
+
+    // Switch to List View
+    const listViewBtn = screen.getByRole('button', { name: /List View/i });
+    fireEvent.click(listViewBtn);
+
+    // Verify it renders the list view (each field is rendered in custom label-value format, e.g. "Username:")
+    expect(screen.getByText('Username:')).toBeInTheDocument();
+    expect(screen.getByText('Password:')).toBeInTheDocument();
+
+    // Switch back to Card View
+    const cardViewBtn = screen.getByRole('button', { name: /Card View/i });
+    fireEvent.click(cardViewBtn);
+
+    // In card view, "Username:" label is rendered as a standalone header text "Username" (no colon)
+    expect(screen.getByText('Username')).toBeInTheDocument();
+    expect(screen.queryByText('Username:')).not.toBeInTheDocument();
   });
 });

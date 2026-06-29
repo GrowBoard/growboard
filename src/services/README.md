@@ -12,10 +12,10 @@ API layer, networking components, and integrations with external backend systems
 
 ```
 services/
-├── api/            # Base Axios or fetch client configurations
-├── supabase/       # Supabase client initialization and helpers
-├── endpoints.ts    # Centralized endpoint string constants
-└── types.ts        # Global data transfer object (DTO) type definitions
+├── auth/           # OAuth token handling and credentials refreshing
+├── googleSheets/   # Google Sheets services for Expenses and Resources
+├── hooks/          # TanStack Query query and mutation hooks
+└── types.ts        # Common type definitions for services layer
 ```
 
 ## Tech Stack & Dependencies

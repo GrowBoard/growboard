@@ -24,10 +24,10 @@ export const DialogContainer = ({
       placement="center"
     >
       <Portal>
-        <Dialog.Backdrop bg="rgba(0, 0, 0, 0.7)" backdropFilter="blur(6px)" />
+        <Dialog.Backdrop backdropFilter="blur(5px)" />
         <Dialog.Positioner>
           <Dialog.Content
-            bg="rgba(18, 20, 22, 0.98)"
+            bg="bg.panel"
             border="1px solid"
             borderColor="border.subtle"
             borderRadius="xl"
@@ -40,7 +40,7 @@ export const DialogContainer = ({
               <Dialog.Header
                 pb={3}
                 borderBottom="1px solid"
-                borderColor="rgba(255, 255, 255, 0.06)"
+                borderColor="border.subtle"
               >
                 <Dialog.Title
                   fontSize="lg"
@@ -59,7 +59,7 @@ export const DialogContainer = ({
                 mt={6}
                 pt={3}
                 borderTop="1px solid"
-                borderColor="rgba(255, 255, 255, 0.06)"
+                borderColor="border.subtle"
               >
                 {footer}
               </Dialog.Footer>

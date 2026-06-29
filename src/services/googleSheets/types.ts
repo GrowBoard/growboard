@@ -47,6 +47,12 @@ export interface SheetValuesResponse {
 export interface GoogleCache {
   growboardFolderId?: string;
   expensesFolderId?: string;
+  resourcesFolderId?: string;
+  resourcesSpreadsheetId?: string;
+  plansFolderId?: string;
+  plansSpreadsheetId?: string;
+  projectsFolderId?: string;
+  projectsSpreadsheetId?: string;
   /** Maps year string → spreadsheetId */
   spreadsheetIds: Record<string, string>;
   /** Maps spreadsheetId → { monthName → sheetId } */

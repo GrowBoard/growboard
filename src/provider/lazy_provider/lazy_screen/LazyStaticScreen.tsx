@@ -11,4 +11,38 @@ const LazyError404ScreenComponent = () => {
   );
 };
 
+const PrivacyPolicy = lazy(
+  () => import('@screens/static_screen/PrivacyPolicy'),
+);
+export const LazyPrivacyPolicyScreenComponent = () => {
+  return (
+    <LazyComponentProvider>
+      <PrivacyPolicy />
+    </LazyComponentProvider>
+  );
+};
+
+const DataPolicy = lazy(
+  () => import('@screens/static_screen/DataPolicy'),
+);
+export const LazyDataPolicyScreenComponent = () => {
+  return (
+    <LazyComponentProvider>
+      <DataPolicy />
+    </LazyComponentProvider>
+  );
+};
+
+const TermsAndConditions = lazy(
+  () => import('@screens/static_screen/TermsAndConditions'),
+);
+export const LazyTermsScreenComponent = () => {
+  return (
+    <LazyComponentProvider>
+      <TermsAndConditions />
+    </LazyComponentProvider>
+  );
+};
+
 export { LazyError404ScreenComponent };
+

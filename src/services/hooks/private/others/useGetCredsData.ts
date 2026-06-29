@@ -12,12 +12,14 @@ import { credsSelector, useShallow } from '@selectors';
  * @returns React Query result handle containing loading state, data, and errors.
  */
 export const useGetCredsData = () => {
-  const { updateCreds } = appStore(useShallow(credsSelector));
+  const { credsData, updateCreds } = appStore(useShallow(credsSelector));
 
   const query = useQuery({
     queryKey: ['driveCreds'],
     queryFn: () => googleDriveCredsService.readCreds(),
     retry: 1,
+    initialData: credsData.length > 0 ? credsData : undefined,
+    staleTime: Infinity,
   });
 
   useEffect(() => {
