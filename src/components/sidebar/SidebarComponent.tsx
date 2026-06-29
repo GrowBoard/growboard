@@ -77,7 +77,13 @@ function SidebarComponent() {
               title={t(route.nameKey)}
               position="tooltip-right"
             >
-              <Box w="full" px={2} display="flex" justifyContent="center">
+              <Box
+                w="full"
+                px={2}
+                display="flex"
+                justifyContent="center"
+                className={`tour-sidebar-${route.iconName}`}
+              >
                 <NavLink
                   to={route.path}
                   className={({ isActive }) =>
@@ -101,7 +107,13 @@ function SidebarComponent() {
           title={t(ProfileRoutes.nameKey)}
           position="tooltip-right"
         >
-          <Box w="full" px={2} display="flex" justifyContent="center">
+          <Box
+            w="full"
+            px={2}
+            display="flex"
+            justifyContent="center"
+            className="tour-sidebar-profile"
+          >
             <NavLink
               to={ProfileRoutes.path}
               className={({ isActive }) =>

@@ -72,6 +72,7 @@ export const StatsTiles = ({
   projectsCount,
 }: StatsTilesProps) => (
   <Grid
+    className="tour-stats-tiles"
     templateColumns={{ base: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)', lg: 'repeat(6, 1fr)' }}
     gap={4}
   >

@@ -46,6 +46,8 @@ growboard/
 | `@tanstack/react-query` | 5.66.0  | Server-state synchronization        |
 | `@craco/craco`          | 7.1.0   | Webpack configuration overrides     |
 | `@react-oauth/google`   | 0.13.5  | Google OAuth 2.0 integration        |
+| `react-joyride`         | 3.1.0   | Onboarding tour-guide library       |
+
 
 ## How It Works
 
