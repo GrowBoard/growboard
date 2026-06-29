@@ -9,14 +9,18 @@ describe('StatsTiles component', () => {
     activeGoalsCount: 2,
     learningsCount: 10,
     credsCount: 3,
+    plansCount: 4,
+    projectsCount: 1,
   };
 
-  it('renders all four stat tiles', () => {
+  it('renders all six stat tiles', () => {
     renderWithProviders(<StatsTiles {...defaultProps} />);
     expect(screen.getByText('Total Goals')).toBeInTheDocument();
     expect(screen.getByText('Active Goals')).toBeInTheDocument();
     expect(screen.getByText('Learnings')).toBeInTheDocument();
     expect(screen.getByText('Credentials')).toBeInTheDocument();
+    expect(screen.getByText('Plans')).toBeInTheDocument();
+    expect(screen.getByText('Projects')).toBeInTheDocument();
   });
 
   it('displays the correct goals count', () => {
@@ -39,6 +43,16 @@ describe('StatsTiles component', () => {
     expect(screen.getByText('3')).toBeInTheDocument();
   });
 
+  it('displays the correct plans count', () => {
+    renderWithProviders(<StatsTiles {...defaultProps} />);
+    expect(screen.getByText('4')).toBeInTheDocument();
+  });
+
+  it('displays the correct projects count', () => {
+    renderWithProviders(<StatsTiles {...defaultProps} />);
+    expect(screen.getByText('1')).toBeInTheDocument();
+  });
+
   it('renders zero counts correctly', () => {
     renderWithProviders(
       <StatsTiles
@@ -46,9 +60,11 @@ describe('StatsTiles component', () => {
         activeGoalsCount={0}
         learningsCount={0}
         credsCount={0}
+        plansCount={0}
+        projectsCount={0}
       />,
     );
     const zeros = screen.getAllByText('0');
-    expect(zeros).toHaveLength(4);
+    expect(zeros).toHaveLength(6);
   });
 });
