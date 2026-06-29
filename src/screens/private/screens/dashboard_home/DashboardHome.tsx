@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Box, Grid, VStack } from '@chakra-ui/react';
 import { appStore } from '@store';
 import { useShallow, goalsSelector, learningsSelector, credsSelector, authNameSelector, plansSelector, projectsSelector } from '@selectors';
@@ -14,6 +15,7 @@ import {
   RecentLearnings,
   QuickActions,
   ExpenseSummary,
+  DashboardTour,
 } from './components';
 
 /**
@@ -41,11 +43,31 @@ const DashboardHome = () => {
     .slice(0, RECENT_ITEMS_COUNT);
   const activeGoalsCount = getActiveGoalsCount(goalsData);
 
+  // Onboarding Tour state
+  const [runTour, setRunTour] = useState(false);
+
+  useEffect(() => {
+    const hasSeenTour = localStorage.getItem('growboard_dashboard_tour_seen');
+    if (!hasSeenTour) {
+      setRunTour(true);
+    }
+  }, []);
+
+  const handleTourEnd = () => {
+    setRunTour(false);
+    localStorage.setItem('growboard_dashboard_tour_seen', 'true');
+  };
+
+  const handleStartTour = () => {
+    setRunTour(true);
+  };
+
   return (
     <Box h="full" w="100%" p={4}>
+      <DashboardTour run={runTour} onTourEnd={handleTourEnd} />
       <VStack gap={5} align="stretch">
         {/* Hero Greeting Strip */}
-        <GreetingHero name={userName ?? 'there'} />
+        <GreetingHero name={userName ?? 'there'} onStartTour={handleStartTour} />
 
         {/* Stats Overview Tiles */}
         <StatsTiles
@@ -59,6 +81,7 @@ const DashboardHome = () => {
 
         {/* Recent Goals + Recent Learnings + Expense Summary — responsive grid */}
         <Grid
+          className="tour-recent-activity"
           templateColumns={{ base: '1fr', lg: '1fr 1fr', xl: '1fr 1fr 1fr' }}
           gap={5}
         >

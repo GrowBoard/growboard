@@ -6,6 +6,8 @@ import { GoalItem, LearningItem } from '@store';
 export interface GreetingHeroProps {
   /** The user's first/display name shown in the greeting. */
   name: string;
+  /** Optional callback to manually trigger the onboarding tour-guide. */
+  onStartTour?: () => void;
 }
 
 /**

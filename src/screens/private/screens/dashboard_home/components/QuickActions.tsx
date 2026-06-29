@@ -29,6 +29,7 @@ export const QuickActions = (_props: QuickActionsProps) => {
 
   return (
     <Box
+      className="tour-quick-actions"
       bg="bg.card"
       border="1px solid"
       borderColor="border.subtle"

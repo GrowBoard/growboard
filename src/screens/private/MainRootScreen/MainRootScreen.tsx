@@ -31,6 +31,7 @@ const MainRootScreen = () => {
       />
       <Box flex={1} w={'100%'} display={'flex'} overflow={'hidden'}>
         <Box
+          className="tour-sidebar"
           w={'24'}
           h={'100%'}
           borderRight={'1px solid'}

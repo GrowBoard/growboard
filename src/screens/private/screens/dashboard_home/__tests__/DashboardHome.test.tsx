@@ -18,6 +18,16 @@ jest.mock('@services/hooks/private', () => ({
   useGetProjectsData: jest.fn(() => ({ isLoading: false })),
 }));
 
+// Mock react-joyride to prevent JSDOM layout API and portal issues
+jest.mock('react-joyride', () => ({
+  __esModule: true,
+  Joyride: () => null,
+  STATUS: {
+    FINISHED: 'finished',
+    SKIPPED: 'skipped',
+  },
+}));
+
 // Mock Zustand App Store
 jest.mock('@store', () => {
   const mockState = {
