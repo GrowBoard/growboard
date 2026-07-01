@@ -32,14 +32,12 @@ const CARD_ANIMATIONS = `
 // Google OAuth scopes requested:
 //  - openid, profile, email     → identity
 //  - spreadsheets               → Google Sheets read/write
-//  - documents                  → Google Docs read/write
 //  - drive.file                 → Drive files created/opened by this app
 const GOOGLE_SCOPES = [
   'openid',
   'profile',
   'email',
   'https://www.googleapis.com/auth/spreadsheets',
-  'https://www.googleapis.com/auth/documents',
   'https://www.googleapis.com/auth/drive.file',
 ].join(' ');
 
