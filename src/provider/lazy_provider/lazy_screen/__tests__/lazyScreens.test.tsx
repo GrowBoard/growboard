@@ -34,6 +34,8 @@ import { LazyLearningsScreenComponent } from '../LazyLearningsScreen';
 import { LazyPlansScreenComponent } from '../LazyPlansScreen';
 import { LazyProjectsScreenComponent } from '../LazyProjectScreen';
 import { LazyResourcesScreenComponent } from '../LazyResourcesScreen';
+import { LazyAppComponent } from '../LazyAppScreen';
+import { LazyHabitsScreenComponent } from '../LazyHabitsScreen';
 
 // Mock @provider to break circular dependency during test import phase
 jest.mock('@provider', () => ({
@@ -172,6 +174,20 @@ jest.mock(
   () =>
     function MockResourcesScreen() {
       return <div data-testid="mock-resources-screen" />;
+    },
+);
+jest.mock(
+  '@screens/private/screens/habit_tracker/HabitTrackerScreen',
+  () =>
+    function MockHabitTrackerScreen() {
+      return <div data-testid="mock-habit-tracker-screen" />;
+    },
+);
+jest.mock(
+  '../../../../App',
+  () =>
+    function MockApp() {
+      return <div data-testid="mock-app" />;
     },
 );
 
@@ -316,4 +332,19 @@ describe('Lazy Screen Components', () => {
       expect(screen.getByTestId('mock-resources-screen')).toBeInTheDocument();
     });
   });
+
+  it('renders LazyAppComponent successfully', async () => {
+    renderWithProviders(<LazyAppComponent />);
+    await waitFor(() => {
+      expect(screen.getByTestId('mock-app')).toBeInTheDocument();
+    });
+  });
+
+  it('renders LazyHabitsScreenComponent successfully', async () => {
+    renderWithProviders(<LazyHabitsScreenComponent />);
+    await waitFor(() => {
+      expect(screen.getByTestId('mock-habit-tracker-screen')).toBeInTheDocument();
+    });
+  });
 });
+

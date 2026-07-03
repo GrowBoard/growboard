@@ -51,4 +51,21 @@ describe('Expense slice', () => {
     expect(state.month).toBe(10);
     expect(state.year).toBe(2028);
   });
+
+  it('should update expenses successfully', () => {
+    const mockExpenses = [{ id: 'e-1', amount: 100 } as any];
+    act(() => {
+      appStore.getState().Expense.updateExpenses(mockExpenses);
+    });
+    expect(appStore.getState().Expense.expensesData).toEqual(mockExpenses);
+  });
+
+  it('should update lastFetched for a month key', () => {
+    act(() => {
+      appStore
+        .getState()
+        .Expense.updateExpenseLastFetched({ monthKey: '2026-07', timestamp: 12345 });
+    });
+    expect(appStore.getState().Expense.lastFetched?.['2026-07']).toBe(12345);
+  });
 });

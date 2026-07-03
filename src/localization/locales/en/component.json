@@ -235,6 +235,8 @@
     "stepLearningBody": "Document reference guides, notes, and study checklists in a rich markdown layout.",
     "stepResourcesTitle": "Web Resources",
     "stepResourcesBody": "Store links, developer references, cheat sheets, and useful web assets.",
+    "stepHabitsTitle": "Habit Tracker",
+    "stepHabitsBody": "Monitor daily routines, mark check-ins, and build long-term consistency with visual timelines.",
     "stepCredsTitle": "Credentials Locker",
     "stepCredsBody": "Securely manage project-level API keys, configurations, and environment secrets.",
     "stepProfileTitle": "User Profile",
