@@ -14,6 +14,8 @@ import { HabitDayListItemProps } from '../types';
 /**
  * HabitDayListItem Component.
  * Represents a single habit trackable row in the day drawer.
+ * All changes propagate to the parent via onToggle to update draft state —
+ * no API calls are made from this component.
  */
 export const HabitDayListItem = ({
   habit,
@@ -23,36 +25,36 @@ export const HabitDayListItem = ({
   const isCompleted = log?.completed ?? false;
   const [noteText, setNoteText] = useState(log?.note ?? '');
 
-  // Keep noteText synced when log changes
+  // Keep noteText in sync with the parent-controlled draft log
   useEffect(() => {
     setNoteText(log?.note ?? '');
-  }, [log]);
+  }, [log?.note]);
 
   const handleCheckboxToggle = () => {
     onToggle(!isCompleted, noteText);
   };
 
-  const handleNoteBlur = () => {
-    // Only save note if it has actually changed or differs from log
-    if (noteText !== (log?.note ?? '')) {
-      onToggle(isCompleted, noteText);
-    }
+  const handleNoteChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setNoteText(val);
+    // Propagate note changes to parent draft immediately
+    onToggle(isCompleted, val);
   };
 
   return (
     <Box
-      p={4}
+      p={2}
       bg="bg.card"
       border="1px solid"
-      borderColor="border.subtle"
+      borderColor={isCompleted ? 'rgba(0,216,255,0.25)' : 'border.subtle'}
       borderRadius="xl"
       w="100%"
       transition="all 0.2s"
       _hover={{ borderColor: 'border.focus' }}
     >
-      <VStack align="stretch" gap={3}>
+      <VStack align="stretch" gap={2}>
         <Flex justify="space-between" align="center">
-          <HStack gap={3}>
+          <HStack gap={2}>
             <IconButton
               aria-label={
                 isCompleted ? 'Mark Habit Uncompleted' : 'Mark Habit Completed'
@@ -93,10 +95,11 @@ export const HabitDayListItem = ({
         <Input
           placeholder="Add progress note..."
           size="xs"
+          px={2}
+          outline="1px solid rgba(0,216,255,0.25)"
           variant="outline"
           value={noteText}
-          onChange={(e) => setNoteText(e.target.value)}
-          onBlur={handleNoteBlur}
+          onChange={handleNoteChange}
           borderColor="border.subtle"
           bg="bg.panel"
           _focus={{ borderColor: 'border.focus' }}

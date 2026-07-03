@@ -158,7 +158,7 @@ export const AddHabitModal = ({
           ? t('HabitTracker.editHabitTitle', 'Edit Habit')
           : t('HabitTracker.addHabitTitle', 'Start a Habit')
       }
-      maxW="md"
+      maxW="xl"
       footer={
         <HStack gap={3} justify="flex-end" w="full">
           <Button
@@ -277,43 +277,68 @@ export const AddHabitModal = ({
               {t('HabitTracker.repeatDaysLabel', 'Repeat On')}
             </Field.Label>
             <HStack gap={2} wrap="wrap" mt={1}>
-              <Button
-                type="button"
-                size="xs"
-                variant={selectedDays.length === 7 ? 'solid' : 'outline'}
-                bg={selectedDays.length === 7 ? 'bg.active' : 'bg.card'}
-                color={selectedDays.length === 7 ? 'text.primary' : 'text.secondary'}
-                borderColor={selectedDays.length === 7 ? 'border.focus' : 'border.subtle'}
-                onClick={handleToggleAll}
-                borderRadius="full"
-                px={3}
-                py={1}
-                h="8"
-                fontSize="xs"
-                fontWeight="medium"
-                _hover={{ bg: selectedDays.length === 7 ? 'rgba(0, 216, 255, 0.25)' : 'bg.active' }}
-              >
-                {t('HabitTracker.allDaysChip', 'All days')}
-              </Button>
+              {/* All Days chip — selected when all 7 days active */}
+              {(() => {
+                const isAllSelected = selectedDays.length === 7;
+                return (
+                  <Button
+                    type="button"
+                    size="sm"
+                    border="1.5px solid"
+                    bg={isAllSelected ? 'rgba(0, 216, 255, 0.18)' : 'transparent'}
+                    color={isAllSelected ? '#00D8FF' : 'text.secondary'}
+                    borderColor={isAllSelected ? '#00D8FF' : 'border.subtle'}
+                    onClick={handleToggleAll}
+                    borderRadius="full"
+                    px={3}
+                    py={1}
+                    h="8"
+                    fontSize="xs"
+                    fontWeight={isAllSelected ? 'semibold' : 'medium'}
+                    boxShadow={isAllSelected ? '0 0 10px rgba(0, 216, 255, 0.4)' : 'none'}
+                    _hover={{
+                      bg: isAllSelected ? 'rgba(0, 216, 255, 0.28)' : 'rgba(255,255,255,0.05)',
+                      borderColor: '#00D8FF',
+                      color: '#00D8FF',
+                    }}
+                  >
+                    {t('HabitTracker.allDaysChip', 'All days')}
+                  </Button>
+                );
+              })()}
+
+              {/* Individual day chips — locked when "All Days" is active */}
               {DAYS_OF_WEEK.map((day) => {
-                const isSelected = selectedDays.includes(day.value);
+                const isAllSelected = selectedDays.length === 7;
+                const isSelected = !isAllSelected && selectedDays.includes(day.value);
                 return (
                   <Button
                     key={day.value}
                     type="button"
                     size="xs"
-                    variant={isSelected ? 'solid' : 'outline'}
-                    bg={isSelected ? 'bg.active' : 'bg.card'}
-                    color={isSelected ? 'text.primary' : 'text.secondary'}
-                    borderColor={isSelected ? 'border.focus' : 'border.subtle'}
+                    border="1.5px solid"
+                    bg={isSelected ? 'rgba(0, 216, 255, 0.18)' : 'transparent'}
+                    color={isSelected ? '#00D8FF' : 'text.secondary'}
+                    borderColor={isSelected ? '#00D8FF' : 'border.subtle'}
                     onClick={() => handleToggleDay(day.value)}
                     borderRadius="full"
                     px={3}
                     py={1}
                     h="8"
                     fontSize="xs"
-                    fontWeight="medium"
-                    _hover={{ bg: isSelected ? 'rgba(0, 216, 255, 0.25)' : 'bg.active' }}
+                    fontWeight={isSelected ? 'semibold' : 'medium'}
+                    opacity={isAllSelected ? 0.35 : 1}
+                    cursor={isAllSelected ? 'not-allowed' : 'pointer'}
+                    boxShadow={isSelected ? '0 0 10px rgba(0, 216, 255, 0.4)' : 'none'}
+                    _hover={{
+                      bg: isAllSelected
+                        ? 'transparent'
+                        : isSelected
+                          ? 'rgba(0, 216, 255, 0.28)'
+                          : 'rgba(255,255,255,0.05)',
+                      borderColor: isAllSelected ? 'border.subtle' : '#00D8FF',
+                      color: isAllSelected ? 'text.secondary' : '#00D8FF',
+                    }}
                   >
                     {t(`HabitTracker.day_${day.label}`, day.label)}
                   </Button>

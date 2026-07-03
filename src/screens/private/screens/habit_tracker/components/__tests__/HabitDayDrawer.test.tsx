@@ -1,4 +1,4 @@
-import { screen, fireEvent } from '@testing-library/react';
+import { screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { renderWithProviders } from '../../../../../../testUtils/renderUtils';
 import HabitDayDrawer from '../HabitDayDrawer';
@@ -86,7 +86,7 @@ describe('HabitDayDrawer component', () => {
     expect(screen.queryByText('Yoga')).not.toBeInTheDocument();
   });
 
-  it('calls onSaveLog when a habit checklist row is toggled', () => {
+  it('calls onSaveLog when a habit checklist row is toggled', async () => {
     renderWithProviders(
       <HabitDayDrawer
         dateStr="2026-07-05"
@@ -103,13 +103,19 @@ describe('HabitDayDrawer component', () => {
     });
     fireEvent.click(checkBtn);
 
-    expect(mockOnSaveLog).toHaveBeenCalledWith(
-      expect.objectContaining({
-        habitId: 'h1',
-        date: '2026-07-05',
-        completed: true,
-        note: '',
-      }),
-    );
+    // Save button becomes enabled after a change — click it to persist
+    const saveBtn = screen.getByRole('button', { name: 'Save' });
+    fireEvent.click(saveBtn);
+
+    await waitFor(() => {
+      expect(mockOnSaveLog).toHaveBeenCalledWith(
+        expect.objectContaining({
+          habitId: 'h1',
+          date: '2026-07-05',
+          completed: true,
+          note: '',
+        }),
+      );
+    });
   });
 });
