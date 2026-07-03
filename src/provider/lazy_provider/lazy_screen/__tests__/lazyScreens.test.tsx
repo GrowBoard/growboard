@@ -43,27 +43,137 @@ jest.mock('@provider', () => ({
 }));
 
 // Mock target screen components to render synchronously
-jest.mock('@screens/private/screens/expenses/ExpenseScreen', () => function MockExpenseScreen() { return <div data-testid="mock-expense-screen" />; });
+jest.mock(
+  '@screens/private/screens/expenses/ExpenseScreen',
+  () =>
+    function MockExpenseScreen() {
+      return <div data-testid="mock-expense-screen" />;
+    },
+);
 jest.mock('@screens/private/screens/expenses/expense_preview', () => ({
-  ExpensePreviewScreen: function MockExpensePreviewScreen() { return <div data-testid="mock-expense-preview-screen" />; },
+  ExpensePreviewScreen: function MockExpensePreviewScreen() {
+    return <div data-testid="mock-expense-preview-screen" />;
+  },
 }));
-jest.mock('@screens/public/login_screen/LoginScreen', () => function MockLoginScreen() { return <div data-testid="mock-login-screen" />; });
-jest.mock('@screens/public/landing_screen/LandingScreen', () => function MockLandingScreen() { return <div data-testid="mock-landing-screen" />; });
-jest.mock('@screens/static_screen/404', () => function Mock404Screen() { return <div data-testid="mock-404-screen" />; });
-jest.mock('@screens/static_screen/PrivacyPolicy', () => function MockPrivacyScreen() { return <div data-testid="mock-privacy-screen" />; });
-jest.mock('@screens/static_screen/DataPolicy', () => function MockDataScreen() { return <div data-testid="mock-data-screen" />; });
-jest.mock('@screens/static_screen/TermsAndConditions', () => function MockTermsScreen() { return <div data-testid="mock-terms-screen" />; });
-jest.mock('@screens/private/MainRootScreen/MainRootScreen', () => function MockHomeScreen() { return <div data-testid="mock-home-screen" />; });
-jest.mock('@screens/private/screens/dashboard_home/DashboardHome', () => function MockDashboardScreen() { return <div data-testid="mock-dashboard-screen" />; });
-jest.mock('@screens/private/screens/profile/ProfileMainScreen', () => function MockProfileMainScreen() { return <div data-testid="mock-profile-main-screen" />; });
-jest.mock('@screens/private/screens/profile/profile_setting/ProfileSettingScreen', () => function MockProfileSettingScreen() { return <div data-testid="mock-profile-setting-screen" />; });
-jest.mock('@screens/private/screens/profile/profile_preview/ProfilePreviewScreen', () => function MockProfilePreviewScreen() { return <div data-testid="mock-profile-preview-screen" />; });
-jest.mock('@screens/private/screens/creds/CredsScreen', () => function MockCredsScreen() { return <div data-testid="mock-creds-screen" />; });
-jest.mock('@screens/private/screens/goals/GoalsScreen', () => function MockGoalsScreen() { return <div data-testid="mock-goals-screen" />; });
-jest.mock('@screens/private/screens/learnings/LearningsScreen', () => function MockLearningsScreen() { return <div data-testid="mock-learnings-screen" />; });
-jest.mock('@screens/private/screens/plans/PlansScreen', () => function MockPlansScreen() { return <div data-testid="mock-plans-screen" />; });
-jest.mock('@screens/private/screens/projects/ProjectScreen', () => function MockProjectScreen() { return <div data-testid="mock-project-screen" />; });
-jest.mock('@screens/private/screens/resources/ResourcesScreen', () => function MockResourcesScreen() { return <div data-testid="mock-resources-screen" />; });
+jest.mock(
+  '@screens/public/login_screen/LoginScreen',
+  () =>
+    function MockLoginScreen() {
+      return <div data-testid="mock-login-screen" />;
+    },
+);
+jest.mock(
+  '@screens/public/landing_screen/LandingScreen',
+  () =>
+    function MockLandingScreen() {
+      return <div data-testid="mock-landing-screen" />;
+    },
+);
+jest.mock(
+  '@screens/static_screen/404',
+  () =>
+    function Mock404Screen() {
+      return <div data-testid="mock-404-screen" />;
+    },
+);
+jest.mock(
+  '@screens/static_screen/PrivacyPolicy',
+  () =>
+    function MockPrivacyScreen() {
+      return <div data-testid="mock-privacy-screen" />;
+    },
+);
+jest.mock(
+  '@screens/static_screen/DataPolicy',
+  () =>
+    function MockDataScreen() {
+      return <div data-testid="mock-data-screen" />;
+    },
+);
+jest.mock(
+  '@screens/static_screen/TermsAndConditions',
+  () =>
+    function MockTermsScreen() {
+      return <div data-testid="mock-terms-screen" />;
+    },
+);
+jest.mock(
+  '@screens/private/MainRootScreen/MainRootScreen',
+  () =>
+    function MockHomeScreen() {
+      return <div data-testid="mock-home-screen" />;
+    },
+);
+jest.mock(
+  '@screens/private/screens/dashboard_home/DashboardHome',
+  () =>
+    function MockDashboardScreen() {
+      return <div data-testid="mock-dashboard-screen" />;
+    },
+);
+jest.mock(
+  '@screens/private/screens/profile/ProfileMainScreen',
+  () =>
+    function MockProfileMainScreen() {
+      return <div data-testid="mock-profile-main-screen" />;
+    },
+);
+jest.mock(
+  '@screens/private/screens/profile/profile_setting/ProfileSettingScreen',
+  () =>
+    function MockProfileSettingScreen() {
+      return <div data-testid="mock-profile-setting-screen" />;
+    },
+);
+jest.mock(
+  '@screens/private/screens/profile/profile_preview/ProfilePreviewScreen',
+  () =>
+    function MockProfilePreviewScreen() {
+      return <div data-testid="mock-profile-preview-screen" />;
+    },
+);
+jest.mock(
+  '@screens/private/screens/creds/CredsScreen',
+  () =>
+    function MockCredsScreen() {
+      return <div data-testid="mock-creds-screen" />;
+    },
+);
+jest.mock(
+  '@screens/private/screens/goals/GoalsScreen',
+  () =>
+    function MockGoalsScreen() {
+      return <div data-testid="mock-goals-screen" />;
+    },
+);
+jest.mock(
+  '@screens/private/screens/learnings/LearningsScreen',
+  () =>
+    function MockLearningsScreen() {
+      return <div data-testid="mock-learnings-screen" />;
+    },
+);
+jest.mock(
+  '@screens/private/screens/plans/PlansScreen',
+  () =>
+    function MockPlansScreen() {
+      return <div data-testid="mock-plans-screen" />;
+    },
+);
+jest.mock(
+  '@screens/private/screens/projects/ProjectScreen',
+  () =>
+    function MockProjectScreen() {
+      return <div data-testid="mock-project-screen" />;
+    },
+);
+jest.mock(
+  '@screens/private/screens/resources/ResourcesScreen',
+  () =>
+    function MockResourcesScreen() {
+      return <div data-testid="mock-resources-screen" />;
+    },
+);
 
 describe('Lazy Screen Components', () => {
   it('renders LazyExpenseScreenComponent successfully', async () => {
@@ -76,7 +186,9 @@ describe('Lazy Screen Components', () => {
   it('renders LazyExpensePreviewScreenComponent successfully', async () => {
     renderWithProviders(<LazyExpensePreviewScreenComponent />);
     await waitFor(() => {
-      expect(screen.getByTestId('mock-expense-preview-screen')).toBeInTheDocument();
+      expect(
+        screen.getByTestId('mock-expense-preview-screen'),
+      ).toBeInTheDocument();
     });
   });
 
@@ -139,21 +251,27 @@ describe('Lazy Screen Components', () => {
   it('renders LazyProfileMainScreenComponent successfully', async () => {
     renderWithProviders(<LazyProfileMainScreenComponent />);
     await waitFor(() => {
-      expect(screen.getByTestId('mock-profile-main-screen')).toBeInTheDocument();
+      expect(
+        screen.getByTestId('mock-profile-main-screen'),
+      ).toBeInTheDocument();
     });
   });
 
   it('renders LazyProfileSettingScreenComponent successfully', async () => {
     renderWithProviders(<LazyProfileSettingScreenComponent />);
     await waitFor(() => {
-      expect(screen.getByTestId('mock-profile-setting-screen')).toBeInTheDocument();
+      expect(
+        screen.getByTestId('mock-profile-setting-screen'),
+      ).toBeInTheDocument();
     });
   });
 
   it('renders LazyProfilePreviewScreenComponent successfully', async () => {
     renderWithProviders(<LazyProfilePreviewScreenComponent />);
     await waitFor(() => {
-      expect(screen.getByTestId('mock-profile-preview-screen')).toBeInTheDocument();
+      expect(
+        screen.getByTestId('mock-profile-preview-screen'),
+      ).toBeInTheDocument();
     });
   });
 

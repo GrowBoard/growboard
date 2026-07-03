@@ -1,4 +1,7 @@
-import { GetRequest as GetClient, PostRequest as PostClient } from '../../../client';
+import {
+  GetRequest as GetClient,
+  PostRequest as PostClient,
+} from '../../../client';
 import { GetRequest as GetClientFile } from '../../../client/client';
 import addExpenseData from '../Finance/addExpenseData';
 import deleteExpenseData from '../Finance/deleteExpenseData';

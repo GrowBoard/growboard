@@ -18,9 +18,14 @@ export const useGetPlansData = () => {
     queryKey: ['sheetPlans'],
     queryFn: () => googleSheetsPlanService.getPlans(),
     retry: 1,
-    initialData: plansData.length > 0
-      ? { data: plansData, status: 'SUCCESS', successMessage: 'Cached plans loaded.' }
-      : undefined,
+    initialData:
+      plansData.length > 0
+        ? {
+            data: plansData,
+            status: 'SUCCESS',
+            successMessage: 'Cached plans loaded.',
+          }
+        : undefined,
     staleTime: Infinity,
   });
 

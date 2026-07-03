@@ -10,7 +10,9 @@ describe('ImagePreviewModal component', () => {
   });
 
   it('renders image preview when image source is provided', () => {
-    renderWithProviders(<ImagePreviewModal image="https://example.com/test.png" />);
+    renderWithProviders(
+      <ImagePreviewModal image="https://example.com/test.png" />,
+    );
     const img = screen.getByAltText('preview');
     expect(img).toBeInTheDocument();
     expect(img).toHaveAttribute('src', 'https://example.com/test.png');

@@ -9,7 +9,13 @@ import {
   Separator,
   Link,
 } from '@chakra-ui/react';
-import { LuTrash2, LuPencil, LuEye, LuExternalLink, LuUser } from 'react-icons/lu';
+import {
+  LuTrash2,
+  LuPencil,
+  LuEye,
+  LuExternalLink,
+  LuUser,
+} from 'react-icons/lu';
 import { ProjectCardProps } from './types';
 
 /**
@@ -204,7 +210,12 @@ export const ProjectCard = ({
     >
       <Box>
         <Flex justify="space-between" align="flex-start" gap={2}>
-          <Text fontSize="lg" fontWeight="bold" color="text.primary" lineClamp={2}>
+          <Text
+            fontSize="lg"
+            fontWeight="bold"
+            color="text.primary"
+            lineClamp={2}
+          >
             {item.title}
           </Text>
           <HStack gap={1}>

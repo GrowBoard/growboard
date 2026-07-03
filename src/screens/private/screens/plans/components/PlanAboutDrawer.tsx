@@ -26,7 +26,12 @@ export const PlanAboutDrawer = ({
   if (!item) return null;
 
   return (
-    <Drawer.Root open={isOpen} onOpenChange={onOpenChange} placement="end" size="md">
+    <Drawer.Root
+      open={isOpen}
+      onOpenChange={onOpenChange}
+      placement="end"
+      size="md"
+    >
       <Drawer.Backdrop backdropFilter="blur(3px)" />
       <Drawer.Positioner>
         <Drawer.Content
@@ -72,7 +77,12 @@ export const PlanAboutDrawer = ({
               {/* Date & Time Row */}
               <HStack gap={6}>
                 <Box>
-                  <Heading size="xs" fontWeight="semibold" color="text.primary" mb={1}>
+                  <Heading
+                    size="xs"
+                    fontWeight="semibold"
+                    color="text.primary"
+                    mb={1}
+                  >
                     {t('Plans.dateLabel', 'Date')}
                   </Heading>
                   <Text fontSize="sm" color="text.secondary">
@@ -80,7 +90,12 @@ export const PlanAboutDrawer = ({
                   </Text>
                 </Box>
                 <Box>
-                  <Heading size="xs" fontWeight="semibold" color="text.primary" mb={1}>
+                  <Heading
+                    size="xs"
+                    fontWeight="semibold"
+                    color="text.primary"
+                    mb={1}
+                  >
                     {t('Plans.timeLabel', 'Time')}
                   </Heading>
                   <Text fontSize="sm" color="text.secondary">
@@ -92,7 +107,12 @@ export const PlanAboutDrawer = ({
               {/* Tags Badges */}
               {item.tags.length > 0 && (
                 <Box>
-                  <Heading size="xs" fontWeight="semibold" color="text.primary" mb={1.5}>
+                  <Heading
+                    size="xs"
+                    fontWeight="semibold"
+                    color="text.primary"
+                    mb={1.5}
+                  >
                     {t('Plans.tagsLabel', 'Tags')}
                   </Heading>
                   <HStack wrap="wrap" gap={1.5}>
@@ -120,7 +140,12 @@ export const PlanAboutDrawer = ({
 
               {/* About Content */}
               <Box>
-                <Heading size="xs" fontWeight="semibold" color="text.primary" mb={2}>
+                <Heading
+                  size="xs"
+                  fontWeight="semibold"
+                  color="text.primary"
+                  mb={2}
+                >
                   {t('Plans.aboutLabel', 'About Plan')}
                 </Heading>
                 <Box

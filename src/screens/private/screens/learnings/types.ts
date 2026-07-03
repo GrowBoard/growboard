@@ -29,4 +29,3 @@ export interface LearningPreviewDialogProps {
   onOpenChange: (details: { open: boolean }) => void;
   item: LearningItem | null;
 }
-

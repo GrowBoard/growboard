@@ -40,8 +40,13 @@ describe('useSavePlanData hook', () => {
     const planWithId = { Id: 'p-123', title: 'Plan A' };
     mutationFn(planWithId);
 
-    expect(googleSheetsPlanService.updatePlan).toHaveBeenCalledWith('p-123', planWithId);
-    expect(mockInvalidateQueries).toHaveBeenCalledWith({ queryKey: ['sheetPlans'] });
+    expect(googleSheetsPlanService.updatePlan).toHaveBeenCalledWith(
+      'p-123',
+      planWithId,
+    );
+    expect(mockInvalidateQueries).toHaveBeenCalledWith({
+      queryKey: ['sheetPlans'],
+    });
   });
 
   it('calls addPlan when Id is not present', () => {
@@ -52,6 +57,8 @@ describe('useSavePlanData hook', () => {
     mutationFn(planWithoutId);
 
     expect(googleSheetsPlanService.addPlan).toHaveBeenCalledWith(planWithoutId);
-    expect(mockInvalidateQueries).toHaveBeenCalledWith({ queryKey: ['sheetPlans'] });
+    expect(mockInvalidateQueries).toHaveBeenCalledWith({
+      queryKey: ['sheetPlans'],
+    });
   });
 });

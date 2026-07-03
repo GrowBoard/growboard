@@ -28,7 +28,8 @@
     "learning": "Learning",
     "resources": "Resource",
     "creds": "Credentials",
-    "profile": "Profile"
+    "profile": "Profile",
+    "habits": "Habit Tracker"
   },
   "Expenses": {
     "downloadReport": "Download Report",
@@ -251,4 +252,3 @@
     "startTour": "Tour Guide"
   }
 }
-

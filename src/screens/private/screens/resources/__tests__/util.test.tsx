@@ -16,7 +16,13 @@ const makeResource = (overrides = {}) => ({
 describe('filterResources', () => {
   const resources = [
     makeResource({ title: 'React Docs', tags: ['react'] }),
-    makeResource({ Id: 'r2', title: 'Node Guide', subtitle: 'Backend', link: 'https://node.js.org', tags: ['node'] }),
+    makeResource({
+      Id: 'r2',
+      title: 'Node Guide',
+      subtitle: 'Backend',
+      link: 'https://node.js.org',
+      tags: ['node'],
+    }),
   ];
 
   it('returns all resources when query is empty', () => {

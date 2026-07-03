@@ -58,7 +58,12 @@ describe('EditDelete component', () => {
     const editBtn = screen.getByRole('button', { name: /Edit/i });
     fireEvent.click(editBtn);
 
-    expect(setAddExpenseMock).toHaveBeenCalledWith(true, 'Food', '2026-07-02', 'e-123');
+    expect(setAddExpenseMock).toHaveBeenCalledWith(
+      true,
+      'Food',
+      '2026-07-02',
+      'e-123',
+    );
   });
 
   it('opens confirmation modal on delete click and calls delete mutation on confirm', async () => {
@@ -75,7 +80,11 @@ describe('EditDelete component', () => {
 
     // Dialog should open
     expect(await screen.findByText('Delete Expense')).toBeInTheDocument();
-    expect(await screen.findByText('Are you sure you want to delete this expense? This action cannot be undone.')).toBeInTheDocument();
+    expect(
+      await screen.findByText(
+        'Are you sure you want to delete this expense? This action cannot be undone.',
+      ),
+    ).toBeInTheDocument();
 
     // Click Cancel
     const cancelBtn = screen.getByRole('button', { name: /Cancel/i });
@@ -97,7 +106,10 @@ describe('EditDelete component', () => {
       fireEvent.click(confirmBtn);
     });
 
-    expect(mockDeleteExpense).toHaveBeenCalledWith({ expenseId: 'e-123', dateStr: '2026-07-02' });
+    expect(mockDeleteExpense).toHaveBeenCalledWith({
+      expenseId: 'e-123',
+      dateStr: '2026-07-02',
+    });
     await waitFor(() => {
       expect(screen.queryByText('Delete Expense')).not.toBeInTheDocument();
     });

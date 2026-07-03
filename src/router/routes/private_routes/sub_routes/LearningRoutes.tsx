@@ -7,4 +7,3 @@ const LearningRoutes = (
 ) as React.ReactNode;
 
 export { LearningRoutes };
-

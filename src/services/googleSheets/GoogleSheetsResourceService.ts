@@ -191,7 +191,8 @@ class GoogleSheetsResourceService {
     // Get spreadsheet details to obtain default sheet tab name and rename or use it
     console.log('Writing default headers to Resources spreadsheet...');
     const detailsUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}?fields=sheets(properties(sheetId,title))`;
-    const spreadsheet = await this.fetchAPI<SpreadsheetDetailsResponse>(detailsUrl);
+    const spreadsheet =
+      await this.fetchAPI<SpreadsheetDetailsResponse>(detailsUrl);
     const sheetTitle = spreadsheet.sheets?.[0]?.properties.title || 'Sheet1';
 
     // Write header schema row: Id, title, subtitle, link, tags, about_resource
@@ -209,31 +210,43 @@ class GoogleSheetsResourceService {
   /**
    * Resolves the spreadsheet and folder IDs, clearing cache and retrying once on failure.
    */
-  private async getSpreadsheetDetails(): Promise<{ spreadsheetId: string; sheetTitle: string }> {
+  private async getSpreadsheetDetails(): Promise<{
+    spreadsheetId: string;
+    sheetTitle: string;
+  }> {
     try {
       const growboardFolderId = await this.getOrCreateGrowboardFolder();
-      const resourcesFolderId = await this.getOrCreateResourcesFolder(growboardFolderId);
-      const spreadsheetId = await this.getOrCreateResourcesSpreadsheet(resourcesFolderId);
+      const resourcesFolderId =
+        await this.getOrCreateResourcesFolder(growboardFolderId);
+      const spreadsheetId =
+        await this.getOrCreateResourcesSpreadsheet(resourcesFolderId);
 
       // Fetch spreadsheet details to obtain tab name
       const detailsUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}?fields=sheets(properties(sheetId,title))`;
-      const spreadsheet = await this.fetchAPI<SpreadsheetDetailsResponse>(detailsUrl);
+      const spreadsheet =
+        await this.fetchAPI<SpreadsheetDetailsResponse>(detailsUrl);
       const sheetTitle = spreadsheet.sheets?.[0]?.properties.title || 'Sheet1';
 
       return { spreadsheetId, sheetTitle };
     } catch (error) {
-      console.warn('Error resolving resources Google sheet, clearing cache and retrying:', error);
+      console.warn(
+        'Error resolving resources Google sheet, clearing cache and retrying:',
+        error,
+      );
       // Clear resources specific cache
       delete this.cache.resourcesFolderId;
       delete this.cache.resourcesSpreadsheetId;
       saveCache(this.cache);
 
       const growboardFolderId = await this.getOrCreateGrowboardFolder();
-      const resourcesFolderId = await this.getOrCreateResourcesFolder(growboardFolderId);
-      const spreadsheetId = await this.getOrCreateResourcesSpreadsheet(resourcesFolderId);
+      const resourcesFolderId =
+        await this.getOrCreateResourcesFolder(growboardFolderId);
+      const spreadsheetId =
+        await this.getOrCreateResourcesSpreadsheet(resourcesFolderId);
 
       const detailsUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}?fields=sheets(properties(sheetId,title))`;
-      const spreadsheet = await this.fetchAPI<SpreadsheetDetailsResponse>(detailsUrl);
+      const spreadsheet =
+        await this.fetchAPI<SpreadsheetDetailsResponse>(detailsUrl);
       const sheetTitle = spreadsheet.sheets?.[0]?.properties.title || 'Sheet1';
 
       return { spreadsheetId, sheetTitle };
@@ -262,7 +275,12 @@ class GoogleSheetsResourceService {
         title: String(row[1] || ''),
         subtitle: String(row[2] || ''),
         link: String(row[3] || ''),
-        tags: row[4] ? String(row[4]).split(',').map((t) => t.trim()).filter(Boolean) : [],
+        tags: row[4]
+          ? String(row[4])
+              .split(',')
+              .map((t) => t.trim())
+              .filter(Boolean)
+          : [],
         about_resource: String(row[5] || ''),
       }));
 
@@ -272,7 +290,8 @@ class GoogleSheetsResourceService {
         successMessage: `Retrieved ${data.length} resources successfully from Google Sheets.`,
       };
     } catch (e: unknown) {
-      const message = e instanceof Error ? e.message : 'Failed to fetch resources.';
+      const message =
+        e instanceof Error ? e.message : 'Failed to fetch resources.';
       console.error('Failed to get resources from Google Sheets:', e);
       return {
         data: [],
@@ -322,7 +341,8 @@ class GoogleSheetsResourceService {
 
     // Fetch spreadsheet details to obtain sheet tab numeric ID
     const detailsUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}?fields=sheets(properties(sheetId,title))`;
-    const spreadsheet = await this.fetchAPI<SpreadsheetDetailsResponse>(detailsUrl);
+    const spreadsheet =
+      await this.fetchAPI<SpreadsheetDetailsResponse>(detailsUrl);
     const sheetId = spreadsheet.sheets?.[0]?.properties.sheetId || 0;
 
     // Fetch all values to find the matching row index

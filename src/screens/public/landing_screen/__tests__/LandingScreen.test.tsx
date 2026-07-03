@@ -84,7 +84,9 @@ describe('LandingScreen component', () => {
 
     renderWithProviders(<LandingScreen />);
 
-    const getStartedBtn = screen.getAllByRole('button', { name: /Get Started/i })[0];
+    const getStartedBtn = screen.getAllByRole('button', {
+      name: /Get Started/i,
+    })[0];
     fireEvent.click(getStartedBtn);
 
     expect(mockNavigate).toHaveBeenCalledWith('/login');
@@ -130,14 +132,16 @@ describe('LandingScreen component', () => {
 
     renderWithProviders(<LandingScreen />);
 
-    expect(
-      screen.getByText("We Don't Want Your Data"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("We Don't Want Your Data")).toBeInTheDocument();
     // "Zero Data Collection" appears in hero pill AND security card — both should be present
-    expect(screen.getAllByText('Zero Data Collection').length).toBeGreaterThanOrEqual(2);
+    expect(
+      screen.getAllByText('Zero Data Collection').length,
+    ).toBeGreaterThanOrEqual(2);
     expect(screen.getByText('No Backend Servers')).toBeInTheDocument();
     // "Your Drive, Your Rules" appears in hero heading area — use getAllByText
-    expect(screen.getAllByText(/Your Drive, Your Rules/).length).toBeGreaterThanOrEqual(1);
+    expect(
+      screen.getAllByText(/Your Drive, Your Rules/).length,
+    ).toBeGreaterThanOrEqual(1);
     expect(screen.getByText('No Third-Party Sharing')).toBeInTheDocument();
   });
 
@@ -149,9 +153,7 @@ describe('LandingScreen component', () => {
     renderWithProviders(<LandingScreen />);
 
     expect(screen.getByText('How It Works')).toBeInTheDocument();
-    expect(
-      screen.getByText('Authenticate with Google'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Authenticate with Google')).toBeInTheDocument();
     expect(screen.getByText('Data Stored as Sheets')).toBeInTheDocument();
     expect(screen.getByText('Offline-First Caching')).toBeInTheDocument();
     expect(screen.getByText('Full Portability')).toBeInTheDocument();
@@ -183,9 +185,7 @@ describe('LandingScreen component', () => {
     expect(
       screen.getByText('Ready to Own Your Workspace?'),
     ).toBeInTheDocument();
-    expect(
-      screen.getByText(/It's Free/i),
-    ).toBeInTheDocument();
+    expect(screen.getByText(/It's Free/i)).toBeInTheDocument();
   });
 
   it('sets up IntersectionObserver for scroll reveal', () => {

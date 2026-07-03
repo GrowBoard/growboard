@@ -13,6 +13,4 @@ const LazyLearningsScreenComponent = () => {
   );
 };
 
-export {
-  LazyLearningsScreenComponent,
-};
+export { LazyLearningsScreenComponent };

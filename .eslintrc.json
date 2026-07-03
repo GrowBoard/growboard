@@ -50,7 +50,9 @@
   },
   "overrides": [
     {
-      "files": ["src/screens/private/screens/resources/__tests__/util.test.tsx"],
+      "files": [
+        "src/screens/private/screens/resources/__tests__/util.test.tsx"
+      ],
       "parserOptions": {
         "project": null
       },

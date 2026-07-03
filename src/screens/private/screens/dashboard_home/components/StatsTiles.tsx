@@ -1,5 +1,13 @@
 import { Box, Grid, Text, VStack, Icon } from '@chakra-ui/react';
-import { LuTarget, LuBookOpen, LuKey, LuFlame, LuCalendarDays, LuFolder } from 'react-icons/lu';
+import {
+  LuTarget,
+  LuBookOpen,
+  LuKey,
+  LuFlame,
+  LuCalendarDays,
+  LuFolder,
+  LuSquareCheck,
+} from 'react-icons/lu';
 import { StatsTilesProps } from '../types';
 
 /**
@@ -61,7 +69,7 @@ const StatTile = ({
 
 /**
  * StatsTiles component.
- * Renders a responsive 6-tile grid summarising key counts from the user's data.
+ * Renders a responsive 7-tile grid summarising key counts from the user's data.
  */
 export const StatsTiles = ({
   goalsCount,
@@ -70,10 +78,15 @@ export const StatsTiles = ({
   credsCount,
   plansCount,
   projectsCount,
+  habitsCount,
 }: StatsTilesProps) => (
   <Grid
     className="tour-stats-tiles"
-    templateColumns={{ base: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)', lg: 'repeat(6, 1fr)' }}
+    templateColumns={{
+      base: 'repeat(2, 1fr)',
+      md: 'repeat(3, 1fr)',
+      lg: 'repeat(7, 1fr)',
+    }}
     gap={4}
   >
     <StatTile
@@ -111,6 +124,12 @@ export const StatsTiles = ({
       count={projectsCount}
       label="Projects"
       accentColor="pink.400"
+    />
+    <StatTile
+      icon={<Icon as={LuSquareCheck} />}
+      count={habitsCount}
+      label="Habits"
+      accentColor="cyan.400"
     />
   </Grid>
 );

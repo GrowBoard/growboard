@@ -2,11 +2,7 @@ import { screen } from '@testing-library/react';
 import React from 'react';
 import '@testing-library/jest-dom';
 import { renderWithProviders } from '../../../../../testUtils/renderUtils';
-import {
-  filterLearnings,
-  parseInlineMarkdown,
-  renderMarkdown,
-} from '../util';
+import { filterLearnings, parseInlineMarkdown, renderMarkdown } from '../util';
 import {
   serializeLearning,
   deserializeLearning,
@@ -96,7 +92,9 @@ This is basic markdown.`;
       expect(deserialized.tags).toEqual(['guide', 'md']);
       expect(deserialized.createdAt).toBe('2026-06-28T17:30:00Z');
       expect(deserialized.updatedAt).toBe('2026-06-28T17:35:00Z');
-      expect(deserialized.content).toBe('# Introduction\nThis is basic markdown.');
+      expect(deserialized.content).toBe(
+        '# Introduction\nThis is basic markdown.',
+      );
     });
   });
 

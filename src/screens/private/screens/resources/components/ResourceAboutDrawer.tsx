@@ -28,7 +28,12 @@ export const ResourceAboutDrawer = ({
   if (!item) return null;
 
   return (
-    <Drawer.Root open={isOpen} onOpenChange={onOpenChange} placement="end" size="md">
+    <Drawer.Root
+      open={isOpen}
+      onOpenChange={onOpenChange}
+      placement="end"
+      size="md"
+    >
       <Drawer.Backdrop backdropFilter="blur(3px)" />
       <Drawer.Positioner>
         <Drawer.Content
@@ -73,7 +78,12 @@ export const ResourceAboutDrawer = ({
             <Box display="flex" flexDirection="column" gap={4}>
               {/* Link Row */}
               <Box>
-                <Heading size="xs" fontWeight="semibold" color="text.primary" mb={1.5}>
+                <Heading
+                  size="xs"
+                  fontWeight="semibold"
+                  color="text.primary"
+                  mb={1.5}
+                >
                   {t('Resources.linkLabel', 'Resource Link (URL)')}
                 </Heading>
                 <Link
@@ -96,7 +106,12 @@ export const ResourceAboutDrawer = ({
               {/* Tags Badges */}
               {item.tags.length > 0 && (
                 <Box>
-                  <Heading size="xs" fontWeight="semibold" color="text.primary" mb={1.5}>
+                  <Heading
+                    size="xs"
+                    fontWeight="semibold"
+                    color="text.primary"
+                    mb={1.5}
+                  >
                     {t('Resources.tagsLabel', 'Tags')}
                   </Heading>
                   <HStack wrap="wrap" gap={1.5}>
@@ -124,7 +139,12 @@ export const ResourceAboutDrawer = ({
 
               {/* Markdown Content */}
               <Box>
-                <Heading size="xs" fontWeight="semibold" color="text.primary" mb={2}>
+                <Heading
+                  size="xs"
+                  fontWeight="semibold"
+                  color="text.primary"
+                  mb={2}
+                >
                   {t('Resources.contentLabel', 'About Resource (Markdown)')}
                 </Heading>
                 <Box

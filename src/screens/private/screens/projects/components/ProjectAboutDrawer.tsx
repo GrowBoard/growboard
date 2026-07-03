@@ -35,7 +35,12 @@ export const ProjectAboutDrawer = ({
   };
 
   return (
-    <Drawer.Root open={isOpen} onOpenChange={onOpenChange} placement="end" size="lg">
+    <Drawer.Root
+      open={isOpen}
+      onOpenChange={onOpenChange}
+      placement="end"
+      size="lg"
+    >
       <Drawer.Backdrop backdropFilter="blur(3px)" />
       <Drawer.Positioner>
         <Drawer.Content
@@ -81,7 +86,12 @@ export const ProjectAboutDrawer = ({
               {/* Meta Stats Row */}
               <HStack gap={6} wrap="wrap">
                 <Box>
-                  <Heading size="xs" fontWeight="semibold" color="text.primary" mb={1}>
+                  <Heading
+                    size="xs"
+                    fontWeight="semibold"
+                    color="text.primary"
+                    mb={1}
+                  >
                     {t('Projects.ownerLabel', 'Owner')}
                   </Heading>
                   <Text fontSize="sm" color="text.secondary">
@@ -89,10 +99,18 @@ export const ProjectAboutDrawer = ({
                   </Text>
                 </Box>
                 <Box>
-                  <Heading size="xs" fontWeight="semibold" color="text.primary" mb={1}>
+                  <Heading
+                    size="xs"
+                    fontWeight="semibold"
+                    color="text.primary"
+                    mb={1}
+                  >
                     {t('Projects.statusLabel', 'Status')}
                   </Heading>
-                  <Badge colorPalette={statusColors[item.status] || 'gray'} size="md">
+                  <Badge
+                    colorPalette={statusColors[item.status] || 'gray'}
+                    size="md"
+                  >
                     {item.status.toUpperCase()}
                   </Badge>
                 </Box>
@@ -101,7 +119,12 @@ export const ProjectAboutDrawer = ({
               {/* Link Row */}
               {item.link && (
                 <Box>
-                  <Heading size="xs" fontWeight="semibold" color="text.primary" mb={1.5}>
+                  <Heading
+                    size="xs"
+                    fontWeight="semibold"
+                    color="text.primary"
+                    mb={1.5}
+                  >
                     {t('Projects.linkLabel', 'Project Link')}
                   </Heading>
                   <Link
@@ -125,7 +148,12 @@ export const ProjectAboutDrawer = ({
               {/* Tags Badges */}
               {item.tags.length > 0 && (
                 <Box>
-                  <Heading size="xs" fontWeight="semibold" color="text.primary" mb={1.5}>
+                  <Heading
+                    size="xs"
+                    fontWeight="semibold"
+                    color="text.primary"
+                    mb={1.5}
+                  >
                     {t('Projects.tagsLabel', 'Tags')}
                   </Heading>
                   <HStack wrap="wrap" gap={1.5}>
@@ -153,7 +181,12 @@ export const ProjectAboutDrawer = ({
 
               {/* Description Markdown */}
               <Box>
-                <Heading size="xs" fontWeight="semibold" color="text.primary" mb={2}>
+                <Heading
+                  size="xs"
+                  fontWeight="semibold"
+                  color="text.primary"
+                  mb={2}
+                >
                   {t('Projects.aboutLabel', 'About Project (Markdown)')}
                 </Heading>
                 <Box
@@ -176,7 +209,12 @@ export const ProjectAboutDrawer = ({
 
               {/* Remarks Section */}
               <Box>
-                <Heading size="xs" fontWeight="semibold" color="text.primary" mb={2}>
+                <Heading
+                  size="xs"
+                  fontWeight="semibold"
+                  color="text.primary"
+                  mb={2}
+                >
                   {t('Projects.remarkLabel', 'Remarks')}
                 </Heading>
                 <Box

@@ -45,12 +45,17 @@ describe('useDeleteExpenseData hook', () => {
     // 1. Test method function
     const methodData = { expenseId: 'e1', dateStr: '2026-07-02' };
     const res = await options.method(methodData);
-    expect(googleSheetsExpenseService.deleteExpense).toHaveBeenCalledWith('e1', '2026-07-02');
+    expect(googleSheetsExpenseService.deleteExpense).toHaveBeenCalledWith(
+      'e1',
+      '2026-07-02',
+    );
     expect(res).toEqual({ success: true });
 
     // 2. Test onSuccess callback
     options.mutationOptions.onSuccess();
-    expect(mockSuccessToast).toHaveBeenCalledWith('Deleted expense successfully.');
+    expect(mockSuccessToast).toHaveBeenCalledWith(
+      'Deleted expense successfully.',
+    );
     expect(mockInvalidateQueries).toHaveBeenCalled();
 
     // 3. Test onError callback

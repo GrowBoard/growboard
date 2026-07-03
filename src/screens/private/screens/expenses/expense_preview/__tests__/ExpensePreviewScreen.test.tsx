@@ -15,7 +15,9 @@ jest.mock('@provider', () => ({
 
 // Mock subcomponents
 jest.mock('../ExpensesTimeWindow', () => ({
-  ExpensesTimeWindow: () => <div data-testid="mock-time-window">Mock Time Window</div>,
+  ExpensesTimeWindow: () => (
+    <div data-testid="mock-time-window">Mock Time Window</div>
+  ),
 }));
 
 jest.mock('../Charts', () => ({
@@ -23,11 +25,17 @@ jest.mock('../Charts', () => ({
 }));
 
 jest.mock('../ExpensesTable', () => ({
-  ExpensesTable: () => <div data-testid="mock-expenses-table">Mock Expenses Table</div>,
+  ExpensesTable: () => (
+    <div data-testid="mock-expenses-table">Mock Expenses Table</div>
+  ),
 }));
 
 jest.mock('../ExpensesTable/components', () => ({
-  ExpenseRow: () => <tr data-testid="mock-expense-row"><td>Mock Expense Row</td></tr>,
+  ExpenseRow: () => (
+    <tr data-testid="mock-expense-row">
+      <td>Mock Expense Row</td>
+    </tr>
+  ),
 }));
 
 // Mock hooks

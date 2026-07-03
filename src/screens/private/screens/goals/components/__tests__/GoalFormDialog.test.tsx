@@ -37,10 +37,18 @@ describe('GoalFormDialog component', () => {
     );
 
     expect(screen.getByText('Add Goal')).toBeInTheDocument();
-    expect(screen.getByPlaceholderText(/e.g. Learn System Design/i)).toBeInTheDocument();
-    expect(screen.getByPlaceholderText(/e.g. Master high-level architecture/i)).toBeInTheDocument();
-    expect(screen.getByPlaceholderText(/Break down what you need to study/i)).toBeInTheDocument();
-    expect(screen.getByRole('combobox', { name: /Status/i })).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText(/e.g. Learn System Design/i),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText(/e.g. Master high-level architecture/i),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText(/Break down what you need to study/i),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('combobox', { name: /Status/i }),
+    ).toBeInTheDocument();
     expect(screen.getByPlaceholderText(/e.g. 1/i)).toBeInTheDocument();
   });
 
@@ -58,11 +66,19 @@ describe('GoalFormDialog component', () => {
 
     expect(screen.getByText('Edit Goal')).toBeInTheDocument();
     expect(screen.getByDisplayValue('Learn System Design')).toBeInTheDocument();
-    expect(screen.getByDisplayValue('Understand scalable architectures')).toBeInTheDocument();
-    expect(screen.getByDisplayValue('Study microservices, replication, partitioning.')).toBeInTheDocument();
+    expect(
+      screen.getByDisplayValue('Understand scalable architectures'),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByDisplayValue(
+        'Study microservices, replication, partitioning.',
+      ),
+    ).toBeInTheDocument();
     expect(screen.getByText('tech')).toBeInTheDocument();
     expect(screen.getByDisplayValue('Read DDIA book')).toBeInTheDocument();
-    expect(screen.getByRole('combobox', { name: /Status/i })).toHaveValue('In-Progress');
+    expect(screen.getByRole('combobox', { name: /Status/i })).toHaveValue(
+      'In-Progress',
+    );
     expect(screen.getByDisplayValue('1')).toBeInTheDocument();
   });
 
@@ -91,7 +107,9 @@ describe('GoalFormDialog component', () => {
     expect(tagInput).toHaveValue('');
 
     // Remove the tag
-    const removeTagBtn = screen.getByRole('button', { name: /Remove tag Golang/i });
+    const removeTagBtn = screen.getByRole('button', {
+      name: /Remove tag Golang/i,
+    });
     fireEvent.click(removeTagBtn);
 
     // Verify tag is removed
@@ -112,25 +130,33 @@ describe('GoalFormDialog component', () => {
       />,
     );
 
-    const addMilestoneBtn = screen.getByRole('button', { name: /Add Milestone/i });
-    
+    const addMilestoneBtn = screen.getByRole('button', {
+      name: /Add Milestone/i,
+    });
+
     // Add row
     fireEvent.click(addMilestoneBtn);
 
-    const milestoneInputs = await screen.findAllByPlaceholderText(/e.g. Read Designing/i);
+    const milestoneInputs =
+      await screen.findAllByPlaceholderText(/e.g. Read Designing/i);
     expect(milestoneInputs).toHaveLength(2); // Initial blank row + added row
 
     // Type in second row
-    fireEvent.change(milestoneInputs[1], { target: { value: 'New Milestone' } });
+    fireEvent.change(milestoneInputs[1], {
+      target: { value: 'New Milestone' },
+    });
     expect(milestoneInputs[1]).toHaveValue('New Milestone');
 
     // Remove first row
-    const deleteButtons = screen.getAllByRole('button', { name: /Delete milestone/i });
+    const deleteButtons = screen.getAllByRole('button', {
+      name: /Delete milestone/i,
+    });
     fireEvent.click(deleteButtons[0]);
 
     // Verify only one milestone row remains
     await waitFor(() => {
-      const remainingInputs = screen.getAllByPlaceholderText(/e.g. Read Designing/i);
+      const remainingInputs =
+        screen.getAllByPlaceholderText(/e.g. Read Designing/i);
       expect(remainingInputs).toHaveLength(1);
       expect(remainingInputs[0]).toHaveValue('New Milestone');
     });
@@ -161,12 +187,16 @@ describe('GoalFormDialog component', () => {
     fireEvent.change(titleInput, { target: { value: 'Existing Goal' } });
     fireEvent.click(saveBtn);
 
-    expect(await screen.findByText('A goal with this title already exists.')).toBeInTheDocument();
+    expect(
+      await screen.findByText('A goal with this title already exists.'),
+    ).toBeInTheDocument();
     expect(mockOnSave).not.toHaveBeenCalled();
 
     // Fill valid data
     fireEvent.change(titleInput, { target: { value: 'Unique Goal' } });
-    const detailsInput = screen.getByPlaceholderText(/Break down what you need to study/i);
+    const detailsInput = screen.getByPlaceholderText(
+      /Break down what you need to study/i,
+    );
     fireEvent.change(detailsInput, { target: { value: 'Details of goal.' } });
 
     // Validate ranking positive integer check
@@ -174,13 +204,15 @@ describe('GoalFormDialog component', () => {
     fireEvent.change(rankInput, { target: { value: '-2' } });
     fireEvent.click(saveBtn);
 
-    expect(await screen.findByText('Rank must be a positive integer.')).toBeInTheDocument();
+    expect(
+      await screen.findByText('Rank must be a positive integer.'),
+    ).toBeInTheDocument();
     expect(mockOnSave).not.toHaveBeenCalled();
 
     // Fix ranking input
     fireEvent.change(rankInput, { target: { value: '3' } });
     fireEvent.click(saveBtn);
-    
+
     await waitFor(() => {
       expect(mockOnSave).toHaveBeenCalledWith(
         expect.objectContaining({

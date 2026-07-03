@@ -50,7 +50,9 @@ describe('NavigationComponent', () => {
   });
 
   it('renders logo and GrowBoard text', () => {
-    renderWithProviders(<NavigationComponent logOutClickHandler={mockLogout} />);
+    renderWithProviders(
+      <NavigationComponent logOutClickHandler={mockLogout} />,
+    );
     expect(screen.getByTestId('growboard-icon')).toBeInTheDocument();
     expect(screen.getByText('GrowBoard')).toBeInTheDocument();
   });
@@ -64,7 +66,9 @@ describe('NavigationComponent', () => {
       },
     });
 
-    renderWithProviders(<NavigationComponent logOutClickHandler={mockLogout} />);
+    renderWithProviders(
+      <NavigationComponent logOutClickHandler={mockLogout} />,
+    );
     const img = screen.getByRole('img', { name: /Amit|Profile Picture/i });
     expect(img).toBeInTheDocument();
     expect(img).toHaveAttribute('src', 'http://example.com/photo.jpg');
@@ -79,8 +83,12 @@ describe('NavigationComponent', () => {
       },
     });
 
-    renderWithProviders(<NavigationComponent logOutClickHandler={mockLogout} />);
+    renderWithProviders(
+      <NavigationComponent logOutClickHandler={mockLogout} />,
+    );
     // Icon fallback should be present (no img element)
-    expect(screen.queryByRole('img', { name: /Profile Picture/i })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('img', { name: /Profile Picture/i }),
+    ).not.toBeInTheDocument();
   });
 });

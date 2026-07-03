@@ -74,7 +74,11 @@ export const RecentLearnings = ({ learnings }: RecentLearningsProps) => {
 
                 {/* Tags */}
                 {item.tags.length > 0 && (
-                  <HStack gap={1} flexShrink={0} display={{ base: 'none', sm: 'flex' }}>
+                  <HStack
+                    gap={1}
+                    flexShrink={0}
+                    display={{ base: 'none', sm: 'flex' }}
+                  >
                     {item.tags.slice(0, 2).map((tag) => (
                       <Badge
                         key={tag}

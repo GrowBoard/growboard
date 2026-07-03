@@ -26,33 +26,55 @@ describe('useToast hook', () => {
     const { result } = renderHook(() => useToast());
 
     result.current.success('Success text');
-    expect(toaster.create).toHaveBeenCalledWith({ title: 'Success text', type: 'success' });
+    expect(toaster.create).toHaveBeenCalledWith({
+      title: 'Success text',
+      type: 'success',
+    });
 
     result.current.success({ title: 'Custom Success', duration: 1000 });
-    expect(toaster.create).toHaveBeenCalledWith({ title: 'Custom Success', duration: 1000, type: 'success' });
+    expect(toaster.create).toHaveBeenCalledWith({
+      title: 'Custom Success',
+      duration: 1000,
+      type: 'success',
+    });
   });
 
   it('handles error toast', () => {
     const { result } = renderHook(() => useToast());
 
     result.current.error('Error text');
-    expect(toaster.create).toHaveBeenCalledWith({ title: 'Error text', type: 'error' });
+    expect(toaster.create).toHaveBeenCalledWith({
+      title: 'Error text',
+      type: 'error',
+    });
 
     result.current.error({ title: 'Custom Error' });
-    expect(toaster.create).toHaveBeenCalledWith({ title: 'Custom Error', type: 'error' });
+    expect(toaster.create).toHaveBeenCalledWith({
+      title: 'Custom Error',
+      type: 'error',
+    });
   });
 
   it('handles info, warning, and loading toasts', () => {
     const { result } = renderHook(() => useToast());
 
     result.current.info('Info text');
-    expect(toaster.create).toHaveBeenCalledWith({ title: 'Info text', type: 'info' });
+    expect(toaster.create).toHaveBeenCalledWith({
+      title: 'Info text',
+      type: 'info',
+    });
 
     result.current.warning('Warning text');
-    expect(toaster.create).toHaveBeenCalledWith({ title: 'Warning text', type: 'warning' });
+    expect(toaster.create).toHaveBeenCalledWith({
+      title: 'Warning text',
+      type: 'warning',
+    });
 
     result.current.loading('Loading text');
-    expect(toaster.create).toHaveBeenCalledWith({ title: 'Loading text', type: 'loading' });
+    expect(toaster.create).toHaveBeenCalledWith({
+      title: 'Loading text',
+      type: 'loading',
+    });
   });
 
   it('handles dismiss and promise calls', () => {

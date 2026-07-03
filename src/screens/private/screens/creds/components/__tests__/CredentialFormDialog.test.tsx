@@ -116,9 +116,7 @@ describe('CredentialFormDialog component', () => {
       />,
     );
 
-    const titleInput = screen.getByPlaceholderText(
-      'e.g. Account Title',
-    );
+    const titleInput = screen.getByPlaceholderText('e.g. Account Title');
     const nameInputs = screen.getAllByPlaceholderText('Name');
     const valueInputs = screen.getAllByPlaceholderText('Value');
 

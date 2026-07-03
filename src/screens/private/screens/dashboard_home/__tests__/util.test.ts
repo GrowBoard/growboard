@@ -1,4 +1,10 @@
-import { getGreeting, getDailyQuote, getFormattedDate, getRecentGoals, getActiveGoalsCount } from '../util';
+import {
+  getGreeting,
+  getDailyQuote,
+  getFormattedDate,
+  getRecentGoals,
+  getActiveGoalsCount,
+} from '../util';
 import { GoalItem } from '@store';
 
 /** Factory helper to build a minimal GoalItem for testing. */
@@ -81,7 +87,10 @@ describe('getRecentGoals', () => {
 
   it('returns at most 3 goals', () => {
     const goals = Array.from({ length: 6 }, (_, i) =>
-      makeGoal({ title: `Goal ${i}`, updatedAt: `2024-0${i + 1}-01T00:00:00.000Z` }),
+      makeGoal({
+        title: `Goal ${i}`,
+        updatedAt: `2024-0${i + 1}-01T00:00:00.000Z`,
+      }),
     );
     expect(getRecentGoals(goals)).toHaveLength(3);
   });

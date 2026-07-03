@@ -52,13 +52,17 @@ describe('Backend client requests', () => {
       const data = await PostRequest('/create-endpoint', payload);
 
       expect(getValidAccessToken).toHaveBeenCalled();
-      expect(mockInstance.post).toHaveBeenCalledWith('/create-endpoint', payload, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          Authorization: 'Bearer mock-token-456',
+      expect(mockInstance.post).toHaveBeenCalledWith(
+        '/create-endpoint',
+        payload,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            Authorization: 'Bearer mock-token-456',
+          },
         },
-      });
+      );
       expect(data).toEqual({ id: 'created-id' });
     });
   });

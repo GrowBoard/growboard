@@ -40,7 +40,9 @@ describe('ProfileForm component', () => {
     expect(screen.getByDisplayValue('Alice Cooper')).toBeDisabled();
 
     // Bio
-    expect(screen.getByDisplayValue('Software engineer from NY')).toBeInTheDocument();
+    expect(
+      screen.getByDisplayValue('Software engineer from NY'),
+    ).toBeInTheDocument();
 
     // Phone Numbers
     expect(screen.getByDisplayValue('1234567890')).toBeInTheDocument();
@@ -57,7 +59,9 @@ describe('ProfileForm component', () => {
     expect(screen.getByDisplayValue('user.dev')).toBeInTheDocument();
 
     // Save button (should be disabled because form is clean/not dirty)
-    expect(screen.getByRole('button', { name: /Save Settings/i })).toBeDisabled();
+    expect(
+      screen.getByRole('button', { name: /Save Settings/i }),
+    ).toBeDisabled();
   });
 
   it('adds and removes phone numbers', () => {
@@ -74,7 +78,9 @@ describe('ProfileForm component', () => {
     expect(phoneInputs[1].value).toBe('0987654321');
 
     // Remove first phone number
-    const removeBtns = screen.getAllByRole('button', { name: /Remove phone number/i });
+    const removeBtns = screen.getAllByRole('button', {
+      name: /Remove phone number/i,
+    });
     expect(removeBtns).toHaveLength(2); // Remove button exists for non-empty items
     fireEvent.click(removeBtns[0]);
 
@@ -86,16 +92,24 @@ describe('ProfileForm component', () => {
   it('adds and removes hobbies', () => {
     renderWithProviders(<ProfileForm {...defaultProps} />);
 
-    const hobbyInput = screen.getByPlaceholderText('Type a hobby and press Enter to add');
-    
+    const hobbyInput = screen.getByPlaceholderText(
+      'Type a hobby and press Enter to add',
+    );
+
     // Add new hobby
     fireEvent.change(hobbyInput, { target: { value: 'Coding' } });
-    fireEvent.keyDown(hobbyInput, { key: 'Enter', code: 'Enter', charCode: 13 });
-    
+    fireEvent.keyDown(hobbyInput, {
+      key: 'Enter',
+      code: 'Enter',
+      charCode: 13,
+    });
+
     expect(screen.getByText('Coding')).toBeInTheDocument();
 
     // Remove a hobby
-    const removeHobbyBtns = screen.getAllByRole('button', { name: /Remove hobby/i });
+    const removeHobbyBtns = screen.getAllByRole('button', {
+      name: /Remove hobby/i,
+    });
     expect(removeHobbyBtns).toHaveLength(3); // Reading, Gaming, Coding
     fireEvent.click(removeHobbyBtns[0]); // Remove Reading
 
@@ -107,7 +121,9 @@ describe('ProfileForm component', () => {
 
     // Make the form dirty by updating bio
     const bioInput = screen.getByPlaceholderText('Tell us about yourself...');
-    fireEvent.change(bioInput, { target: { value: 'A modified bio description' } });
+    fireEvent.change(bioInput, {
+      target: { value: 'A modified bio description' },
+    });
 
     // Enable Save Settings button
     const saveBtn = screen.getByRole('button', { name: /Save Settings/i });
@@ -128,16 +144,22 @@ describe('ProfileForm component', () => {
         },
         hobbies: ['Reading', 'Gaming'],
       });
-      expect(defaultProps.successToast).toHaveBeenCalledWith('Profile updated successfully on Google Drive! 🎉');
+      expect(defaultProps.successToast).toHaveBeenCalledWith(
+        'Profile updated successfully on Google Drive! 🎉',
+      );
     });
   });
 
   it('handles submission failure', async () => {
     const errorMutation = {
-      mutateAsync: jest.fn(() => Promise.reject(new Error('Drive quota exceeded'))),
+      mutateAsync: jest.fn(() =>
+        Promise.reject(new Error('Drive quota exceeded')),
+      ),
       isPending: false,
     };
-    renderWithProviders(<ProfileForm {...defaultProps} saveMutation={errorMutation as any} />);
+    renderWithProviders(
+      <ProfileForm {...defaultProps} saveMutation={errorMutation as any} />,
+    );
 
     // Make form dirty
     const bioInput = screen.getByPlaceholderText('Tell us about yourself...');
@@ -148,7 +170,9 @@ describe('ProfileForm component', () => {
 
     await waitFor(() => {
       expect(errorMutation.mutateAsync).toHaveBeenCalled();
-      expect(defaultProps.errorToast).toHaveBeenCalledWith('Failed to update profile: Drive quota exceeded');
+      expect(defaultProps.errorToast).toHaveBeenCalledWith(
+        'Failed to update profile: Drive quota exceeded',
+      );
     });
   });
 });

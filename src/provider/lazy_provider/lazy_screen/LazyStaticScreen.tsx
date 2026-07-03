@@ -22,9 +22,7 @@ export const LazyPrivacyPolicyScreenComponent = () => {
   );
 };
 
-const DataPolicy = lazy(
-  () => import('@screens/static_screen/DataPolicy'),
-);
+const DataPolicy = lazy(() => import('@screens/static_screen/DataPolicy'));
 export const LazyDataPolicyScreenComponent = () => {
   return (
     <LazyComponentProvider>
@@ -45,4 +43,3 @@ export const LazyTermsScreenComponent = () => {
 };
 
 export { LazyError404ScreenComponent };
-

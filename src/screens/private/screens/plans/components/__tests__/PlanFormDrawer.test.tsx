@@ -33,8 +33,12 @@ describe('PlanFormDrawer component', () => {
 
     expect(screen.getByText('Add Plan')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('e.g. Plan Title')).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('e.g. Plan Subtitle')).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('Describe the plan objectives and scope...')).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText('e.g. Plan Subtitle'),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText('Describe the plan objectives and scope...'),
+    ).toBeInTheDocument();
   });
 
   it('populates fields when editItem is passed', () => {
@@ -48,12 +52,20 @@ describe('PlanFormDrawer component', () => {
       about_plan: 'Awesome plan desc',
     };
 
-    renderWithProviders(<PlanFormDrawer {...defaultProps} editItem={editItem} />);
+    renderWithProviders(
+      <PlanFormDrawer {...defaultProps} editItem={editItem} />,
+    );
 
     expect(screen.getByText('Edit Plan')).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('e.g. Plan Title')).toHaveValue('Existing Plan');
-    expect(screen.getByPlaceholderText('e.g. Plan Subtitle')).toHaveValue('Existing Subtitle');
-    expect(screen.getByPlaceholderText('Describe the plan objectives and scope...')).toHaveValue('Awesome plan desc');
+    expect(screen.getByPlaceholderText('e.g. Plan Title')).toHaveValue(
+      'Existing Plan',
+    );
+    expect(screen.getByPlaceholderText('e.g. Plan Subtitle')).toHaveValue(
+      'Existing Subtitle',
+    );
+    expect(
+      screen.getByPlaceholderText('Describe the plan objectives and scope...'),
+    ).toHaveValue('Awesome plan desc');
 
     // Tags should render as badges
     expect(screen.getByText('Daily')).toBeInTheDocument();
@@ -63,7 +75,9 @@ describe('PlanFormDrawer component', () => {
   it('manages adding and removing tags via keydown events', async () => {
     renderWithProviders(<PlanFormDrawer {...defaultProps} />);
 
-    const tagInput = screen.getByPlaceholderText('e.g. Tag1, Tag2 (Press Enter to add)');
+    const tagInput = screen.getByPlaceholderText(
+      'e.g. Tag1, Tag2 (Press Enter to add)',
+    );
 
     // Type a tag and press Enter
     await act(async () => {
@@ -87,13 +101,17 @@ describe('PlanFormDrawer component', () => {
 
     const titleInput = screen.getByPlaceholderText('e.g. Plan Title');
     const subtitleInput = screen.getByPlaceholderText('e.g. Plan Subtitle');
-    const aboutInput = screen.getByPlaceholderText('Describe the plan objectives and scope...');
+    const aboutInput = screen.getByPlaceholderText(
+      'Describe the plan objectives and scope...',
+    );
     const saveBtn = screen.getByRole('button', { name: 'Save' });
 
     await act(async () => {
       fireEvent.change(titleInput, { target: { value: 'New Plan Title' } });
       fireEvent.change(subtitleInput, { target: { value: 'New Subtitle' } });
-      fireEvent.change(aboutInput, { target: { value: 'Objectives and milestones' } });
+      fireEvent.change(aboutInput, {
+        target: { value: 'Objectives and milestones' },
+      });
     });
 
     await act(async () => {
@@ -106,7 +124,7 @@ describe('PlanFormDrawer component', () => {
           title: 'New Plan Title',
           subtitle: 'New Subtitle',
           about_plan: 'Objectives and milestones',
-        })
+        }),
       );
     });
   });

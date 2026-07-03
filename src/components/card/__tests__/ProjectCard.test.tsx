@@ -43,7 +43,9 @@ describe('ProjectCard component', () => {
     const githubBtn = screen.getByRole('button', { name: /Project link/i });
     expect(githubBtn).toBeInTheDocument();
 
-    const detailsBtn = screen.getByRole('button', { name: /ProjectCard\.projectDetailsLink/i });
+    const detailsBtn = screen.getByRole('button', {
+      name: /ProjectCard\.projectDetailsLink/i,
+    });
     expect(detailsBtn).toBeInTheDocument();
   });
 
@@ -58,7 +60,9 @@ describe('ProjectCard component', () => {
     renderWithProviders(<ProjectCard data={dataWithoutAssets} />);
 
     // project title shouldn't have green live badge
-    expect(screen.queryByText('ProjectCard.liveStatus')).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('ProjectCard.liveStatus'),
+    ).not.toBeInTheDocument();
 
     // Skeletons are rendered instead of Images
     // Skeletons have class name containing 'skeleton' or similar, but we can verify img tags are not rendered.

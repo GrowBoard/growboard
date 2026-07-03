@@ -40,7 +40,8 @@ const ResourcesScreen = () => {
 
   const { resourcesData } = appStore(useShallow(resourcesSelector));
   const { isLoading } = useGetResourcesData();
-  const { mutateAsync: saveResource, isPending: isSaving } = useSaveResourceData();
+  const { mutateAsync: saveResource, isPending: isSaving } =
+    useSaveResourceData();
   const { mutateAsync: deleteResource } = useDeleteResourceData();
 
   // Local UI State
@@ -86,7 +87,9 @@ const ResourcesScreen = () => {
     if (!deleteId) return;
     try {
       await deleteResource(deleteId);
-      successToast(t('Resources.successDelete', 'Resource deleted successfully!'));
+      successToast(
+        t('Resources.successDelete', 'Resource deleted successfully!'),
+      );
       setDeleteOpen(false);
       setDeleteId(null);
     } catch (e) {
@@ -276,7 +279,10 @@ const ResourcesScreen = () => {
           description={
             searchQuery
               ? t('Resources.noResultsDesc', 'Try adjusting your search terms.')
-              : t('Resources.noResourcesDesc', 'Add your first resource using the button above.')
+              : t(
+                  'Resources.noResourcesDesc',
+                  'Add your first resource using the button above.',
+                )
           }
         />
       ) : viewMode === 'list' ? (

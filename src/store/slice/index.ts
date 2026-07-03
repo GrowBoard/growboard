@@ -8,5 +8,4 @@ export * from './Goals';
 export * from './Learnings';
 export * from './Resources';
 export * from './Plans';
-
-
+export * from './Habits';

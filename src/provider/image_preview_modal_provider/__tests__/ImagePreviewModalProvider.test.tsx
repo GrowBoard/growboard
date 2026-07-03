@@ -33,7 +33,7 @@ describe('ImagePreviewModalProvider component', () => {
     renderWithProviders(
       <ImagePreviewModalProvider>
         <div data-testid="test-child">Child Element</div>
-      </ImagePreviewModalProvider>
+      </ImagePreviewModalProvider>,
     );
 
     expect(screen.getByTestId('test-child')).toBeInTheDocument();

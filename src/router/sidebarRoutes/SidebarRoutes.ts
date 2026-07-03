@@ -38,6 +38,11 @@ const SidebarRoutes = [
     iconName: 'resources',
   },
   {
+    nameKey: 'Sidebar.habits',
+    path: '/habits',
+    iconName: 'habits',
+  },
+  {
     nameKey: 'Sidebar.creds',
     path: '/creds',
     iconName: 'credentials',

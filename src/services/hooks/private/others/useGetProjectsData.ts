@@ -18,9 +18,14 @@ export const useGetProjectsData = () => {
     queryKey: ['sheetProjects'],
     queryFn: () => googleSheetsProjectService.getProjects(),
     retry: 1,
-    initialData: projectData.length > 0
-      ? { data: projectData, status: 'SUCCESS', successMessage: 'Cached projects loaded.' }
-      : undefined,
+    initialData:
+      projectData.length > 0
+        ? {
+            data: projectData,
+            status: 'SUCCESS',
+            successMessage: 'Cached projects loaded.',
+          }
+        : undefined,
     staleTime: Infinity,
   });
 

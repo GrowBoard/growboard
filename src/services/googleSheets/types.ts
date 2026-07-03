@@ -53,6 +53,8 @@ export interface GoogleCache {
   plansSpreadsheetId?: string;
   projectsFolderId?: string;
   projectsSpreadsheetId?: string;
+  habitsFolderId?: string;
+  habitsSpreadsheetId?: string;
   /** Maps year string → spreadsheetId */
   spreadsheetIds: Record<string, string>;
   /** Maps spreadsheetId → { monthName → sheetId } */

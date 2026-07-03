@@ -40,7 +40,9 @@ describe('InputText component', () => {
   });
 
   it('toggles password visibility when eye icon clicked', () => {
-    renderWithProviders(<InputText {...defaultProps} type={InputType.PASSWORD} />);
+    renderWithProviders(
+      <InputText {...defaultProps} type={InputType.PASSWORD} />,
+    );
     const input = screen.getByPlaceholderText('Enter text');
     expect(input).toHaveAttribute('type', 'password');
 

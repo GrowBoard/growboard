@@ -24,13 +24,13 @@ describe('useCallSBMutation hook', () => {
       useCallSBMutation({
         method: mockMethod,
         mutationOptions,
-      })
+      }),
     );
 
     expect(useMutation).toHaveBeenCalledWith(
       expect.objectContaining({
         onSuccess: expect.any(Function),
-      })
+      }),
     );
 
     expect(mockMethod).toHaveBeenCalledWith('mock-request');

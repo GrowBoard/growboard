@@ -8,7 +8,9 @@ jest.mock('@components', () => {
   const original = jest.requireActual('@components');
   return {
     ...original,
-    PageLoadingComponent: () => <div data-testid="page-loading">Loading...</div>,
+    PageLoadingComponent: () => (
+      <div data-testid="page-loading">Loading...</div>
+    ),
   };
 });
 

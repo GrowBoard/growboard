@@ -241,16 +241,18 @@ class GoogleDriveGoalsService {
 
       // List all files inside the Goals folder (avoid ends with syntax error in Google Drive v3 API q parameter)
       const listUrl = `https://www.googleapis.com/drive/v3/files?q='${goalsFolderId}' in parents and trashed=false&fields=files(id, name)&pageSize=100`;
-      const result = await this.fetchAPI<{ files: Array<{ id: string; name: string }> }>(
-        listUrl,
-      );
+      const result = await this.fetchAPI<{
+        files: Array<{ id: string; name: string }>;
+      }>(listUrl);
 
       if (!result.files || result.files.length === 0) {
         return [];
       }
 
       // Filter files ending with .json in JS/TS
-      const jsonFiles = result.files.filter((file) => file.name.toLowerCase().endsWith('.json'));
+      const jsonFiles = result.files.filter((file) =>
+        file.name.toLowerCase().endsWith('.json'),
+      );
 
       const goals: GoalItem[] = [];
       for (const file of jsonFiles) {
@@ -270,7 +272,10 @@ class GoogleDriveGoalsService {
             goals.push(goalData);
           }
         } catch (err) {
-          console.error(`Failed to read/parse goal file ${file.name} (ID: ${file.id}):`, err);
+          console.error(
+            `Failed to read/parse goal file ${file.name} (ID: ${file.id}):`,
+            err,
+          );
         }
       }
 
@@ -303,9 +308,9 @@ class GoogleDriveGoalsService {
 
       // Check if file already exists
       const searchUrl = `https://www.googleapis.com/drive/v3/files?q=name='${fileName}' and '${goalsFolderId}' in parents and trashed=false&fields=files(id)`;
-      const searchResult = await this.fetchAPI<{ files: Array<{ id: string }> }>(
-        searchUrl,
-      );
+      const searchResult = await this.fetchAPI<{
+        files: Array<{ id: string }>;
+      }>(searchUrl);
 
       const jsonContent = JSON.stringify(goal);
 
@@ -364,9 +369,9 @@ class GoogleDriveGoalsService {
 
       // Find the file to delete
       const searchUrl = `https://www.googleapis.com/drive/v3/files?q=name='${fileName}' and '${goalsFolderId}' in parents and trashed=false&fields=files(id)`;
-      const searchResult = await this.fetchAPI<{ files: Array<{ id: string }> }>(
-        searchUrl,
-      );
+      const searchResult = await this.fetchAPI<{
+        files: Array<{ id: string }>;
+      }>(searchUrl);
 
       if (searchResult.files && searchResult.files.length > 0) {
         const fileId = searchResult.files[0].id;

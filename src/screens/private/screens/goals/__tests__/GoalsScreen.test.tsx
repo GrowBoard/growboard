@@ -2,7 +2,11 @@ import { screen, fireEvent, waitFor, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { renderWithProviders } from '../../../../../testUtils/renderUtils';
 import GoalsScreen from '../GoalsScreen';
-import { useGetGoalsData, useSaveGoalData, useDeleteGoalData } from '@services/hooks/private';
+import {
+  useGetGoalsData,
+  useSaveGoalData,
+  useDeleteGoalData,
+} from '@services/hooks/private';
 
 // Mock the React Query hooks
 jest.mock('@services/hooks/private', () => ({
@@ -135,8 +139,12 @@ describe('GoalsScreen component', () => {
     const addBtn = screen.getByRole('button', { name: /Add Goal/i });
     fireEvent.click(addBtn);
 
-    const titleInput = await screen.findByPlaceholderText(/e.g. Learn System Design/i);
-    const detailsInput = screen.getByPlaceholderText(/Break down what you need to study/i);
+    const titleInput = await screen.findByPlaceholderText(
+      /e.g. Learn System Design/i,
+    );
+    const detailsInput = screen.getByPlaceholderText(
+      /Break down what you need to study/i,
+    );
     const saveBtn = screen.getByRole('button', { name: 'Save' });
 
     fireEvent.click(saveBtn);
@@ -147,7 +155,9 @@ describe('GoalsScreen component', () => {
 
     // Fill valid data
     fireEvent.change(titleInput, { target: { value: 'New Custom Goal' } });
-    fireEvent.change(detailsInput, { target: { value: 'Details of the new custom goal' } });
+    fireEvent.change(detailsInput, {
+      target: { value: 'Details of the new custom goal' },
+    });
 
     fireEvent.click(saveBtn);
 
@@ -184,11 +194,15 @@ describe('GoalsScreen component', () => {
     renderWithProviders(<GoalsScreen />);
 
     const searchInput = screen.getByPlaceholderText(/Search goals, tags/i);
-    fireEvent.change(searchInput, { target: { value: 'UnmatchedQueryString' } });
+    fireEvent.change(searchInput, {
+      target: { value: 'UnmatchedQueryString' },
+    });
 
     expect(screen.getByText('No matching results')).toBeInTheDocument();
     expect(
-      screen.getByText(/Try adjusting your search query or clearing the filter/i),
+      screen.getByText(
+        /Try adjusting your search query or clearing the filter/i,
+      ),
     ).toBeInTheDocument();
   });
 
@@ -207,7 +221,10 @@ describe('GoalsScreen component', () => {
     renderWithProviders(<GoalsScreen />);
 
     expect(screen.getByText('No goals found')).toBeInTheDocument();
-    expect(screen.getByText(/Click "Add Goal" to create your first goal/i).parentElement).toBeInTheDocument();
+    expect(
+      screen.getByText(/Click "Add Goal" to create your first goal/i)
+        .parentElement,
+    ).toBeInTheDocument();
   });
 
   it('can toggle between card and list view modes', async () => {
@@ -301,14 +318,18 @@ describe('GoalsScreen component', () => {
     expect(cards.length).toBeGreaterThanOrEqual(2);
 
     // Simulate drag start, drag over, and drop
-    const firstCard = screen.getByText('Learn Kubernetes').closest('[draggable]');
+    const firstCard = screen
+      .getByText('Learn Kubernetes')
+      .closest('[draggable]');
     const secondCard = screen.getByText('Learn React').closest('[draggable]');
 
     expect(firstCard).toHaveAttribute('draggable', 'true');
     expect(secondCard).toHaveAttribute('draggable', 'true');
 
     act(() => {
-      fireEvent.dragStart(firstCard!, { dataTransfer: { effectAllowed: 'move' } });
+      fireEvent.dragStart(firstCard!, {
+        dataTransfer: { effectAllowed: 'move' },
+      });
       fireEvent.dragOver(secondCard!);
       fireEvent.drop(secondCard!);
     });

@@ -12,8 +12,7 @@ export const useDeleteGoalData = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (title: string) =>
-      googleDriveGoalsService.deleteGoal(title),
+    mutationFn: (title: string) => googleDriveGoalsService.deleteGoal(title),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['driveGoals'] });
     },

@@ -7,6 +7,7 @@ import {
   LuChartColumn,
   LuCalendarDays,
   LuFolder,
+  LuSquareCheck,
 } from 'react-icons/lu';
 import { QuickActionsProps } from '../types';
 
@@ -20,11 +21,42 @@ export const QuickActions = (_props: QuickActionsProps) => {
   /** Quick action button configuration list. */
   const actions = [
     { label: 'Add Goal', icon: <LuPlus />, route: '/goals', color: 'blue.400' },
-    { label: 'Add Learning', icon: <LuBookOpen />, route: '/learning', color: 'green.400' },
-    { label: 'Credentials', icon: <LuCreditCard />, route: '/creds', color: 'purple.400' },
-    { label: 'Expenses', icon: <LuChartColumn />, route: '/expenses', color: 'orange.400' },
-    { label: 'Plans', icon: <LuCalendarDays />, route: '/plans', color: 'teal.400' },
-    { label: 'Projects', icon: <LuFolder />, route: '/projects', color: 'pink.400' },
+    {
+      label: 'Add Learning',
+      icon: <LuBookOpen />,
+      route: '/learning',
+      color: 'green.400',
+    },
+    {
+      label: 'Credentials',
+      icon: <LuCreditCard />,
+      route: '/creds',
+      color: 'purple.400',
+    },
+    {
+      label: 'Expenses',
+      icon: <LuChartColumn />,
+      route: '/expenses',
+      color: 'orange.400',
+    },
+    {
+      label: 'Plans',
+      icon: <LuCalendarDays />,
+      route: '/plans',
+      color: 'teal.400',
+    },
+    {
+      label: 'Projects',
+      icon: <LuFolder />,
+      route: '/projects',
+      color: 'pink.400',
+    },
+    {
+      label: 'Habits',
+      icon: <LuSquareCheck />,
+      route: '/habits',
+      color: 'cyan.400',
+    },
   ];
 
   return (

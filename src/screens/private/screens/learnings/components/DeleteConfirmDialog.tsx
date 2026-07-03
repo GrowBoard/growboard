@@ -65,7 +65,12 @@ export const DeleteConfirmDialog = ({
             { title: itemTitle },
           )}
         </Text>
-        <Text fontSize="md" fontWeight="bold" color="red.500" lineBreak="anywhere">
+        <Text
+          fontSize="md"
+          fontWeight="bold"
+          color="red.500"
+          lineBreak="anywhere"
+        >
           {itemTitle}
         </Text>
       </VStack>

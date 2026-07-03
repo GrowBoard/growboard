@@ -50,6 +50,42 @@ const themeData = defineConfig({
               _dark: '{colors.green.700}',
             },
           },
+          /**
+           * Habit heat-map background tokens.
+           * Used to color calendar day cells based on habit completion percentage.
+           */
+          habit: {
+            /** No habits active or no data for this day */
+            none: { value: { _light: 'transparent', _dark: 'transparent' } },
+            /** 1–39% completion */
+            low: {
+              value: {
+                _light: 'rgba(34, 197, 94, 0.15)',
+                _dark: 'rgba(34, 197, 94, 0.15)',
+              },
+            },
+            /** 40–69% completion */
+            mid: {
+              value: {
+                _light: 'rgba(34, 197, 94, 0.4)',
+                _dark: 'rgba(34, 197, 94, 0.4)',
+              },
+            },
+            /** 70–99% completion */
+            high: {
+              value: {
+                _light: 'rgba(34, 197, 94, 0.7)',
+                _dark: 'rgba(34, 197, 94, 0.7)',
+              },
+            },
+            /** 100% completion */
+            full: {
+              value: {
+                _light: 'rgba(34, 197, 94, 1.0)',
+                _dark: 'rgba(34, 197, 94, 0.9)',
+              },
+            },
+          },
         },
         border: {
           subtle: {
@@ -75,8 +111,10 @@ const themeData = defineConfig({
           },
           hero: {
             value: {
-              _light: 'linear-gradient(to bottom, {colors.green.500}, {colors.blue.500})',
-              _dark: 'linear-gradient(to bottom, {colors.green.700}, {colors.blue.700})',
+              _light:
+                'linear-gradient(to bottom, {colors.green.500}, {colors.blue.500})',
+              _dark:
+                'linear-gradient(to bottom, {colors.green.700}, {colors.blue.700})',
             },
           },
           /** Text color for content layered on top of gradient backgrounds. */
@@ -100,20 +138,26 @@ const themeData = defineConfig({
         gradient: {
           topAppBar: {
             value: {
-              _light: 'linear-gradient(to right, {colors.green.300}, {colors.blue.500})',
-              _dark: 'linear-gradient(to right, {colors.green.800}, {colors.blue.900})',
+              _light:
+                'linear-gradient(to right, {colors.green.300}, {colors.blue.500})',
+              _dark:
+                'linear-gradient(to right, {colors.green.800}, {colors.blue.900})',
             },
           },
           sideBarBG: {
             value: {
-              _light: 'linear-gradient(to bottom right, {colors.green.300}, {colors.blue.500})',
-              _dark: 'linear-gradient(to bottom right, {colors.green.800}, {colors.blue.900})',
+              _light:
+                'linear-gradient(to bottom right, {colors.green.300}, {colors.blue.500})',
+              _dark:
+                'linear-gradient(to bottom right, {colors.green.800}, {colors.blue.900})',
             },
           },
           contentBG: {
             value: {
-              _light: 'linear-gradient(to right, {colors.green.200}, {colors.blue.400})',
-              _dark: 'linear-gradient(to right, {colors.green.800}, {colors.blue.900})',
+              _light:
+                'linear-gradient(to right, {colors.green.200}, {colors.blue.400})',
+              _dark:
+                'linear-gradient(to right, {colors.green.800}, {colors.blue.900})',
             },
           },
         },

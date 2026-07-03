@@ -3,7 +3,9 @@ import { sanitizeGoalTitle, filterGoals } from '../util';
 
 describe('sanitizeGoalTitle', () => {
   it('should lowercase the title and replace special characters with underscores', () => {
-    expect(sanitizeGoalTitle('Learn System Design!')).toBe('learn_system_design_');
+    expect(sanitizeGoalTitle('Learn System Design!')).toBe(
+      'learn_system_design_',
+    );
     expect(sanitizeGoalTitle('Goal-123_abc')).toBe('goal-123_abc');
     expect(sanitizeGoalTitle('  space title  ')).toBe('__space_title__');
   });

@@ -1,12 +1,22 @@
 import { useEffect, useState } from 'react';
 import { Box, Grid, VStack } from '@chakra-ui/react';
 import { appStore } from '@store';
-import { useShallow, goalsSelector, learningsSelector, credsSelector, authNameSelector, plansSelector, projectsSelector } from '@selectors';
+import {
+  useShallow,
+  goalsSelector,
+  learningsSelector,
+  credsSelector,
+  authNameSelector,
+  plansSelector,
+  projectsSelector,
+  habitsSelector,
+} from '@selectors';
 import { getRecentGoals, getActiveGoalsCount } from './util';
 import { RECENT_ITEMS_COUNT } from './const';
 import {
   useGetPlansData,
   useGetProjectsData,
+  useGetHabitsData,
 } from '@services/hooks/private';
 import {
   GreetingHero,
@@ -31,15 +41,20 @@ const DashboardHome = () => {
   const { credsData } = appStore(useShallow(credsSelector));
   const { plansData } = appStore(useShallow(plansSelector));
   const { projectData } = appStore(useShallow(projectsSelector));
+  const { habitsData } = appStore(useShallow(habitsSelector));
 
   // Query triggers to populate dashboard stats
   useGetPlansData();
   useGetProjectsData();
+  useGetHabitsData();
 
   // Derived data
   const recentGoals = getRecentGoals(goalsData);
   const recentLearnings = [...learningsData]
-    .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
+    .sort(
+      (a, b) =>
+        new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
+    )
     .slice(0, RECENT_ITEMS_COUNT);
   const activeGoalsCount = getActiveGoalsCount(goalsData);
 
@@ -67,7 +82,10 @@ const DashboardHome = () => {
       <DashboardTour run={runTour} onTourEnd={handleTourEnd} />
       <VStack gap={5} align="stretch">
         {/* Hero Greeting Strip */}
-        <GreetingHero name={userName ?? 'there'} onStartTour={handleStartTour} />
+        <GreetingHero
+          name={userName ?? 'there'}
+          onStartTour={handleStartTour}
+        />
 
         {/* Stats Overview Tiles */}
         <StatsTiles
@@ -77,6 +95,7 @@ const DashboardHome = () => {
           credsCount={credsData.length}
           plansCount={plansData.length}
           projectsCount={projectData.length}
+          habitsCount={habitsData.length}
         />
 
         {/* Recent Goals + Recent Learnings + Expense Summary — responsive grid */}

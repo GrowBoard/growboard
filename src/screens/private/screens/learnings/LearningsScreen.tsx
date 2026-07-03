@@ -52,11 +52,12 @@ export const LearningsScreen = () => {
   // Zustand Store selector
   const { learningsData } = appStore(useShallow(learningsSelector));
 
-
   // Custom service hooks
   const { isLoading } = useGetLearningsData();
-  const { mutateAsync: saveLearning, isPending: isSaving } = useSaveLearningData();
-  const { mutateAsync: deleteLearning, isPending: isDeleting } = useDeleteLearningData();
+  const { mutateAsync: saveLearning, isPending: isSaving } =
+    useSaveLearningData();
+  const { mutateAsync: deleteLearning, isPending: isDeleting } =
+    useDeleteLearningData();
 
   // UI state variables
   const [formOpen, setFormOpen] = useState(false);
@@ -100,7 +101,7 @@ export const LearningsScreen = () => {
     try {
       const originalTitle = editItem ? editItem.title : undefined;
       await saveLearning({ learning: payload, originalTitle });
-      
+
       successToast(
         editItem
           ? t('Learnings.successEdit', 'Learning updated successfully!')
@@ -119,7 +120,9 @@ export const LearningsScreen = () => {
     if (!deleteItemTitle) return;
     try {
       await deleteLearning(deleteItemTitle);
-      successToast(t('Learnings.successDelete', 'Learning deleted successfully!'));
+      successToast(
+        t('Learnings.successDelete', 'Learning deleted successfully!'),
+      );
       setDeleteOpen(false);
       setDeleteItemTitle('');
     } catch (err) {
@@ -311,9 +314,14 @@ export const LearningsScreen = () => {
           title={
             searchQuery
               ? t('Learnings.noSearchResults', 'No matching learnings found.')
-              : t('Learnings.noLearnings', 'No learnings found. Click "Add Learning" to create one.')
+              : t(
+                  'Learnings.noLearnings',
+                  'No learnings found. Click "Add Learning" to create one.',
+                )
           }
-          buttonText={searchQuery ? undefined : t('Learnings.addLearning', 'Add Learning')}
+          buttonText={
+            searchQuery ? undefined : t('Learnings.addLearning', 'Add Learning')
+          }
           onAdd={searchQuery ? undefined : handleOpenAddForm}
         />
       ) : viewMode === 'card' ? (

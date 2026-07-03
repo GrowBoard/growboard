@@ -16,6 +16,7 @@ jest.mock('@services/hooks/private', () => ({
   useGetCredsData: jest.fn(() => ({ isLoading: false })),
   useGetPlansData: jest.fn(() => ({ isLoading: false })),
   useGetProjectsData: jest.fn(() => ({ isLoading: false })),
+  useGetHabitsData: jest.fn(() => ({ isLoading: false })),
 }));
 
 // Mock react-joyride to prevent JSDOM layout API and portal issues
@@ -95,6 +96,14 @@ jest.mock('@store', () => {
       addProjects: jest.fn(),
       removeProjectsState: jest.fn(),
     },
+    Habits: {
+      habitsData: [],
+      habitLogsData: [],
+      updateHabits: jest.fn(),
+      removeHabits: jest.fn(),
+      updateHabitLogs: jest.fn(),
+      removeHabitLogs: jest.fn(),
+    },
     Expense: {
       overview: {
         timeWindow: 'Month',
@@ -173,7 +182,11 @@ describe('DashboardHome component', () => {
 
   it('renders the Quick Actions bar', () => {
     renderWithProviders(<DashboardHome />);
-    expect(screen.getByRole('button', { name: /Add Goal/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Add Learning/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /Add Goal/i }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /Add Learning/i }),
+    ).toBeInTheDocument();
   });
 });

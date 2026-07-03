@@ -12,15 +12,22 @@ import { resourcesSelector, useShallow } from '@selectors';
  * @returns React Query result handle containing loading state, data, and errors.
  */
 export const useGetResourcesData = () => {
-  const { resourcesData, updateResources } = appStore(useShallow(resourcesSelector));
+  const { resourcesData, updateResources } = appStore(
+    useShallow(resourcesSelector),
+  );
 
   const query = useQuery({
     queryKey: ['sheetResources'],
     queryFn: () => googleSheetsResourceService.getResources(),
     retry: 1,
-    initialData: resourcesData.length > 0
-      ? { data: resourcesData, status: 'SUCCESS', successMessage: 'Cached resources loaded.' }
-      : undefined,
+    initialData:
+      resourcesData.length > 0
+        ? {
+            data: resourcesData,
+            status: 'SUCCESS',
+            successMessage: 'Cached resources loaded.',
+          }
+        : undefined,
     staleTime: Infinity,
   });
 

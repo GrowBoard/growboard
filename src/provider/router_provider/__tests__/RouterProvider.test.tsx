@@ -4,7 +4,10 @@ import AppRouterProviderComponent from '../RouterProvider';
 
 jest.mock('react-router-dom', () => ({
   RouterProvider: ({ router }: any) => (
-    <div data-testid="mock-router-provider" data-router={router ? 'present' : 'absent'}>
+    <div
+      data-testid="mock-router-provider"
+      data-router={router ? 'present' : 'absent'}
+    >
       Router Provider
     </div>
   ),

@@ -17,7 +17,12 @@ import { LuTrash2, LuX } from 'react-icons/lu';
 import { useForm } from '@tanstack/react-form';
 import { ResourceItem } from '@store';
 import { ResourceFormDrawerProps } from '../types';
-import { MAX_TITLE_LENGTH, MAX_TAGS, MAX_TAG_LENGTH, URL_REGEX } from '../const';
+import {
+  MAX_TITLE_LENGTH,
+  MAX_TAGS,
+  MAX_TAG_LENGTH,
+  URL_REGEX,
+} from '../const';
 import { renderMarkdown } from '../util';
 
 interface ResourceFormValues {
@@ -226,7 +231,10 @@ export const ResourceFormDrawer = ({
                   {(field) => (
                     <Field.Root>
                       <Field.Label fontWeight="semibold" color="text.primary">
-                        {t('Resources.subtitleLabel', 'Subtitle / Short Description')}
+                        {t(
+                          'Resources.subtitleLabel',
+                          'Subtitle / Short Description',
+                        )}
                       </Field.Label>
                       <Input
                         placeholder={t(
@@ -402,7 +410,10 @@ export const ResourceFormDrawer = ({
                   {(field) => (
                     <Field.Root invalid={!!field.state.meta.errors.length}>
                       <Field.Label fontWeight="semibold" color="text.primary">
-                        {t('Resources.contentLabel', 'About Resource (Markdown)')}
+                        {t(
+                          'Resources.contentLabel',
+                          'About Resource (Markdown)',
+                        )}
                       </Field.Label>
 
                       <VStack align="stretch" gap={3} w="full">

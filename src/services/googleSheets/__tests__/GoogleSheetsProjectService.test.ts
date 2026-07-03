@@ -246,7 +246,9 @@ describe('GoogleSheetsProjectService', () => {
     });
 
     it('throws when silent refresh fails on 401', async () => {
-      (triggerSilentRefresh as jest.Mock).mockRejectedValueOnce(new Error('Refresh failed'));
+      (triggerSilentRefresh as jest.Mock).mockRejectedValueOnce(
+        new Error('Refresh failed'),
+      );
 
       mockFetch.mockResolvedValueOnce({
         ok: false,
@@ -288,8 +290,12 @@ describe('GoogleSheetsProjectService', () => {
         ok: false,
         status: 500,
         clone: () => ({
-          json: async () => { throw new Error('not json'); },
-          text: async () => { throw new Error('not text'); },
+          json: async () => {
+            throw new Error('not json');
+          },
+          text: async () => {
+            throw new Error('not text');
+          },
         }),
       });
 

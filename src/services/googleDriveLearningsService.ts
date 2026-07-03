@@ -88,7 +88,12 @@ export const deserializeLearning = (fileContent: string): LearningItem => {
         } else if (key === 'subtitle') {
           subtitle = val;
         } else if (key === 'tags') {
-          tags = val ? val.split(',').map((t) => t.trim()).filter(Boolean) : [];
+          tags = val
+            ? val
+                .split(',')
+                .map((t) => t.trim())
+                .filter(Boolean)
+            : [];
         } else if (key === 'createdat') {
           createdAt = val;
         } else if (key === 'updatedat') {

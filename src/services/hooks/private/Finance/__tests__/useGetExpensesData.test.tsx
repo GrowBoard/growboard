@@ -28,7 +28,7 @@ describe('useGetExpensesData hook', () => {
       useGetExpensesData({
         start_date: '2026-06-02',
         end_date: '2026-07-01',
-      })
+      }),
     );
 
     // Verify useQuery was called
@@ -36,7 +36,7 @@ describe('useGetExpensesData hook', () => {
       expect.objectContaining({
         queryKey: ['start_date_2026-06-02', 'end_date_2026-07-01'],
         retry: 1,
-      })
+      }),
     );
 
     // Extract queryFn from useQuery call and invoke it
@@ -44,6 +44,9 @@ describe('useGetExpensesData hook', () => {
     queryFn();
 
     // Verify it called getExpensesForMonth (June is 5, 2026 is 2026)
-    expect(googleSheetsExpenseService.getExpensesForMonth).toHaveBeenCalledWith(2026, 5);
+    expect(googleSheetsExpenseService.getExpensesForMonth).toHaveBeenCalledWith(
+      2026,
+      5,
+    );
   });
 });

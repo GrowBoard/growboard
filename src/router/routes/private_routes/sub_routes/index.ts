@@ -6,3 +6,4 @@ export { PlanRoutes } from './PlanRoutes';
 export { ProjectRoutes } from './ProjectRoutes';
 export { ProfileRoutes } from './ProfileRoutes';
 export { ResourceRoutes } from './ResourceRoutes';
+export { HabitRoutes } from './HabitRoutes';

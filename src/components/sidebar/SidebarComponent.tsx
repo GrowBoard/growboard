@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { LuUser } from 'react-icons/lu';
+import { LuUser, LuSquareCheck } from 'react-icons/lu';
 import { IoFolderOpenOutline } from 'react-icons/io5';
 import { IoCalendarOutline } from 'react-icons/io5';
 import { IoHomeOutline } from 'react-icons/io5';
@@ -45,6 +45,8 @@ const SidebarIcon = ({ icon }: SidebarIconProps) => {
       return <SlGraduation size={22} />;
     case SidebarIconType.Resources:
       return <TfiViewListAlt size={22} />;
+    case SidebarIconType.Habits:
+      return <LuSquareCheck size={22} />;
     default:
       return null;
   }

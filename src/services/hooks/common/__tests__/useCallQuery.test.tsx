@@ -24,13 +24,13 @@ describe('useCallQuery hook', () => {
       useCallQuery({
         method: mockMethod,
         queryOptions,
-      })
+      }),
     );
 
     expect(useQuery).toHaveBeenCalledWith(
       expect.objectContaining({
         queryKey: ['test-key'],
-      })
+      }),
     );
 
     expect(mockMethod).toHaveBeenCalled();

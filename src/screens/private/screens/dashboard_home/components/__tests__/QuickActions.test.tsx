@@ -6,10 +6,18 @@ import { QuickActions } from '../QuickActions';
 describe('QuickActions component', () => {
   it('renders all quick action buttons', () => {
     renderWithProviders(<QuickActions />);
-    expect(screen.getByRole('button', { name: /Add Goal/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Add Learning/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Credentials/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Expenses/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /Add Goal/i }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /Add Learning/i }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /Credentials/i }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /Expenses/i }),
+    ).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Plans/i })).toBeInTheDocument();
   });
 

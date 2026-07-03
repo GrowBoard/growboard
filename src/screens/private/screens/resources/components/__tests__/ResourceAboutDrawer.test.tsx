@@ -42,12 +42,16 @@ describe('ResourceAboutDrawer component', () => {
     );
 
     expect(screen.getByText('Chakra UI v3 Docs')).toBeInTheDocument();
-    expect(screen.getByText('Official documentation for component styling library')).toBeInTheDocument();
+    expect(
+      screen.getByText('Official documentation for component styling library'),
+    ).toBeInTheDocument();
     expect(screen.getByText('https://chakra-ui.com')).toBeInTheDocument();
     expect(screen.getByText('styling')).toBeInTheDocument();
     expect(screen.getByText('UI')).toBeInTheDocument();
 
     // Renders the about resource markdown content
-    expect(screen.getByText('Chakra UI provides accessible UI building blocks.')).toBeInTheDocument();
+    expect(
+      screen.getByText('Chakra UI provides accessible UI building blocks.'),
+    ).toBeInTheDocument();
   });
 });

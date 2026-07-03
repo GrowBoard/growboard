@@ -99,7 +99,11 @@ jest.mock('@tanstack/react-query', () => ({
       options.queryFn();
     }
     const key = options?.queryKey?.[0];
-    if (key === 'sheetPlans' || key === 'sheetProjects' || key === 'sheetResources') {
+    if (
+      key === 'sheetPlans' ||
+      key === 'sheetProjects' ||
+      key === 'sheetResources'
+    ) {
       return { data: { data: 'mock-query-data' } };
     }
     return { data: 'mock-query-data' };
@@ -244,60 +248,105 @@ describe('Consolidated Simple Get/Save/Delete Hooks', () => {
   describe('Delete Hooks', () => {
     it('useDeleteGoalData calls deleteGoal and invalidates', () => {
       renderHook(() => useDeleteGoalData());
-      const mutationFn = mockMutationFnExec.mock.calls[mockMutationFnExec.mock.calls.length - 1][0];
+      const mutationFn =
+        mockMutationFnExec.mock.calls[
+          mockMutationFnExec.mock.calls.length - 1
+        ][0];
       mutationFn('Goal A');
       expect(googleDriveGoalsService.deleteGoal).toHaveBeenCalledWith('Goal A');
-      expect(mockInvalidateQueries).toHaveBeenCalledWith({ queryKey: ['driveGoals'] });
+      expect(mockInvalidateQueries).toHaveBeenCalledWith({
+        queryKey: ['driveGoals'],
+      });
     });
 
     it('useDeleteLearningData calls deleteLearning and invalidates', () => {
       renderHook(() => useDeleteLearningData());
-      const mutationFn = mockMutationFnExec.mock.calls[mockMutationFnExec.mock.calls.length - 1][0];
+      const mutationFn =
+        mockMutationFnExec.mock.calls[
+          mockMutationFnExec.mock.calls.length - 1
+        ][0];
       mutationFn('Learning A');
-      expect(googleDriveLearningsService.deleteLearning).toHaveBeenCalledWith('Learning A');
-      expect(mockInvalidateQueries).toHaveBeenCalledWith({ queryKey: ['driveLearnings'] });
+      expect(googleDriveLearningsService.deleteLearning).toHaveBeenCalledWith(
+        'Learning A',
+      );
+      expect(mockInvalidateQueries).toHaveBeenCalledWith({
+        queryKey: ['driveLearnings'],
+      });
     });
 
     it('useDeletePlanData calls deletePlan and invalidates', () => {
       renderHook(() => useDeletePlanData());
-      const mutationFn = mockMutationFnExec.mock.calls[mockMutationFnExec.mock.calls.length - 1][0];
+      const mutationFn =
+        mockMutationFnExec.mock.calls[
+          mockMutationFnExec.mock.calls.length - 1
+        ][0];
       mutationFn('Plan A');
       expect(googleSheetsPlanService.deletePlan).toHaveBeenCalledWith('Plan A');
-      expect(mockInvalidateQueries).toHaveBeenCalledWith({ queryKey: ['sheetPlans'] });
+      expect(mockInvalidateQueries).toHaveBeenCalledWith({
+        queryKey: ['sheetPlans'],
+      });
     });
 
     it('useDeleteProjectData calls deleteProject and invalidates', () => {
       renderHook(() => useDeleteProjectData());
-      const mutationFn = mockMutationFnExec.mock.calls[mockMutationFnExec.mock.calls.length - 1][0];
+      const mutationFn =
+        mockMutationFnExec.mock.calls[
+          mockMutationFnExec.mock.calls.length - 1
+        ][0];
       mutationFn('Proj A');
-      expect(googleSheetsProjectService.deleteProject).toHaveBeenCalledWith('Proj A');
-      expect(mockInvalidateQueries).toHaveBeenCalledWith({ queryKey: ['sheetProjects'] });
+      expect(googleSheetsProjectService.deleteProject).toHaveBeenCalledWith(
+        'Proj A',
+      );
+      expect(mockInvalidateQueries).toHaveBeenCalledWith({
+        queryKey: ['sheetProjects'],
+      });
     });
 
     it('useDeleteResourceData calls deleteResource and invalidates', () => {
       renderHook(() => useDeleteResourceData());
-      const mutationFn = mockMutationFnExec.mock.calls[mockMutationFnExec.mock.calls.length - 1][0];
+      const mutationFn =
+        mockMutationFnExec.mock.calls[
+          mockMutationFnExec.mock.calls.length - 1
+        ][0];
       mutationFn('Res A');
-      expect(googleSheetsResourceService.deleteResource).toHaveBeenCalledWith('Res A');
-      expect(mockInvalidateQueries).toHaveBeenCalledWith({ queryKey: ['sheetResources'] });
+      expect(googleSheetsResourceService.deleteResource).toHaveBeenCalledWith(
+        'Res A',
+      );
+      expect(mockInvalidateQueries).toHaveBeenCalledWith({
+        queryKey: ['sheetResources'],
+      });
     });
   });
 
   describe('Save Hooks', () => {
     it('useSaveGoalData calls saveGoal and invalidates', () => {
       renderHook(() => useSaveGoalData());
-      const mutationFn = mockMutationFnExec.mock.calls[mockMutationFnExec.mock.calls.length - 1][0];
+      const mutationFn =
+        mockMutationFnExec.mock.calls[
+          mockMutationFnExec.mock.calls.length - 1
+        ][0];
       mutationFn('goal-item');
-      expect(googleDriveGoalsService.saveGoal).toHaveBeenCalledWith('goal-item');
-      expect(mockInvalidateQueries).toHaveBeenCalledWith({ queryKey: ['driveGoals'] });
+      expect(googleDriveGoalsService.saveGoal).toHaveBeenCalledWith(
+        'goal-item',
+      );
+      expect(mockInvalidateQueries).toHaveBeenCalledWith({
+        queryKey: ['driveGoals'],
+      });
     });
 
     it('useSaveResourceData calls addResource and invalidates', () => {
       renderHook(() => useSaveResourceData());
-      const mutationFn = mockMutationFnExec.mock.calls[mockMutationFnExec.mock.calls.length - 1][0];
+      const mutationFn =
+        mockMutationFnExec.mock.calls[
+          mockMutationFnExec.mock.calls.length - 1
+        ][0];
       mutationFn({ title: 'Res B' });
-      expect(googleSheetsResourceService.addResource).toHaveBeenCalledWith({ title: 'Res B' });
-      expect(mockInvalidateQueries).toHaveBeenCalledWith({ queryKey: ['sheetResources'] });
+      expect(googleSheetsResourceService.addResource).toHaveBeenCalledWith({
+        title: 'Res B',
+      });
+      expect(mockInvalidateQueries).toHaveBeenCalledWith({
+        queryKey: ['sheetResources'],
+      });
     });
 
     it('useSaveCredsData calls saveCreds and invalidates', () => {
@@ -310,7 +359,10 @@ describe('Consolidated Simple Get/Save/Delete Hooks', () => {
       });
 
       renderHook(() => useSaveCredsData());
-      const mutationFn = mockMutationFnExec.mock.calls[mockMutationFnExec.mock.calls.length - 1][0];
+      const mutationFn =
+        mockMutationFnExec.mock.calls[
+          mockMutationFnExec.mock.calls.length - 1
+        ][0];
       mutationFn(['creds']);
       expect(googleDriveCredsService.saveCreds).toHaveBeenCalledWith(['creds']);
 
@@ -321,7 +373,10 @@ describe('Consolidated Simple Get/Save/Delete Hooks', () => {
       onSuccess(null, ['new-creds']);
 
       expect(updateCredsMock).toHaveBeenCalledWith(['new-creds']);
-      expect(mockSetQueryData).toHaveBeenCalledWith(['driveCreds'], ['new-creds']);
+      expect(mockSetQueryData).toHaveBeenCalledWith(
+        ['driveCreds'],
+        ['new-creds'],
+      );
     });
 
     it('useSaveProfileData calls saveProfile and invalidates', () => {
@@ -334,10 +389,15 @@ describe('Consolidated Simple Get/Save/Delete Hooks', () => {
       });
 
       renderHook(() => useSaveProfileData());
-      const mutationFn = mockMutationFnExec.mock.calls[mockMutationFnExec.mock.calls.length - 1][0];
+      const mutationFn =
+        mockMutationFnExec.mock.calls[
+          mockMutationFnExec.mock.calls.length - 1
+        ][0];
       const profile = { name: 'New Name' } as any;
       mutationFn(profile);
-      expect(googleDriveProfileService.saveProfile).toHaveBeenCalledWith(profile);
+      expect(googleDriveProfileService.saveProfile).toHaveBeenCalledWith(
+        profile,
+      );
 
       // trigger onSuccess callback simulation
       const onSuccess = (useMutation as jest.Mock).mock.calls[

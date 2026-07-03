@@ -20,7 +20,11 @@ export const ExpenseSummary = (_props: ExpenseSummaryProps) => {
   /** Derive totals and category breakdown from query response. */
   const { totalSum, sumByCategory, topCategory } = useMemo(() => {
     if (!queryResponse?.data) {
-      return { totalSum: 0, sumByCategory: {} as Record<ExpenseType, number>, topCategory: null };
+      return {
+        totalSum: 0,
+        sumByCategory: {} as Record<ExpenseType, number>,
+        topCategory: null,
+      };
     }
 
     const { sumByCategory: sbc, totalSum: ts } = getExpenseDataSumForCategory(
@@ -106,11 +110,16 @@ export const ExpenseSummary = (_props: ExpenseSummaryProps) => {
                     style={{
                       background:
                         EXPENSE_TYPE_COLOR[
-                          (topCategory as { name: string; amount: number }).name as ExpenseType
+                          (topCategory as { name: string; amount: number })
+                            .name as ExpenseType
                         ] ?? '#888',
                     }}
                   />
-                  <Text fontSize="sm" fontWeight="semibold" color="text.primary">
+                  <Text
+                    fontSize="sm"
+                    fontWeight="semibold"
+                    color="text.primary"
+                  >
                     {(topCategory as { name: string; amount: number }).name}
                   </Text>
                 </HStack>
@@ -160,7 +169,11 @@ export const ExpenseSummary = (_props: ExpenseSummaryProps) => {
                     <Text fontSize="10px" color="text.muted">
                       {cat}
                     </Text>
-                    <Text fontSize="10px" color="text.secondary" fontWeight="medium">
+                    <Text
+                      fontSize="10px"
+                      color="text.secondary"
+                      fontWeight="medium"
+                    >
                       ₹{amt.toLocaleString('en-IN')}
                     </Text>
                   </HStack>

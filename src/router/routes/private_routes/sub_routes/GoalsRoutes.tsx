@@ -7,4 +7,3 @@ const GoalsRoutes = (
 ) as React.ReactNode;
 
 export { GoalsRoutes };
-
