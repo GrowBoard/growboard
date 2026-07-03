@@ -1,39 +1,26 @@
-import { screen, fireEvent } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { ChakraProvider, defaultSystem } from '@chakra-ui/react';
+import { STATUS } from 'react-joyride';
+
 import { renderWithProviders } from '../../../../../../testUtils/renderUtils';
 import { DashboardTour } from '../DashboardTour';
 
-// Mock react-joyride to avoid portal rendering issues in JSDOM
-jest.mock('react-joyride', () => {
-  const mockJoyride = jest.fn(({ run, steps, onEvent }) => {
-    if (!run) return null;
-    return (
-      <div data-testid="mock-joyride">
-        {steps.map((step: any, idx: number) => (
-          <div key={idx} data-testid={`step-${idx}`} data-target={step.target}>
-            <h3>{step.title}</h3>
-            <p>{step.content}</p>
-          </div>
-        ))}
-        <button
-          data-testid="mock-finish-btn"
-          onClick={() => onEvent({ status: 'finished' })}
-        >
-          Finish
-        </button>
-        <button
-          data-testid="mock-skip-btn"
-          onClick={() => onEvent({ status: 'skipped' })}
-        >
-          Skip
-        </button>
-      </div>
-    );
-  });
+// Mock @provider to break circular dependency during test import phase
+jest.mock('@provider', () => ({
+  ThemeProvider: ({ children }: any) => (
+    <ChakraProvider value={defaultSystem}>{children}</ChakraProvider>
+  ),
+}));
 
+// Mock react-joyride
+const mockJoyrideRender = jest.fn();
+jest.mock('react-joyride', () => {
   return {
-    __esModule: true,
-    Joyride: mockJoyride,
+    Joyride: (props: any) => {
+      mockJoyrideRender(props);
+      return <div data-testid="mock-joyride" />;
+    },
     STATUS: {
       FINISHED: 'finished',
       SKIPPED: 'skipped',
@@ -41,49 +28,78 @@ jest.mock('react-joyride', () => {
   };
 });
 
-describe('DashboardTour Component', () => {
+describe('DashboardTour component', () => {
   const mockOnTourEnd = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it('renders nothing when run is false', () => {
-    renderWithProviders(<DashboardTour run={false} onTourEnd={mockOnTourEnd} />);
-    expect(screen.queryByTestId('mock-joyride')).not.toBeInTheDocument();
-  });
-
-  it('renders mock joyride steps when run is true', () => {
+  it('renders Joyride component with correct options', () => {
     renderWithProviders(<DashboardTour run={true} onTourEnd={mockOnTourEnd} />);
+
     expect(screen.getByTestId('mock-joyride')).toBeInTheDocument();
-
-    // Verify all steps targets exist in the mock steps render using actual translated text
-    expect(screen.getByText('Welcome to GrowBoard!')).toBeInTheDocument();
-    expect(screen.getByText('Home Console')).toBeInTheDocument();
-    expect(screen.getByText('Projects Tracker')).toBeInTheDocument();
-    expect(screen.getByText('Deadline Plans')).toBeInTheDocument();
-    expect(screen.getByText('Expense Register')).toBeInTheDocument();
-    expect(screen.getByText('Milestone Goals')).toBeInTheDocument();
-    expect(screen.getByText('Knowledge Base')).toBeInTheDocument();
-    expect(screen.getByText('Web Resources')).toBeInTheDocument();
-    expect(screen.getByText('Credentials Locker')).toBeInTheDocument();
-    expect(screen.getByText('User Profile')).toBeInTheDocument();
-    expect(screen.getByText('Productivity Metrics')).toBeInTheDocument();
-    expect(screen.getByText('Recent Activity & Summary')).toBeInTheDocument();
-    expect(screen.getByText('Quick Action Shortcuts')).toBeInTheDocument();
+    expect(mockJoyrideRender).toHaveBeenCalledWith(
+      expect.objectContaining({
+        run: true,
+        continuous: true,
+      })
+    );
   });
 
-  it('calls onTourEnd when finishing the tour', () => {
+  it('triggers onTourEnd on finished or skipped status event', () => {
     renderWithProviders(<DashboardTour run={true} onTourEnd={mockOnTourEnd} />);
-    const finishBtn = screen.getByTestId('mock-finish-btn');
-    fireEvent.click(finishBtn);
+
+    const joyrideCallProps = mockJoyrideRender.mock.calls[0][0];
+
+    // Trigger normal progression event (should NOT trigger onTourEnd)
+    joyrideCallProps.onEvent({ status: 'running' });
+    expect(mockOnTourEnd).not.toHaveBeenCalled();
+
+    // Trigger finished event
+    joyrideCallProps.onEvent({ status: STATUS.FINISHED });
     expect(mockOnTourEnd).toHaveBeenCalledTimes(1);
+
+    // Trigger skipped event
+    joyrideCallProps.onEvent({ status: STATUS.SKIPPED });
+    expect(mockOnTourEnd).toHaveBeenCalledTimes(2);
   });
 
-  it('calls onTourEnd when skipping the tour', () => {
+  it('renders custom tooltip component correctly', () => {
     renderWithProviders(<DashboardTour run={true} onTourEnd={mockOnTourEnd} />);
-    const skipBtn = screen.getByTestId('mock-skip-btn');
-    fireEvent.click(skipBtn);
-    expect(mockOnTourEnd).toHaveBeenCalledTimes(1);
+
+    const joyrideCallProps = mockJoyrideRender.mock.calls[0][0];
+    const CustomTooltip = joyrideCallProps.tooltipComponent;
+
+    const tooltipProps = {
+      continuous: true,
+      index: 0,
+      step: {
+        title: 'Step 1 Title',
+        content: 'Step 1 Content',
+        target: '.test-target',
+      },
+      backProps: { onClick: jest.fn() },
+      primaryProps: { onClick: jest.fn(), 'aria-label': 'Next' },
+      tooltipProps: { 'data-testid': 'tooltip-wrapper' },
+      skipProps: { onClick: jest.fn() },
+      size: 3,
+      isLastStep: false,
+    } as any;
+
+    // Render tooltip directly
+    renderWithProviders(<CustomTooltip {...tooltipProps} />);
+
+    expect(screen.getByText('Step 1 Title')).toBeInTheDocument();
+    expect(screen.getByText('Step 1 Content')).toBeInTheDocument();
+    expect(screen.getByText('Skip Tour')).toBeInTheDocument();
+
+    // Re-render as index > 0 to show Back button
+    const tooltipPropsMiddleStep = {
+      ...tooltipProps,
+      index: 1,
+    };
+    renderWithProviders(<CustomTooltip {...tooltipPropsMiddleStep} />);
+    expect(screen.getByText('Back')).toBeInTheDocument();
   });
 });

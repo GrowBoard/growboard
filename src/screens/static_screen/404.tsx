@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
  */
 function Error404() {
   const { t } = useTranslation();
-  return <div>{t('Static.errorText')}</div>;
+  return <div>{t('StaticScreen.errorText')}</div>;
 }
 
 // Export the Error404 component.

@@ -52,6 +52,7 @@ Advanced agent instructions are modularized in the `.claude/skills/` directory.
 - `/dev`: [Developer Agent](file:///Users/mr.robot/z-stash/Growboard/growboard/.claude/agents/DEVELOPER.md) — handles build verification, Jira ticket creation, commit creation, and opening PRs.
 - `/review`: [PR Review & Merge Agent](file:///Users/mr.robot/z-stash/Growboard/growboard/.claude/agents/REVIEW.md) — reviews metadata, runs staged builds/tests, and merges PRs.
 - `/context`: [Project Context Agent](file:///Users/mr.robot/z-stash/Growboard/growboard/.claude/agents/CONTEXT.md) — retrieves and summarizes project context from README and configuration files.
+- `/test`: [Unit Test Agent](file:///Users/mr.robot/z-stash/Growboard/growboard/.claude/agents/UNIT_TEST.md) — writes unit tests for all business and UI code, enforcing Jest / React Testing Library best practices, and ensuring code coverage targets.
 
 ---
 
@@ -65,6 +66,7 @@ Always ensure that any newly added or updated translation keys are copied and sy
 
 Always add or update the unit tests (and their snapshots) to align with the requested feature implementations or changes. Run the test suite using `yarn test` to verify that all changes are fully covered, correct, and pass successfully.
 
+- **Coverage Threshold**: A minimum of **80%** coverage across statements, branches, functions, and lines is strictly enforced in `jest.config.js`. Run `yarn test:cov` to check coverage.
 - **Test Placement**: All unit and integration test files (`*.test.ts`, `*.test.tsx`) MUST be placed inside a `__tests__` directory within the folder of the code being tested (e.g., `utils/__tests__/myUtil.test.ts` instead of `utils/myUtil.test.ts`).
 
 ---
@@ -139,7 +141,7 @@ GrowBoard is a productivity tool web application.
 
 ## 5. Testing & Verification
 
-- **Unit/Integration**: `yarn test`
+- **Unit/Integration**: `yarn test` (runs test suite) or `yarn test:cov` (runs coverage check; must meet 80% threshold)
   - Snapshots are located in `__snapshots__` directories adjacent to tests.
   - RTL `renderHook` is natively imported from `@testing-library/react`.
   - All unit/integration test files (`*.test.ts`, `*.test.tsx`) MUST be placed inside a `__tests__` directory within the folder of the code being tested.
