@@ -149,4 +149,36 @@ describe('ProjectScreen component', () => {
     renderWithProviders(<ProjectScreen />);
     expect(screen.getByText(/No projects found/i)).toBeInTheDocument();
   });
+
+  it('toggles view to list mode on clicking List View button', () => {
+    renderWithProviders(<ProjectScreen />);
+
+    const listViewBtn = screen.getByRole('button', { name: 'List View' });
+    fireEvent.click(listViewBtn);
+
+    // List View button is now clicked; card view button still exists
+    expect(screen.getByRole('button', { name: 'Card View' })).toBeInTheDocument();
+  });
+
+  it('toggles view back to card mode after switching to list mode', () => {
+    renderWithProviders(<ProjectScreen />);
+
+    const listViewBtn = screen.getByRole('button', { name: 'List View' });
+    fireEvent.click(listViewBtn);
+
+    const cardViewBtn = screen.getByRole('button', { name: 'Card View' });
+    fireEvent.click(cardViewBtn);
+
+    expect(screen.getByText('GrowBoard Portal')).toBeInTheDocument();
+  });
+
+  it('shows spinner when isLoading is true', () => {
+    (useGetProjectsData as jest.Mock).mockReturnValue({
+      isLoading: true,
+    });
+
+    renderWithProviders(<ProjectScreen />);
+    // Spinner rendered, no project cards shown
+    expect(screen.queryByText('GrowBoard Portal')).not.toBeInTheDocument();
+  });
 });

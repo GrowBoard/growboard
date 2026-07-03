@@ -1,92 +1,132 @@
-import { screen, fireEvent, waitFor } from '@testing-library/react';
+import { screen, fireEvent, waitFor, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { ChakraProvider, defaultSystem } from '@chakra-ui/react';
+
 import { renderWithProviders } from '../../../../../../testUtils/renderUtils';
-import LearningFormDrawer from '../LearningFormDrawer';
-import { LearningItem } from '@store';
+import { LearningFormDrawer } from '../LearningFormDrawer';
+
+// Mock @provider to break circular dependency during test import phase
+jest.mock('@provider', () => ({
+  ThemeProvider: ({ children }: any) => (
+    <ChakraProvider value={defaultSystem}>{children}</ChakraProvider>
+  ),
+}));
 
 describe('LearningFormDrawer component', () => {
-  const mockEditItem: LearningItem = {
-    title: 'Learn System Design',
-    subtitle: 'Understand scalable architectures',
-    tags: ['tech'],
-    content: '# System Design\nStudy microservices.',
-    createdAt: '2026-06-28T00:00:00.000Z',
-    updatedAt: '2026-06-28T00:00:00.000Z',
-  };
-
   const mockOnSave = jest.fn();
   const mockOnOpenChange = jest.fn();
+
+  const defaultProps = {
+    isOpen: true,
+    onOpenChange: mockOnOpenChange,
+    onSave: mockOnSave,
+    isSaving: false,
+    editItem: null,
+    existingTitles: [],
+  };
 
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it('renders add mode drawer correctly', () => {
-    renderWithProviders(
-      <LearningFormDrawer
-        isOpen={true}
-        onOpenChange={mockOnOpenChange}
-        editItem={null}
-        onSave={mockOnSave}
-        isSaving={false}
-        existingTitles={[]}
-      />,
-    );
+  it('renders drawer header, footer, tabs and form inputs', () => {
+    renderWithProviders(<LearningFormDrawer {...defaultProps} />);
 
     expect(screen.getByText('Add Learning')).toBeInTheDocument();
-    expect(screen.getByPlaceholderText(/e.g. Topic Title/i)).toBeInTheDocument();
-    expect(screen.getByPlaceholderText(/e.g. Topic Subtitle/i)).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('e.g. Topic Title')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('e.g. Topic Subtitle')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Type your markdown content here...')).toBeInTheDocument();
   });
 
-  it('renders edit mode drawer correctly with pre-filled values', () => {
-    renderWithProviders(
-      <LearningFormDrawer
-        isOpen={true}
-        onOpenChange={mockOnOpenChange}
-        editItem={mockEditItem}
-        onSave={mockOnSave}
-        isSaving={false}
-        existingTitles={['Learn System Design']}
-      />,
-    );
+  it('populates fields when editItem is passed', () => {
+    const editItem = {
+      title: 'Existing Learning',
+      subtitle: 'Existing Subtitle',
+      tags: ['TypeScript', 'Testing'],
+      content: 'Detailed markdown learning content',
+      createdAt: '2026-07-02T12:00:00.000Z',
+      updatedAt: '2026-07-02T12:00:00.000Z',
+    };
+
+    renderWithProviders(<LearningFormDrawer {...defaultProps} editItem={editItem} />);
 
     expect(screen.getByText('Edit Learning')).toBeInTheDocument();
-    expect(screen.getByDisplayValue('Learn System Design')).toBeInTheDocument();
-    expect(screen.getByDisplayValue('Understand scalable architectures')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('e.g. Topic Title')).toHaveValue('Existing Learning');
+    expect(screen.getByPlaceholderText('e.g. Topic Subtitle')).toHaveValue('Existing Subtitle');
+    expect(screen.getByPlaceholderText('Type your markdown content here...')).toHaveValue('Detailed markdown learning content');
+
+    // Tags should render as badges
+    expect(screen.getByText('TypeScript')).toBeInTheDocument();
+    expect(screen.getByText('Testing')).toBeInTheDocument();
   });
 
-  it('submits successfully when fields are valid', async () => {
-    renderWithProviders(
-      <LearningFormDrawer
-        isOpen={true}
-        onOpenChange={mockOnOpenChange}
-        editItem={null}
-        onSave={mockOnSave}
-        isSaving={false}
-        existingTitles={[]}
-      />,
-    );
+  it('manages adding and removing tags via keydown events', async () => {
+    renderWithProviders(<LearningFormDrawer {...defaultProps} />);
 
-    fireEvent.change(screen.getByPlaceholderText(/e.g. Topic Title/i), {
-      target: { value: 'New Test Learning' },
-    });
-    fireEvent.change(screen.getByPlaceholderText(/e.g. Topic Subtitle/i), {
-      target: { value: 'New Subtitle' },
-    });
-    fireEvent.change(screen.getByPlaceholderText(/Type your markdown content here/i), {
-      target: { value: 'New content here.' },
+    const tagInput = screen.getByPlaceholderText('e.g. Tag1, Tag2 (Press Enter to add)');
+
+    // Type a tag and press Enter
+    await act(async () => {
+      fireEvent.change(tagInput, { target: { value: 'Rust' } });
+      fireEvent.keyDown(tagInput, { key: 'Enter', code: 'Enter' });
     });
 
+    expect(screen.getByText('Rust')).toBeInTheDocument();
+
+    // Remove the tag
+    const removeBtns = screen.getAllByRole('button', { name: 'Remove tag' });
+    await act(async () => {
+      fireEvent.click(removeBtns[0]);
+    });
+
+    expect(screen.queryByText('Rust')).not.toBeInTheDocument();
+  });
+
+  it('submits form values on save click', async () => {
+    renderWithProviders(<LearningFormDrawer {...defaultProps} />);
+
+    const titleInput = screen.getByPlaceholderText('e.g. Topic Title');
+    const subtitleInput = screen.getByPlaceholderText('e.g. Topic Subtitle');
+    const contentInput = screen.getByPlaceholderText('Type your markdown content here...');
     const saveBtn = screen.getByRole('button', { name: 'Save' });
-    fireEvent.click(saveBtn);
+
+    await act(async () => {
+      fireEvent.change(titleInput, { target: { value: 'New Learning Topic' } });
+      fireEvent.change(subtitleInput, { target: { value: 'Short intro' } });
+      fireEvent.change(contentInput, { target: { value: 'This is the core content.' } });
+    });
+
+    await act(async () => {
+      fireEvent.click(saveBtn);
+    });
 
     await waitFor(() => {
-      expect(mockOnSave).toHaveBeenCalledTimes(1);
+      expect(mockOnSave).toHaveBeenCalledWith(
+        expect.objectContaining({
+          title: 'New Learning Topic',
+          subtitle: 'Short intro',
+          content: 'This is the core content.',
+        })
+      );
     });
+  });
 
-    const calls = mockOnSave.mock.calls;
-    expect(calls[0][0].title).toBe('New Test Learning');
-    expect(calls[0][0].subtitle).toBe('New Subtitle');
-    expect(calls[0][0].content).toBe('New content here.');
+  it('allows switching between write and preview tabs for markdown description', async () => {
+    renderWithProviders(<LearningFormDrawer {...defaultProps} />);
+
+    const writeTab = screen.getByRole('button', { name: /^Write$/i });
+    const previewTab = screen.getByRole('button', { name: /^Preview$/i });
+
+    // Click Preview
+    await act(async () => {
+      fireEvent.click(previewTab);
+    });
+    expect(screen.getByText('Nothing to preview.')).toBeInTheDocument();
+
+    // Click Write
+    await act(async () => {
+      fireEvent.click(writeTab);
+    });
+    expect(screen.getByPlaceholderText('Type your markdown content here...')).toBeInTheDocument();
   });
 });

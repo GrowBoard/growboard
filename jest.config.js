@@ -54,12 +54,12 @@ module.exports = {
     '.+\\.(css|scss|png|jpg|jpeg|svg)$': 'jest-transform-stub',
     '^.+\\.(js|jsx|ts|tsx)$': 'ts-jest',
   },
-  // coverageThreshold: {
-  //   global: {
-  //     branches: 0,
-  //     functions: 0,
-  //     lines: 0,
-  //     statements: -1000,
-  //   },
-  // },
+  coverageThreshold: {
+    global: {
+      branches: 60,
+      functions: 80,
+      lines: 75,
+      statements: 75,
+    },
+  },
 };

@@ -1,6 +1,5 @@
 import { StateCreator } from 'zustand';
 import {
-  AlertStateSlice,
   AuthStateSlice,
   ProjectStateSlice,
   ImageModalStateSlice,
@@ -15,7 +14,6 @@ import {
 import {} from '../slice/User/types';
 
 export interface AppStoreState {
-  Alert: AlertStateSlice;
   Auth: AuthStateSlice;
   Projects: ProjectStateSlice;
   Expense: ExpenseStateSlice;

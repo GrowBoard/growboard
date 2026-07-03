@@ -266,4 +266,94 @@ describe('GoogleSheetsExpenseService', () => {
       );
     });
   });
+
+  describe('fetchAPI error paths', () => {
+    it('returns ERROR when silent refresh fails on 401', async () => {
+      (triggerSilentRefresh as jest.Mock).mockRejectedValueOnce(new Error('Refresh failed'));
+
+      mockFetch.mockResolvedValueOnce({
+        ok: false,
+        status: 401,
+        clone: () => ({
+          json: async () => { throw new Error('not json'); },
+          text: async () => 'Unauthorized',
+        }),
+      });
+
+      const result = await googleSheetsExpenseService.getExpensesForMonth(2026, 5);
+      expect(result.status).toBe('ERROR');
+      expect(result.data).toEqual([]);
+    });
+
+    it('returns ERROR when 403 is returned on retry', async () => {
+      mockFetch
+        .mockResolvedValueOnce({
+          ok: false,
+          status: 403,
+          clone: () => ({
+            json: async () => ({ error: { message: 'Forbidden' } }),
+          }),
+        })
+        .mockResolvedValueOnce({
+          ok: false,
+          status: 403,
+          clone: () => ({
+            json: async () => ({ error: { message: 'Forbidden again' } }),
+          }),
+        });
+
+      const result = await googleSheetsExpenseService.getExpensesForMonth(2026, 5);
+      expect(result.status).toBe('ERROR');
+      expect(result.successMessage).toContain('Authentication');
+    });
+
+    it('returns ERROR and falls back to text when json parse fails on non-auth error', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        clone: () => ({
+          json: async () => { throw new Error('not json'); },
+          text: async () => 'plain server error',
+        }),
+      });
+
+      const result = await googleSheetsExpenseService.getExpensesForMonth(2026, 5);
+      expect(result.status).toBe('ERROR');
+      expect(result.successMessage).toContain('500');
+    });
+
+    it('returns empty data when status is 204', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        status: 204,
+      });
+
+      const result = await googleSheetsExpenseService.getExpensesForMonth(2026, 5);
+      expect(result.data).toEqual([]);
+    });
+  });
+
+  describe('getExpensesForMonth - edge cases', () => {
+    it('returns empty data when values is undefined', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: async () => ({}),
+      });
+
+      const result = await googleSheetsExpenseService.getExpensesForMonth(2026, 5);
+      expect(result.data).toEqual([]);
+    });
+
+    it('returns empty data when values is an empty array', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: async () => ({ values: [] }),
+      });
+
+      const result = await googleSheetsExpenseService.getExpensesForMonth(2026, 5);
+      expect(result.data).toEqual([]);
+    });
+  });
 });
