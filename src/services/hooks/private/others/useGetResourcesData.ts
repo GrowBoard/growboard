@@ -1,24 +1,27 @@
 import { useQuery } from '@tanstack/react-query';
 import { googleSheetsResourceService } from '../../../googleSheets/GoogleSheetsResourceService';
 import { appStore } from '@store';
-import { useEffect } from 'react';
 import { resourcesSelector, useShallow } from '@selectors';
 
 /**
  * useGetResourcesData Custom Hook.
- * Automatically queries Google Sheets for user resources data
- * and updates the central store resources state slice upon a successful query response.
- *
- * @returns React Query result handle containing loading state, data, and errors.
+ * Queries Google Sheets for resources, updating the store on success,
+ * and caches data locally with a 1-hour staleTime.
  */
 export const useGetResourcesData = () => {
-  const { resourcesData, updateResources } = appStore(
+  const { resourcesData, lastFetched, updateResources } = appStore(
     useShallow(resourcesSelector),
   );
 
-  const query = useQuery({
+  return useQuery({
     queryKey: ['sheetResources'],
-    queryFn: () => googleSheetsResourceService.getResources(),
+    queryFn: async () => {
+      const response = await googleSheetsResourceService.getResources();
+      if (response?.data) {
+        updateResources(response.data);
+      }
+      return response;
+    },
     retry: 1,
     initialData:
       resourcesData.length > 0
@@ -28,16 +31,9 @@ export const useGetResourcesData = () => {
             successMessage: 'Cached resources loaded.',
           }
         : undefined,
-    staleTime: Infinity,
+    initialDataUpdatedAt: lastFetched,
+    staleTime: 1000 * 60 * 60, // 1 hour
   });
-
-  useEffect(() => {
-    if (query.data?.data) {
-      updateResources(query.data.data);
-    }
-  }, [query.data, updateResources]);
-
-  return query;
 };
 
 export default useGetResourcesData;

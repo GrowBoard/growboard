@@ -14,6 +14,7 @@ export type UserProfileData = {
     github: string;
     x: string;
     website: string;
+    linkedin: string;
   };
   /** List of user hobbies. */
   hobbies: string[];

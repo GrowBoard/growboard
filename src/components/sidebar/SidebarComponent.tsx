@@ -70,6 +70,12 @@ function SidebarComponent() {
       h="full"
       py={4}
       alignItems="center"
+      overflowY="auto"
+      css={{
+        '&::-webkit-scrollbar': { display: 'none' },
+        msOverflowStyle: 'none',
+        scrollbarWidth: 'none',
+      }}
     >
       <VStack gap={3} w="full">
         {SidebarRoutes.map((route, index) => {

@@ -8,6 +8,10 @@ export interface GreetingHeroProps {
   name: string;
   /** Optional callback to manually trigger the onboarding tour-guide. */
   onStartTour?: () => void;
+  /** Optional callback to trigger manual refetch of cached data from Google Drive */
+  onSync?: () => void;
+  /** Boolean showing if cache invalidation and refetch is currently loading */
+  isSyncing?: boolean;
 }
 
 /**

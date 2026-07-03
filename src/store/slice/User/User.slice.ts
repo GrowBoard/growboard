@@ -13,6 +13,7 @@ const userProfileData: UserProfileData = {
     github: '',
     x: '',
     website: '',
+    linkedin: '',
   },
   hobbies: [],
 };

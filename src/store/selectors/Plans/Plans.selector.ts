@@ -13,6 +13,10 @@ export const plansSelector = (state: AppStoreState) => ({
    */
   plansData: state.Plans.plansData,
   /**
+   * Timestamp when plans were last fetched from Google Sheets.
+   */
+  lastFetched: state.Plans.lastFetched,
+  /**
    * Action trigger to update plans.
    */
   updatePlans: state.Plans.updatePlans,

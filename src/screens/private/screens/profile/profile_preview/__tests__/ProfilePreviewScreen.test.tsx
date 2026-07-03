@@ -45,6 +45,7 @@ describe('ProfilePreviewScreen component', () => {
             github: '',
             x: '',
             website: '',
+            linkedin: '',
           },
         },
       },
@@ -75,6 +76,7 @@ describe('ProfilePreviewScreen component', () => {
             github: 'github.com/bob',
             x: 'x.com/bob',
             website: 'bob.dev',
+            linkedin: 'linkedin.com/in/bob',
           },
         },
       },
@@ -89,6 +91,9 @@ describe('ProfilePreviewScreen component', () => {
     // Verify social links exist and point to the correct places
     const githubLink = screen.getByTitle('Github');
     expect(githubLink).toHaveAttribute('href', 'https://github.com/bob');
+
+    const linkedinLink = screen.getByTitle('LinkedIn');
+    expect(linkedinLink).toHaveAttribute('href', 'https://linkedin.com/in/bob');
   });
 
   it('copies phone number to clipboard when copy button is clicked', async () => {
@@ -111,6 +116,7 @@ describe('ProfilePreviewScreen component', () => {
             github: '',
             x: '',
             website: '',
+            linkedin: '',
           },
         },
       },

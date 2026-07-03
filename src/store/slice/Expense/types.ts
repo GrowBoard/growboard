@@ -1,4 +1,5 @@
 import { ExpenseType } from '@screens/private/screens/expenses/expense_preview/types';
+import { ExpenseDataPoint } from '../../../services/hooks/private/Finance/types';
 
 export enum TimeWindow {
   DAY = 'Day',
@@ -21,6 +22,8 @@ export type ExpenseDataState = {
     date?: string;
     expenseId?: string;
   };
+  expensesData: ExpenseDataPoint[];
+  lastFetched: Record<string, number>;
 };
 
 export interface ExpenseStateActions {
@@ -37,6 +40,8 @@ export interface ExpenseStateActions {
     date?: string,
     expenseId?: string,
   ) => void;
+  updateExpenses: (expenses: ExpenseDataPoint[]) => void;
+  updateExpenseLastFetched: (args: { monthKey: string; timestamp: number }) => void;
 }
 
 export type ExpenseStateSlice = ExpenseDataState & ExpenseStateActions;

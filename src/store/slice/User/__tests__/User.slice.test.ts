@@ -18,6 +18,7 @@ describe('User slice', () => {
         github: 'gh',
         x: 'x',
         website: 'web',
+        linkedin: 'li',
       },
       hobbies: ['h1'],
     };
@@ -40,6 +41,7 @@ describe('User slice', () => {
           github: 'gh',
           x: 'x',
           website: 'web',
+          linkedin: 'li',
         },
         hobbies: ['h1'],
       });

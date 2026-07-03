@@ -1,34 +1,28 @@
 import { useQuery } from '@tanstack/react-query';
 import { googleSheetsHabitsService } from '../../../googleSheets/GoogleSheetsHabitsService';
 import { appStore } from '@store';
-import { useEffect } from 'react';
 import { habitsSelector, useShallow } from '@selectors';
 
 /**
  * useGetHabitsData Custom Hook.
- * Automatically queries Google Sheets for the user's habit definitions
- * and updates the central Habits store slice upon a successful response.
- *
- * @returns React Query result handle containing loading state, data, and errors.
+ * Automatically queries Google Sheets for the user's habit definitions,
+ * updating the store on success, and caching data with 1-hour staleTime.
  */
 export const useGetHabitsData = () => {
-  const { habitsData, updateHabits } = appStore(useShallow(habitsSelector));
+  const { habitsData, lastFetchedHabits, updateHabits } = appStore(useShallow(habitsSelector));
 
-  const query = useQuery({
+  return useQuery({
     queryKey: ['sheetHabits'],
-    queryFn: () => googleSheetsHabitsService.getHabits(),
+    queryFn: async () => {
+      const data = await googleSheetsHabitsService.getHabits();
+      updateHabits(data);
+      return data;
+    },
     retry: 1,
     initialData: habitsData.length > 0 ? habitsData : undefined,
-    staleTime: Infinity,
+    initialDataUpdatedAt: lastFetchedHabits,
+    staleTime: 1000 * 60 * 60, // 1 hour
   });
-
-  useEffect(() => {
-    if (query.data) {
-      updateHabits(query.data);
-    }
-  }, [query.data, updateHabits]);
-
-  return query;
 };
 
 export default useGetHabitsData;

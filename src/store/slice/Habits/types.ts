@@ -45,6 +45,10 @@ export type HabitsState = {
   habitsData: HabitItem[];
   /** The current list of daily habit log entries */
   habitLogsData: HabitLogItem[];
+  /** Timestamp when habits were last fetched from Google Sheets */
+  lastFetchedHabits?: number;
+  /** Timestamp when habit logs were last fetched from Google Sheets */
+  lastFetchedLogs?: number;
 };
 
 /**

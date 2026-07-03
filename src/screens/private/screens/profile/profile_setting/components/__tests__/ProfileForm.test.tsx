@@ -13,6 +13,7 @@ describe('ProfileForm component', () => {
       github: 'github.com/user',
       x: 'x.com/user',
       website: 'user.dev',
+      linkedin: '',
     },
     hobbies: ['Reading', 'Gaming'],
   };
@@ -141,6 +142,7 @@ describe('ProfileForm component', () => {
           github: 'github.com/user',
           x: 'x.com/user',
           website: 'user.dev',
+          linkedin: '',
         },
         hobbies: ['Reading', 'Gaming'],
       });

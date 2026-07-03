@@ -12,6 +12,7 @@ describe('cleanProfileFormValues', () => {
         github: 'gh',
         x: 'x',
         website: 'site',
+        linkedin: 'li',
       },
       hobbies: ['coding', 'reading'],
     };
@@ -25,6 +26,7 @@ describe('cleanProfileFormValues', () => {
         github: 'gh',
         x: 'x',
         website: 'site',
+        linkedin: 'li',
       },
       hobbies: ['coding', 'reading'],
     };
@@ -42,6 +44,7 @@ describe('cleanProfileFormValues', () => {
         github: '',
         x: '',
         website: '',
+        linkedin: '',
       },
       hobbies: [],
     };
@@ -55,6 +58,7 @@ describe('cleanProfileFormValues', () => {
         github: '',
         x: '',
         website: '',
+        linkedin: '',
       },
       hobbies: [],
     };

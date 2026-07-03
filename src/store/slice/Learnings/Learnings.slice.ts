@@ -6,6 +6,7 @@ import { LearningsStateSlice, LearningsState } from './types';
  */
 const initialState: LearningsState = {
   learningsData: [],
+  lastFetched: undefined,
 };
 
 /**
@@ -22,10 +23,12 @@ export const createLearningsSlice: AppStoreSlice<LearningsStateSlice> = (
   updateLearnings: (learnings) =>
     set((state) => {
       state.Learnings.learningsData = learnings;
+      state.Learnings.lastFetched = Date.now();
     }),
   removeLearnings: () => {
     set((state) => {
       state.Learnings.learningsData = initialState.learningsData;
+      state.Learnings.lastFetched = undefined;
     });
   },
 });

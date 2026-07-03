@@ -30,6 +30,8 @@ export interface GoalItem {
 export type GoalsState = {
   /** The current list of goals */
   goalsData: GoalItem[];
+  /** Timestamp when goals were last fetched from Google Drive */
+  lastFetched?: number;
 };
 
 /**

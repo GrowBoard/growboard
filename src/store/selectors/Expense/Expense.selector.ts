@@ -41,7 +41,10 @@ export const overviewInputSelector = (state: AppStoreState) => ({
  * @param state The AppStoreState.
  * @returns The Date object.
  */
-export const dateSelector = (state: AppStoreState) => state.Expense.date;
+export const dateSelector = (state: AppStoreState) => {
+  const dateRaw = state.Expense.date;
+  return dateRaw instanceof Date ? dateRaw : new Date(dateRaw || Date.now());
+};
 
 /**
  * todayDateSelector.
@@ -51,7 +54,7 @@ export const dateSelector = (state: AppStoreState) => state.Expense.date;
  * @returns Formatted IST date representation.
  */
 export const todayDateSelector = (state: AppStoreState) => {
-  const date = state.Expense.date;
+  const date = dateSelector(state);
   const day = date.getDate();
   const month = date.getMonth();
   const year = date.getFullYear();

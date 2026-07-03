@@ -16,7 +16,17 @@ jest.mock('@services/hooks/private', () => ({
   useGetCredsData: jest.fn(() => ({ isLoading: false })),
   useGetPlansData: jest.fn(() => ({ isLoading: false })),
   useGetProjectsData: jest.fn(() => ({ isLoading: false })),
+  useGetGoalsData: jest.fn(() => ({ isLoading: false })),
+  useGetLearningsData: jest.fn(() => ({ isLoading: false })),
   useGetHabitsData: jest.fn(() => ({ isLoading: false })),
+  useGetHabitLogsData: jest.fn(() => ({ isLoading: false })),
+}));
+
+// Mock react-query
+jest.mock('@tanstack/react-query', () => ({
+  useQueryClient: jest.fn(() => ({
+    invalidateQueries: jest.fn(),
+  })),
 }));
 
 // Mock react-joyride to prevent JSDOM layout API and portal issues

@@ -26,6 +26,8 @@ export interface PlanItem {
 export interface PlansState {
   /** Loaded list of plans */
   plansData: PlanItem[];
+  /** Timestamp when plans were last fetched from Google Sheets */
+  lastFetched?: number;
 }
 
 /**

@@ -5,6 +5,7 @@ import {
   FaGithub,
   FaXTwitter,
   FaGlobe,
+  FaLinkedin,
 } from 'react-icons/fa6';
 import { LuUser, LuMail, LuUserRound, LuPhone } from 'react-icons/lu';
 import { TitleCard, PageLoadingComponent, useSuccessToast } from '@components';
@@ -470,6 +471,35 @@ const ProfilePreviewScreen = () => {
                         title="Website"
                       >
                         <FaGlobe height={20} />
+                      </Link>
+                    )}
+                    {profileData.socialLink.linkedin && (
+                      <Link
+                        href={
+                          profileData.socialLink.linkedin.startsWith('http')
+                            ? profileData.socialLink.linkedin
+                            : `https://${profileData.socialLink.linkedin}`
+                        }
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        display="flex"
+                        bg="#0A66C2"
+                        border="1px solid #0A66C2"
+                        _hover={{
+                          bg: '#004182',
+                          transform: 'scale(1.12)',
+                          boxShadow: '0 0 14px rgba(10,102,194,0.65)',
+                        }}
+                        transition="all 0.2s ease"
+                        color="white"
+                        h="10"
+                        w="10"
+                        alignItems="center"
+                        justifyContent="center"
+                        borderRadius="full"
+                        title="LinkedIn"
+                      >
+                        <FaLinkedin size={20} />
                       </Link>
                     )}
                   </HStack>

@@ -1,22 +1,25 @@
 import { useQuery } from '@tanstack/react-query';
 import { googleSheetsPlanService } from '../../../googleSheets/GoogleSheetsPlanService';
 import { appStore } from '@store';
-import { useEffect } from 'react';
 import { plansSelector, useShallow } from '@selectors';
 
 /**
  * useGetPlansData Custom Hook.
- * Automatically queries Google Sheets for user plans data
- * and updates the central store plans state slice upon a successful query response.
- *
- * @returns React Query result handle containing loading state, data, and errors.
+ * Queries Google Sheets for plans, updating the store on success,
+ * and caches data locally with a 1-hour staleTime.
  */
 export const useGetPlansData = () => {
-  const { plansData, updatePlans } = appStore(useShallow(plansSelector));
+  const { plansData, lastFetched, updatePlans } = appStore(useShallow(plansSelector));
 
-  const query = useQuery({
+  return useQuery({
     queryKey: ['sheetPlans'],
-    queryFn: () => googleSheetsPlanService.getPlans(),
+    queryFn: async () => {
+      const response = await googleSheetsPlanService.getPlans();
+      if (response?.data) {
+        updatePlans(response.data);
+      }
+      return response;
+    },
     retry: 1,
     initialData:
       plansData.length > 0
@@ -26,16 +29,9 @@ export const useGetPlansData = () => {
             successMessage: 'Cached plans loaded.',
           }
         : undefined,
-    staleTime: Infinity,
+    initialDataUpdatedAt: lastFetched,
+    staleTime: 1000 * 60 * 60, // 1 hour
   });
-
-  useEffect(() => {
-    if (query.data?.data) {
-      updatePlans(query.data.data);
-    }
-  }, [query.data, updatePlans]);
-
-  return query;
 };
 
 export default useGetPlansData;

@@ -56,7 +56,7 @@ jest.mock('../../../../googleDriveLearningsService', () => ({
 
 jest.mock('../../../../googleSheets/GoogleSheetsPlanService', () => ({
   googleSheetsPlanService: {
-    getPlans: jest.fn(() => Promise.resolve(['plan'])),
+    getPlans: jest.fn(() => Promise.resolve({ data: ['plan'] })),
     deletePlan: jest.fn(() => Promise.resolve()),
   },
 }));
@@ -70,14 +70,14 @@ jest.mock('../../../../googleDriveProfileService', () => ({
 
 jest.mock('../../../../googleSheets/GoogleSheetsProjectService', () => ({
   googleSheetsProjectService: {
-    getProjects: jest.fn(() => Promise.resolve(['project'])),
+    getProjects: jest.fn(() => Promise.resolve({ data: ['project'] })),
     deleteProject: jest.fn(() => Promise.resolve()),
   },
 }));
 
 jest.mock('../../../../googleSheets/GoogleSheetsResourceService', () => ({
   googleSheetsResourceService: {
-    getResources: jest.fn(() => Promise.resolve(['resource'])),
+    getResources: jest.fn(() => Promise.resolve({ data: ['resource'] })),
     addResource: jest.fn(() => Promise.resolve()),
     updateResource: jest.fn(() => Promise.resolve()),
     deleteResource: jest.fn(() => Promise.resolve()),
@@ -155,7 +155,7 @@ describe('Consolidated Simple Get/Save/Delete Hooks', () => {
       renderHook(() => useGetGoalsData());
       expect(googleDriveGoalsService.readAllGoals).toHaveBeenCalled();
       await waitFor(() => {
-        expect(updateGoalsMock).toHaveBeenCalledWith('mock-query-data');
+        expect(updateGoalsMock).toHaveBeenCalledWith(['goal']);
       });
     });
 
@@ -172,7 +172,7 @@ describe('Consolidated Simple Get/Save/Delete Hooks', () => {
       renderHook(() => useGetLearningsData());
       expect(googleDriveLearningsService.readAllLearnings).toHaveBeenCalled();
       await waitFor(() => {
-        expect(updateLearningsMock).toHaveBeenCalledWith('mock-query-data');
+        expect(updateLearningsMock).toHaveBeenCalledWith(['learning']);
       });
     });
 
@@ -189,7 +189,7 @@ describe('Consolidated Simple Get/Save/Delete Hooks', () => {
       renderHook(() => useGetPlansData());
       expect(googleSheetsPlanService.getPlans).toHaveBeenCalled();
       await waitFor(() => {
-        expect(updatePlansMock).toHaveBeenCalledWith('mock-query-data');
+        expect(updatePlansMock).toHaveBeenCalledWith(['plan']);
       });
     });
 
@@ -223,7 +223,7 @@ describe('Consolidated Simple Get/Save/Delete Hooks', () => {
       renderHook(() => useGetProjectsData());
       expect(googleSheetsProjectService.getProjects).toHaveBeenCalled();
       await waitFor(() => {
-        expect(addProjectsMock).toHaveBeenCalledWith('mock-query-data');
+        expect(addProjectsMock).toHaveBeenCalledWith(['project']);
       });
     });
 
@@ -240,7 +240,7 @@ describe('Consolidated Simple Get/Save/Delete Hooks', () => {
       renderHook(() => useGetResourcesData());
       expect(googleSheetsResourceService.getResources).toHaveBeenCalled();
       await waitFor(() => {
-        expect(updateResourcesMock).toHaveBeenCalledWith('mock-query-data');
+        expect(updateResourcesMock).toHaveBeenCalledWith(['resource']);
       });
     });
   });

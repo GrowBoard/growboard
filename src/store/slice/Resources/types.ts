@@ -24,6 +24,8 @@ export interface ResourceItem {
 export interface ResourcesState {
   /** The current list of resources */
   resourcesData: ResourceItem[];
+  /** Timestamp when resources were last fetched from Google Sheets */
+  lastFetched?: number;
 }
 
 /**

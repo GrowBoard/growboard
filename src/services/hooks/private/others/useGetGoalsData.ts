@@ -1,34 +1,28 @@
 import { useQuery } from '@tanstack/react-query';
 import { googleDriveGoalsService } from '../../../googleDriveGoalsService';
 import { appStore } from '@store';
-import { useEffect } from 'react';
 import { goalsSelector, useShallow } from '@selectors';
 
 /**
  * useGetGoalsData Custom Hook.
- * Automatically queries Google Drive for user goals data
- * and updates the central store goals state slice upon a successful query response.
- *
- * @returns React Query result handle containing loading state, data, and errors.
+ * Queries Google Drive for goals, updating the store on success,
+ * and caches data locally with a 1-hour staleTime.
  */
 export const useGetGoalsData = () => {
-  const { goalsData, updateGoals } = appStore(useShallow(goalsSelector));
+  const { goalsData, lastFetched, updateGoals } = appStore(useShallow(goalsSelector));
 
-  const query = useQuery({
+  return useQuery({
     queryKey: ['driveGoals'],
-    queryFn: () => googleDriveGoalsService.readAllGoals(),
+    queryFn: async () => {
+      const data = await googleDriveGoalsService.readAllGoals();
+      updateGoals(data);
+      return data;
+    },
     retry: 1,
     initialData: goalsData.length > 0 ? goalsData : undefined,
-    staleTime: Infinity,
+    initialDataUpdatedAt: lastFetched,
+    staleTime: 1000 * 60 * 60, // 1 hour
   });
-
-  useEffect(() => {
-    if (query.data) {
-      updateGoals(query.data);
-    }
-  }, [query.data, updateGoals]);
-
-  return query;
 };
 
 export default useGetGoalsData;

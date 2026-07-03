@@ -55,6 +55,7 @@ export interface ProfileJSONData {
     github: string;
     x: string;
     website: string;
+    linkedin: string;
   };
   /** List of user hobbies. */
   hobbies: string[];
@@ -204,6 +205,7 @@ class GoogleDriveProfileService {
         github: '',
         x: '',
         website: '',
+        linkedin: '',
       },
       hobbies: [],
     };
@@ -258,6 +260,7 @@ class GoogleDriveProfileService {
         github: content.socialLink?.github || '',
         x: content.socialLink?.x || '',
         website: content.socialLink?.website || '',
+        linkedin: content.socialLink?.linkedin || '',
       },
       hobbies: content.hobbies || [],
     };
