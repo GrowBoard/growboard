@@ -252,7 +252,7 @@ class GoogleSheetsHabitsService {
     }
 
     // Write headers to the Habits sheet
-    const habitsHeaderUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${HABITS_SHEET_NAME}!A1:F1?valueInputOption=RAW`;
+    const habitsHeaderUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${HABITS_SHEET_NAME}!A1:G1?valueInputOption=RAW`;
     await this.fetchAPI<unknown>(habitsHeaderUrl, {
       method: 'PUT',
       body: JSON.stringify({
@@ -264,6 +264,7 @@ class GoogleSheetsHabitsService {
             'endDate',
             'targetPercentage',
             'createdAt',
+            'days',
           ],
         ],
       }),
@@ -311,7 +312,7 @@ class GoogleSheetsHabitsService {
   public async getHabits(): Promise<HabitItem[]> {
     try {
       const spreadsheetId = await this.getSpreadsheetId();
-      const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${HABITS_SHEET_NAME}!A2:F`;
+      const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${HABITS_SHEET_NAME}!A2:G`;
       const result = await this.fetchAPI<SheetValuesResponse>(url);
 
       const rows = result.values || [];
@@ -324,6 +325,9 @@ class GoogleSheetsHabitsService {
           endDate: String(row[3] || ''),
           targetPercentage: Number(row[4] || 0),
           createdAt: String(row[5] || ''),
+          days: row[6] && String(row[6]).trim() !== ''
+            ? String(row[6]).split(',').map(Number)
+            : undefined,
         }));
     } catch (error) {
       console.error('Failed to fetch habits:', error);
@@ -341,7 +345,7 @@ class GoogleSheetsHabitsService {
     const spreadsheetId = await this.getSpreadsheetId();
     const generatedId = Math.random().toString(36).substring(2, 11);
 
-    const appendUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${HABITS_SHEET_NAME}!A:F:append?valueInputOption=RAW`;
+    const appendUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${HABITS_SHEET_NAME}!A:G:append?valueInputOption=RAW`;
     await this.fetchAPI<unknown>(appendUrl, {
       method: 'POST',
       body: JSON.stringify({
@@ -353,6 +357,7 @@ class GoogleSheetsHabitsService {
             habit.endDate || '',
             habit.targetPercentage,
             habit.createdAt,
+            habit.days ? habit.days.join(',') : '',
           ],
         ],
       }),
@@ -373,7 +378,7 @@ class GoogleSheetsHabitsService {
     habit: Omit<HabitItem, 'id'>,
   ): Promise<HabitItem> {
     const spreadsheetId = await this.getSpreadsheetId();
-    const valuesUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${HABITS_SHEET_NAME}!A:F`;
+    const valuesUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${HABITS_SHEET_NAME}!A:G`;
     const result = await this.fetchAPI<SheetValuesResponse>(valuesUrl);
     const rows = result.values || [];
 
@@ -382,7 +387,7 @@ class GoogleSheetsHabitsService {
       throw new Error(`Habit with ID ${id} not found.`);
     }
 
-    const updateUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${HABITS_SHEET_NAME}!A${rowIndex + 1}:F${rowIndex + 1}?valueInputOption=RAW`;
+    const updateUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${HABITS_SHEET_NAME}!A${rowIndex + 1}:G${rowIndex + 1}?valueInputOption=RAW`;
     await this.fetchAPI<unknown>(updateUrl, {
       method: 'PUT',
       body: JSON.stringify({
@@ -394,6 +399,7 @@ class GoogleSheetsHabitsService {
             habit.endDate || '',
             habit.targetPercentage,
             habit.createdAt,
+            habit.days ? habit.days.join(',') : '',
           ],
         ],
       }),

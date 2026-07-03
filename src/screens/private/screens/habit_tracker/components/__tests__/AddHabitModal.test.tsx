@@ -142,4 +142,94 @@ describe('AddHabitModal component', () => {
     ).toBeInTheDocument();
     expect(mockOnSaveHabit).not.toHaveBeenCalled();
   });
+
+  it('shows validation error when no repeat day is selected', async () => {
+    renderWithProviders(
+      <AddHabitModal
+        isOpen={true}
+        onClose={mockOnClose}
+        onSaveHabit={mockOnSaveHabit}
+      />,
+    );
+
+    const nameInput = screen.getByLabelText('Habit Name');
+    fireEvent.change(nameInput, { target: { value: 'Meditation' } });
+
+    // Deselect all days by clicking "All days" button (initially all 7 are selected)
+    const allDaysBtn = screen.getByRole('button', { name: 'All days' });
+    fireEvent.click(allDaysBtn);
+
+    const saveBtn = screen.getByRole('button', { name: 'Save' });
+    fireEvent.click(saveBtn);
+
+    expect(
+      await screen.findByText('At least one repeat day must be selected.'),
+    ).toBeInTheDocument();
+    expect(mockOnSaveHabit).not.toHaveBeenCalled();
+  });
+
+  it('allows toggling individual day chips and updates onSaveHabit payload', async () => {
+    renderWithProviders(
+      <AddHabitModal
+        isOpen={true}
+        onClose={mockOnClose}
+        onSaveHabit={mockOnSaveHabit}
+      />,
+    );
+
+    const nameInput = screen.getByLabelText('Habit Name');
+    fireEvent.change(nameInput, { target: { value: 'Meditation' } });
+
+    // Deselect Monday (value 1) and Wednesday (value 3)
+    const monBtn = screen.getByRole('button', { name: 'Mon' });
+    const wedBtn = screen.getByRole('button', { name: 'Wed' });
+
+    fireEvent.click(monBtn);
+    fireEvent.click(wedBtn);
+
+    const saveBtn = screen.getByRole('button', { name: 'Save' });
+    fireEvent.click(saveBtn);
+
+    await waitFor(() => {
+      expect(mockOnSaveHabit).toHaveBeenCalledWith(
+        expect.objectContaining({
+          name: 'Meditation',
+          days: [0, 2, 4, 5, 6], // Sun, Tue, Thu, Fri, Sat
+        }),
+      );
+    });
+  });
+
+  it('selects all days when All days is clicked when not all are selected', async () => {
+    renderWithProviders(
+      <AddHabitModal
+        isOpen={true}
+        onClose={mockOnClose}
+        onSaveHabit={mockOnSaveHabit}
+      />,
+    );
+
+    const nameInput = screen.getByLabelText('Habit Name');
+    fireEvent.change(nameInput, { target: { value: 'Meditation' } });
+
+    // Deselect Mon to make count < 7
+    const monBtn = screen.getByRole('button', { name: 'Mon' });
+    fireEvent.click(monBtn);
+
+    // Now click All days to select all again
+    const allDaysBtn = screen.getByRole('button', { name: 'All days' });
+    fireEvent.click(allDaysBtn);
+
+    const saveBtn = screen.getByRole('button', { name: 'Save' });
+    fireEvent.click(saveBtn);
+
+    await waitFor(() => {
+      expect(mockOnSaveHabit).toHaveBeenCalledWith(
+        expect.objectContaining({
+          name: 'Meditation',
+          days: [0, 1, 2, 3, 4, 5, 6],
+        }),
+      );
+    });
+  });
 });

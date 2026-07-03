@@ -15,6 +15,8 @@ export interface HabitItem {
   targetPercentage: number;
   /** ISO timestamp when the habit was created */
   createdAt: string;
+  /** Selected days of the week when the habit is active (0 = Sunday, 1 = Monday, etc.). If undefined or empty, active all days. */
+  days?: number[];
 }
 
 /**

@@ -46,6 +46,7 @@ describe('GoogleSheetsHabitsService', () => {
               '',
               '100',
               '2026-07-01T00:00:00Z',
+              '1,3,5',
             ],
           ],
         }),
@@ -60,6 +61,7 @@ describe('GoogleSheetsHabitsService', () => {
         endDate: '',
         targetPercentage: 100,
         createdAt: '2026-07-01T00:00:00Z',
+        days: [1, 3, 5],
       });
     });
 

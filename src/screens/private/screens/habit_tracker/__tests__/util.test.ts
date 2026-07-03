@@ -51,6 +51,30 @@ describe('Habit Tracker Utilities', () => {
       expect(isHabitActiveOnDate(openHabit, '2026-08-31')).toBe(true);
       expect(isHabitActiveOnDate(openHabit, '2030-01-01')).toBe(true);
     });
+
+    it('handles day of week constraints correctly', () => {
+      const constrainedHabit: HabitItem = {
+        id: 'h3',
+        name: 'Mon Wed Fri Yoga',
+        startDate: '2026-07-01',
+        endDate: '',
+        targetPercentage: 80,
+        createdAt: '2026-07-01T00:00:00Z',
+        days: [1, 3, 5], // Monday, Wednesday, Friday
+      };
+
+      // 2026-07-01 is a Wednesday (day 3) -> should be active
+      expect(isHabitActiveOnDate(constrainedHabit, '2026-07-01')).toBe(true);
+      
+      // 2026-07-02 is a Thursday (day 4) -> should NOT be active
+      expect(isHabitActiveOnDate(constrainedHabit, '2026-07-02')).toBe(false);
+
+      // 2026-07-03 is a Friday (day 5) -> should be active
+      expect(isHabitActiveOnDate(constrainedHabit, '2026-07-03')).toBe(true);
+
+      // 2026-07-05 is a Sunday (day 0) -> should NOT be active
+      expect(isHabitActiveOnDate(constrainedHabit, '2026-07-05')).toBe(false);
+    });
   });
 
   describe('calcDayCompletionStats', () => {

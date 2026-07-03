@@ -125,4 +125,43 @@ describe('SeeHabitModal component', () => {
 
     expect(mockOnEditHabit).toHaveBeenCalledWith(habits[0]);
   });
+
+  it('renders repeat days badges correctly', () => {
+    const habitsWithDays: HabitItem[] = [
+      {
+        ...habits[0],
+        days: [1, 3, 5], // Mon, Wed, Fri
+      },
+      {
+        ...habits[1],
+        days: [0, 1, 2, 3, 4, 5, 6], // Every day
+      },
+    ];
+
+    renderWithProviders(
+      <SeeHabitModal
+        isOpen={true}
+        onClose={mockOnClose}
+        habits={habitsWithDays}
+        logs={logs}
+      />,
+    );
+
+    // Should display Mon, Wed, Fri badges for first habit
+    expect(screen.getByText('Mon')).toBeInTheDocument();
+    expect(screen.getByText('Wed')).toBeInTheDocument();
+    expect(screen.getByText('Fri')).toBeInTheDocument();
+    expect(screen.queryByText('Every day')).not.toBeInTheDocument();
+
+    // Render the modal with only h2 to verify Every day fallback
+    renderWithProviders(
+      <SeeHabitModal
+        isOpen={true}
+        onClose={mockOnClose}
+        habits={[habitsWithDays[1]]}
+        logs={logs}
+      />,
+    );
+    expect(screen.getByText('Every day')).toBeInTheDocument();
+  });
 });

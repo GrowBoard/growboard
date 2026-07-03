@@ -5,6 +5,16 @@ import { DialogContainer } from '@components';
 import { AddHabitModalProps } from '../types';
 import { formatLocalDate } from '../util';
 
+const DAYS_OF_WEEK = [
+  { label: 'Sun', value: 0 },
+  { label: 'Mon', value: 1 },
+  { label: 'Tue', value: 2 },
+  { label: 'Wed', value: 3 },
+  { label: 'Thu', value: 4 },
+  { label: 'Fri', value: 5 },
+  { label: 'Sat', value: 6 },
+];
+
 /**
  * AddHabitModal Component.
  * Dialog form to start a new habit or edit an existing one.
@@ -21,6 +31,7 @@ export const AddHabitModal = ({
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [targetPercentage, setTargetPercentage] = useState<number>(100);
+  const [selectedDays, setSelectedDays] = useState<number[]>([]);
 
   const [isSaving, setIsSaving] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
@@ -33,11 +44,13 @@ export const AddHabitModal = ({
         setStartDate(editItem.startDate);
         setEndDate(editItem.endDate || '');
         setTargetPercentage(editItem.targetPercentage);
+        setSelectedDays(editItem.days || [0, 1, 2, 3, 4, 5, 6]);
       } else {
         setName('');
         setStartDate(formatLocalDate(new Date()));
         setEndDate('');
         setTargetPercentage(100);
+        setSelectedDays([0, 1, 2, 3, 4, 5, 6]);
       }
       setErrorMsg('');
       setIsSaving(false);
@@ -80,6 +93,15 @@ export const AddHabitModal = ({
       );
       return;
     }
+    if (selectedDays.length === 0) {
+      setErrorMsg(
+        t(
+          'HabitTracker.errorAtLeastOneDayRequired',
+          'At least one repeat day must be selected.',
+        ),
+      );
+      return;
+    }
 
     try {
       setIsSaving(true);
@@ -90,6 +112,7 @@ export const AddHabitModal = ({
         startDate,
         endDate: endDate || '',
         targetPercentage,
+        days: selectedDays,
         createdAt: editItem ? editItem.createdAt : new Date().toISOString(),
       });
       onClose();
@@ -100,6 +123,23 @@ export const AddHabitModal = ({
       );
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const handleToggleAll = () => {
+    const isAllSelected = selectedDays.length === 7;
+    if (isAllSelected) {
+      setSelectedDays([]);
+    } else {
+      setSelectedDays([0, 1, 2, 3, 4, 5, 6]);
+    }
+  };
+
+  const handleToggleDay = (value: number) => {
+    if (selectedDays.includes(value)) {
+      setSelectedDays(selectedDays.filter((d) => d !== value));
+    } else {
+      setSelectedDays([...selectedDays, value].sort());
     }
   };
 
@@ -225,6 +265,61 @@ export const AddHabitModal = ({
               fontSize="sm"
               _focus={{ borderColor: 'border.focus' }}
             />
+          </Field.Root>
+
+          {/* Repeat Days Field */}
+          <Field.Root invalid={!!errorMsg && selectedDays.length === 0}>
+            <Field.Label
+              fontWeight="semibold"
+              fontSize="xs"
+              color="text.primary"
+            >
+              {t('HabitTracker.repeatDaysLabel', 'Repeat On')}
+            </Field.Label>
+            <HStack gap={2} wrap="wrap" mt={1}>
+              <Button
+                type="button"
+                size="xs"
+                variant={selectedDays.length === 7 ? 'solid' : 'outline'}
+                bg={selectedDays.length === 7 ? 'bg.active' : 'bg.card'}
+                color={selectedDays.length === 7 ? 'text.primary' : 'text.secondary'}
+                borderColor={selectedDays.length === 7 ? 'border.focus' : 'border.subtle'}
+                onClick={handleToggleAll}
+                borderRadius="full"
+                px={3}
+                py={1}
+                h="8"
+                fontSize="xs"
+                fontWeight="medium"
+                _hover={{ bg: selectedDays.length === 7 ? 'rgba(0, 216, 255, 0.25)' : 'bg.active' }}
+              >
+                {t('HabitTracker.allDaysChip', 'All days')}
+              </Button>
+              {DAYS_OF_WEEK.map((day) => {
+                const isSelected = selectedDays.includes(day.value);
+                return (
+                  <Button
+                    key={day.value}
+                    type="button"
+                    size="xs"
+                    variant={isSelected ? 'solid' : 'outline'}
+                    bg={isSelected ? 'bg.active' : 'bg.card'}
+                    color={isSelected ? 'text.primary' : 'text.secondary'}
+                    borderColor={isSelected ? 'border.focus' : 'border.subtle'}
+                    onClick={() => handleToggleDay(day.value)}
+                    borderRadius="full"
+                    px={3}
+                    py={1}
+                    h="8"
+                    fontSize="xs"
+                    fontWeight="medium"
+                    _hover={{ bg: isSelected ? 'rgba(0, 216, 255, 0.25)' : 'bg.active' }}
+                  >
+                    {t(`HabitTracker.day_${day.label}`, day.label)}
+                  </Button>
+                );
+              })}
+            </HStack>
           </Field.Root>
 
           {/* Target Percentage Field */}

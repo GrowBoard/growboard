@@ -75,6 +75,12 @@ export const DashboardTour = ({ run, onTourEnd }: DashboardTourProps) => {
       placement: 'right',
     },
     {
+      target: '.tour-sidebar-habits',
+      title: t('DashboardTour.stepHabitsTitle'),
+      content: t('DashboardTour.stepHabitsBody'),
+      placement: 'right',
+    },
+    {
       target: '.tour-sidebar-credentials',
       title: t('DashboardTour.stepCredsTitle'),
       content: t('DashboardTour.stepCredsBody'),

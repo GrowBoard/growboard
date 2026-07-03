@@ -10,6 +10,7 @@ import {
   Box,
   Heading,
   Grid,
+  Badge,
 } from '@chakra-ui/react';
 import { DialogContainer } from '@components';
 import { SeeHabitModalProps } from '../types';
@@ -236,6 +237,70 @@ export const SeeHabitModal = ({
                         : '(Open-ended)'}
                     </Text>
                   </HStack>
+                </HStack>
+
+                {/* Repeat Days display */}
+                <HStack gap={1} mt={1} wrap="wrap" align="center">
+                  <Text
+                    fontSize="10px"
+                    fontWeight="bold"
+                    color="text.muted"
+                    textTransform="uppercase"
+                    letterSpacing="wider"
+                  >
+                    Repeat:
+                  </Text>
+                  {selectedHabit.days && selectedHabit.days.length > 0 ? (
+                    selectedHabit.days.length === 7 ? (
+                      <Badge
+                        bg="rgba(0, 216, 255, 0.1)"
+                        color="cyan.400"
+                        borderColor="rgba(0, 216, 255, 0.2)"
+                        variant="outline"
+                        fontSize="9px"
+                        fontWeight="bold"
+                        borderRadius="md"
+                        px={1.5}
+                        py={0.5}
+                      >
+                        Every day
+                      </Badge>
+                    ) : (
+                      selectedHabit.days.map((dayValue) => {
+                        const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                        return (
+                          <Badge
+                            key={dayValue}
+                            bg="bg.active"
+                            color="text.primary"
+                            borderColor="border.subtle"
+                            variant="outline"
+                            fontSize="9px"
+                            fontWeight="bold"
+                            borderRadius="md"
+                            px={1.5}
+                            py={0.5}
+                          >
+                            {dayNames[dayValue]}
+                          </Badge>
+                        );
+                      })
+                    )
+                  ) : (
+                    <Badge
+                      bg="rgba(0, 216, 255, 0.1)"
+                      color="cyan.400"
+                      borderColor="rgba(0, 216, 255, 0.2)"
+                      variant="outline"
+                      fontSize="9px"
+                      fontWeight="bold"
+                      borderRadius="md"
+                      px={1.5}
+                      py={0.5}
+                    >
+                      Every day
+                    </Badge>
+                  )}
                 </HStack>
 
                 {/* Progress Consistency bar */}

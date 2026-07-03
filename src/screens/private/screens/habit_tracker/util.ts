@@ -24,6 +24,15 @@ export const isHabitActiveOnDate = (
     return false;
   }
 
+  if (habit.days && habit.days.length > 0) {
+    const [year, month, day] = dateStr.split('-').map(Number);
+    const dateObj = new Date(year, month - 1, day);
+    const dayOfWeek = dateObj.getDay(); // 0 = Sun, 1 = Mon, etc.
+    if (!habit.days.includes(dayOfWeek)) {
+      return false;
+    }
+  }
+
   return true;
 };
 
