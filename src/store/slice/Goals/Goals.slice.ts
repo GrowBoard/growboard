@@ -6,6 +6,7 @@ import { GoalsStateSlice, GoalsState } from './types';
  */
 const initialState: GoalsState = {
   goalsData: [],
+  lastFetched: undefined,
 };
 
 /**
@@ -20,10 +21,12 @@ export const createGoalsSlice: AppStoreSlice<GoalsStateSlice> = (set) => ({
   updateGoals: (goals) =>
     set((state) => {
       state.Goals.goalsData = goals;
+      state.Goals.lastFetched = Date.now();
     }),
   removeGoals: () => {
     set((state) => {
       state.Goals.goalsData = initialState.goalsData;
+      state.Goals.lastFetched = undefined;
     });
   },
 });

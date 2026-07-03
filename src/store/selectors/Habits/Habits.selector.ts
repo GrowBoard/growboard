@@ -12,6 +12,10 @@ export const habitsSelector = (state: AppStoreState) => ({
   habitsData: state.Habits.habitsData,
   /** The current list of daily habit log entries */
   habitLogsData: state.Habits.habitLogsData,
+  /** Timestamp when habits were last fetched */
+  lastFetchedHabits: state.Habits.lastFetchedHabits,
+  /** Timestamp when habit logs were last fetched */
+  lastFetchedLogs: state.Habits.lastFetchedLogs,
   /** Action trigger to replace the habits list */
   updateHabits: state.Habits.updateHabits,
   /** Action trigger to clear all habits */

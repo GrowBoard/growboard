@@ -5,6 +5,7 @@ import {
   FaGithub,
   FaXTwitter,
   FaGlobe,
+  FaLinkedin,
 } from 'react-icons/fa6';
 import { InputText, InputType } from '@components';
 import {
@@ -47,6 +48,7 @@ export const ProfileForm = ({
       github: initialData?.socialLink?.github || '',
       x: initialData?.socialLink?.x || '',
       website: initialData?.socialLink?.website || '',
+      linkedin: initialData?.socialLink?.linkedin || '',
     },
     hobbies: initialData?.hobbies || [],
   };
@@ -309,6 +311,7 @@ export const ProfileForm = ({
               github: '',
               x: '',
               website: '',
+              linkedin: '',
             };
 
             const socialFields = [
@@ -353,6 +356,14 @@ export const ProfileForm = ({
                 color: '#0891b2',
                 borderColor: '#06b6d4',
                 placeholder: 'Website URL',
+              },
+              {
+                key: 'linkedin',
+                label: 'LinkedIn',
+                icon: <FaLinkedin size={18} />,
+                color: '#0A66C2',
+                borderColor: '#0A66C2',
+                placeholder: 'LinkedIn Profile URL',
               },
             ];
 

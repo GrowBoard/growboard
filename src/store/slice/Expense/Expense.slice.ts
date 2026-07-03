@@ -17,6 +17,8 @@ const initialState: ExpenseDataState = {
     isOpen: false,
   },
   date,
+  expensesData: [],
+  lastFetched: {},
 };
 
 /**
@@ -58,6 +60,17 @@ const createExpenseSlice: AppStoreSlice<ExpenseStateSlice> = (set) => ({
       state.Expense.overview.day = day;
       state.Expense.overview.month = month;
       state.Expense.overview.year = year ?? state.Expense.overview.year;
+    }),
+  updateExpenses: (expenses) =>
+    set((state) => {
+      state.Expense.expensesData = expenses;
+    }),
+  updateExpenseLastFetched: ({ monthKey, timestamp }) =>
+    set((state) => {
+      if (!state.Expense.lastFetched) {
+        state.Expense.lastFetched = {};
+      }
+      state.Expense.lastFetched[monthKey] = timestamp;
     }),
 });
 

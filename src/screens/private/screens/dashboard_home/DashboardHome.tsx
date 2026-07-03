@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Box, Grid, VStack } from '@chakra-ui/react';
 import { appStore } from '@store';
+import { useQueryClient } from '@tanstack/react-query';
 import {
   useShallow,
   goalsSelector,
@@ -13,11 +14,7 @@ import {
 } from '@selectors';
 import { getRecentGoals, getActiveGoalsCount } from './util';
 import { RECENT_ITEMS_COUNT } from './const';
-import {
-  useGetPlansData,
-  useGetProjectsData,
-  useGetHabitsData,
-} from '@services/hooks/private';
+import { useGetPlansData, useGetProjectsData, useGetGoalsData, useGetLearningsData, useGetCredsData, useGetHabitsData, useGetHabitLogsData } from '@services/hooks/private';
 import {
   GreetingHero,
   StatsTiles,
@@ -46,7 +43,11 @@ const DashboardHome = () => {
   // Query triggers to populate dashboard stats
   useGetPlansData();
   useGetProjectsData();
+  useGetGoalsData();
+  useGetLearningsData();
+  useGetCredsData();
   useGetHabitsData();
+  useGetHabitLogsData();
 
   // Derived data
   const recentGoals = getRecentGoals(goalsData);
@@ -77,6 +78,47 @@ const DashboardHome = () => {
     setRunTour(true);
   };
 
+  const queryClient = useQueryClient();
+  const [isSyncing, setIsSyncing] = useState(false);
+
+  const handleSync = async () => {
+    setIsSyncing(true);
+    try {
+      // Clear lastFetched cache timestamps AND cached data arrays in Zustand to force a clean slate
+      appStore.setState((state) => ({
+        ...state,
+        Goals: { ...state.Goals, goalsData: [], lastFetched: undefined },
+        Projects: { ...state.Projects, projects: [], lastFetched: undefined },
+        Plans: { ...state.Plans, plansData: [], lastFetched: undefined },
+        Learnings: {
+          ...state.Learnings,
+          learningsData: [],
+          lastFetched: undefined,
+        },
+        Resources: {
+          ...state.Resources,
+          resourcesData: [],
+          lastFetched: undefined,
+        },
+        Expense: { ...state.Expense, expensesData: [], lastFetched: {} },
+        Habits: {
+          ...state.Habits,
+          habitsData: [],
+          habitLogsData: [],
+          lastFetchedHabits: undefined,
+          lastFetchedLogs: undefined,
+        },
+      }));
+
+      // Invalidate all React Query queries to trigger immediate reload
+      await queryClient.invalidateQueries();
+    } catch (err) {
+      console.error('Manual sync failed:', err);
+    } finally {
+      setIsSyncing(false);
+    }
+  };
+
   return (
     <Box h="full" w="100%" p={4}>
       <DashboardTour run={runTour} onTourEnd={handleTourEnd} />
@@ -85,6 +127,8 @@ const DashboardHome = () => {
         <GreetingHero
           name={userName ?? 'there'}
           onStartTour={handleStartTour}
+          onSync={handleSync}
+          isSyncing={isSyncing}
         />
 
         {/* Stats Overview Tiles */}

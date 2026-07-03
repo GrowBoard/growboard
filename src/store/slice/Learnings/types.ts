@@ -24,6 +24,8 @@ export interface LearningItem {
 export type LearningsState = {
   /** The current list of learnings */
   learningsData: LearningItem[];
+  /** Timestamp when learnings were last fetched from Google Drive */
+  lastFetched?: number;
 };
 
 /**

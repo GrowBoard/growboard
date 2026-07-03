@@ -6,6 +6,7 @@ import { ResourcesStateSlice, ResourcesState } from './types';
  */
 const initialState: ResourcesState = {
   resourcesData: [],
+  lastFetched: undefined,
 };
 
 /**
@@ -22,10 +23,12 @@ export const createResourcesSlice: AppStoreSlice<ResourcesStateSlice> = (
   updateResources: (resources) =>
     set((state) => {
       state.Resources.resourcesData = resources;
+      state.Resources.lastFetched = Date.now();
     }),
   removeResources: () => {
     set((state) => {
       state.Resources.resourcesData = initialState.resourcesData;
+      state.Resources.lastFetched = undefined;
     });
   },
 });

@@ -13,6 +13,10 @@ export const projectsSelector = (state: AppStoreState) => ({
    */
   projectData: state.Projects.projects,
   /**
+   * Timestamp when projects were last fetched from Google Sheets.
+   */
+  lastFetched: state.Projects.lastFetched,
+  /**
    * Action trigger to add or bulk set projects.
    */
   addProjects: state.Projects.addProjects,

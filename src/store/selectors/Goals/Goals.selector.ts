@@ -13,6 +13,10 @@ export const goalsSelector = (state: AppStoreState) => ({
    */
   goalsData: state.Goals.goalsData,
   /**
+   * Timestamp when goals were last fetched from Google Drive.
+   */
+  lastFetched: state.Goals.lastFetched,
+  /**
    * Action trigger to modify/update current goals.
    */
   updateGoals: state.Goals.updateGoals,

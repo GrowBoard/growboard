@@ -6,6 +6,7 @@ import { PlansStateSlice, PlansState } from './types';
  */
 const initialState: PlansState = {
   plansData: [],
+  lastFetched: undefined,
 };
 
 /**
@@ -20,10 +21,12 @@ export const createPlansSlice: AppStoreSlice<PlansStateSlice> = (set) => ({
   updatePlans: (plans) =>
     set((state) => {
       state.Plans.plansData = plans;
+      state.Plans.lastFetched = Date.now();
     }),
   removePlans: () => {
     set((state) => {
       state.Plans.plansData = initialState.plansData;
+      state.Plans.lastFetched = undefined;
     });
   },
 });

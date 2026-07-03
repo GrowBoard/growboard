@@ -6,6 +6,7 @@ import { ProjectDataState, ProjectStateSlice } from './types';
  */
 const initialState: ProjectDataState = {
   projects: [],
+  lastFetched: undefined,
 };
 
 /**
@@ -20,11 +21,13 @@ const createProjectsSlice: AppStoreSlice<ProjectStateSlice> = (set) => ({
   addProjects(projects) {
     set((state) => {
       state.Projects.projects = projects;
+      state.Projects.lastFetched = Date.now();
     });
   },
   removeProjectsState() {
     set((state) => {
       state.Projects.projects = initialState.projects;
+      state.Projects.lastFetched = undefined;
     });
   },
 });

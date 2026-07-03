@@ -12,9 +12,9 @@ import {
   createLearningsSlice,
   createResourcesSlice,
   createPlansSlice,
-  createHabitsSlice,
 } from '@store/slice';
 import { createJSONStorage, persist } from 'zustand/middleware';
+import { createHabitsSlice } from '../slice/Habits';
 
 import { AppStoreState } from './types';
 import { createProfileSlice } from '../slice/User';
@@ -40,6 +40,10 @@ export const appStore = create<AppStoreState>()(
       storage: createJSONStorage(() => localStorage),
       merge: (persistedState, currentState) =>
         deepMerge(currentState, persistedState as AppStoreState),
+      partialize: (state) => {
+        const { Creds, ...rest } = state;
+        return rest;
+      },
     },
   ),
 );
@@ -60,10 +64,6 @@ function deepMerge(
     Auth: {
       ...currentState.Auth,
       ...persistedState.Auth,
-    },
-    Creds: {
-      ...currentState.Creds,
-      ...persistedState.Creds,
     },
     Goals: {
       ...currentState.Goals,
@@ -88,6 +88,10 @@ function deepMerge(
     Habits: {
       ...currentState.Habits,
       ...persistedState.Habits,
+    },
+    Expense: {
+      ...currentState.Expense,
+      ...persistedState.Expense,
     },
   };
 }

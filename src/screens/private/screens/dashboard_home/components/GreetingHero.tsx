@@ -1,5 +1,5 @@
-import { Box, Text, VStack, Button } from '@chakra-ui/react';
-import { LuCircleHelp } from 'react-icons/lu';
+import { Box, Text, VStack, Button, HStack, Spinner } from '@chakra-ui/react';
+import { LuCircleHelp, LuRefreshCw } from 'react-icons/lu';
 import { useTranslation } from 'react-i18next';
 import { GreetingHeroProps } from '../types';
 import { getGreeting, getDailyQuote, getFormattedDate } from '../util';
@@ -9,7 +9,12 @@ import { getGreeting, getDailyQuote, getFormattedDate } from '../util';
  * Renders the top hero strip featuring a time-aware greeting, current date,
  * and a daily rotating motivational quote.
  */
-export const GreetingHero = ({ name, onStartTour }: GreetingHeroProps) => {
+export const GreetingHero = ({
+  name,
+  onStartTour,
+  onSync,
+  isSyncing,
+}: GreetingHeroProps) => {
   const { t } = useTranslation();
   const greeting = getGreeting(name);
   const quote = getDailyQuote();
@@ -28,28 +33,51 @@ export const GreetingHero = ({ name, onStartTour }: GreetingHeroProps) => {
       position="relative"
       overflow="hidden"
     >
-      {onStartTour && (
-        <Button
-          position="absolute"
-          top={6}
-          right={6}
-          size="xs"
-          variant="outline"
-          onClick={onStartTour}
-          borderColor="border.subtle"
-          bg="rgba(0, 216, 255, 0.1)"
-          color="text.onGradient"
-          _hover={{
-            bg: 'rgba(0, 216, 255, 0.25)',
-            borderColor: 'border.focus',
-          }}
-          gap={1.5}
-          zIndex={1}
-        >
-          <LuCircleHelp />
-          {t('DashboardTour.startTour')}
-        </Button>
-      )}
+      <HStack position="absolute" top={6} right={6} gap={2} zIndex={1}>
+        {onSync && (
+          <Button
+            size="xs"
+            variant="outline"
+            onClick={onSync}
+            borderColor="border.subtle"
+            bg="rgba(0, 216, 255, 0.1)"
+            color="text.onGradient"
+            _hover={{
+              bg: 'rgba(0, 216, 255, 0.25)',
+              borderColor: 'border.focus',
+            }}
+            gap={1.5}
+            px={2.5}
+            disabled={isSyncing}
+          >
+            {isSyncing ? (
+              <Spinner size="xs" color="currentColor" />
+            ) : (
+              <LuRefreshCw />
+            )}
+            {isSyncing ? 'Syncing...' : 'Sync'}
+          </Button>
+        )}
+        {onStartTour && (
+          <Button
+            size="xs"
+            variant="outline"
+            onClick={onStartTour}
+            borderColor="border.subtle"
+            bg="rgba(0, 216, 255, 0.1)"
+            color="text.onGradient"
+            _hover={{
+              bg: 'rgba(0, 216, 255, 0.25)',
+              borderColor: 'border.focus',
+            }}
+            gap={1.5}
+            px={2.5}
+          >
+            <LuCircleHelp />
+            {t('DashboardTour.startTour')}
+          </Button>
+        )}
+      </HStack>
       {/* Decorative blurred orb */}
       <Box
         position="absolute"

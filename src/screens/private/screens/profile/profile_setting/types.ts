@@ -16,6 +16,7 @@ export interface ProfileFormValues {
     github: string;
     x: string;
     website: string;
+    linkedin: string;
   };
   /** Hobbies tags list. */
   hobbies: string[];

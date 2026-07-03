@@ -13,6 +13,10 @@ export const learningsSelector = (state: AppStoreState) => ({
    */
   learningsData: state.Learnings.learningsData,
   /**
+   * Timestamp when learnings were last fetched from Google Drive.
+   */
+  lastFetched: state.Learnings.lastFetched,
+  /**
    * Action trigger to modify/update current learnings.
    */
   updateLearnings: state.Learnings.updateLearnings,

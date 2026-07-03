@@ -30,6 +30,8 @@ export interface ProjectItem {
 export interface ProjectDataState {
   /** Loaded list of projects */
   projects: ProjectItem[];
+  /** Timestamp when projects were last fetched from Google Sheets */
+  lastFetched?: number;
 }
 
 /**

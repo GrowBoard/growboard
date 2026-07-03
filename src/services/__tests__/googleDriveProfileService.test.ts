@@ -42,6 +42,7 @@ describe('GoogleDriveProfileService', () => {
           github: 'gh',
           x: 'x',
           website: 'web',
+          linkedin: 'li',
         },
         hobbies: ['swimming'],
       };
@@ -87,6 +88,7 @@ describe('GoogleDriveProfileService', () => {
           github: '',
           x: '',
           website: '',
+          linkedin: '',
         },
         hobbies: [],
       };

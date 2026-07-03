@@ -13,6 +13,10 @@ export const resourcesSelector = (state: AppStoreState) => ({
    */
   resourcesData: state.Resources.resourcesData,
   /**
+   * Timestamp when resources were last fetched from Google Sheets.
+   */
+  lastFetched: state.Resources.lastFetched,
+  /**
    * Action trigger to modify/update current resources.
    */
   updateResources: state.Resources.updateResources,
