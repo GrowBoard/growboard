@@ -116,9 +116,7 @@ describe('CredsScreen component', () => {
     fireEvent.click(screen.getByRole('button', { name: /Add Credential/i }));
 
     // Wait for form inputs to mount
-    const titleInput = await screen.findByPlaceholderText(
-      /Account Title/i,
-    );
+    const titleInput = await screen.findByPlaceholderText(/Account Title/i);
     const nameInput = screen.getByPlaceholderText('Name');
     const valueInput = screen.getByPlaceholderText('Value');
     const saveButton = screen.getByRole('button', { name: /Save/i });
@@ -176,15 +174,21 @@ describe('CredsScreen component', () => {
     const searchInput = screen.getByPlaceholderText(
       /Search by title or field/i,
     );
-    fireEvent.change(searchInput, { target: { value: 'Non-existent service' } });
+    fireEvent.change(searchInput, {
+      target: { value: 'Non-existent service' },
+    });
 
     // Verify empty state for search results
     expect(screen.getByText('No matching results')).toBeInTheDocument();
     expect(
-      screen.getByText(/Try adjusting your search query or clearing the filter/i),
+      screen.getByText(
+        /Try adjusting your search query or clearing the filter/i,
+      ),
     ).toBeInTheDocument();
     // Add button should NOT be inside the empty state
-    expect(screen.queryByRole('button', { name: 'Add' })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: 'Add' }),
+    ).not.toBeInTheDocument();
   });
 
   it('shows no credentials empty state when user has no credentials', () => {

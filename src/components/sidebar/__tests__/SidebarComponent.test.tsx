@@ -33,7 +33,9 @@ describe('SidebarComponent component', () => {
 
     // Check that profile link is rendered (default fallback icon since picture is empty)
     expect(document.querySelector('a[href="/profile"]')).toBeInTheDocument();
-    expect(screen.queryByRole('img', { name: /Profile Picture/i })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('img', { name: /Profile Picture/i }),
+    ).not.toBeInTheDocument();
   });
 
   it('renders profile picture if provided in store', () => {

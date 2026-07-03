@@ -22,5 +22,8 @@ export { default as useDeletePlanData } from './useDeletePlanData';
 export { default as useGetProjectsData } from './useGetProjectsData';
 export { default as useSaveProjectData } from './useSaveProjectData';
 export { default as useDeleteProjectData } from './useDeleteProjectData';
-
-
+export { default as useGetHabitsData } from './useGetHabitsData';
+export { default as useGetHabitLogsData } from './useGetHabitLogsData';
+export { default as useSaveHabitData } from './useSaveHabitData';
+export { default as useDeleteHabitData } from './useDeleteHabitData';
+export { default as useUpsertHabitLog } from './useUpsertHabitLog';

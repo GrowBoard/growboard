@@ -13,8 +13,7 @@ export const useSaveGoalData = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (goal: GoalItem) =>
-      googleDriveGoalsService.saveGoal(goal),
+    mutationFn: (goal: GoalItem) => googleDriveGoalsService.saveGoal(goal),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['driveGoals'] });
     },

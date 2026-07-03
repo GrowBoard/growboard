@@ -58,7 +58,7 @@ export const parseInlineMarkdown = (text: string): React.ReactNode[] => {
         parts.push(
           <strong key={`bold-${keyIndex++}`} style={{ fontWeight: 'bold' }}>
             {rest.substring(0, nextBold)}
-          </strong>
+          </strong>,
         );
         remaining = rest.substring(nextBold + 2);
       } else {
@@ -83,7 +83,7 @@ export const parseInlineMarkdown = (text: string): React.ReactNode[] => {
             fontSize="xs"
           >
             {rest.substring(0, nextCode)}
-          </Code>
+          </Code>,
         );
         remaining = rest.substring(nextCode + 1);
       } else {
@@ -131,7 +131,7 @@ export const renderMarkdown = (md: string): React.ReactNode[] => {
             my={3}
           >
             {codeContent.join('\n')}
-          </Box>
+          </Box>,
         );
         codeContent = [];
         inCodeBlock = false;
@@ -162,7 +162,7 @@ export const renderMarkdown = (md: string): React.ReactNode[] => {
           pb={1}
         >
           {parseInlineMarkdown(line.substring(2))}
-        </Heading>
+        </Heading>,
       );
     } else if (line.startsWith('## ')) {
       elements.push(
@@ -176,7 +176,7 @@ export const renderMarkdown = (md: string): React.ReactNode[] => {
           fontWeight="semibold"
         >
           {parseInlineMarkdown(line.substring(3))}
-        </Heading>
+        </Heading>,
       );
     } else if (line.startsWith('### ')) {
       elements.push(
@@ -190,7 +190,7 @@ export const renderMarkdown = (md: string): React.ReactNode[] => {
           fontWeight="semibold"
         >
           {parseInlineMarkdown(line.substring(4))}
-        </Heading>
+        </Heading>,
       );
     }
     // Bullet items
@@ -200,7 +200,7 @@ export const renderMarkdown = (md: string): React.ReactNode[] => {
           <List.Item color="text.secondary" listStyleType="disc">
             {parseInlineMarkdown(line.substring(2))}
           </List.Item>
-        </List.Root>
+        </List.Root>,
       );
     }
     // Horizontal rule
@@ -211,7 +211,7 @@ export const renderMarkdown = (md: string): React.ReactNode[] => {
           borderBottom="1px solid"
           borderColor="border.subtle"
           my={4}
-        />
+        />,
       );
     }
     // Normal paragraph or empty break
@@ -228,7 +228,7 @@ export const renderMarkdown = (md: string): React.ReactNode[] => {
             fontSize="sm"
           >
             {parseInlineMarkdown(line)}
-          </Text>
+          </Text>,
         );
       }
     }

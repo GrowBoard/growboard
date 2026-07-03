@@ -269,18 +269,25 @@ describe('GoogleSheetsExpenseService', () => {
 
   describe('fetchAPI error paths', () => {
     it('returns ERROR when silent refresh fails on 401', async () => {
-      (triggerSilentRefresh as jest.Mock).mockRejectedValueOnce(new Error('Refresh failed'));
+      (triggerSilentRefresh as jest.Mock).mockRejectedValueOnce(
+        new Error('Refresh failed'),
+      );
 
       mockFetch.mockResolvedValueOnce({
         ok: false,
         status: 401,
         clone: () => ({
-          json: async () => { throw new Error('not json'); },
+          json: async () => {
+            throw new Error('not json');
+          },
           text: async () => 'Unauthorized',
         }),
       });
 
-      const result = await googleSheetsExpenseService.getExpensesForMonth(2026, 5);
+      const result = await googleSheetsExpenseService.getExpensesForMonth(
+        2026,
+        5,
+      );
       expect(result.status).toBe('ERROR');
       expect(result.data).toEqual([]);
     });
@@ -302,7 +309,10 @@ describe('GoogleSheetsExpenseService', () => {
           }),
         });
 
-      const result = await googleSheetsExpenseService.getExpensesForMonth(2026, 5);
+      const result = await googleSheetsExpenseService.getExpensesForMonth(
+        2026,
+        5,
+      );
       expect(result.status).toBe('ERROR');
       expect(result.successMessage).toContain('Authentication');
     });
@@ -312,12 +322,17 @@ describe('GoogleSheetsExpenseService', () => {
         ok: false,
         status: 500,
         clone: () => ({
-          json: async () => { throw new Error('not json'); },
+          json: async () => {
+            throw new Error('not json');
+          },
           text: async () => 'plain server error',
         }),
       });
 
-      const result = await googleSheetsExpenseService.getExpensesForMonth(2026, 5);
+      const result = await googleSheetsExpenseService.getExpensesForMonth(
+        2026,
+        5,
+      );
       expect(result.status).toBe('ERROR');
       expect(result.successMessage).toContain('500');
     });
@@ -328,7 +343,10 @@ describe('GoogleSheetsExpenseService', () => {
         status: 204,
       });
 
-      const result = await googleSheetsExpenseService.getExpensesForMonth(2026, 5);
+      const result = await googleSheetsExpenseService.getExpensesForMonth(
+        2026,
+        5,
+      );
       expect(result.data).toEqual([]);
     });
   });
@@ -341,7 +359,10 @@ describe('GoogleSheetsExpenseService', () => {
         json: async () => ({}),
       });
 
-      const result = await googleSheetsExpenseService.getExpensesForMonth(2026, 5);
+      const result = await googleSheetsExpenseService.getExpensesForMonth(
+        2026,
+        5,
+      );
       expect(result.data).toEqual([]);
     });
 
@@ -352,7 +373,10 @@ describe('GoogleSheetsExpenseService', () => {
         json: async () => ({ values: [] }),
       });
 
-      const result = await googleSheetsExpenseService.getExpensesForMonth(2026, 5);
+      const result = await googleSheetsExpenseService.getExpensesForMonth(
+        2026,
+        5,
+      );
       expect(result.data).toEqual([]);
     });
   });

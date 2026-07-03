@@ -33,7 +33,9 @@ describe('LearningCard component', () => {
     );
 
     expect(screen.getByText('Learn System Design')).toBeInTheDocument();
-    expect(screen.getByText('Understand scalable architectures')).toBeInTheDocument();
+    expect(
+      screen.getByText('Understand scalable architectures'),
+    ).toBeInTheDocument();
     expect(screen.getByText('tech')).toBeInTheDocument();
     expect(screen.getByText('architecture')).toBeInTheDocument();
   });

@@ -63,7 +63,7 @@ describe('useGetExpensesDataForDate hook', () => {
       expect.objectContaining({
         start_date: expect.stringContaining(`${currentYear}-06-02`),
         end_date: expect.stringContaining(`${currentYear}-07-01`),
-      })
+      }),
     );
   });
 });

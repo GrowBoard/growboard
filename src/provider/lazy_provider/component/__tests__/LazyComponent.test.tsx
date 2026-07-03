@@ -4,9 +4,7 @@ import React from 'react';
 import LazyComponentProvider from '../LazyComponent';
 
 jest.mock('@components', () => ({
-  PageLoadingComponent: () => (
-    <div data-testid="page-loading">Loading...</div>
-  ),
+  PageLoadingComponent: () => <div data-testid="page-loading">Loading...</div>,
 }));
 
 describe('LazyComponentProvider', () => {
@@ -14,7 +12,7 @@ describe('LazyComponentProvider', () => {
     render(
       <LazyComponentProvider>
         <div data-testid="eager-child">Eager Child</div>
-      </LazyComponentProvider>
+      </LazyComponentProvider>,
     );
 
     expect(screen.getByTestId('eager-child')).toBeInTheDocument();

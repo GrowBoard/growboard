@@ -1,4 +1,12 @@
-import { Badge, Box, Flex, HStack, IconButton, Text, VStack } from '@chakra-ui/react';
+import {
+  Badge,
+  Box,
+  Flex,
+  HStack,
+  IconButton,
+  Text,
+  VStack,
+} from '@chakra-ui/react';
 import { LuPencil, LuTrash2, LuBookOpen } from 'react-icons/lu';
 import { LearningCardProps } from '../types';
 

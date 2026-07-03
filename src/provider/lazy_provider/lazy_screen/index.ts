@@ -11,3 +11,4 @@ export * from './LazyResourcesScreen';
 export * from './LazyProjectScreen';
 export * from './LazyPublicScreen';
 export * from './LazyStaticScreen';
+export * from './LazyHabitsScreen';

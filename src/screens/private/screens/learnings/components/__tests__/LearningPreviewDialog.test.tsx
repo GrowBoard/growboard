@@ -9,7 +9,8 @@ describe('LearningPreviewDialog component', () => {
     title: 'TypeScript Generics',
     subtitle: 'Advanced TS Concepts',
     tags: ['ts', 'js'],
-    content: 'Generics are powerful tools in TS.\n\n- Flexible reuse\n- Strong types',
+    content:
+      'Generics are powerful tools in TS.\n\n- Flexible reuse\n- Strong types',
   };
 
   const defaultProps = {
@@ -24,7 +25,11 @@ describe('LearningPreviewDialog component', () => {
 
   it('renders nothing when item is null', () => {
     renderWithProviders(
-      <LearningPreviewDialog isOpen={true} onOpenChange={jest.fn()} item={null as any} />,
+      <LearningPreviewDialog
+        isOpen={true}
+        onOpenChange={jest.fn()}
+        item={null as any}
+      />,
     );
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
@@ -35,7 +40,9 @@ describe('LearningPreviewDialog component', () => {
     expect(screen.getByText('Advanced TS Concepts')).toBeInTheDocument();
     expect(screen.getByText('ts')).toBeInTheDocument();
     expect(screen.getByText('js')).toBeInTheDocument();
-    expect(screen.getByText('Generics are powerful tools in TS.')).toBeInTheDocument();
+    expect(
+      screen.getByText('Generics are powerful tools in TS.'),
+    ).toBeInTheDocument();
     expect(screen.getByText('Flexible reuse')).toBeInTheDocument();
   });
 

@@ -190,7 +190,8 @@ class GoogleSheetsPlanService {
 
     console.log('Writing default headers to Plans spreadsheet...');
     const detailsUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}?fields=sheets(properties(sheetId,title))`;
-    const spreadsheet = await this.fetchAPI<SpreadsheetDetailsResponse>(detailsUrl);
+    const spreadsheet =
+      await this.fetchAPI<SpreadsheetDetailsResponse>(detailsUrl);
     const sheetTitle = spreadsheet.sheets?.[0]?.properties.title || 'Sheet1';
 
     // Schema: Id, title, subtitle, date, time, tags, about_plan
@@ -198,7 +199,9 @@ class GoogleSheetsPlanService {
     await this.fetchAPI<unknown>(writeHeadersUrl, {
       method: 'PUT',
       body: JSON.stringify({
-        values: [['Id', 'title', 'subtitle', 'date', 'time', 'tags', 'about_plan']],
+        values: [
+          ['Id', 'title', 'subtitle', 'date', 'time', 'tags', 'about_plan'],
+        ],
       }),
     });
 
@@ -208,29 +211,41 @@ class GoogleSheetsPlanService {
   /**
    * Resolves the spreadsheet and folder IDs.
    */
-  private async getSpreadsheetDetails(): Promise<{ spreadsheetId: string; sheetTitle: string }> {
+  private async getSpreadsheetDetails(): Promise<{
+    spreadsheetId: string;
+    sheetTitle: string;
+  }> {
     try {
       const growboardFolderId = await this.getOrCreateGrowboardFolder();
-      const plansFolderId = await this.getOrCreatePlansFolder(growboardFolderId);
-      const spreadsheetId = await this.getOrCreatePlansSpreadsheet(plansFolderId);
+      const plansFolderId =
+        await this.getOrCreatePlansFolder(growboardFolderId);
+      const spreadsheetId =
+        await this.getOrCreatePlansSpreadsheet(plansFolderId);
 
       const detailsUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}?fields=sheets(properties(sheetId,title))`;
-      const spreadsheet = await this.fetchAPI<SpreadsheetDetailsResponse>(detailsUrl);
+      const spreadsheet =
+        await this.fetchAPI<SpreadsheetDetailsResponse>(detailsUrl);
       const sheetTitle = spreadsheet.sheets?.[0]?.properties.title || 'Sheet1';
 
       return { spreadsheetId, sheetTitle };
     } catch (error) {
-      console.warn('Error resolving plans Google sheet, clearing cache and retrying:', error);
+      console.warn(
+        'Error resolving plans Google sheet, clearing cache and retrying:',
+        error,
+      );
       delete this.cache.plansFolderId;
       delete this.cache.plansSpreadsheetId;
       saveCache(this.cache);
 
       const growboardFolderId = await this.getOrCreateGrowboardFolder();
-      const plansFolderId = await this.getOrCreatePlansFolder(growboardFolderId);
-      const spreadsheetId = await this.getOrCreatePlansSpreadsheet(plansFolderId);
+      const plansFolderId =
+        await this.getOrCreatePlansFolder(growboardFolderId);
+      const spreadsheetId =
+        await this.getOrCreatePlansSpreadsheet(plansFolderId);
 
       const detailsUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}?fields=sheets(properties(sheetId,title))`;
-      const spreadsheet = await this.fetchAPI<SpreadsheetDetailsResponse>(detailsUrl);
+      const spreadsheet =
+        await this.fetchAPI<SpreadsheetDetailsResponse>(detailsUrl);
       const sheetTitle = spreadsheet.sheets?.[0]?.properties.title || 'Sheet1';
 
       return { spreadsheetId, sheetTitle };
@@ -260,7 +275,12 @@ class GoogleSheetsPlanService {
         subtitle: String(row[2] || ''),
         date: String(row[3] || ''),
         time: String(row[4] || ''),
-        tags: row[5] ? String(row[5]).split(',').map((t) => t.trim()).filter(Boolean) : [],
+        tags: row[5]
+          ? String(row[5])
+              .split(',')
+              .map((t) => t.trim())
+              .filter(Boolean)
+          : [],
         about_plan: String(row[6] || ''),
       }));
 
@@ -314,7 +334,10 @@ class GoogleSheetsPlanService {
   /**
    * Updates an existing plan row.
    */
-  public async updatePlan(id: string, plan: Omit<PlanItem, 'Id'>): Promise<PlanItem> {
+  public async updatePlan(
+    id: string,
+    plan: Omit<PlanItem, 'Id'>,
+  ): Promise<PlanItem> {
     const { spreadsheetId, sheetTitle } = await this.getSpreadsheetDetails();
 
     // Fetch all values to find the matching row index
@@ -358,7 +381,8 @@ class GoogleSheetsPlanService {
     const { spreadsheetId, sheetTitle } = await this.getSpreadsheetDetails();
 
     const detailsUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}?fields=sheets(properties(sheetId,title))`;
-    const spreadsheet = await this.fetchAPI<SpreadsheetDetailsResponse>(detailsUrl);
+    const spreadsheet =
+      await this.fetchAPI<SpreadsheetDetailsResponse>(detailsUrl);
     const sheetId = spreadsheet.sheets?.[0]?.properties.sheetId || 0;
 
     const valuesUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${sheetTitle}!A:G`;

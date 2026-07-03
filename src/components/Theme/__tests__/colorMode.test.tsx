@@ -96,7 +96,7 @@ describe('colorMode utilities', () => {
       render(
         <ColorModeProvider>
           <div data-testid="child">Child</div>
-        </ColorModeProvider>
+        </ColorModeProvider>,
       );
       expect(screen.getByTestId('child')).toBeInTheDocument();
     });

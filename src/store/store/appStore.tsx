@@ -12,6 +12,7 @@ import {
   createLearningsSlice,
   createResourcesSlice,
   createPlansSlice,
+  createHabitsSlice,
 } from '@store/slice';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
@@ -31,6 +32,7 @@ export const appStore = create<AppStoreState>()(
       Learnings: createLearningsSlice(...api),
       Resources: createResourcesSlice(...api),
       Plans: createPlansSlice(...api),
+      Habits: createHabitsSlice(...api),
     })),
 
     {
@@ -82,6 +84,10 @@ function deepMerge(
     Projects: {
       ...currentState.Projects,
       ...persistedState.Projects,
+    },
+    Habits: {
+      ...currentState.Habits,
+      ...persistedState.Habits,
     },
   };
 }

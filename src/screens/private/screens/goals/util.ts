@@ -28,9 +28,15 @@ export const filterGoals = (goals: GoalItem[], query: string): GoalItem[] => {
     const titleMatch = goal.title.toLowerCase().includes(cleanQuery);
     const subtitleMatch = goal.subtitle.toLowerCase().includes(cleanQuery);
     const detailsMatch = goal.details.toLowerCase().includes(cleanQuery);
-    const tagMatch = goal.tags.some((tag) => tag.toLowerCase().includes(cleanQuery));
-    const timelineMatch = goal.timeline.some((item) => item.toLowerCase().includes(cleanQuery));
+    const tagMatch = goal.tags.some((tag) =>
+      tag.toLowerCase().includes(cleanQuery),
+    );
+    const timelineMatch = goal.timeline.some((item) =>
+      item.toLowerCase().includes(cleanQuery),
+    );
 
-    return titleMatch || subtitleMatch || detailsMatch || tagMatch || timelineMatch;
+    return (
+      titleMatch || subtitleMatch || detailsMatch || tagMatch || timelineMatch
+    );
   });
 };

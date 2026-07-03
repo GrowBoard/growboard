@@ -15,14 +15,14 @@ import {
 import { LuPlus, LuSearch, LuX, LuLayoutGrid, LuList } from 'react-icons/lu';
 import { useShallow, goalsSelector } from '@selectors';
 import { appStore, GoalItem } from '@store';
-import { useGetGoalsData, useSaveGoalData, useDeleteGoalData } from '@services/hooks/private';
+import {
+  useGetGoalsData,
+  useSaveGoalData,
+  useDeleteGoalData,
+} from '@services/hooks/private';
 import { useSuccessToast, useErrorToast, EmptyState } from '@components';
 import { filterGoals } from './util';
-import {
-  GoalCard,
-  GoalFormDialog,
-  DeleteConfirmDialog,
-} from './components';
+import { GoalCard, GoalFormDialog, DeleteConfirmDialog } from './components';
 
 /**
  * GoalsScreen component.
@@ -40,7 +40,8 @@ export const GoalsScreen = () => {
   // Service Hook Queries/Mutations
   const { isLoading } = useGetGoalsData();
   const { mutateAsync: saveGoal, isPending: isSaving } = useSaveGoalData();
-  const { mutateAsync: deleteGoal, isPending: isDeleting } = useDeleteGoalData();
+  const { mutateAsync: deleteGoal, isPending: isDeleting } =
+    useDeleteGoalData();
 
   // Local UI States
   const [formOpen, setFormOpen] = useState(false);
@@ -119,15 +120,21 @@ export const GoalsScreen = () => {
 
     try {
       await Promise.all(rankingPromises);
-      successToast(t('Goals.reorderSuccess', 'Goal rankings updated successfully!'));
+      successToast(
+        t('Goals.reorderSuccess', 'Goal rankings updated successfully!'),
+      );
     } catch (err: unknown) {
       const error = err as Error;
       // Revert store state on failure
       updateGoals(backupGoals);
       errorToast(
-        t('Goals.reorderError', 'Failed to update rankings, reverting changes: {{message}}', {
-          message: error.message || error,
-        }),
+        t(
+          'Goals.reorderError',
+          'Failed to update rankings, reverting changes: {{message}}',
+          {
+            message: error.message || error,
+          },
+        ),
       );
     }
 
@@ -227,7 +234,10 @@ export const GoalsScreen = () => {
           {/* Search Box */}
           <Box position="relative" w="100%">
             <Input
-              placeholder={t('Goals.searchPlaceholder', 'Search goals, tags...')}
+              placeholder={t(
+                'Goals.searchPlaceholder',
+                'Search goals, tags...',
+              )}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               bg="bg.card"

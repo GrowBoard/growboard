@@ -156,7 +156,10 @@ export const ProfileForm = ({
                         placeholder="Enter phone number"
                         pl={4}
                         h="10"
-                        _focus={{ borderColor: 'border.focus', boxShadow: 'none' }}
+                        _focus={{
+                          borderColor: 'border.focus',
+                          boxShadow: 'none',
+                        }}
                       />
                       {(phone !== '' || idx < displayList.length - 1) && (
                         <IconButton
@@ -403,7 +406,10 @@ export const ProfileForm = ({
                         placeholder={sf.placeholder}
                         pl={4}
                         h="10"
-                        _focus={{ borderColor: 'border.focus', boxShadow: 'none' }}
+                        _focus={{
+                          borderColor: 'border.focus',
+                          boxShadow: 'none',
+                        }}
                       />
                     </Flex>
                   </Box>

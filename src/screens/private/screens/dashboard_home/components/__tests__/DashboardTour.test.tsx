@@ -43,7 +43,7 @@ describe('DashboardTour component', () => {
       expect.objectContaining({
         run: true,
         continuous: true,
-      })
+      }),
     );
   });
 

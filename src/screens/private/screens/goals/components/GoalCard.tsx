@@ -10,7 +10,15 @@ import {
   Badge,
   Button,
 } from '@chakra-ui/react';
-import { LuPencil, LuTrash2, LuChevronDown, LuChevronUp, LuCalendar, LuTrophy, LuGripVertical } from 'react-icons/lu';
+import {
+  LuPencil,
+  LuTrash2,
+  LuChevronDown,
+  LuChevronUp,
+  LuCalendar,
+  LuTrophy,
+  LuGripVertical,
+} from 'react-icons/lu';
 import { GoalCardProps } from './types';
 
 /**
@@ -48,19 +56,34 @@ export const GoalCard = ({
     switch (item.status) {
       case 'In-Progress':
         return (
-          <Badge colorPalette="blue" variant="solid" size="sm" borderRadius="md">
+          <Badge
+            colorPalette="blue"
+            variant="solid"
+            size="sm"
+            borderRadius="md"
+          >
             {t('Goals.statusInProgress', 'In-Progress')}
           </Badge>
         );
       case 'Completed':
         return (
-          <Badge colorPalette="green" variant="solid" size="sm" borderRadius="md">
+          <Badge
+            colorPalette="green"
+            variant="solid"
+            size="sm"
+            borderRadius="md"
+          >
             {t('Goals.statusCompleted', 'Completed')}
           </Badge>
         );
       default:
         return (
-          <Badge colorPalette="gray" variant="solid" size="sm" borderRadius="md">
+          <Badge
+            colorPalette="gray"
+            variant="solid"
+            size="sm"
+            borderRadius="md"
+          >
             {t('Goals.statusPending', 'Pending')}
           </Badge>
         );
@@ -134,7 +157,14 @@ export const GoalCard = ({
       );
     }
     return (
-      <Badge colorPalette="cyan" variant="outline" size="sm" borderRadius="md" px={2} py={0.5}>
+      <Badge
+        colorPalette="cyan"
+        variant="outline"
+        size="sm"
+        borderRadius="md"
+        px={2}
+        py={0.5}
+      >
         {t('Goals.rankN', 'Rank #{{rank}}', { rank: item.ranking })}
       </Badge>
     );
@@ -167,7 +197,12 @@ export const GoalCard = ({
         _active={{ cursor: isDraggable ? 'grabbing' : 'default' }}
       >
         {isDraggable && (
-          <Box color="text.muted" cursor="grab" mr={1} display={{ base: 'none', md: 'block' }}>
+          <Box
+            color="text.muted"
+            cursor="grab"
+            mr={1}
+            display={{ base: 'none', md: 'block' }}
+          >
             <LuGripVertical size={20} />
           </Box>
         )}
@@ -179,7 +214,13 @@ export const GoalCard = ({
             {getRankBadge()}
             {getStatusBadge()}
             {item.tags.map((tag) => (
-              <Badge key={tag} colorPalette="cyan" variant="subtle" size="sm" borderRadius="md">
+              <Badge
+                key={tag}
+                colorPalette="cyan"
+                variant="subtle"
+                size="sm"
+                borderRadius="md"
+              >
                 {tag}
               </Badge>
             ))}
@@ -199,9 +240,25 @@ export const GoalCard = ({
         {item.timeline && item.timeline.length > 0 && (
           <HStack gap={3} px={{ md: 4 }} py={{ base: 2, md: 0 }} wrap="wrap">
             {item.timeline.slice(0, 3).map((milestone, idx) => (
-              <HStack key={idx} gap={1} bg="bg.cardHeader" px={2} py={1} borderRadius="md" border="1px solid" borderColor="border.subtle">
-                <LuCalendar size={12} style={{ color: 'var(--chakra-colors-text-muted)' }} />
-                <Text fontSize="xs" color="text.secondary" fontWeight="semibold">
+              <HStack
+                key={idx}
+                gap={1}
+                bg="bg.cardHeader"
+                px={2}
+                py={1}
+                borderRadius="md"
+                border="1px solid"
+                borderColor="border.subtle"
+              >
+                <LuCalendar
+                  size={12}
+                  style={{ color: 'var(--chakra-colors-text-muted)' }}
+                />
+                <Text
+                  fontSize="xs"
+                  color="text.secondary"
+                  fontWeight="semibold"
+                >
                   {milestone}
                 </Text>
               </HStack>
@@ -214,7 +271,11 @@ export const GoalCard = ({
           </HStack>
         )}
 
-        <HStack gap={2} alignSelf={{ base: 'flex-end', md: 'center' }} flexShrink={0}>
+        <HStack
+          gap={2}
+          alignSelf={{ base: 'flex-end', md: 'center' }}
+          flexShrink={0}
+        >
           <IconButton
             aria-label="Edit Goal"
             title={t('Goals.edit', 'Edit Goal')}
@@ -273,11 +334,21 @@ export const GoalCard = ({
             </Box>
           )}
           <VStack align="flex-start" gap={1} flex={1}>
-            <Text fontSize="xl" fontWeight="bold" color="text.primary" lineBreak="anywhere">
+            <Text
+              fontSize="xl"
+              fontWeight="bold"
+              color="text.primary"
+              lineBreak="anywhere"
+            >
               {item.title}
             </Text>
             {item.subtitle && (
-              <Text fontSize="sm" color="text.secondary" fontWeight="medium" lineBreak="anywhere">
+              <Text
+                fontSize="sm"
+                color="text.secondary"
+                fontWeight="medium"
+                lineBreak="anywhere"
+              >
                 {item.subtitle}
               </Text>
             )}
@@ -315,7 +386,13 @@ export const GoalCard = ({
         {getRankBadge()}
         {getStatusBadge()}
         {item.tags.map((tag) => (
-          <Badge key={tag} colorPalette="cyan" variant="subtle" size="sm" borderRadius="md">
+          <Badge
+            key={tag}
+            colorPalette="cyan"
+            variant="subtle"
+            size="sm"
+            borderRadius="md"
+          >
             {tag}
           </Badge>
         ))}
@@ -324,7 +401,12 @@ export const GoalCard = ({
       {/* Details */}
       {item.details && (
         <VStack align="stretch" gap={1}>
-          <Text fontSize="sm" color="text.secondary" whiteSpace="pre-wrap" lineBreak="anywhere">
+          <Text
+            fontSize="sm"
+            color="text.secondary"
+            whiteSpace="pre-wrap"
+            lineBreak="anywhere"
+          >
             {displayDetails}
           </Text>
           {hasLongDetails && (
@@ -356,8 +438,20 @@ export const GoalCard = ({
 
       {/* Timeline Section */}
       {item.timeline && item.timeline.length > 0 && (
-        <VStack align="stretch" gap={2} pt={2} borderTop="1px solid" borderColor="border.subtle">
-          <Text fontSize="xs" fontWeight="bold" color="text.muted" textTransform="uppercase" letterSpacing="wider">
+        <VStack
+          align="stretch"
+          gap={2}
+          pt={2}
+          borderTop="1px solid"
+          borderColor="border.subtle"
+        >
+          <Text
+            fontSize="xs"
+            fontWeight="bold"
+            color="text.muted"
+            textTransform="uppercase"
+            letterSpacing="wider"
+          >
             {t('Goals.timeline', 'Timeline / Steps')}
           </Text>
           <VStack align="stretch" gap={3} pl={2} position="relative" py={1}>
@@ -384,7 +478,13 @@ export const GoalCard = ({
                   boxShadow="0 0 0 1px var(--chakra-colors-border-subtle)"
                   zIndex={1}
                 />
-                <Text fontSize="xs" color="text.secondary" fontWeight="medium" flex={1} lineBreak="anywhere">
+                <Text
+                  fontSize="xs"
+                  color="text.secondary"
+                  fontWeight="medium"
+                  flex={1}
+                  lineBreak="anywhere"
+                >
                   {step}
                 </Text>
               </HStack>

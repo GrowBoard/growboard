@@ -90,13 +90,13 @@ All components **must** be fully compatible with the project's light/dark themin
 
 **Available semantic token namespaces** (defined in [`theme.ts`](file:///Users/mr.robot/z-stash/GrowBoard/growboard/src/components/Theme/theme.ts)):
 
-| Namespace | Tokens |
-|---|---|
-| `bg.*` | `app`, `panel`, `card`, `cardHeader`, `glass`, `active`, `container` |
-| `text.*` | `primary`, `secondary`, `muted`, `heading`, `hero` |
-| `border.*` | `subtle`, `focus`, `avatar` |
-| `icon.*` | `primaryColor`, `primaryBg`, `secondary` |
-| `gradient.*` | `topAppBar`, `sideBarBG`, `contentBG` |
+| Namespace    | Tokens                                                               |
+| ------------ | -------------------------------------------------------------------- |
+| `bg.*`       | `app`, `panel`, `card`, `cardHeader`, `glass`, `active`, `container` |
+| `text.*`     | `primary`, `secondary`, `muted`, `heading`, `hero`                   |
+| `border.*`   | `subtle`, `focus`, `avatar`                                          |
+| `icon.*`     | `primaryColor`, `primaryBg`, `secondary`                             |
+| `gradient.*` | `topAppBar`, `sideBarBG`, `contentBG`                                |
 
 ---
 
@@ -261,7 +261,11 @@ import { Box, Text } from '@chakra-ui/react';
 export const StatusCard = () => {
   return (
     // ❌ Raw hex and rgba — will not respond to color mode changes
-    <Box bg="#ffffff" borderColor="rgba(0,0,0,0.1)" style={{ color: '#17191C' }}>
+    <Box
+      bg="#ffffff"
+      borderColor="rgba(0,0,0,0.1)"
+      style={{ color: '#17191C' }}
+    >
       <Text color="#475569">Active</Text>
     </Box>
   );

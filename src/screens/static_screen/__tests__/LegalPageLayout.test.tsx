@@ -22,7 +22,7 @@ describe('LegalPageLayout component', () => {
     renderWithProviders(
       <LegalPageLayout title="Test Policy" lastUpdated="30 June 2026">
         <div>Test Content</div>
-      </LegalPageLayout>
+      </LegalPageLayout>,
     );
 
     expect(screen.getByText('Test Policy')).toBeInTheDocument();
@@ -37,7 +37,7 @@ describe('LegalPageLayout component', () => {
     renderWithProviders(
       <LegalPageLayout title="Test Policy" lastUpdated="30 June 2026">
         <div>Test Content</div>
-      </LegalPageLayout>
+      </LegalPageLayout>,
     );
 
     const brandLink = screen.getByText('GrowBoard');
@@ -50,7 +50,7 @@ describe('LegalPageLayout component', () => {
     renderWithProviders(
       <LegalPageLayout title="Test Policy" lastUpdated="30 June 2026">
         <div>Test Content</div>
-      </LegalPageLayout>
+      </LegalPageLayout>,
     );
 
     const backButton = screen.getByRole('button', { name: /Back/i });

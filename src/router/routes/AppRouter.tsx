@@ -27,6 +27,7 @@ import {
   LearningRoutes,
   CredsRoutes,
   ProfileRoutes,
+  HabitRoutes,
 } from './private_routes/sub_routes';
 
 // Route Guards
@@ -75,6 +76,7 @@ export const appRouter = createBrowserRouter(
           {LearningRoutes}
           {CredsRoutes}
           {ProfileRoutes}
+          {HabitRoutes}
         </Route>
       </Route>
 

@@ -272,7 +272,10 @@ export const PlanFormDrawer = ({
                     <form.Field name="date">
                       {(field) => (
                         <Field.Root style={{ width: '100%' }}>
-                          <Field.Label fontWeight="semibold" color="text.primary">
+                          <Field.Label
+                            fontWeight="semibold"
+                            color="text.primary"
+                          >
                             {t('Plans.dateLabel', 'Date')}
                           </Field.Label>
                           <Input
@@ -298,7 +301,10 @@ export const PlanFormDrawer = ({
                     <form.Field name="time">
                       {(field) => (
                         <Field.Root style={{ width: '100%' }}>
-                          <Field.Label fontWeight="semibold" color="text.primary">
+                          <Field.Label
+                            fontWeight="semibold"
+                            color="text.primary"
+                          >
                             {t('Plans.timeLabel', 'Time')}
                           </Field.Label>
                           <Input

@@ -19,7 +19,13 @@ const makeProject = (overrides = {}) => ({
 describe('filterProjects', () => {
   const projects = [
     makeProject({ title: 'React Basics', owner: 'Alice', tags: ['react'] }),
-    makeProject({ Id: 'p2', title: 'Node API', owner: 'Bob', tags: ['node'], status: 'done' }),
+    makeProject({
+      Id: 'p2',
+      title: 'Node API',
+      owner: 'Bob',
+      tags: ['node'],
+      status: 'done',
+    }),
   ];
 
   it('returns all projects when query is empty', () => {
@@ -107,7 +113,9 @@ describe('renderMarkdown', () => {
   it('renders h3 heading for ### prefix', () => {
     const nodes = renderMarkdown('### Heading Three');
     const { container } = renderWithProviders(<>{nodes}</>);
-    expect(container.querySelector('h3')?.textContent).toContain('Heading Three');
+    expect(container.querySelector('h3')?.textContent).toContain(
+      'Heading Three',
+    );
   });
 
   it('renders bullet list item for - prefix', () => {

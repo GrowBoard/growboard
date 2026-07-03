@@ -190,7 +190,8 @@ class GoogleSheetsProjectService {
 
     console.log('Writing default headers to Projects spreadsheet...');
     const detailsUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}?fields=sheets(properties(sheetId,title))`;
-    const spreadsheet = await this.fetchAPI<SpreadsheetDetailsResponse>(detailsUrl);
+    const spreadsheet =
+      await this.fetchAPI<SpreadsheetDetailsResponse>(detailsUrl);
     const sheetTitle = spreadsheet.sheets?.[0]?.properties.title || 'Sheet1';
 
     // Schema: Id, title, subtitle, link, tags, about_project, remark, owner, status
@@ -198,7 +199,19 @@ class GoogleSheetsProjectService {
     await this.fetchAPI<unknown>(writeHeadersUrl, {
       method: 'PUT',
       body: JSON.stringify({
-        values: [['Id', 'title', 'subtitle', 'link', 'tags', 'about_project', 'remark', 'owner', 'status']],
+        values: [
+          [
+            'Id',
+            'title',
+            'subtitle',
+            'link',
+            'tags',
+            'about_project',
+            'remark',
+            'owner',
+            'status',
+          ],
+        ],
       }),
     });
 
@@ -208,29 +221,41 @@ class GoogleSheetsProjectService {
   /**
    * Resolves the spreadsheet and folder IDs.
    */
-  private async getSpreadsheetDetails(): Promise<{ spreadsheetId: string; sheetTitle: string }> {
+  private async getSpreadsheetDetails(): Promise<{
+    spreadsheetId: string;
+    sheetTitle: string;
+  }> {
     try {
       const growboardFolderId = await this.getOrCreateGrowboardFolder();
-      const projectsFolderId = await this.getOrCreateProjectsFolder(growboardFolderId);
-      const spreadsheetId = await this.getOrCreateProjectsSpreadsheet(projectsFolderId);
+      const projectsFolderId =
+        await this.getOrCreateProjectsFolder(growboardFolderId);
+      const spreadsheetId =
+        await this.getOrCreateProjectsSpreadsheet(projectsFolderId);
 
       const detailsUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}?fields=sheets(properties(sheetId,title))`;
-      const spreadsheet = await this.fetchAPI<SpreadsheetDetailsResponse>(detailsUrl);
+      const spreadsheet =
+        await this.fetchAPI<SpreadsheetDetailsResponse>(detailsUrl);
       const sheetTitle = spreadsheet.sheets?.[0]?.properties.title || 'Sheet1';
 
       return { spreadsheetId, sheetTitle };
     } catch (error) {
-      console.warn('Error resolving projects Google sheet, clearing cache and retrying:', error);
+      console.warn(
+        'Error resolving projects Google sheet, clearing cache and retrying:',
+        error,
+      );
       delete this.cache.projectsFolderId;
       delete this.cache.projectsSpreadsheetId;
       saveCache(this.cache);
 
       const growboardFolderId = await this.getOrCreateGrowboardFolder();
-      const projectsFolderId = await this.getOrCreateProjectsFolder(growboardFolderId);
-      const spreadsheetId = await this.getOrCreateProjectsSpreadsheet(projectsFolderId);
+      const projectsFolderId =
+        await this.getOrCreateProjectsFolder(growboardFolderId);
+      const spreadsheetId =
+        await this.getOrCreateProjectsSpreadsheet(projectsFolderId);
 
       const detailsUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}?fields=sheets(properties(sheetId,title))`;
-      const spreadsheet = await this.fetchAPI<SpreadsheetDetailsResponse>(detailsUrl);
+      const spreadsheet =
+        await this.fetchAPI<SpreadsheetDetailsResponse>(detailsUrl);
       const sheetTitle = spreadsheet.sheets?.[0]?.properties.title || 'Sheet1';
 
       return { spreadsheetId, sheetTitle };
@@ -259,7 +284,12 @@ class GoogleSheetsProjectService {
         title: String(row[1] || ''),
         subtitle: String(row[2] || ''),
         link: String(row[3] || ''),
-        tags: row[4] ? String(row[4]).split(',').map((t) => t.trim()).filter(Boolean) : [],
+        tags: row[4]
+          ? String(row[4])
+              .split(',')
+              .map((t) => t.trim())
+              .filter(Boolean)
+          : [],
         about_project: String(row[5] || ''),
         remark: String(row[6] || ''),
         owner: String(row[7] || ''),
@@ -272,7 +302,8 @@ class GoogleSheetsProjectService {
         successMessage: `Retrieved ${data.length} projects successfully from Google Sheets.`,
       };
     } catch (e: unknown) {
-      const message = e instanceof Error ? e.message : 'Failed to fetch projects.';
+      const message =
+        e instanceof Error ? e.message : 'Failed to fetch projects.';
       console.error('Failed to get projects from Google Sheets:', e);
       return {
         data: [],
@@ -285,7 +316,9 @@ class GoogleSheetsProjectService {
   /**
    * Appends a new project row to the sheet.
    */
-  public async addProject(project: Omit<ProjectItem, 'Id'>): Promise<ProjectItem> {
+  public async addProject(
+    project: Omit<ProjectItem, 'Id'>,
+  ): Promise<ProjectItem> {
     const { spreadsheetId, sheetTitle } = await this.getSpreadsheetDetails();
     const generatedId = Math.random().toString(36).substring(2, 11);
 
@@ -318,7 +351,10 @@ class GoogleSheetsProjectService {
   /**
    * Updates an existing project row.
    */
-  public async updateProject(id: string, project: Omit<ProjectItem, 'Id'>): Promise<ProjectItem> {
+  public async updateProject(
+    id: string,
+    project: Omit<ProjectItem, 'Id'>,
+  ): Promise<ProjectItem> {
     const { spreadsheetId, sheetTitle } = await this.getSpreadsheetDetails();
 
     // Fetch all values to find the matching row index
@@ -364,7 +400,8 @@ class GoogleSheetsProjectService {
     const { spreadsheetId, sheetTitle } = await this.getSpreadsheetDetails();
 
     const detailsUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}?fields=sheets(properties(sheetId,title))`;
-    const spreadsheet = await this.fetchAPI<SpreadsheetDetailsResponse>(detailsUrl);
+    const spreadsheet =
+      await this.fetchAPI<SpreadsheetDetailsResponse>(detailsUrl);
     const sheetId = spreadsheet.sheets?.[0]?.properties.sheetId || 0;
 
     const valuesUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${sheetTitle}!A:I`;

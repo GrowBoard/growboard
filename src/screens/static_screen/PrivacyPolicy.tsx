@@ -12,7 +12,10 @@ const PrivacyPolicy = () => {
   const { t } = useTranslation();
 
   return (
-    <LegalPageLayout title={t('StaticScreen.privacyPolicy.title')} lastUpdated="29 June 2026">
+    <LegalPageLayout
+      title={t('StaticScreen.privacyPolicy.title')}
+      lastUpdated="29 June 2026"
+    >
       <Box>
         <h2>{t('StaticScreen.privacyPolicy.introTitle')}</h2>
         <p>{t('StaticScreen.privacyPolicy.introText')}</p>

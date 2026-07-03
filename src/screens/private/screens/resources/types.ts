@@ -55,4 +55,3 @@ export interface ResourceAboutDrawerProps {
   /** The resource item to display about content for */
   item: ResourceItem | null;
 }
-

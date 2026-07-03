@@ -10,7 +10,10 @@ jest.mock('@tanstack/react-query', () => ({
   })),
   useMutation: jest.fn((options) => {
     if (options && typeof options.mutationFn === 'function') {
-      options.mutationFn({ learning: 'mock-learning', originalTitle: 'old-title' });
+      options.mutationFn({
+        learning: 'mock-learning',
+        originalTitle: 'old-title',
+      });
     }
     if (options && typeof options.onSuccess === 'function') {
       options.onSuccess();
@@ -34,7 +37,12 @@ describe('useSaveLearningData hook', () => {
   it('calls saveLearning and invalidates driveLearnings query on success', () => {
     renderHook(() => useSaveLearningData());
 
-    expect(googleDriveLearningsService.saveLearning).toHaveBeenCalledWith('mock-learning', 'old-title');
-    expect(mockInvalidateQueries).toHaveBeenCalledWith({ queryKey: ['driveLearnings'] });
+    expect(googleDriveLearningsService.saveLearning).toHaveBeenCalledWith(
+      'mock-learning',
+      'old-title',
+    );
+    expect(mockInvalidateQueries).toHaveBeenCalledWith({
+      queryKey: ['driveLearnings'],
+    });
   });
 });

@@ -31,16 +31,26 @@ describe('ResourceFormDrawer component', () => {
     renderWithProviders(<ResourceFormDrawer {...defaultProps} />);
 
     expect(screen.getByText('Add Resource')).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('e.g. Reference Title')).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('e.g. Reference Subtitle')).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('e.g. https://example.com')).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('Write description/guides here...')).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText('e.g. Reference Title'),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText('e.g. Reference Subtitle'),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText('e.g. https://example.com'),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText('Write description/guides here...'),
+    ).toBeInTheDocument();
   });
 
   it('manages adding and removing tags via keydown events', async () => {
     renderWithProviders(<ResourceFormDrawer {...defaultProps} />);
 
-    const tagInput = screen.getByPlaceholderText('e.g. Tag1, Tag2 (Press Enter to add)');
+    const tagInput = screen.getByPlaceholderText(
+      'e.g. Tag1, Tag2 (Press Enter to add)',
+    );
 
     // Type a tag and press Enter
     await act(async () => {
@@ -63,16 +73,24 @@ describe('ResourceFormDrawer component', () => {
     renderWithProviders(<ResourceFormDrawer {...defaultProps} />);
 
     const titleInput = screen.getByPlaceholderText('e.g. Reference Title');
-    const subtitleInput = screen.getByPlaceholderText('e.g. Reference Subtitle');
+    const subtitleInput = screen.getByPlaceholderText(
+      'e.g. Reference Subtitle',
+    );
     const linkInput = screen.getByPlaceholderText('e.g. https://example.com');
-    const aboutInput = screen.getByPlaceholderText('Write description/guides here...');
+    const aboutInput = screen.getByPlaceholderText(
+      'Write description/guides here...',
+    );
     const saveBtn = screen.getByRole('button', { name: 'Save' });
 
     await act(async () => {
       fireEvent.change(titleInput, { target: { value: 'Chakra V3 Guide' } });
       fireEvent.change(subtitleInput, { target: { value: 'Official docs' } });
-      fireEvent.change(linkInput, { target: { value: 'https://chakra-ui.com' } });
-      fireEvent.change(aboutInput, { target: { value: 'Great reference for component design tokens.' } });
+      fireEvent.change(linkInput, {
+        target: { value: 'https://chakra-ui.com' },
+      });
+      fireEvent.change(aboutInput, {
+        target: { value: 'Great reference for component design tokens.' },
+      });
     });
 
     await act(async () => {
@@ -86,7 +104,7 @@ describe('ResourceFormDrawer component', () => {
           subtitle: 'Official docs',
           link: 'https://chakra-ui.com',
           about_resource: 'Great reference for component design tokens.',
-        })
+        }),
       );
     });
   });
@@ -107,6 +125,8 @@ describe('ResourceFormDrawer component', () => {
     await act(async () => {
       fireEvent.click(writeTab);
     });
-    expect(screen.getByPlaceholderText('Write description/guides here...')).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText('Write description/guides here...'),
+    ).toBeInTheDocument();
   });
 });

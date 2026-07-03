@@ -176,7 +176,12 @@ export const ResourceCard = ({
       gap={4}
     >
       <Box>
-        <Text fontSize="lg" fontWeight="bold" color="text.primary" lineClamp={2}>
+        <Text
+          fontSize="lg"
+          fontWeight="bold"
+          color="text.primary"
+          lineClamp={2}
+        >
           {item.title}
         </Text>
         {item.subtitle && (

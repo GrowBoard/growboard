@@ -15,7 +15,9 @@ const initialState: ResourcesState = {
  * @param set Central store setter callback.
  * @returns The initialized slice object.
  */
-export const createResourcesSlice: AppStoreSlice<ResourcesStateSlice> = (set) => ({
+export const createResourcesSlice: AppStoreSlice<ResourcesStateSlice> = (
+  set,
+) => ({
   ...initialState,
   updateResources: (resources) =>
     set((state) => {

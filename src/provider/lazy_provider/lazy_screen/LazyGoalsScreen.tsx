@@ -13,7 +13,4 @@ const LazyGoalsScreenComponent = () => {
   );
 };
 
-export {
-  LazyGoalsScreenComponent,
-};
-
+export { LazyGoalsScreenComponent };

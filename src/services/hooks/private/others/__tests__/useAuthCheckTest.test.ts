@@ -25,7 +25,7 @@ describe('useAuthCheckTest hook', () => {
           retryDelay: 1000,
           mutationKey: ['authCheck'],
         }),
-      })
+      }),
     );
 
     // Verify method invocation works

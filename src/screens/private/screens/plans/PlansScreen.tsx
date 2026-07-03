@@ -86,7 +86,9 @@ const PlansScreen = () => {
     setViewAboutOpen(true);
   };
 
-  const handleSave = async (newPlan: Omit<PlanItem, 'Id'> & { Id?: string }) => {
+  const handleSave = async (
+    newPlan: Omit<PlanItem, 'Id'> & { Id?: string },
+  ) => {
     try {
       await savePlan(newPlan);
       successToast(
@@ -297,7 +299,10 @@ const PlansScreen = () => {
           description={
             searchQuery
               ? t('Plans.noResultsDesc', 'Try adjusting your search terms.')
-              : t('Plans.noPlansDesc', 'Add your first plan using the button above.')
+              : t(
+                  'Plans.noPlansDesc',
+                  'Add your first plan using the button above.',
+                )
           }
         />
       ) : viewMode === 'list' ? (
@@ -350,7 +355,9 @@ const PlansScreen = () => {
       {/* Delete Confirmation Modal */}
       <DeleteConfirmDialog
         isOpen={deleteOpen}
-        onOpenChange={(details: { open: boolean }) => setDeleteOpen(details.open)}
+        onOpenChange={(details: { open: boolean }) =>
+          setDeleteOpen(details.open)
+        }
         title={currentDeleteTitle}
         onConfirm={handleConfirmDelete}
       />
@@ -358,7 +365,9 @@ const PlansScreen = () => {
       {/* Details Preview Drawer */}
       <PlanAboutDrawer
         isOpen={viewAboutOpen}
-        onOpenChange={(details: { open: boolean }) => setViewAboutOpen(details.open)}
+        onOpenChange={(details: { open: boolean }) =>
+          setViewAboutOpen(details.open)
+        }
         item={viewAboutItem}
       />
     </Box>

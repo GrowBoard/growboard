@@ -10,6 +10,7 @@ import {
   LearningsStateSlice,
   ResourcesStateSlice,
   PlansStateSlice,
+  HabitsStateSlice,
 } from '@store/slice';
 import {} from '../slice/User/types';
 
@@ -24,6 +25,7 @@ export interface AppStoreState {
   Learnings: LearningsStateSlice;
   Resources: ResourcesStateSlice;
   Plans: PlansStateSlice;
+  Habits: HabitsStateSlice;
 }
 
 export type AppStoreSlice<T> = StateCreator<

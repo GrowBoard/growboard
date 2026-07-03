@@ -286,7 +286,10 @@ export const ProjectFormDrawer = ({
                     <form.Field name="owner">
                       {(field) => (
                         <Field.Root style={{ width: '100%' }}>
-                          <Field.Label fontWeight="semibold" color="text.primary">
+                          <Field.Label
+                            fontWeight="semibold"
+                            color="text.primary"
+                          >
                             {t('Projects.ownerLabel', 'Owner')}
                           </Field.Label>
                           <Input
@@ -315,16 +318,22 @@ export const ProjectFormDrawer = ({
                     <form.Field name="status">
                       {(field) => (
                         <Field.Root style={{ width: '100%' }}>
-                          <Field.Label fontWeight="semibold" color="text.primary">
+                          <Field.Label
+                            fontWeight="semibold"
+                            color="text.primary"
+                          >
                             {t('Projects.statusLabel', 'Status')}
                           </Field.Label>
                           <select
                             value={field.state.value}
-                            onChange={(e) => field.handleChange(e.target.value as any)}
+                            onChange={(e) =>
+                              field.handleChange(e.target.value as any)
+                            }
                             disabled={isSaving}
                             style={{
                               background: 'var(--chakra-colors-bg-card)',
-                              border: '1px solid var(--chakra-colors-border-subtle)',
+                              border:
+                                '1px solid var(--chakra-colors-border-subtle)',
                               borderRadius: 'var(--chakra-radii-lg)',
                               padding: '8px 12px',
                               color: 'var(--chakra-colors-text-primary)',
@@ -332,10 +341,30 @@ export const ProjectFormDrawer = ({
                               outline: 'none',
                             }}
                           >
-                            <option value="pending" style={{ background: '#1E2023', color: '#FFF' }}>Pending</option>
-                            <option value="ideaphase" style={{ background: '#1E2023', color: '#FFF' }}>IdeaPhase</option>
-                            <option value="started" style={{ background: '#1E2023', color: '#FFF' }}>Started</option>
-                            <option value="done" style={{ background: '#1E2023', color: '#FFF' }}>Done</option>
+                            <option
+                              value="pending"
+                              style={{ background: '#1E2023', color: '#FFF' }}
+                            >
+                              Pending
+                            </option>
+                            <option
+                              value="ideaphase"
+                              style={{ background: '#1E2023', color: '#FFF' }}
+                            >
+                              IdeaPhase
+                            </option>
+                            <option
+                              value="started"
+                              style={{ background: '#1E2023', color: '#FFF' }}
+                            >
+                              Started
+                            </option>
+                            <option
+                              value="done"
+                              style={{ background: '#1E2023', color: '#FFF' }}
+                            >
+                              Done
+                            </option>
                           </select>
                         </Field.Root>
                       )}

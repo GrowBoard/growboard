@@ -26,6 +26,8 @@ export interface StatsTilesProps {
   plansCount: number;
   /** Total number of projects. */
   projectsCount: number;
+  /** Total number of active habits. */
+  habitsCount: number;
 }
 
 /**

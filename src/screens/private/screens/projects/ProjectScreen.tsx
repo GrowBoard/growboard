@@ -40,7 +40,8 @@ const ProjectScreen = () => {
 
   const { projectData } = appStore(useShallow(projectsSelector));
   const { isLoading } = useGetProjectsData();
-  const { mutateAsync: saveProject, isPending: isSaving } = useSaveProjectData();
+  const { mutateAsync: saveProject, isPending: isSaving } =
+    useSaveProjectData();
   const { mutateAsync: deleteProject } = useDeleteProjectData();
 
   // Local UI State
@@ -78,7 +79,9 @@ const ProjectScreen = () => {
     setViewAboutOpen(true);
   };
 
-  const handleSave = async (newProject: Omit<ProjectItem, 'Id'> & { Id?: string }) => {
+  const handleSave = async (
+    newProject: Omit<ProjectItem, 'Id'> & { Id?: string },
+  ) => {
     try {
       await saveProject(newProject);
       successToast(
@@ -98,7 +101,9 @@ const ProjectScreen = () => {
     if (!deleteId) return;
     try {
       await deleteProject(deleteId);
-      successToast(t('Projects.successDelete', 'Project deleted successfully!'));
+      successToast(
+        t('Projects.successDelete', 'Project deleted successfully!'),
+      );
       setDeleteOpen(false);
       setDeleteId(null);
     } catch (e) {
@@ -289,7 +294,10 @@ const ProjectScreen = () => {
           description={
             searchQuery
               ? t('Projects.noResultsDesc', 'Try adjusting your search terms.')
-              : t('Projects.noProjectsDesc', 'Add your first project using the button above.')
+              : t(
+                  'Projects.noProjectsDesc',
+                  'Add your first project using the button above.',
+                )
           }
         />
       ) : viewMode === 'list' ? (
@@ -342,7 +350,9 @@ const ProjectScreen = () => {
       {/* Delete Confirmation Modal */}
       <DeleteConfirmDialog
         isOpen={deleteOpen}
-        onOpenChange={(details: { open: boolean }) => setDeleteOpen(details.open)}
+        onOpenChange={(details: { open: boolean }) =>
+          setDeleteOpen(details.open)
+        }
         title={currentDeleteTitle}
         onConfirm={handleConfirmDelete}
       />
@@ -350,7 +360,9 @@ const ProjectScreen = () => {
       {/* Details Preview Drawer */}
       <ProjectAboutDrawer
         isOpen={viewAboutOpen}
-        onOpenChange={(details: { open: boolean }) => setViewAboutOpen(details.open)}
+        onOpenChange={(details: { open: boolean }) =>
+          setViewAboutOpen(details.open)
+        }
         item={viewAboutItem}
       />
     </Box>

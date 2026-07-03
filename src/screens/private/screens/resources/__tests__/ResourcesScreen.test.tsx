@@ -107,7 +107,10 @@ describe('ResourcesScreen component', () => {
     expect(screen.getByText('Resources')).toBeInTheDocument();
     expect(screen.getByText('React Docs')).toBeInTheDocument();
     expect(screen.getByText('Official documentation')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Open Link' })).toHaveAttribute('href', 'https://react.dev');
+    expect(screen.getByRole('link', { name: 'Open Link' })).toHaveAttribute(
+      'href',
+      'https://react.dev',
+    );
   });
 
   it('opens add resource drawer on clicking add button', () => {
@@ -122,7 +125,9 @@ describe('ResourcesScreen component', () => {
   it('shows no matching results empty state when search query does not match', () => {
     renderWithProviders(<ResourcesScreen />);
 
-    const searchInput = screen.getByPlaceholderText(/Search resources by title, subtitle, link, tags.../i);
+    const searchInput = screen.getByPlaceholderText(
+      /Search resources by title, subtitle, link, tags.../i,
+    );
     fireEvent.change(searchInput, { target: { value: 'non-existent' } });
 
     expect(screen.getByText('No matching resources')).toBeInTheDocument();

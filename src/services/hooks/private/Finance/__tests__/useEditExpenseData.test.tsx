@@ -45,11 +45,15 @@ describe('useEditExpenseData hook', () => {
     // 1. Test method function
     const methodData = { id: 'e1', amount: 300 } as any;
     options.method(methodData);
-    expect(googleSheetsExpenseService.updateExpense).toHaveBeenCalledWith(methodData);
+    expect(googleSheetsExpenseService.updateExpense).toHaveBeenCalledWith(
+      methodData,
+    );
 
     // 2. Test onSuccess callback
     options.mutationOptions.onSuccess();
-    expect(mockSuccessToast).toHaveBeenCalledWith('Updated expense successfully.');
+    expect(mockSuccessToast).toHaveBeenCalledWith(
+      'Updated expense successfully.',
+    );
     expect(mockInvalidateQueries).toHaveBeenCalled();
 
     // 3. Test onError callback

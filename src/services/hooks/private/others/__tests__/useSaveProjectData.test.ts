@@ -40,8 +40,13 @@ describe('useSaveProjectData hook', () => {
     const projectWithId = { Id: 'proj-123', title: 'Project A' };
     mutationFn(projectWithId);
 
-    expect(googleSheetsProjectService.updateProject).toHaveBeenCalledWith('proj-123', projectWithId);
-    expect(mockInvalidateQueries).toHaveBeenCalledWith({ queryKey: ['sheetProjects'] });
+    expect(googleSheetsProjectService.updateProject).toHaveBeenCalledWith(
+      'proj-123',
+      projectWithId,
+    );
+    expect(mockInvalidateQueries).toHaveBeenCalledWith({
+      queryKey: ['sheetProjects'],
+    });
   });
 
   it('calls addProject when Id is not present', () => {
@@ -51,7 +56,11 @@ describe('useSaveProjectData hook', () => {
     const projectWithoutId = { title: 'Project B' };
     mutationFn(projectWithoutId);
 
-    expect(googleSheetsProjectService.addProject).toHaveBeenCalledWith(projectWithoutId);
-    expect(mockInvalidateQueries).toHaveBeenCalledWith({ queryKey: ['sheetProjects'] });
+    expect(googleSheetsProjectService.addProject).toHaveBeenCalledWith(
+      projectWithoutId,
+    );
+    expect(mockInvalidateQueries).toHaveBeenCalledWith({
+      queryKey: ['sheetProjects'],
+    });
   });
 });

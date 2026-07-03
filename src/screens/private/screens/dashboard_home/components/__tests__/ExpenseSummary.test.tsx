@@ -45,7 +45,9 @@ describe('ExpenseSummary component', () => {
     });
     renderWithProviders(<ExpenseSummary />);
     // Chakra Spinner renders a role="status" by default
-    expect(document.querySelector('.chakra-spinner') ?? document.body).toBeTruthy();
+    expect(
+      document.querySelector('.chakra-spinner') ?? document.body,
+    ).toBeTruthy();
   });
 
   it('shows empty state when there are no expenses', () => {

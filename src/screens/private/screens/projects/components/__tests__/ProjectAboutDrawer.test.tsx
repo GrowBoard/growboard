@@ -22,7 +22,9 @@ describe('ProjectAboutDrawer component', () => {
   };
 
   it('returns null if item is not provided', () => {
-    const { container } = renderWithProviders(<ProjectAboutDrawer {...defaultProps} />);
+    const { container } = renderWithProviders(
+      <ProjectAboutDrawer {...defaultProps} />,
+    );
     expect(container).toBeEmptyDOMElement();
   });
 
@@ -48,7 +50,9 @@ describe('ProjectAboutDrawer component', () => {
     expect(screen.getByText('https://obsidian.md')).toBeInTheDocument();
     expect(screen.getByText('Markdown')).toBeInTheDocument();
     expect(screen.getByText('Editor')).toBeInTheDocument();
-    expect(screen.getByText('Markdown text project details')).toBeInTheDocument();
+    expect(
+      screen.getByText('Markdown text project details'),
+    ).toBeInTheDocument();
     expect(screen.getByText('Extra notes here')).toBeInTheDocument();
   });
 
@@ -65,7 +69,9 @@ describe('ProjectAboutDrawer component', () => {
     expect(screen.getByText('Minimal Project')).toBeInTheDocument();
     expect(screen.getByText('N/A')).toBeInTheDocument(); // Owner fallback
     expect(screen.getByText('PENDING')).toBeInTheDocument();
-    expect(screen.getByText('No project description provided.')).toBeInTheDocument();
+    expect(
+      screen.getByText('No project description provided.'),
+    ).toBeInTheDocument();
     expect(screen.getByText('No remarks provided.')).toBeInTheDocument();
   });
 });

@@ -33,7 +33,9 @@ describe('ResourceCard component', () => {
     );
 
     expect(screen.getByText('Chakra UI v3 Docs')).toBeInTheDocument();
-    expect(screen.getByText('Official documentation for component styling library')).toBeInTheDocument();
+    expect(
+      screen.getByText('Official documentation for component styling library'),
+    ).toBeInTheDocument();
     expect(screen.getByText('styling')).toBeInTheDocument();
     expect(screen.getByText('UI')).toBeInTheDocument();
 
@@ -43,10 +45,14 @@ describe('ResourceCard component', () => {
     expect(linkIcon).toHaveAttribute('href', 'https://chakra-ui.com');
 
     // Does NOT render the about text inline
-    expect(screen.queryByText('Chakra UI provides accessible UI building blocks.')).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('Chakra UI provides accessible UI building blocks.'),
+    ).not.toBeInTheDocument();
 
     // View Support button is displayed
-    const viewSupportBtn = screen.getByRole('button', { name: 'See resource content' });
+    const viewSupportBtn = screen.getByRole('button', {
+      name: 'See resource content',
+    });
     expect(viewSupportBtn).toBeInTheDocument();
   });
 
@@ -62,7 +68,9 @@ describe('ResourceCard component', () => {
     );
 
     expect(screen.getByText('Chakra UI v3 Docs')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'See resource content' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'See resource content' }),
+    ).toBeInTheDocument();
   });
 
   it('calls onViewAbout when View Support button is clicked', () => {
@@ -76,7 +84,9 @@ describe('ResourceCard component', () => {
       />,
     );
 
-    const viewSupportBtn = screen.getByRole('button', { name: 'See resource content' });
+    const viewSupportBtn = screen.getByRole('button', {
+      name: 'See resource content',
+    });
     fireEvent.click(viewSupportBtn);
     expect(mockOnViewAbout).toHaveBeenCalledWith(mockItem);
   });

@@ -29,9 +29,7 @@ describe('renderUtils', () => {
   describe('renderWithProvidersAndRouter', () => {
     it('renders without throwing', () => {
       expect(() =>
-        renderWithProvidersAndRouter(
-          <div data-testid="full-child">Hello</div>,
-        ),
+        renderWithProvidersAndRouter(<div data-testid="full-child">Hello</div>),
       ).not.toThrow();
     });
 

@@ -64,7 +64,12 @@ export const DeleteConfirmDialog = ({
             'Are you sure you want to delete this goal? This action is permanent and cannot be undone.',
           )}
         </Text>
-        <Text fontSize="md" fontWeight="bold" color="red.500" lineBreak="anywhere">
+        <Text
+          fontSize="md"
+          fontWeight="bold"
+          color="red.500"
+          lineBreak="anywhere"
+        >
           {targetTitle}
         </Text>
       </VStack>

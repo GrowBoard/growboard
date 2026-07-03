@@ -17,7 +17,9 @@ describe('DeleteConfirmDialog component (Plans)', () => {
 
   it('renders confirmation text with title', () => {
     renderWithProviders(<DeleteConfirmDialog {...defaultProps} />);
-    expect(screen.getByText(/Are you sure you want to delete the plan/)).toBeInTheDocument();
+    expect(
+      screen.getByText(/Are you sure you want to delete the plan/),
+    ).toBeInTheDocument();
     expect(screen.getByText('Daily Gym Routine')).toBeInTheDocument();
   });
 

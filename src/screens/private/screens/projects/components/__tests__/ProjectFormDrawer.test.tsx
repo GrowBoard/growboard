@@ -32,10 +32,18 @@ describe('ProjectFormDrawer component', () => {
     renderWithProviders(<ProjectFormDrawer {...defaultProps} />);
 
     expect(screen.getByText('Add Project')).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('e.g. Project Title')).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('e.g. Project Subtitle')).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('e.g. https://example.com')).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('Any additional notes, configurations...')).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText('e.g. Project Title'),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText('e.g. Project Subtitle'),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText('e.g. https://example.com'),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText('Any additional notes, configurations...'),
+    ).toBeInTheDocument();
     expect(screen.getByPlaceholderText('e.g. Owner Name')).toBeInTheDocument();
   });
 
@@ -52,13 +60,23 @@ describe('ProjectFormDrawer component', () => {
       status: 'started' as const,
     };
 
-    renderWithProviders(<ProjectFormDrawer {...defaultProps} editItem={editItem} />);
+    renderWithProviders(
+      <ProjectFormDrawer {...defaultProps} editItem={editItem} />,
+    );
 
     expect(screen.getByText('Edit Project')).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('e.g. Project Title')).toHaveValue('Existing Project');
-    expect(screen.getByPlaceholderText('e.g. Project Subtitle')).toHaveValue('Existing Subtitle');
-    expect(screen.getByPlaceholderText('e.g. https://example.com')).toHaveValue('http://existing.com');
-    expect(screen.getByPlaceholderText('Any additional notes, configurations...')).toHaveValue('Keep track');
+    expect(screen.getByPlaceholderText('e.g. Project Title')).toHaveValue(
+      'Existing Project',
+    );
+    expect(screen.getByPlaceholderText('e.g. Project Subtitle')).toHaveValue(
+      'Existing Subtitle',
+    );
+    expect(screen.getByPlaceholderText('e.g. https://example.com')).toHaveValue(
+      'http://existing.com',
+    );
+    expect(
+      screen.getByPlaceholderText('Any additional notes, configurations...'),
+    ).toHaveValue('Keep track');
     expect(screen.getByPlaceholderText('e.g. Owner Name')).toHaveValue('Amit');
 
     // Tags should render as badges
@@ -69,7 +87,9 @@ describe('ProjectFormDrawer component', () => {
   it('manages adding and removing tags via keydown events', async () => {
     renderWithProviders(<ProjectFormDrawer {...defaultProps} />);
 
-    const tagInput = screen.getByPlaceholderText('e.g. Tag1, Tag2 (Press Enter to add)');
+    const tagInput = screen.getByPlaceholderText(
+      'e.g. Tag1, Tag2 (Press Enter to add)',
+    );
 
     // Type a tag and press Enter
     await act(async () => {
@@ -101,13 +121,17 @@ describe('ProjectFormDrawer component', () => {
 
     const titleInput = screen.getByPlaceholderText('e.g. Project Title');
     const subtitleInput = screen.getByPlaceholderText('e.g. Project Subtitle');
-    const aboutInput = screen.getByPlaceholderText('Write project details, requirements, features here...');
+    const aboutInput = screen.getByPlaceholderText(
+      'Write project details, requirements, features here...',
+    );
     const saveBtn = screen.getByRole('button', { name: 'Save' });
 
     await act(async () => {
       fireEvent.change(titleInput, { target: { value: 'New Proj' } });
       fireEvent.change(subtitleInput, { target: { value: 'New Sub' } });
-      fireEvent.change(aboutInput, { target: { value: 'This is the description.' } });
+      fireEvent.change(aboutInput, {
+        target: { value: 'This is the description.' },
+      });
     });
 
     await act(async () => {
@@ -121,7 +145,7 @@ describe('ProjectFormDrawer component', () => {
           subtitle: 'New Sub',
           about_project: 'This is the description.',
           status: 'pending',
-        })
+        }),
       );
     });
   });
@@ -142,6 +166,10 @@ describe('ProjectFormDrawer component', () => {
     await act(async () => {
       fireEvent.click(writeTab);
     });
-    expect(screen.getByPlaceholderText('Write project details, requirements, features here...')).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText(
+        'Write project details, requirements, features here...',
+      ),
+    ).toBeInTheDocument();
   });
 });

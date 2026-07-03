@@ -15,7 +15,9 @@ const initialState: LearningsState = {
  * @param set Central store setter callback.
  * @returns The initialized slice object.
  */
-export const createLearningsSlice: AppStoreSlice<LearningsStateSlice> = (set) => ({
+export const createLearningsSlice: AppStoreSlice<LearningsStateSlice> = (
+  set,
+) => ({
   ...initialState,
   updateLearnings: (learnings) =>
     set((state) => {

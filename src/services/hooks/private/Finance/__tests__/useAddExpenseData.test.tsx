@@ -43,13 +43,22 @@ describe('useAddExpenseData hook', () => {
     const options = mockMutationExec.mock.calls[0][0];
 
     // 1. Test method function
-    const methodData = { amount: 500, category: 'Food' as any, date_time: '2026-07-02', comment: 'Dinner' };
+    const methodData = {
+      amount: 500,
+      category: 'Food' as any,
+      date_time: '2026-07-02',
+      comment: 'Dinner',
+    };
     options.method(methodData);
-    expect(googleSheetsExpenseService.addExpense).toHaveBeenCalledWith(methodData);
+    expect(googleSheetsExpenseService.addExpense).toHaveBeenCalledWith(
+      methodData,
+    );
 
     // 2. Test onSuccess callback
     options.mutationOptions.onSuccess();
-    expect(mockSuccessToast).toHaveBeenCalledWith('Added expense successfully.');
+    expect(mockSuccessToast).toHaveBeenCalledWith(
+      'Added expense successfully.',
+    );
     expect(mockInvalidateQueries).toHaveBeenCalled();
 
     // 3. Test onError callback

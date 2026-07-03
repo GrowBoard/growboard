@@ -53,7 +53,10 @@ export const RecentGoals = ({ goals }: RecentGoalsProps) => {
           gap={4}
           overflowX="auto"
           pb={2}
-          css={{ scrollbarWidth: 'none', '&::-webkit-scrollbar': { display: 'none' } }}
+          css={{
+            scrollbarWidth: 'none',
+            '&::-webkit-scrollbar': { display: 'none' },
+          }}
         >
           {goals.map((goal) => (
             <Box

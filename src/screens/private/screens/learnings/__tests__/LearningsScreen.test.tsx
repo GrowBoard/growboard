@@ -78,8 +78,12 @@ describe('LearningsScreen component', () => {
     renderWithProviders(<LearningsScreen />);
 
     expect(screen.getByText('Learnings')).toBeInTheDocument();
-    expect(screen.getByPlaceholderText(/Search by title, subtitle/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Add Learning' })).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText(/Search by title, subtitle/i),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'Add Learning' }),
+    ).toBeInTheDocument();
     expect(screen.getByText('Learn Kubernetes')).toBeInTheDocument();
   });
 
@@ -93,7 +97,9 @@ describe('LearningsScreen component', () => {
     expect(await screen.findByText('Add Learning')).toBeInTheDocument();
 
     const titleInput = await screen.findByPlaceholderText(/e.g. Topic Title/i);
-    const contentInput = await screen.findByPlaceholderText(/Type your markdown content here/i);
+    const contentInput = await screen.findByPlaceholderText(
+      /Type your markdown content here/i,
+    );
 
     fireEvent.change(titleInput, {
       target: { value: 'New Test Learning' },
@@ -109,7 +115,9 @@ describe('LearningsScreen component', () => {
       expect(mockMutateSave).toHaveBeenCalledTimes(1);
     });
 
-    expect(mockMutateSave.mock.calls[0][0].learning.title).toBe('New Test Learning');
+    expect(mockMutateSave.mock.calls[0][0].learning.title).toBe(
+      'New Test Learning',
+    );
   });
 
   it('opens the delete confirmation dialogue and triggers delete action', async () => {

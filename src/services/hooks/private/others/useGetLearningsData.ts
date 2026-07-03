@@ -12,7 +12,9 @@ import { learningsSelector, useShallow } from '@selectors';
  * @returns React Query result handle containing loading state, data, and errors.
  */
 export const useGetLearningsData = () => {
-  const { learningsData, updateLearnings } = appStore(useShallow(learningsSelector));
+  const { learningsData, updateLearnings } = appStore(
+    useShallow(learningsSelector),
+  );
 
   const query = useQuery({
     queryKey: ['driveLearnings'],

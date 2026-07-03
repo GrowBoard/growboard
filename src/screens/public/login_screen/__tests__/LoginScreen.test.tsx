@@ -18,12 +18,16 @@ describe('LoginScreen component', () => {
     renderWithProviders(<LoginScreen />);
     expect(screen.getAllByText('Login')[0]).toBeInTheDocument();
     expect(screen.getByText('Sign in to continue')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Continue with Google/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /Continue with Google/i }),
+    ).toBeInTheDocument();
   });
 
   it('triggers Google Login on button click', () => {
     renderWithProviders(<LoginScreen />);
-    const loginBtn = screen.getByRole('button', { name: /Continue with Google/i });
+    const loginBtn = screen.getByRole('button', {
+      name: /Continue with Google/i,
+    });
     fireEvent.click(loginBtn);
     expect(mockLogin).toHaveBeenCalledTimes(1);
   });

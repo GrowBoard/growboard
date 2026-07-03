@@ -128,7 +128,9 @@ describe('ProjectScreen component', () => {
   it('shows no matching results empty state when search query does not match', () => {
     renderWithProviders(<ProjectScreen />);
 
-    const searchInput = screen.getByPlaceholderText(/Search projects by title, status, owner.../i);
+    const searchInput = screen.getByPlaceholderText(
+      /Search projects by title, status, owner.../i,
+    );
     fireEvent.change(searchInput, { target: { value: 'non-existent' } });
 
     expect(screen.getByText('No matching projects')).toBeInTheDocument();
@@ -157,7 +159,9 @@ describe('ProjectScreen component', () => {
     fireEvent.click(listViewBtn);
 
     // List View button is now clicked; card view button still exists
-    expect(screen.getByRole('button', { name: 'Card View' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'Card View' }),
+    ).toBeInTheDocument();
   });
 
   it('toggles view back to card mode after switching to list mode', () => {

@@ -12,4 +12,5 @@ export enum SidebarIconType {
   Profile = 'profile',
   Learning = 'learning',
   Resources = 'resources',
+  Habits = 'habits',
 }

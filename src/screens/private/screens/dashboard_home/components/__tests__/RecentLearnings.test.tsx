@@ -38,7 +38,9 @@ describe('RecentLearnings component', () => {
 
   it('renders the subtitle of a learning', () => {
     renderWithProviders(
-      <RecentLearnings learnings={[makeLearning({ subtitle: 'My subtitle' })]} />,
+      <RecentLearnings
+        learnings={[makeLearning({ subtitle: 'My subtitle' })]}
+      />,
     );
     expect(screen.getByText('My subtitle')).toBeInTheDocument();
   });

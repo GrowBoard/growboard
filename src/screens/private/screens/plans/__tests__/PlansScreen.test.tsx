@@ -124,7 +124,9 @@ describe('PlansScreen component', () => {
   it('shows no matching results empty state when search query does not match', () => {
     renderWithProviders(<PlansScreen />);
 
-    const searchInput = screen.getByPlaceholderText(/Search plans by title, tags, about.../i);
+    const searchInput = screen.getByPlaceholderText(
+      /Search plans by title, tags, about.../i,
+    );
     fireEvent.change(searchInput, { target: { value: 'non-existent' } });
 
     expect(screen.getByText('No matching plans')).toBeInTheDocument();

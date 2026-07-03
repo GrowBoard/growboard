@@ -48,7 +48,6 @@ growboard/
 | `@react-oauth/google`   | 0.13.5  | Google OAuth 2.0 integration        |
 | `react-joyride`         | 3.1.0   | Onboarding tour-guide library       |
 
-
 ## How It Works
 
 1. **Initialization**: The application bootstraps from `src/index.tsx`, injecting global providers (Chakra Theme, i18next Localization, Google OAuth).

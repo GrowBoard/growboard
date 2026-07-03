@@ -1,4 +1,10 @@
-import { Joyride, Step, TooltipRenderProps, EventData, STATUS } from 'react-joyride';
+import {
+  Joyride,
+  Step,
+  TooltipRenderProps,
+  EventData,
+  STATUS,
+} from 'react-joyride';
 import { useTranslation } from 'react-i18next';
 import { Box, Flex, Text, Button, VStack } from '@chakra-ui/react';
 

@@ -12,7 +12,10 @@ const TermsAndConditions = () => {
   const { t } = useTranslation();
 
   return (
-    <LegalPageLayout title={t('StaticScreen.terms.title')} lastUpdated="29 June 2026">
+    <LegalPageLayout
+      title={t('StaticScreen.terms.title')}
+      lastUpdated="29 June 2026"
+    >
       <Box>
         <h2>{t('StaticScreen.terms.acceptanceTitle')}</h2>
         <p>{t('StaticScreen.terms.acceptanceText')}</p>

@@ -9,7 +9,8 @@ describe('GoalCard component', () => {
     title: 'Learn System Design',
     subtitle: 'Understand scalable architectures',
     tags: ['tech', 'architecture'],
-    details: 'Study microservices, replication, partitioning, and consensus protocols like Raft.',
+    details:
+      'Study microservices, replication, partitioning, and consensus protocols like Raft.',
     timeline: ['Read DDIA book', 'Watch online system design lectures'],
     status: 'In-Progress',
     ranking: 1,
@@ -35,16 +36,22 @@ describe('GoalCard component', () => {
     );
 
     expect(screen.getByText('Learn System Design')).toBeInTheDocument();
-    expect(screen.getByText('Understand scalable architectures')).toBeInTheDocument();
+    expect(
+      screen.getByText('Understand scalable architectures'),
+    ).toBeInTheDocument();
     expect(screen.getByText('tech')).toBeInTheDocument();
     expect(screen.getByText('architecture')).toBeInTheDocument();
     expect(screen.getByText('In-Progress')).toBeInTheDocument();
     expect(screen.getByText('Rank #1')).toBeInTheDocument();
     expect(
-      screen.getByText(/Study microservices, replication, partitioning, and consensus/i),
+      screen.getByText(
+        /Study microservices, replication, partitioning, and consensus/i,
+      ),
     ).toBeInTheDocument();
     expect(screen.getByText('Read DDIA book')).toBeInTheDocument();
-    expect(screen.getByText('Watch online system design lectures')).toBeInTheDocument();
+    expect(
+      screen.getByText('Watch online system design lectures'),
+    ).toBeInTheDocument();
   });
 
   it('renders correctly in list view mode', () => {
@@ -58,17 +65,23 @@ describe('GoalCard component', () => {
     );
 
     expect(screen.getByText('Learn System Design')).toBeInTheDocument();
-    expect(screen.getByText('Understand scalable architectures')).toBeInTheDocument();
+    expect(
+      screen.getByText('Understand scalable architectures'),
+    ).toBeInTheDocument();
     expect(screen.getByText('tech')).toBeInTheDocument();
     expect(screen.getByText('architecture')).toBeInTheDocument();
     expect(screen.getByText('In-Progress')).toBeInTheDocument();
     expect(screen.getByText('Rank #1')).toBeInTheDocument();
     // In list view noOfLines={2} applies but element exists in DOM
     expect(
-      screen.getByText(/Study microservices, replication, partitioning, and consensus/i),
+      screen.getByText(
+        /Study microservices, replication, partitioning, and consensus/i,
+      ),
     ).toBeInTheDocument();
     expect(screen.getByText('Read DDIA book')).toBeInTheDocument();
-    expect(screen.getByText('Watch online system design lectures')).toBeInTheDocument();
+    expect(
+      screen.getByText('Watch online system design lectures'),
+    ).toBeInTheDocument();
   });
 
   it('triggers edit and delete actions when buttons are clicked', () => {

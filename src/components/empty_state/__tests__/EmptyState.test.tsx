@@ -13,7 +13,9 @@ describe('EmptyState component', () => {
     renderWithProviders(
       <EmptyState title="Empty" description="Add something to get started" />,
     );
-    expect(screen.getByText('Add something to get started')).toBeInTheDocument();
+    expect(
+      screen.getByText('Add something to get started'),
+    ).toBeInTheDocument();
   });
 
   it('does not render description when omitted', () => {
@@ -43,9 +45,15 @@ describe('EmptyState component', () => {
 
   it('renders custom button label', () => {
     renderWithProviders(
-      <EmptyState title="Empty" buttonText="Create New" onButtonClick={jest.fn()} />,
+      <EmptyState
+        title="Empty"
+        buttonText="Create New"
+        onButtonClick={jest.fn()}
+      />,
     );
-    expect(screen.getByRole('button', { name: /Create New/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /Create New/i }),
+    ).toBeInTheDocument();
   });
 
   it('hides button when neither onButtonClick nor onAdd provided', () => {

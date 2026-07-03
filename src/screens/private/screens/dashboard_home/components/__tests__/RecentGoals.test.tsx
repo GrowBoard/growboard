@@ -39,12 +39,16 @@ describe('RecentGoals component', () => {
   });
 
   it('renders the status badge of a goal', () => {
-    renderWithProviders(<RecentGoals goals={[makeGoal({ status: 'In-Progress' })]} />);
+    renderWithProviders(
+      <RecentGoals goals={[makeGoal({ status: 'In-Progress' })]} />,
+    );
     expect(screen.getByText('In-Progress')).toBeInTheDocument();
   });
 
   it('renders the subtitle of a goal', () => {
-    renderWithProviders(<RecentGoals goals={[makeGoal({ subtitle: 'My subtitle' })]} />);
+    renderWithProviders(
+      <RecentGoals goals={[makeGoal({ subtitle: 'My subtitle' })]} />,
+    );
     expect(screen.getByText('My subtitle')).toBeInTheDocument();
   });
 
