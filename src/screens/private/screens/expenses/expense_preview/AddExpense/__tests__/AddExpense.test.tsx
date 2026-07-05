@@ -22,7 +22,6 @@ const mockSetAddExpense = jest.fn();
 jest.mock('@selectors', () => ({
   useShallow: (val: any) => val,
   addExpenseSelector: (state: any) => state.Expense.addExpense,
-  todayDateSelector: (state: any) => state.Expense.todayDate,
   setAddExpenseSelector: (state: any) => state.Expense.setAddExpense,
   dateSelector: (state: any) => state.Expense.date,
 }));
@@ -36,7 +35,6 @@ jest.mock('@store', () => {
         isOpen: true,
         expenseId: null,
       },
-      todayDate: new Date('2026-06-28'),
       date: new Date('2026-06-28'),
       setAddExpense: (...args: any[]) => mockSetAddExpense(...args),
     },

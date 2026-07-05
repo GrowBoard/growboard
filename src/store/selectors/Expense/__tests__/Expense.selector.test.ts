@@ -4,7 +4,6 @@ import {
   setTimeWindowSelector,
   overviewInputSelector,
   dateSelector,
-  todayDateSelector,
   addExpenseSelector,
   setAddExpenseSelector,
 } from '../Expense.selector';
@@ -33,12 +32,6 @@ describe('Expense selectors', () => {
   it('dateSelector returns a Date object', () => {
     const result = dateSelector(state);
     expect(result).toBeInstanceOf(Date);
-  });
-
-  it('todayDateSelector returns a formatted IST date string', () => {
-    const result = todayDateSelector(state);
-    expect(typeof result).toBe('string');
-    expect(result).toMatch(/^\d{4}-\d{2}-\d{2}$/);
   });
 
   it('addExpenseSelector returns addExpense object', () => {

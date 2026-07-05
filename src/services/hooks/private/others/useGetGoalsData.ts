@@ -9,6 +9,7 @@ import { goalsSelector, useShallow } from '@selectors';
  * and caches data locally with a 1-hour staleTime.
  */
 export const useGetGoalsData = () => {
+  const token = appStore((state) => state.Auth.token);
   const { goalsData, lastFetched, updateGoals } = appStore(useShallow(goalsSelector));
 
   return useQuery({
@@ -22,6 +23,7 @@ export const useGetGoalsData = () => {
     initialData: goalsData.length > 0 ? goalsData : undefined,
     initialDataUpdatedAt: lastFetched,
     staleTime: 1000 * 60 * 60, // 1 hour
+    enabled: !!token,
   });
 };
 

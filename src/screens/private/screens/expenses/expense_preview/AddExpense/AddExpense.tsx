@@ -20,7 +20,6 @@ import {
   dateSelector,
   addExpenseSelector,
   setAddExpenseSelector,
-  todayDateSelector,
 } from '@selectors';
 import { appStore } from '@store';
 import { ExpenseType } from '../types';
@@ -39,7 +38,9 @@ const AddExpense = () => {
     isOpen: isOpenFromStore,
     expenseId,
   } = expenseDataFromStore;
-  const today = appStore(useShallow(todayDateSelector));
+  const today = new Date().toLocaleDateString('en-CA', {
+    timeZone: 'Asia/Kolkata',
+  });
   const setAddExpense = appStore(useShallow(setAddExpenseSelector));
   const { mutateAsync: addExpenseMutate, isPending: isAdding } =
     useAddExpenseData();

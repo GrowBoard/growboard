@@ -9,6 +9,7 @@ import { projectsSelector, useShallow } from '@selectors';
  * and caches data locally with a 1-hour staleTime.
  */
 export const useGetProjectsData = () => {
+  const token = appStore((state) => state.Auth.token);
   const { projectData, lastFetched, addProjects } = appStore(useShallow(projectsSelector));
 
   return useQuery({
@@ -31,6 +32,7 @@ export const useGetProjectsData = () => {
         : undefined,
     initialDataUpdatedAt: lastFetched,
     staleTime: 1000 * 60 * 60, // 1 hour
+    enabled: !!token,
   });
 };
 

@@ -9,6 +9,7 @@ import { plansSelector, useShallow } from '@selectors';
  * and caches data locally with a 1-hour staleTime.
  */
 export const useGetPlansData = () => {
+  const token = appStore((state) => state.Auth.token);
   const { plansData, lastFetched, updatePlans } = appStore(useShallow(plansSelector));
 
   return useQuery({
@@ -31,6 +32,7 @@ export const useGetPlansData = () => {
         : undefined,
     initialDataUpdatedAt: lastFetched,
     staleTime: 1000 * 60 * 60, // 1 hour
+    enabled: !!token,
   });
 };
 

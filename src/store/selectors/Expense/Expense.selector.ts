@@ -1,5 +1,4 @@
 import { AppStoreState } from '@store';
-import { getIstDate } from '../../../util/input/Input';
 
 /**
  * timeWindowSelector.
@@ -44,26 +43,6 @@ export const overviewInputSelector = (state: AppStoreState) => ({
 export const dateSelector = (state: AppStoreState) => {
   const dateRaw = state.Expense.date;
   return dateRaw instanceof Date ? dateRaw : new Date(dateRaw || Date.now());
-};
-
-/**
- * todayDateSelector.
- * Computes and returns the current date in Indian Standard Time (IST).
- *
- * @param state The AppStoreState.
- * @returns Formatted IST date representation.
- */
-export const todayDateSelector = (state: AppStoreState) => {
-  const date = dateSelector(state);
-  const day = date.getDate();
-  const month = date.getMonth();
-  const year = date.getFullYear();
-
-  return getIstDate({
-    day,
-    month,
-    year,
-  });
 };
 
 /**

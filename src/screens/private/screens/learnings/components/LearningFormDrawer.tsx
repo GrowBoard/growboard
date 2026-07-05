@@ -50,41 +50,65 @@ export const LearningFormDrawer = ({
   const [tagInput, setTagInput] = useState('');
   const [activeTab, setActiveTab] = useState<'write' | 'preview'>('write');
 
-  // Initialize TanStack Form
+  // Keep a stable ref to editItem so onSubmit doesn't need to close over the
+  // prop directly — prevents TanStack Form from seeing new options on every
+  // render and reinitialising (which caused the form-reset-on-tab-switch bug).
+  const editItemRef = React.useRef(editItem);
+  editItemRef.current = editItem;
+
+  // Initialize TanStack Form with a stable onSubmit that reads editItem via ref
   const form = useForm({
     defaultValues,
-    onSubmit: async ({ value }) => {
-      const now = new Date().toISOString();
-      const payload: LearningItem = {
-        title: value.title.trim(),
-        subtitle: value.subtitle.trim(),
-        tags: value.tags,
-        content: value.content,
-        createdAt: editItem ? editItem.createdAt : now,
-        updatedAt: now,
-      };
+    onSubmit: React.useCallback(
+      async ({ value }: { value: LearningFormValues }) => {
+        const now = new Date().toISOString();
+        const currentEditItem = editItemRef.current;
+        const payload: LearningItem = {
+          title: value.title.trim(),
+          subtitle: value.subtitle.trim(),
+          tags: value.tags,
+          content: value.content,
+          createdAt: currentEditItem ? currentEditItem.createdAt : now,
+          updatedAt: now,
+        };
 
-      await onSave(payload);
-    },
+        await onSave(payload);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+      },
+      [onSave],
+    ),
   });
 
-  // Reset form when drawer opens or changes editItem
+  // Track open state transitions to only reset when opening
+  const wasOpenRef = React.useRef(false);
+
   useEffect(() => {
-    if (isOpen) {
-      form.reset(
-        editItem
-          ? {
-              title: editItem.title,
-              subtitle: editItem.subtitle,
-              tags: [...editItem.tags],
-              content: editItem.content,
-            }
-          : defaultValues,
-      );
+    if (isOpen && !wasOpenRef.current) {
+      if (editItem) {
+        // IMPORTANT: Do NOT use form.reset(editValues) here.
+        // form.reset(values) mutates formApi.options.defaultValues to `values`.
+        // On the next render, TanStack Form calls formApi.update(opts) with the
+        // original empty defaultValues constant. It sees defaultValues changed
+        // (empty → editItem) and, since isTouched=false post-reset, immediately
+        // resets the form back to the empty constant — clearing all edit data.
+        //
+        // Using setFieldValue avoids touching options.defaultValues entirely,
+        // so subsequent update() calls never trigger a spurious reset.
+        form.setFieldValue('title', editItem.title);
+        form.setFieldValue('subtitle', editItem.subtitle);
+        form.setFieldValue('tags', [...editItem.tags]);
+        form.setFieldValue('content', editItem.content);
+      } else {
+        // For add-mode: reset() with no args resets to options.defaultValues
+        // (the empty constant), which is correct and safe.
+        form.reset();
+      }
       setTagInput('');
       setActiveTab('write');
     }
-  }, [isOpen, editItem, form]);
+    wasOpenRef.current = isOpen;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen, editItem]);
 
   const handleAddTag = (
     currentTags: string[],
@@ -130,7 +154,7 @@ export const LearningFormDrawer = ({
       open={isOpen}
       onOpenChange={onOpenChange}
       placement="end"
-      size="lg"
+      size="full"
     >
       <Drawer.Backdrop backdropFilter="blur(3px)" />
       <Drawer.Positioner>
@@ -387,6 +411,7 @@ export const LearningFormDrawer = ({
                           gap={4}
                         >
                           <Button
+                            type="button"
                             variant={
                               activeTab === 'write' ? 'surface' : 'ghost'
                             }
@@ -404,6 +429,7 @@ export const LearningFormDrawer = ({
                             Write
                           </Button>
                           <Button
+                            type="button"
                             variant={
                               activeTab === 'preview' ? 'surface' : 'ghost'
                             }

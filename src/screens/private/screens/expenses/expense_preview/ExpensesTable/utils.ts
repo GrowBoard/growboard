@@ -62,9 +62,14 @@ export const getExpenseDataForTable = (
   const groupedData = groupBy(expenseData, 'date_time');
 
   const dataToShow = Array.from({ length: daysInMonth }, (_, i) => {
-    const date = new Date(new Date().getFullYear(), month, i + 2)
-      .toISOString()
-      .split('T')[0];
+    // en-CA locale with IST timezone gives YYYY-MM-DD directly — same format
+    // as getISTDate — so `date === today` comparisons work.
+    // Previously: toISOString() (UTC, 1 day behind IST) + i+2 (skipped day 1).
+    const date = new Date(
+      new Date().getFullYear(),
+      month,
+      i + 1,
+    ).toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' });
     return {
       date,
       data: groupedData[date] || [],

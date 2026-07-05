@@ -9,6 +9,7 @@ import { resourcesSelector, useShallow } from '@selectors';
  * and caches data locally with a 1-hour staleTime.
  */
 export const useGetResourcesData = () => {
+  const token = appStore((state) => state.Auth.token);
   const { resourcesData, lastFetched, updateResources } = appStore(
     useShallow(resourcesSelector),
   );
@@ -33,6 +34,7 @@ export const useGetResourcesData = () => {
         : undefined,
     initialDataUpdatedAt: lastFetched,
     staleTime: 1000 * 60 * 60, // 1 hour
+    enabled: !!token,
   });
 };
 
