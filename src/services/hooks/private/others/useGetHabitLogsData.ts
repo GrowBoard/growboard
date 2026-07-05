@@ -9,6 +9,7 @@ import { habitsSelector, useShallow } from '@selectors';
  * updating the store on success, and caching data with 1-hour staleTime.
  */
 export const useGetHabitLogsData = () => {
+  const token = appStore((state) => state.Auth.token);
   const { habitLogsData, lastFetchedLogs, updateHabitLogs } = appStore(
     useShallow(habitsSelector),
   );
@@ -24,6 +25,7 @@ export const useGetHabitLogsData = () => {
     initialData: habitLogsData.length > 0 ? habitLogsData : undefined,
     initialDataUpdatedAt: lastFetchedLogs,
     staleTime: 1000 * 60 * 60, // 1 hour
+    enabled: !!token,
   });
 };
 

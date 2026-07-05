@@ -9,6 +9,7 @@ import { learningsSelector, useShallow } from '@selectors';
  * and caches data locally with a 1-hour staleTime.
  */
 export const useGetLearningsData = () => {
+  const token = appStore((state) => state.Auth.token);
   const { learningsData, lastFetched, updateLearnings } = appStore(
     useShallow(learningsSelector),
   );
@@ -24,6 +25,7 @@ export const useGetLearningsData = () => {
     initialData: learningsData.length > 0 ? learningsData : undefined,
     initialDataUpdatedAt: lastFetched,
     staleTime: 1000 * 60 * 60, // 1 hour
+    enabled: !!token,
   });
 };
 

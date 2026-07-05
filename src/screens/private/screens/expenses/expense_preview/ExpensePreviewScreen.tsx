@@ -21,7 +21,6 @@ import { ExpenseType } from './types';
 import { appStore } from '@store';
 import {
   overviewInputSelector,
-  todayDateSelector,
   useShallow,
   setAddExpenseSelector,
 } from '@selectors';
@@ -40,7 +39,9 @@ const ExpensePreviewScreen = () => {
   const {
     dateState: { month, year: yearState },
   } = appStore(useShallow(overviewInputSelector));
-  const today = appStore(useShallow(todayDateSelector));
+  const today = new Date().toLocaleDateString('en-CA', {
+    timeZone: 'Asia/Kolkata',
+  });
   const setAddExpense = appStore(useShallow(setAddExpenseSelector));
 
   const { data: queryResponse, isLoading } = useGetExpensesDataForDate();

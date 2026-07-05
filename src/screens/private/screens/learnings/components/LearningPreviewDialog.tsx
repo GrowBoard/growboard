@@ -22,7 +22,7 @@ export const LearningPreviewDialog = ({
       isOpen={isOpen}
       onOpenChange={onOpenChange}
       title={item.title}
-      maxW="6xl"
+      maxW="7xl"
       footer={
         <HStack justify="flex-end" w="full">
           <Button
