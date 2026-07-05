@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { appStore } from '@store';
 import { GrowboardIcon } from '@assets';
+import packageJson from '../../../../package.json';
 import {
   LuArrowRight,
   LuShieldCheck,
@@ -757,7 +758,7 @@ export const LandingScreen = () => {
                   letterSpacing="wider"
                   textTransform="uppercase"
                 >
-                  v0.5.3 — Beta
+                  {`v${packageJson.version}`}
                 </Text>
               </HStack>
               <HStack
